@@ -1,0 +1,90 @@
+{
+  "id": 23,
+  "slug": "chitwan-national-park-2n-3d",
+  "title": "Chitwan National Park 2N/3D",
+  "category": "Cultural",
+  "description": "Chitwan National Park Tour from Kathmandu: A Wildlife Adventure in NepalEscape the hustle and bustle of Kathmandu and step into the wild with the Chit...",
+  "location": "Chitwan",
+  "price": 0,
+  "duration": "10 days",
+  "group_size": "2-12 people",
+  "difficulty": "Easy",
+  "rating": 4.3528245759912325,
+  "reviews": 50,
+  "best_time": "March-May, September-November",
+  "featured": false,
+  "listed": false,
+  "image": "https://gurutravelsltd.com/uploads/package/images/AOTCA_SPECIAL_PACAKAGE_4_yjbA0ri.png",
+  "gallery": [
+    "https://gurutravelsltd.com/uploads/package/images/AOTCA_SPECIAL_PACAKAGE_4_yjbA0ri.png",
+    "https://gurutravelsltd.com/uploads/package/images/nepal-chitwan-national-park-clos_OFYZI30.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/national-bird-india-peacock-fore.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/chitwan-nepal-600nw-385377652.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/baby-rhinoceros-playing-mother-r.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/chitwan-nepal-27-june-2018-natio_YEFPK6j.jpg"
+  ],
+  "highlights": [],
+  "inclusions": [
+    "Airport transfers",
+    "Accommodation",
+    "Experienced guide",
+    "All meals during tour",
+    "Permits and fees",
+    "Transportation"
+  ],
+  "exclusions": [
+    "International flights",
+    "Nepal visa fees",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide"
+  ],
+  "activities": [
+    {
+      "name": "Cultural Experience",
+      "description": "Experience cultural activities"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Day 1",
+      "description": ": Kathmandu to  Chitwan\n                                                        \n                                                    \n                                                    \n                                                        \n                                                            Morning drive/fly from Kathmandu to Chitwan. On arrival, welcome drink and check-in. After lunch, relax at the resort. Late afternoon, stroll to the riverside for sunset views. In the evening, enjoy Tharu Cultural Dance with folk music and storytelling. Dinner & overnight at the resort."
+    },
+    {
+      "day": 2,
+      "title": "Day 2",
+      "description": ": Full-Day Jungle Activities\n                                                        \n                                                    \n                                                    \n                                                        \n                                                            Early breakfast, then head for Jeep Safari inside the national park to spot one-horned rhino, deer, wild boar, monkeys, and if lucky, the elusive Bengal tiger. Later, a peaceful canoe ride along the Rapti/Riu rivers to see crocodiles and water birds, followed by a short guided jungle walk and birdwatching. Visit the Elephant Breeding Center (observational/educational). Return to resort, free time, dinner & overnight."
+    },
+    {
+      "day": 3,
+      "title": "Day 3",
+      "description": ": Chitwan ➝ Kathmandu\n                                                        \n                                                    \n                                                    \n                                                        \n                                                            Wake up to birdsong; optional short village walk. Breakfast, check-out, and drive/fly back to Kathmandu with wonderful memories."
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable walking shoes",
+    "Weather appropriate clothing",
+    "Personal medications",
+    "Camera",
+    "Sunglasses and sunscreen"
+  ],
+  "fitness_requirements": "Basic fitness level sufficient.",
+  "altitude_profile": {
+    "max_altitude": "Low altitude",
+    "acclimatization_days": 0,
+    "difficulty_level": "Moderate"
+  },
+  "booking_info": {
+    "advance_booking": "7 days recommended",
+    "group_discounts": "Available for 6+ people",
+    "cancellation_policy": "Free cancellation up to 7 days before departure"
+  },
+  "created_at": "2025-09-19T04:13:16.254Z",
+  "updated_at": "2025-12-18T04:24:38.773Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [],
+  "related_destinations": [],
+  "related_activities": [],
+  "priceAvailable": false
+}

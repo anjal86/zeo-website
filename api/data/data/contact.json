@@ -1,0 +1,74 @@
+{
+  "company": {
+    "name": "Zeo Tourism",
+    "tagline": "Embrace the Journey",
+    "description": "Your trusted partner for authentic Himalayan adventures and spiritual journeys"
+  },
+  "contact": {
+    "phone": {
+      "primary": "+9779813641003",
+      "secondary": "+97714500064",
+      "whatsapp": "+9779813641003"
+    },
+    "email": {
+      "primary": "nepal@zeotourism.com",
+      "booking": "sales@zeotourism.com",
+      "admin": "admin@zeotourism.com",
+      "support": "sales@zeotourism.com"
+    },
+    "address": {
+      "street": "Baluwatar-4, Kathmandu",
+      "city": "Kathmandu",
+      "state": "Bagmati Province",
+      "country": "Nepal",
+      "postal_code": "44600",
+      "full": "Baluwatar-4, Kathmandu, Nepal"
+    },
+    "location": {
+      "coordinates": {
+        "latitude": 27.725415,
+        "longitude": 85.3314607
+      },
+      "timezone": "Asia/Katmandu",
+      "display": "Kathmandu, Nepal",
+      "maps_url": "https://maps.app.goo.gl/MruYSVtMpLDAsdzH7",
+      "embed_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2738.8293499738834!2d85.33145348661431!3d27.72530994398019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19f625c6408f%3A0xa14006f9fceeea6a!2sZeo%20Tourism%20Pvt.Ltd!5e0!3m2!1sen!2snp!4v1758183095926!5m2!1sen!2snp"
+    }
+  },
+  "business": {
+    "hours": {
+      "monday": "9:00 AM - 6:00 PM",
+      "tuesday": "9:00 AM - 6:00 PM",
+      "wednesday": "9:00 AM - 6:00 PM",
+      "thursday": "9:00 AM - 6:00 PM",
+      "friday": "9:00 AM - 6:00 PM",
+      "saturday": "9:00 AM - 5:00 PM",
+      "sunday": "10:00 AM - 4:00 PM",
+      "display": "Mon-Fri: 9:00 AM - 6:00 PM"
+    },
+    "support": {
+      "availability": "24/7 Support Available",
+      "emergency": "+977-985-123-4567",
+      "response_time": "Within 2 hours"
+    }
+  },
+  "social": {
+    "facebook": "https://facebook.com/zeotourism",
+    "instagram": "https://instagram.com/zeotourism",
+    "twitter": "https://twitter.com/zeotourism",
+    "youtube": "https://youtube.com/@zeotourism",
+    "linkedin": "https://linkedin.com/company/zeotourism",
+    "whatsapp": "https://wa.me/9779705246799",
+    "website": "www.zeotourism.com"
+  },
+  "legal": {
+    "registration": "Tourism License: 1234/078-79",
+    "tax_id": "600123456",
+    "established": "2018",
+    "certifications": [
+      "Nepal Tourism Board Certified",
+      "TAAN Member",
+      "NMA Affiliated"
+    ]
+  }
+}

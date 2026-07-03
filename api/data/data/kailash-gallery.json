@@ -1,0 +1,30 @@
+{
+  "gallery": [
+    {
+      "id": 3,
+      "title": "Kailash Gallery Photo 2025-10-12",
+      "image": "/uploads/kailash-gallery/kailash_1760250707733_1760250707729_Kailash-Mansarovar.jpg",
+      "alt": "Kailash Gallery Photo 2025-10-12",
+      "gridSpan": "col-span-1 row-span-1",
+      "order": 3,
+      "isActive": true,
+      "uploadedAt": "2025-10-12T06:31:47.733Z"
+    },
+    {
+      "id": 5,
+      "title": "Kailash Gallery Photo 2025-10-12",
+      "image": "/uploads/kailash-gallery/kailash_1760250772930_1760250772928_6717K8SR7gVmfahtrAXPA7nYjIco63jN9VGmuB4B.webp",
+      "alt": "Kailash Gallery Photo 2025-10-12",
+      "gridSpan": "col-span-1 row-span-1",
+      "order": 3,
+      "isActive": true,
+      "uploadedAt": "2025-10-12T06:32:52.930Z"
+    }
+  ],
+  "metadata": {
+    "totalPhotos": 2,
+    "lastUpdated": "2025-10-12T06:33:09.539Z",
+    "pageTitle": "Kailash Mansarovar",
+    "pageSubtitle": "Sacred Journey Gallery"
+  }
+}

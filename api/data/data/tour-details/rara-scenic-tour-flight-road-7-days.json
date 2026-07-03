@@ -1,0 +1,130 @@
+{
+  "id": 302,
+  "slug": "rara-scenic-tour-flight-road-7-days",
+  "title": "Rara Scenic Tour by Flight & Road - 7 Days",
+  "category": "Adventure",
+  "description": "Discover Nepal's largest and most beautiful alpine lake in the remote far-western region. This unique tour combines scenic flights and overland journey to explore the pristine Rara National Park.",
+  "location": "Rara",
+  "price": 0,
+  "duration": "7 days",
+  "group_size": "2-12 people",
+  "difficulty": "Moderate",
+  "rating": 4.7,
+  "reviews": 43,
+  "best_time": "April-November",
+  "featured": true,
+  "listed": true,
+  "image": "https://images.unsplash.com/photo-1600298881974-6be191ceeda1?q=80&w=2070&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1600298881974-6be191ceeda1?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1571401835393-8c5f35328320?q=80&w=2074&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop"
+  ],
+  "highlights": [
+    "Nepal's largest alpine lake",
+    "Pristine Rara National Park",
+    "Scenic mountain flights",
+    "Remote Himalayan villages",
+    "Rich biodiversity and wildlife",
+    "Peaceful mountain environment"
+  ],
+  "inclusions": [
+    "Domestic flights (Kathmandu-Nepalgunj-Talcha)",
+    "Ground transportation",
+    "Accommodation in lodges/guesthouses",
+    "All meals during tour",
+    "Professional guide",
+    "National park permits",
+    "Airport transfers"
+  ],
+  "exclusions": [
+    "International flights",
+    "Nepal visa fees",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide and driver",
+    "Extra drinks and snacks"
+  ],
+  "activities": [
+    {
+      "name": "Adventure Sports",
+      "description": "Experience high-altitude lake adventure"
+    },
+    {
+      "name": "Cultural Tours",
+      "description": "Visit remote mountain communities"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Kathmandu to Nepalgunj",
+      "description": "Morning flight from Kathmandu to Nepalgunj. Rest and prepare for mountain flight next day. Explore the Terai town and experience different culture."
+    },
+    {
+      "day": 2,
+      "title": "Nepalgunj to Talcha Airport, Drive to Rara Lake",
+      "description": "Early morning scenic flight to Talcha Airport (weather permitting). Drive to Rara Lake through beautiful countryside. First glimpse of the stunning Rara Lake."
+    },
+    {
+      "day": 3,
+      "title": "Explore Rara Lake",
+      "description": "Full day exploration around Rara Lake. Boat ride on the pristine waters, nature walks around the lake, visit to Rara village and local community interaction."
+    },
+    {
+      "day": 4,
+      "title": "Rara Lake Exploration",
+      "description": "Continue exploring Rara National Park. Wildlife spotting, hiking to viewpoints, photography, and enjoying the serene environment of Nepal's hidden gem."
+    },
+    {
+      "day": 5,
+      "title": "Rara to Talcha, Fly to Nepalgunj",
+      "description": "Morning departure from Rara Lake area to Talcha Airport. Flight back to Nepalgunj. Relax and explore the local market."
+    },
+    {
+      "day": 6,
+      "title": "Nepalgunj to Kathmandu",
+      "description": "Morning flight from Nepalgunj to Kathmandu. Free time for last-minute shopping or sightseeing in Kathmandu."
+    },
+    {
+      "day": 7,
+      "title": "Departure",
+      "description": "Transfer to international airport for departure or extend your stay in Nepal with additional tours."
+    }
+  ],
+  "what_to_bring": [
+    "Warm clothing for cool evenings",
+    "Comfortable walking shoes",
+    "Sun protection gear",
+    "Personal medications",
+    "Camera equipment",
+    "Binoculars for wildlife viewing"
+  ],
+  "fitness_requirements": "Moderate physical fitness required for altitude and walking.",
+  "altitude_profile": {
+    "max_altitude": "2,990m (Rara Lake)",
+    "acclimatization_days": 1,
+    "difficulty_level": "Moderate"
+  },
+  "booking_info": {
+    "advance_booking": "21 days recommended",
+    "group_discounts": "Available for 4+ people",
+    "cancellation_policy": "Free cancellation up to 21 days before departure"
+  },
+  "created_at": "2025-01-02T10:00:00.000Z",
+  "updated_at": "2025-12-18T04:24:13.917Z",
+  "primary_destination_id": 27,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    3,
+    5
+  ],
+  "related_destinations": [
+    "Rara"
+  ],
+  "related_activities": [
+    "Adventure Sports",
+    "Cultural Tours"
+  ],
+  "priceAvailable": false
+}

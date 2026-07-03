@@ -1,0 +1,139 @@
+{
+  "id": 201,
+  "slug": "dubai-city-explorer-4-days",
+  "title": "Dubai City Explorer - 4 Days",
+  "category": "Cultural",
+  "description": "Discover the modern marvels and traditional charm of Dubai in this comprehensive 4-day city tour. Experience iconic landmarks, luxury shopping, and authentic Emirati culture.",
+  "location": "Dubai, UAE",
+  "price": 0,
+  "duration": "4 days",
+  "group_size": "2-15 people",
+  "difficulty": "Easy",
+  "rating": 4.8,
+  "reviews": 156,
+  "best_time": "November-March",
+  "featured": true,
+  "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "gallery": [
+    "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ],
+  "highlights": [
+    "Burj Khalifa observation deck visit",
+    "Dubai Mall shopping experience",
+    "Traditional Gold and Spice Souks",
+    "Dubai Marina cruise",
+    "Old Dubai heritage tour",
+    "Dubai Fountain show",
+    "Palm Jumeirah monorail ride",
+    "Atlantis Resort visit"
+  ],
+  "inclusions": [
+    "4-star hotel accommodation (3 nights)",
+    "Daily breakfast",
+    "Airport transfers",
+    "All entrance fees",
+    "Professional English-speaking guide",
+    "Air-conditioned transportation",
+    "Dubai Marina cruise",
+    "Burj Khalifa tickets"
+  ],
+  "exclusions": [
+    "International flights",
+    "Lunch and dinner",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide and driver",
+    "Optional activities",
+    "Visa fees"
+  ],
+  "activities": [
+    {
+      "name": "Burj Khalifa Experience",
+      "description": "Visit the world's tallest building and enjoy panoramic views from the observation deck"
+    },
+    {
+      "name": "Traditional Souks",
+      "description": "Explore the historic Gold Souk and Spice Souk in old Dubai"
+    },
+    {
+      "name": "Dubai Marina Cruise",
+      "description": "Scenic boat cruise through Dubai's modern marina district"
+    },
+    {
+      "name": "Cultural Heritage",
+      "description": "Discover Dubai's history at Al Fahidi Historical District"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival & Modern Dubai",
+      "description": "Airport pickup and transfer to hotel. Check-in and rest. Afternoon visit to Burj Khalifa observation deck. Evening at Dubai Mall with dinner and Dubai Fountain show.",
+      "accommodation": "4-star hotel in Dubai",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 2,
+      "title": "Traditional Dubai Heritage",
+      "description": "Morning visit to Dubai Creek area. Explore Gold Souk and Spice Souk. Visit Al Fahidi Historical District and Dubai Museum. Traditional lunch. Afternoon abra ride across Dubai Creek.",
+      "accommodation": "4-star hotel in Dubai",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 3,
+      "title": "Dubai Marina & Palm Jumeirah",
+      "description": "Morning at Dubai Marina with walking tour. Marina cruise experience. Visit Palm Jumeirah and Atlantis Resort. Monorail ride. Evening at JBR Beach and The Walk.",
+      "accommodation": "4-star hotel in Dubai",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 4,
+      "title": "Last-minute Shopping & Departure",
+      "description": "Final shopping at Dubai Mall or Mall of the Emirates. Check-out from hotel. Airport transfer for departure.",
+      "accommodation": "End of tour",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable walking shoes",
+    "Light, modest clothing",
+    "Sun hat and sunglasses",
+    "Sunscreen (high SPF)",
+    "Camera",
+    "Light jacket for air-conditioned spaces",
+    "Personal medications",
+    "Valid passport"
+  ],
+  "fitness_requirements": "Basic fitness level sufficient. Involves moderate walking. Suitable for all ages.",
+  "altitude_profile": {
+    "max_altitude": "Sea level (Dubai)",
+    "acclimatization_days": 0,
+    "difficulty_level": "Easy city tour with minimal walking"
+  },
+  "booking_info": {
+    "advance_booking": "14 days recommended",
+    "group_discounts": "Available for 8+ people",
+    "cancellation_policy": "Free cancellation up to 7 days before departure"
+  },
+  "created_at": "2025-01-20T15:38:00.000Z",
+  "updated_at": "2025-12-18T05:03:45.438Z",
+  "listed": true,
+  "primary_destination_id": 26,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    10,
+    9,
+    11
+  ],
+  "related_destinations": [
+    "Dubai"
+  ],
+  "related_activities": [
+    "Luxury Experiences",
+    "City Tours",
+    "Desert Safari"
+  ],
+  "priceAvailable": false
+}

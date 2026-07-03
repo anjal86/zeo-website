@@ -1,0 +1,287 @@
+{
+  "id": 11,
+  "slug": "kailash-mansarovar-yatra-13-nights-14-days-overland",
+  "title": "Kailash Mansarovar Yatra 13 Nights 14 Days Overland",
+  "category": "Spiritual",
+  "location": "Tibet, China",
+  "price": 2650,
+  "duration": "14 days",
+  "group_size": "25+ People",
+  "difficulty": "Challenging",
+  "rating": 4.8,
+  "reviews": 156,
+  "best_time": "May, June, July, August, September, October",
+  "featured": true,
+  "listed": true,
+  "image": "/uploads/destinations/tours/tours_1762066264929.webp",
+  "primary_destination_id": 9,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    5,
+    6
+  ],
+  "related_destinations": [
+    "Tibet"
+  ],
+  "related_activities": [
+    "Cultural Tours",
+    "Pilgrimage"
+  ],
+  "created_at": "2025-09-19T04:13:16.254Z",
+  "updated_at": "2025-12-18T12:45:27.395Z",
+  "description": "Embark on the sacred journey to Mount Kailash and Lake Mansarovar, one of the most revered pilgrimage sites in Hinduism, Buddhism, Jainism, and Bon religion. This 13-day overland journey from Kathmandu offers a transformative spiritual experience through the mystical landscapes of Tibet.",
+  "gallery": [
+    "/uploads/destinations/tours/tours_1766060386383.jpg",
+    "/uploads/destinations/tours/tours_1766060397550.jpg",
+    "/uploads/destinations/tours/tours_1766060402623.jpg",
+    "/uploads/destinations/tours/tours_1766060407885.jpg",
+    "/uploads/destinations/tours/tours_1766060421857.jpg"
+  ],
+  "highlights": [
+    "Sacred Mount Kailash Parikrama (circumambulation)",
+    "Holy bath and prayers at Lake Mansarovar",
+    "Visit to ancient Tibetan monasteries",
+    "Crossing Dolma La Pass at 5,630m",
+    "Spiritual journey through pristine Tibetan landscapes",
+    "Cultural immersion in Tibetan Buddhist traditions",
+    "Professional guide with spiritual knowledge",
+    "Gamow bag for altitude sickness prevention"
+  ],
+  "inclusions": [
+    "Traditional welcome on arrival ",
+    "03 Night accommodation at Kathmandu on sharing Twin/Double basis(03 Star Premium)",
+    "01 Night accommodation at Kyirung on sharing basis(Basic Hotel)",
+    "09 Night accommodation in Tibet on sharing basis(Hotels  and Guest houses) ",
+    "Professional guide throughout the journey",
+    "Tibet travel Permit & Visa fees",
+    "English speaking Tibetan guide for customers formalities",
+    "Nepali Supporting Staff(cook,Sherpa & helper) 5:1 basis ",
+    "Buffet vegetarian meals during Yatra on AP basis(Breakfast,Lunch & Dinner)",
+    "Nepali experienced Team Leader/Guide during Yatra",
+    "Supporting truck to carry equipment ",
+    "Mansarovar and Kailash Yatra Permit fees",
+    "Duffel bag for carrying goods during Yatra",
+    "Duffel bag for carrying goods during Yatra",
+    "Back pack bag for personal items to carry and Cap",
+    "Warm down Jacket refundable ",
+    "First aid medical kit bag & Oxygen cylinder ",
+    "Emergency evacuation management during Yatra",
+    "Round trip transportation in Tibet AC Luxury coach",
+    "Kathmandu - Rasuwagadi - Kathmandu A/C Vehicle",
+    "Arrival and departure transfer with assistance by A/C Vehicle  "
+  ],
+  "exclusions": [
+    "Personal expenses and travel Insurance",
+    "Medical expenses and Emergency rescue evacuation expenses",
+    "Tips for Guide, Porter, driver and personal expenses",
+    "Extra Hotel charges in Kathmandu if early return from Tibet",
+    "Any additional cost due to natural calamities and unforeseen circumstances",
+    "Visa splitting charge and extra transportation cost, if returning early from Yatra",
+    "5 % Vat GST India Government",
+    "Emergency evacuation costs"
+  ],
+  "activities": [
+    "Sacred pilgrimage",
+    "High altitude trekking",
+    "Cultural exploration",
+    "Spiritual ceremonies",
+    "Photography",
+    "Meditation"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Kathmandu (1300m)",
+      "description": "Upon arrival at Kathmandu International Airport, you will be greeted and assisted by our representative after completing custom formalities. Transfer to hotel for check-in. Evening yatra briefing session before dinner covering important aspects of the Kailash Mansarovar Yatra.",
+      "accommodation": "Best Western Plus - 4 Star Hotel",
+      "meals": "Dinner",
+      "activities": [
+        "Airport transfer",
+        "Hotel check-in",
+        "Yatra briefing"
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Kathmandu Temple Visit",
+      "description": "After breakfast, embark on Kathmandu city sightseeing tour. Visit Pashupatinath Temple, Boudhanath Stupa (World Heritage Site), Jal Narayan Temple (Sleeping Vishnu), and Kathmandu Durbar Square (Living God Kumari). Return to hotel for packing and preparation for the yatra.",
+      "accommodation": "Best Western Plus - 4 Star Hotel",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Temple visits",
+        "Cultural sightseeing",
+        "Yatra preparation"
+      ]
+    },
+    {
+      "day": 3,
+      "title": ": Kathmandu - Drive to Kyirung(1600 m)",
+      "description": "Our representative will pick up you, drive to Kyirung(145 Km ,05/06 Hrs),arrive at Kyirung transfer to hotel for check in. Overnight at  Kyirung Guest house.",
+      "accommodation": "Standard Hotel (Shared room, Attached Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Border crossing",
+        "Immigration formalities"
+      ]
+    },
+    {
+      "day": 4,
+      "title": "Kyirung- Drive to  Gyirung County(2800m)",
+      "description": "After breakfast complete immigration and custom formalities in Nepal and China both side continue drive to Gyirung(35 Km ,1 Hrs 2800m). Arrive at Gyirung transfer to hotel for check in. overnight at Gyirung.",
+      "accommodation": "Deluxe Hotel (Shared room, Attached Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Tibet entry",
+        "Altitude acclimatization",
+        "Rest"
+      ]
+    },
+    {
+      "day": 5,
+      "title": "Gyirung County Acclimatation(2800m)",
+      "description": "After breakfast you are free for visit around Gyirung county or shopping . Overnight at Gyirung County.",
+      "accommodation": "Deluxe Hotel (Shared room, Attached Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "High altitude driving",
+        "Brahmaputra River crossing",
+        "Landscape viewing"
+      ]
+    },
+    {
+      "day": 6,
+      "title": "Gyirung - Drive to Saga (4500M ,270 km 06/07 Hrs)",
+      "description": "After breakfast drive to Saga crossing Bramhaputra river(270 km, 6/7 Hrs),Arrive at Sanga transfer to hotel for check in. Overnight at Saga hotel.",
+      "accommodation": "Deluxe Hotel (Shared room, Attached Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Sacred lake arrival",
+        "Spiritual preparation"
+      ]
+    },
+    {
+      "day": 7,
+      "title": "Saga - Drive to  Mansarovar (4550M ,470 km 08/09 Hrs)",
+      "description": "After breakfast drive towards Mansarovar lake (470 Km, 08/09 Hrs),Arrive at Mansarovar lake transfer to guest house for check in .Overnight at Mansarovar lake.",
+      "accommodation": "Pramath Asram (Dormitory room, Common Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Lake parikrama",
+        "Holy bath",
+        "Puja ceremonies",
+        "Kailash base camp arrival"
+      ]
+    },
+    {
+      "day": 8,
+      "title": "Mansarovar Parikrama - Drive to Darchen (4600 m)",
+      "description": "After breakfast Parikrma of Mansarovar lake by vehicle (102 Km,3 Hrs) take Holy bath, Perform Puja(prayer ritual, Homa at Mansarovar lake, continue drive to Darchen (58 Km ,1.5 Hrs).Arrive at Darchen transfer to hotel for check in. overnight at Darchen.",
+      "accommodation": "Deluxe Hotel (Shared room, Attached Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Kailash parikrama start",
+        "Yamdwar darshan",
+        "High altitude trekking"
+      ]
+    },
+    {
+      "day": 9,
+      "title": "Darchen Darshan Yamdwar - Trek to Diraphuk (4860m, 12 Km - First Day of Kora )",
+      "description": "After breakfast short drive to Yamddwar, visit Yama Dwar.This is starting point of Kora.We will trek to Diraphuk which is 12 km trek (7/8 Hrs) crossing west face of Mt.Kailash,You will visit North face of Mt.Kailash. Arrive at Diraphuk transfer to hotel for check in. Overnight at Diraphuk. Overnight at a Hotel in Diraphuk.",
+      "accommodation": "Basic Hotel(Dormitory room, Common Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Dolma La Pass crossing",
+        "High altitude trekking",
+        "Spiritual significance"
+      ]
+    },
+    {
+      "day": 10,
+      "title": "Diraphuk - Trek to Zutalphuk (4600M,22 Km - 2nd day of Kora)",
+      "description": "After breakfast trek to Dolma - La Pass and proceed to Zutalphuk(22 Km,12 hrs Trek). This is the most difficult journey throughout the the Yatra since you have to trek up to (5630m) height. From decent to Gaurikund and trek to Zutulphuk following river. Arrive at Zutalphuk transfer, check in to hotel. overnight at Zutalphuk at Huest house.",
+      "accommodation": "Basic Hotel(Dormitory room, Common Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Parikrama completion",
+        "Return journey",
+        "Celebration"
+      ]
+    },
+    {
+      "day": 11,
+      "title": "Zutalphuk - Trek to Darchen(08 Km, 03 Hrs) - Drive to Saga (4500M - 3rd day of Kora)",
+      "description": "After breakfast short trek( 8 Km,2 Hrs) and reach to the point where our coach will be waiting and we will drive to Darchen and merge with other member who were waiting and drive to Saga. Arrive at saga transfer to hotel for check in.overnight at saga.",
+      "accommodation": "Deluxe Hotel (Shared room, Attached Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Return journey",
+        "Altitude descent",
+        "Rest and recovery"
+      ]
+    },
+    {
+      "day": 12,
+      "title": "Saga - Drive to Gyirung County(2800M ,270 Km,07 Hrs)",
+      "description": "After breakfast drive to Gyirung(270 km, 7 hrs). Arrive at Gyirung transfer to hotel for check in. Overnight at Gyirung",
+      "accommodation": "Deluxe Hotel (Shared room, Attached Bathroom)",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Border crossing",
+        "Return to Kathmandu",
+        "Rest and recovery"
+      ]
+    },
+    {
+      "day": 13,
+      "title": "Gyirung County  - Drive to Kathmandu  (1300 M, 200 Km 08 Hrs))",
+      "description": "After breakfast drive to Kathmandu crossing Nepal - China both side Border formalities continue drive to Kathmandu arrive at Kathmandu  transfer to hotel for check in.Overnight at Kathmandu.",
+      "accommodation": "Best Western Plus - 4 Star Hotel",
+      "meals": "Breakfast, Lunch, Dinner",
+      "activities": [
+        "Airport transfer",
+        "Departure"
+      ]
+    },
+    {
+      "day": 14,
+      "title": "Kathmandu departure transfer ",
+      "description": "After breakfast we will be provide appreciation certificate of Kailash Mansarovar Yatra later drop to airport for final departure",
+      "accommodation": "N/A",
+      "meals": "Breakfast, Lunch, Dinner"
+    }
+  ],
+  "what_to_bring": [],
+  "fitness_requirements": "Basic fitness level sufficient.",
+  "altitude_profile": {
+    "max_altitude": "Low altitude",
+    "acclimatization_days": 0,
+    "difficulty_level": "Moderate"
+  },
+  "booking_info": {
+    "advance_booking": "7 days recommended",
+    "group_discounts": "Available for 6+ people",
+    "cancellation_policy": "Free cancellation up to 7 days before departure"
+  },
+  "important_notes": {
+    "health_requirements": "Medical examination recommended before travel. Participants should be examined by a doctor to assess health condition and ability to cope with high altitude travel, extreme cold, dust, and trekking to 19,500ft during parikrama.",
+    "altitude_sickness": "Travelers are likely to experience altitude sickness symptoms (headache, loss of appetite, nausea, exhaustion, sleeplessness, breathlessness) until body adjusts. Mandatory 2 nights stay at Mansarovar (4550m) for acclimatization. Diamox tablets recommended. Gamow bag provided for altitude sickness prevention.",
+    "currency": "Chinese Yuan is the local currency. USD 1 = 7.02 Yuan & 1 Yuan = INR 11.90 approx. Money can be exchanged at Bank of China at Kyirung county.",
+    "what_to_bring": [
+      "Winter wear (Gore-Tex material recommended)",
+      "Down jacket, raincoat or windbreakers",
+      "Thermal underwear, warm trousers & woolen shirts",
+      "Warm sweaters, woolen gloves, sun hat",
+      "Comfortable shoes, light leather boots",
+      "Woolen balaclava and scarf/dust mask",
+      "Strong water bottle & water purifying tablets",
+      "Personal medical kit and Diamox tablets",
+      "Sunglasses and sun block lotion",
+      "Wet tissues and personal hygiene items"
+    ],
+    "risks_liability": "All tours in Tibet are conducted under Tibet Tourism Bureau (TTB) rules and regulations. Company shall not be responsible for changes due to unavoidable circumstances such as landslide, road blockage, flood, snow, political unrest, flight cancellation, delays, sickness or accidents. Extra costs shall be borne by clients."
+  },
+  "priceAvailable": true,
+  "hasDiscount": true,
+  "discountPercentage": 6
+}

@@ -1,0 +1,1432 @@
+# Zeo Tourism — Full Database for AI Context Retrieval
+This file contains the complete, detailed database of tour packages, itineraries, destinations, activities, and guides for Zeo Tourism.
+
+## 🏔️ Tour Packages Detail Database
+
+---
+### Annapurna Base Camp Trek - 12 Nights 13 Days
+* **Slug**: annapurna-base-camp-trek-12-nights-13-days
+* **Duration**: 13 days
+* **Difficulty**: Moderate to Challenging
+* **Price**: $N/A
+* **Group Size**: 2-12 people
+* **Best Time to Visit**: March-May, September-November
+* **URL**: https://zeotourism.com/tours/annapurna-base-camp-trek-12-nights-13-days
+
+#### Description
+Embark on one of Nepal's most spectacular trekking adventures to Annapurna Base Camp, situated in the heart of the Annapurna Sanctuary. This incredible journey takes you through diverse landscapes from subtropical forests to alpine meadows, culminating at the base camp surrounded by towering peaks including Annapurna I (8,091m), Machapuchare (6,993m), and Hiunchuli (6,441m). Experience the rich culture of Gurung and Magar communities, soak in natural hot springs, and witness breathtaking sunrise views over the Annapurna massif.
+
+#### Highlights
+- Reach Annapurna Base Camp at 4,130m
+- 360-degree mountain views in the sanctuary
+- Natural hot springs at Jhinu Danda
+- Diverse flora and fauna
+- Gurung and Magar cultural experience
+- Spectacular sunrise over Annapurna massif
+- Rhododendron forests in spring
+
+#### Inclusions
+- Teahouse accommodation during trek
+- All meals during trekking
+- Professional trekking guide
+- Porter service (1 porter for 2 trekkers)
+- All permits and fees (ACAP, TIMS)
+- First aid kit and oxygen meter
+- Transportation (Kathmandu-Pokhara-Kathmandu)
+- Airport transfers
+
+#### Exclusions
+- International flights
+- Nepal visa fees
+- Meals in Kathmandu and Pokhara
+- Personal trekking equipment
+- Travel insurance
+- Emergency evacuation
+- Tips for guide and porters
+- Personal expenses and drinks
+
+#### Itinerary
+##### Day 1: Arrival in Kathmandu (1,400m)sssss
+* Accommodation: N/A
+* Meals: N/A
+Welcome to Nepal! Upon arrival at Tribhuvan International Airport, our representative will meet you and transfer you to your hotel in Kathmandu. After check-in, attend a comprehensive pre-trek briefing where you'll meet your trekking guide and receive detailed information about the Annapurna Base Camp trek. Equipment check and final preparations. Evening welcome dinner featuring traditional Nepali cuisine and cultural performances. Overnight in Kathmandu.
+
+##### Day 2: Drive to Pokhara (822m)
+* Accommodation: N/A
+* Meals: N/A
+After breakfast, embark on a scenic 6-7 hour drive to Pokhara through winding mountain roads, terraced fields, and traditional villages. The journey offers glimpses of rural Nepali life and changing landscapes. Alternatively, take a 25-minute domestic flight for spectacular aerial views of the Himalayas. Upon arrival in Pokhara, check into lakeside hotel and enjoy the serene atmosphere of Phewa Lake. Evening free to explore the vibrant Lakeside area with its restaurants, cafes, and shops. Final trek preparations and equipment check.
+
+##### Day 3: Drive to Nayapul & Trek to Tikhedhunga (1,577m)
+* Accommodation: N/A
+* Meals: N/A
+Early morning drive to Nayapul (1,070m), the starting point of your Annapurna Base Camp trek. Begin trekking along the Modi Khola river through beautiful countryside and traditional villages. Cross suspension bridges and pass through Birethanti, where you'll complete permit formalities. The trail gradually ascends through terraced fields and small settlements. Arrive at Tikhedhunga, a small village with teahouses offering basic but comfortable accommodation. Trek duration: 4-5 hours. Overnight in teahouse.
+
+##### Day 4: Trek to Ghorepani (2,874m)
+* Accommodation: N/A
+* Meals: N/A
+Today involves a challenging climb up the famous stone steps to Ulleri village, followed by a gradual ascent through beautiful rhododendron and oak forests. The trail offers occasional glimpses of Annapurna South and Hiunchuli peaks. Pass through several small villages and experience the hospitality of local Magar and Gurung communities. Arrive at Ghorepani, a popular trekking hub with stunning mountain views. The village name means 'horse water,' reflecting its historical importance as a trading route. Trek duration: 6-7 hours. Overnight in teahouse.
+
+##### Day 5: Poon Hill Sunrise & Trek to Tadapani (2,630m)
+* Accommodation: N/A
+* Meals: N/A
+Pre-dawn hike to Poon Hill (3,210m), one of the most famous viewpoints in the Himalayas. Watch the spectacular sunrise illuminate the Annapurna and Dhaulagiri mountain ranges, including Annapurna I, Annapurna South, Machapuchare, Dhaulagiri, and many other peaks. The panoramic 360-degree views are absolutely breathtaking. Return to Ghorepani for breakfast, then continue trekking through dense rhododendron forests (spectacular in spring) to Tadapani. The trail offers beautiful mountain views and diverse flora. Trek duration: 6-7 hours including Poon Hill. Overnight in teahouse.
+
+##### Day 6: Trek to Sinuwa (2,360m)
+* Accommodation: N/A
+* Meals: N/A
+Descend through beautiful forests with occasional clearings offering mountain views. The trail passes through Banthanti and continues through dense rhododendron and bamboo forests. Cross several streams and enjoy the changing vegetation as you descend. The path can be muddy and slippery during monsoon season, requiring careful footing. Arrive at Sinuwa, a small settlement with basic teahouse facilities. The village offers good views of Machapuchare and Annapurna South. Trek duration: 5-6 hours. Overnight in teahouse.
+
+##### Day 7: Trek to Deurali (3,230m)
+* Accommodation: N/A
+* Meals: N/A
+Continue ascending through the Modi Khola valley with increasingly spectacular mountain views. Pass through Chhomrong, a large Gurung village with excellent mountain views and the last permanent settlement before entering the Annapurna Sanctuary. Cross the Chhomrong Khola on a suspension bridge and climb steeply up stone steps. The trail then descends to Bamboo and continues through dense bamboo and rhododendron forests to Deurali. The landscape becomes more alpine as you gain altitude. Trek duration: 6-7 hours. Overnight in teahouse.
+
+##### Day 8: Trek to Annapurna Base Camp (4,130m)
+* Accommodation: N/A
+* Meals: N/A
+The ultimate day! Early start for the final push to Annapurna Base Camp. Pass through Machapuchare Base Camp (3,700m) with stunning close-up views of the sacred Machapuchare peak. Continue ascending through the glacial valley into the heart of the Annapurna Sanctuary. The landscape becomes increasingly dramatic with towering peaks surrounding you on all sides. Reach Annapurna Base Camp, situated in a natural amphitheater surrounded by some of the world's highest peaks. Celebrate this incredible achievement and take in the surreal 360-degree mountain panorama. Trek duration: 5-6 hours. Overnight in teahouse.
+
+##### Day 9: Sunrise at ABC & Trek to Bamboo (2,310m)
+* Accommodation: N/A
+* Meals: N/A
+Wake up early to witness one of the world's most spectacular sunrises as the first rays of light illuminate the surrounding peaks including Annapurna I, Annapurna South, Machapuchare, Hiunchuli, and Gangapurna. The golden glow on the snow-capped peaks is absolutely magical. After breakfast and final photos, begin the descent retracing your steps through Machapuchare Base Camp and Deurali to Bamboo. The long descent requires careful attention to footing. Trek duration: 7-8 hours. Overnight in teahouse.
+
+##### Day 10: Trek to Jhinu Danda (1,780m)
+* Accommodation: N/A
+* Meals: N/A
+Continue descending through the Modi Khola valley, passing through Sinuwa and Chhomrong. The trail offers different perspectives of the mountains you've just visited. Arrive at Jhinu Danda, famous for its natural hot springs. After checking into the teahouse, take a 20-minute walk down to the hot springs located beside the Modi Khola river. Soak your tired muscles in the therapeutic hot water while enjoying views of the surrounding hills. This is a perfect way to relax after days of challenging trekking. Trek duration: 6-7 hours. Overnight in teahouse.
+
+##### Day 11: Trek to Nayapul & Drive to Pokhara
+* Accommodation: N/A
+* Meals: N/A
+Final trekking day descending through familiar territory with a sense of accomplishment. Pass through traditional villages, terraced fields, and cross suspension bridges over rushing rivers. Reflect on your incredible journey and the memories created in the Annapurna Sanctuary. Arrive at Nayapul where your trek officially ends. Drive back to Pokhara and check into your lakeside hotel. Celebrate your successful Annapurna Base Camp trek with your team. Evening free for shopping, spa treatments, or simply relaxing by Phewa Lake. Trek duration: 5-6 hours. Overnight in Pokhara.
+
+##### Day 12: Return to Kathmandu
+* Accommodation: N/A
+* Meals: N/A
+Morning flight or drive back to Kathmandu depending on your preference and weather conditions. The flight offers spectacular aerial views of the mountains you've just trekked to, providing a different perspective of your achievement. Upon arrival in Kathmandu, transfer to your hotel and enjoy a hot shower and comfortable bed. Afternoon free for shopping in Thamel, spa treatments, or exploring additional sights in Kathmandu. Evening celebration dinner with cultural show featuring traditional Nepali music and dance. Receive your trek completion certificate. Overnight in Kathmandu.
+
+##### Day 13: Departure
+* Accommodation: N/A
+* Meals: N/A
+Final day in Nepal. Depending on your flight schedule, enjoy some last-minute shopping in Thamel for trekking gear, handicrafts, or souvenirs. Visit additional sights in Kathmandu if time permits. Our representative will assist with airport transfer according to your flight schedule. Depart with incredible memories of your Annapurna Base Camp adventure, the stunning mountain views, cultural experiences, and a tremendous sense of personal achievement that will last a lifetime.
+
+
+---
+### Dubai City Explorer - 4 Days
+* **Slug**: dubai-city-explorer-4-days
+* **Duration**: 4 days
+* **Difficulty**: Easy
+* **Price**: $N/A
+* **Group Size**: 2-15 people
+* **Best Time to Visit**: November-March
+* **URL**: https://zeotourism.com/tours/dubai-city-explorer-4-days
+
+#### Description
+Discover the modern marvels and traditional charm of Dubai in this comprehensive 4-day city tour. Experience iconic landmarks, luxury shopping, and authentic Emirati culture.
+
+#### Highlights
+- Burj Khalifa observation deck visit
+- Dubai Mall shopping experience
+- Traditional Gold and Spice Souks
+- Dubai Marina cruise
+- Old Dubai heritage tour
+- Dubai Fountain show
+- Palm Jumeirah monorail ride
+- Atlantis Resort visit
+
+#### Inclusions
+- 4-star hotel accommodation (3 nights)
+- Daily breakfast
+- Airport transfers
+- All entrance fees
+- Professional English-speaking guide
+- Air-conditioned transportation
+- Dubai Marina cruise
+- Burj Khalifa tickets
+
+#### Exclusions
+- International flights
+- Lunch and dinner
+- Personal expenses
+- Travel insurance
+- Tips for guide and driver
+- Optional activities
+- Visa fees
+
+#### Itinerary
+##### Day 1: Arrival & Modern Dubai
+* Accommodation: 4-star hotel in Dubai
+* Meals: Breakfast
+Airport pickup and transfer to hotel. Check-in and rest. Afternoon visit to Burj Khalifa observation deck. Evening at Dubai Mall with dinner and Dubai Fountain show.
+
+##### Day 2: Traditional Dubai Heritage
+* Accommodation: 4-star hotel in Dubai
+* Meals: Breakfast
+Morning visit to Dubai Creek area. Explore Gold Souk and Spice Souk. Visit Al Fahidi Historical District and Dubai Museum. Traditional lunch. Afternoon abra ride across Dubai Creek.
+
+##### Day 3: Dubai Marina & Palm Jumeirah
+* Accommodation: 4-star hotel in Dubai
+* Meals: Breakfast
+Morning at Dubai Marina with walking tour. Marina cruise experience. Visit Palm Jumeirah and Atlantis Resort. Monorail ride. Evening at JBR Beach and The Walk.
+
+##### Day 4: Last-minute Shopping & Departure
+* Accommodation: End of tour
+* Meals: Breakfast
+Final shopping at Dubai Mall or Mall of the Emirates. Check-out from hotel. Airport transfer for departure.
+
+
+---
+### Dubai Desert Adventure - 3 Days
+* **Slug**: dubai-desert-adventure-3-days
+* **Duration**: 3 days
+* **Difficulty**: Moderate
+* **Price**: $649
+* **Group Size**: 4-12 people
+* **Best Time to Visit**: October-April
+* **URL**: https://zeotourism.com/tours/dubai-desert-adventure-3-days
+
+#### Description
+Experience the thrill of the Arabian Desert with dune bashing, camel riding, and traditional Bedouin camp experiences. Perfect for adventure seekers looking for authentic desert culture.
+
+#### Highlights
+- 4WD dune bashing adventure
+- Camel trekking experience
+- Traditional Bedouin camp overnight
+- Sandboarding activities
+- Falconry demonstration
+- Arabian BBQ dinner under stars
+- Traditional henna painting
+- Desert sunrise photography
+
+#### Inclusions
+- Desert camp accommodation (2 nights)
+- All meals during desert stay
+- 4WD transportation
+- All desert activities
+- Professional desert guide
+- Traditional entertainment
+- Camel riding
+- Sandboarding equipment
+
+#### Exclusions
+- Dubai hotel accommodation
+- International flights
+- Personal expenses
+- Travel insurance
+- Alcoholic beverages
+- Tips for guide and driver
+- City transfers (if not staying in Dubai)
+
+#### Itinerary
+##### Day 1: Desert Safari & Camp Setup
+* Accommodation: Traditional Bedouin camp
+* Meals: Dinner
+Pickup from Dubai in the afternoon. Drive to desert location. Thrilling dune bashing session. Camel ride at sunset. Arrive at Bedouin camp. Traditional welcome with Arabic coffee and dates. BBQ dinner with live entertainment including belly dancing and fire shows.
+
+##### Day 2: Desert Activities & Culture
+* Accommodation: Traditional Bedouin camp
+* Meals: Breakfast, Lunch, Dinner
+Early morning sunrise photography session. Traditional breakfast. Sandboarding activities. Falconry demonstration. Learn about desert survival techniques. Henna painting session. Traditional lunch. Afternoon rest. Evening cultural programs and stargazing.
+
+##### Day 3: Morning Desert Walk & Return
+* Accommodation: End of tour
+* Meals: Breakfast
+Early morning desert walk and bird watching. Final breakfast in the desert. Pack up camp. Scenic drive back to Dubai with photo stops. Drop-off at Dubai location.
+
+
+---
+### Dubai Luxury Experience - 5 Days
+* **Slug**: dubai-luxury-experience-5-days
+* **Duration**: 5 days
+* **Difficulty**: Easy
+* **Price**: $N/A
+* **Group Size**: 2-8 people
+* **Best Time to Visit**: November-March
+* **URL**: https://zeotourism.com/tours/dubai-luxury-experience-5-days
+
+#### Description
+Indulge in the ultimate Dubai luxury experience with 5-star accommodations, private tours, fine dining, and exclusive access to premium attractions. Perfect for those seeking the finest Dubai has to offer.
+
+#### Highlights
+- 5-star luxury hotel accommodation
+- Private helicopter tour over Dubai
+- Atlantis Resort VIP day pass
+- Private yacht charter experience
+- Fine dining at Michelin-starred restaurants
+- VIP shopping assistance
+- Luxury spa treatments included
+- Private desert safari with exclusive camp
+
+#### Inclusions
+- 5-star luxury hotel (4 nights)
+- All meals at premium restaurants
+- Private luxury transportation
+- All premium experiences and activities
+- Personal concierge service
+- Spa treatments (2 sessions)
+- Private helicopter tour
+- Private yacht charter (4 hours)
+- VIP shopping assistance
+
+#### Exclusions
+- International flights
+- Personal shopping purchases
+- Additional spa services
+- Travel insurance
+- Alcoholic beverages (unless specified)
+- Tips for staff
+- Visa fees
+
+#### Itinerary
+##### Day 1: Luxury Arrival & Welcome
+* Accommodation: 5-star luxury hotel suite
+* Meals: Welcome dinner
+VIP airport pickup in luxury vehicle. Check-in at 5-star hotel with suite upgrade. Welcome spa treatment. Evening welcome dinner at Burj Al Arab's Al Muntaha restaurant with panoramic city views.
+
+##### Day 2: Sky High Dubai Experience
+* Accommodation: 5-star luxury hotel suite
+* Meals: Breakfast, Lunch, Dinner
+Private helicopter tour over Dubai's iconic landmarks. VIP access to Burj Khalifa with private guide. Luxury shopping experience at Dubai Mall with personal shopping assistant. Afternoon at luxury spa. Evening fine dining at Nobu Dubai.
+
+##### Day 3: Atlantis VIP Experience
+* Accommodation: 5-star luxury hotel suite
+* Meals: Breakfast, Lunch, Dinner
+Private transfer to Atlantis Resort. VIP day pass including Lost Chambers Aquarium, Aquaventure Waterpark, and Dolphin Bay experience. Luxury spa treatment at ShuiQi Spa. Evening dinner at Ossiano underwater restaurant.
+
+##### Day 4: Private Yacht & Desert Luxury
+* Accommodation: 5-star luxury hotel suite
+* Meals: Breakfast, Lunch, Dinner
+Morning private yacht charter (4 hours) with gourmet lunch onboard. Water activities and relaxation. Afternoon return to hotel. Evening luxury desert safari with private camp, gourmet dinner, and exclusive entertainment.
+
+##### Day 5: Final Luxury & Departure
+* Accommodation: End of tour
+* Meals: Breakfast, Lunch
+Final spa treatment and relaxation. Last-minute luxury shopping with VIP assistance. Private farewell lunch at At.mosphere restaurant in Burj Khalifa. VIP airport transfer in luxury vehicle.
+
+
+---
+### Everest Base Camp Trek - 13 Nights 14 Days
+* **Slug**: everest-base-camp-trek-13n-14d
+* **Duration**: 14 days
+* **Difficulty**: Challenging
+* **Price**: $N/A
+* **Group Size**: 2-12 people
+* **Best Time to Visit**: March-May, September-November
+* **URL**: https://zeotourism.com/tours/everest-base-camp-trek-13n-14d
+
+#### Description
+Embark on the ultimate Himalayan adventure to Everest Base Camp, following in the footsteps of legendary mountaineers. This iconic trek takes you through the heart of the Khumbu region, offering breathtaking views of the world's highest peaks including Mount Everest, Lhotse, and Ama Dablam. Experience Sherpa culture, visit ancient monasteries, and challenge yourself on this once-in-a-lifetime journey to the base of the world's tallest mountain.
+
+#### Highlights
+- Reach Everest Base Camp at 5,364m
+- Spectacular mountain views from Kala Patthar
+- Experience authentic Sherpa culture
+- Visit Tengboche Monastery
+- Cross suspension bridges over deep gorges
+- Explore Sagarmatha National Park
+- Witness sunrise over Mount Everest
+
+#### Inclusions
+- Domestic flights (Kathmandu-Lukla-Kathmandu)
+- Teahouse accommodation during trek
+- All meals during trekking
+- Professional trekking guide
+- Porter service (1 porter for 2 trekkers)
+- All permits and fees
+- First aid kit and oxygen meter
+- Airport transfers
+
+#### Exclusions
+- International flights
+- Nepal visa fees
+- Meals in Kathmandu
+- Personal trekking equipment
+- Travel insurance
+- Emergency evacuation
+- Tips for guide and porters
+- Personal expenses
+
+#### Itinerary
+##### Day 1: Arrival in Kathmandu (1,400m)
+* Accommodation: N/A
+* Meals: N/A
+Welcome to Nepal! Upon arrival at Tribhuvan International Airport, our representative will meet you and transfer you to your hotel in Kathmandu. After check-in, attend a pre-trek briefing where you'll meet your trekking guide and receive detailed information about the trek. Equipment check and final preparations. Evening welcome dinner featuring traditional Nepali cuisine. Overnight in Kathmandu.
+
+##### Day 2: Fly to Lukla & Trek to Phakding (2,652m)
+* Accommodation: N/A
+* Meals: N/A
+Early morning flight to Lukla (2,800m), one of the world's most thrilling airports. The 35-minute scenic flight offers spectacular mountain views. Upon landing, meet your porter and begin the trek to Phakding. The trail descends through pine forests and crosses several suspension bridges over the Dudh Koshi River. Pass through small Sherpa villages and enjoy your first taste of mountain hospitality. Trek duration: 3-4 hours. Overnight in teahouse.
+
+##### Day 3: Trek to Namche Bazaar (3,440m)
+* Accommodation: N/A
+* Meals: N/A
+Today's trek takes you to the famous Namche Bazaar, the gateway to Everest. Cross numerous suspension bridges including the spectacular Hillary Suspension Bridge. Enter Sagarmatha National Park and begin the steep ascent to Namche. The trail offers first glimpses of Mount Everest, Lhotse, and other peaks. Namche Bazaar is a bustling Sherpa town with shops, restaurants, and internet cafes. Trek duration: 5-6 hours. Overnight in teahouse.
+
+##### Day 4: Acclimatization Day in Namche Bazaar
+* Accommodation: N/A
+* Meals: N/A
+Important acclimatization day to help your body adjust to altitude. Optional hike to Everest View Hotel (3,880m) for spectacular mountain panoramas including Mount Everest, Ama Dablam, and Lhotse. Visit the Sherpa Culture Museum and learn about mountaineering history. Explore Namche's colorful Saturday market (if timing permits). Alternative hike to Khumjung village to visit Hillary School and monastery. Rest and prepare for higher altitudes ahead.
+
+##### Day 5: Trek to Tengboche (3,867m)
+* Accommodation: N/A
+* Meals: N/A
+Descend from Namche and cross the Dudh Koshi River. The trail contours around the mountainside with stunning views of Ama Dablam, one of the most beautiful peaks in the Himalayas. Gradual ascent through rhododendron forests leads to Tengboche, home to the region's largest monastery. Visit Tengboche Monastery and witness evening prayers if timing permits. Spectacular 360-degree mountain views including Everest, Nuptse, and Lhotse. Trek duration: 5-6 hours. Overnight in teahouse.
+
+##### Day 6: Trek to Dingboche (4,410m)
+* Accommodation: N/A
+* Meals: N/A
+Descend through forests to Debuche and cross the Imja River. The trail gradually ascends through alpine meadows with incredible mountain views. Pass through Pangboche village, one of the highest permanent settlements in the world. Continue ascending to Dingboche, a summer settlement with stone-walled fields. The landscape becomes more barren and alpine. Spectacular views of Island Peak, Lhotse, and Ama Dablam. Trek duration: 5-6 hours. Overnight in teahouse.
+
+##### Day 7: Acclimatization Day in Dingboche
+* Accommodation: N/A
+* Meals: N/A
+Another crucial acclimatization day. Optional hike to Nagarjun Hill (5,083m) for panoramic views of Makalu, Lhotse, Chalotse, Tawache, and Ama Dablam. Alternative hike to Chhukung village (4,730m) for closer views of Island Peak and Lhotse South Face. Rest day allows your body to produce more red blood cells and adjust to the thin air. Explore the village and interact with local Sherpa families. Prepare for the challenging days ahead.
+
+##### Day 8: Trek to Lobuche (4,940m)
+* Accommodation: N/A
+* Meals: N/A
+Continue ascending through the alpine desert landscape. Pass the memorial site dedicated to climbers who lost their lives on Everest, including Scott Fischer and others. The trail becomes more challenging as oxygen levels decrease. Cross the terminal moraine of the Khumbu Glacier with views of Pumori and other peaks. Arrive at Lobuche, a small settlement in a dramatic setting surrounded by towering peaks. Trek duration: 5-6 hours. Overnight in teahouse.
+
+##### Day 9: Trek to Everest Base Camp (5,364m) & Return to Gorak Shep (5,164m)
+* Accommodation: N/A
+* Meals: N/A
+The ultimate day! Early start for the trek to Everest Base Camp. Navigate through the Khumbu Glacier's rocky moraine with prayer flags marking the way. Reach Everest Base Camp, the staging point for Everest expeditions. Celebrate this incredible achievement with photos and take in the surreal landscape of ice seracs and glacial formations. Return to Gorak Shep for overnight stay. Trek duration: 7-8 hours. This is the highlight of your journey!
+
+##### Day 10: Hike to Kala Patthar (5,545m) & Trek to Pheriche (4,371m)
+* Accommodation: N/A
+* Meals: N/A
+Pre-dawn start for the challenging climb to Kala Patthar, the best viewpoint for Mount Everest. Watch the sunrise illuminate the world's highest peak along with Nuptse, Changtse, and Lhotse. The panoramic views are absolutely breathtaking and worth every step of the challenging ascent. Descend to Gorak Shep for breakfast, then continue down to Pheriche. Trek duration: 6-7 hours. Overnight in teahouse.
+
+##### Day 11: Trek to Namche Bazaar (3,440m)
+* Accommodation: N/A
+* Meals: N/A
+Long descent day retracing your steps through Pangboche and Tengboche. Cross the suspension bridge over Dudh Koshi River and ascend back to Namche Bazaar. Enjoy the thicker air and warmer temperatures as you descend. Celebrate your successful Everest Base Camp achievement with fellow trekkers. Last night in the mountains with hot showers and comfortable beds available. Trek duration: 6-7 hours. Overnight in teahouse.
+
+##### Day 12: Trek to Lukla (2,800m)
+* Accommodation: N/A
+* Meals: N/A
+Final trekking day descending through familiar territory. Pass through Phakding and continue to Lukla. Reflect on your incredible journey and the memories created. Celebrate with your trekking team and enjoy a farewell dinner. Pack your bags and prepare for the flight back to Kathmandu tomorrow. Trek duration: 6-7 hours. Overnight in teahouse.
+
+##### Day 13: Fly to Kathmandu
+* Accommodation: N/A
+* Meals: N/A
+Morning flight from Lukla to Kathmandu (weather permitting). Upon arrival, transfer to your hotel and enjoy a hot shower and comfortable bed. Afternoon free for shopping, spa treatments, or exploring Kathmandu. Evening celebration dinner with cultural show featuring traditional Nepali music and dance. Receive your trek completion certificate. Overnight in Kathmandu.
+
+##### Day 14: Departure
+* Accommodation: N/A
+* Meals: N/A
+Final day in Nepal. Depending on your flight schedule, enjoy some last-minute shopping in Thamel or visit additional sights in Kathmandu. Our representative will assist with airport transfer. Depart with incredible memories of your Everest Base Camp adventure and a sense of accomplishment that will last a lifetime.
+
+
+---
+### Indo Nepal Cross Border Tour - 6 Nights 7 Days
+* **Slug**: indo-nepal-cross-border-tour-6n-7d
+* **Duration**: 7 days
+* **Difficulty**: Easy
+* **Price**: $N/A
+* **Group Size**: 2-15 people
+* **Best Time to Visit**: October-April
+* **URL**: https://zeotourism.com/tours/indo-nepal-cross-border-tour-6n-7d
+
+#### Description
+Experience the best of Nepal with this comprehensive cross-border tour covering Pokhara's natural beauty, Kathmandu's cultural heritage, and Chitwan's wildlife adventure. This unique journey starts from Gorakhpur, India, and takes you through the sacred birthplace of Lord Buddha in Lumbini, the serene lakes of Pokhara, the ancient temples of Kathmandu, and the wildlife paradise of Chitwan National Park.
+
+#### Highlights
+- Lumbini - Birthplace of Lord Buddha
+- Pokhara valley with mountain views
+- Kathmandu UNESCO World Heritage sites
+- Chitwan National Park safari
+- Manakamana Temple cable car ride
+- Tharu cultural dance experience
+
+#### Inclusions
+- Hotel accommodation (3-5 star options)
+- Daily breakfast
+- All transfers and transportation
+- Professional guide
+- All entrance fees
+- Chitwan safari activities
+- Cable car to Manakamana Temple
+
+#### Exclusions
+- International flights
+- Lunch and dinner (except in Chitwan)
+- Personal expenses
+- Travel insurance
+- Tips for guide and staff
+
+#### Itinerary
+##### Day 1: Arrival in Gorakhpur - Lumbini - Pokhara
+* Accommodation: N/A
+* Meals: N/A
+Arrive in Gorakhpur and meet our representative. Drive to Sunauli border crossing and complete immigration formalities. Visit Lumbini, the sacred birthplace of Lord Buddha, and explore the Maya Devi Temple and various international monasteries. Continue the scenic drive to Pokhara, Nepal's adventure capital. Check into hotel and enjoy the lakeside atmosphere. Evening at leisure to explore the vibrant Lakeside area.
+
+##### Day 2: Sarangkot Excursion & Pokhara Sightseeing
+* Accommodation: N/A
+* Meals: N/A
+Early morning drive to Sarangkot viewpoint to witness the spectacular sunrise over the Annapurna and Dhaulagiri mountain ranges. Return to hotel for breakfast. Begin full-day Pokhara city tour visiting Bindavasini Temple, the mystical David Falls (Patale Chhango), and Gupteshwor Cave with its underground waterfall. Enjoy a peaceful boat ride on Phewa Lake and visit Tal Barahi Temple situated on an island in the middle of the lake. Evening free for shopping and relaxation.
+
+##### Day 3: Pokhara to Kathmandu via Manakamana
+* Accommodation: N/A
+* Meals: N/A
+After breakfast, begin the scenic drive to Kathmandu. En route, stop at Kurintar and take the thrilling cable car ride to Manakamana Temple, dedicated to the Hindu goddess Bhagwati. The temple is believed to fulfill the wishes of devotees. Enjoy panoramic mountain views during the cable car journey. Continue drive to Kathmandu and check into hotel. Evening at leisure to explore Thamel, the tourist hub of Kathmandu.
+
+##### Day 4: Kathmandu City Sightseeing
+* Accommodation: N/A
+* Meals: N/A
+Full day exploration of Kathmandu's UNESCO World Heritage sites. Begin with Pashupatinath Temple, the most sacred Hindu temple dedicated to Lord Shiva, located on the banks of the holy Bagmati River. Visit Jala Narayan Temple and then proceed to Swayambhunath Stupa (Monkey Temple), offering panoramic views of Kathmandu Valley. Continue to Boudhanath Stupa, one of the largest Buddhist stupas in the world and a center of Tibetan Buddhism. End the day at Kathmandu Durbar Square, the ancient royal palace complex with intricate wood carvings and the living goddess Kumari's residence.
+
+##### Day 5: Kathmandu to Chitwan
+* Accommodation: N/A
+* Meals: N/A
+After breakfast, drive to Chitwan National Park, Nepal's first national park and a UNESCO World Heritage site. Upon arrival, check into jungle resort and enjoy welcome drinks. In the afternoon, visit a traditional Tharu village to learn about the indigenous culture and lifestyle of the Tharu people. Experience their unique architecture, customs, and way of life. In the evening, enjoy an authentic Tharu stick dance performance showcasing their rich cultural heritage. Dinner at the resort with traditional Tharu cuisine.
+
+##### Day 6: Chitwan Safari Activities
+* Accommodation: N/A
+* Meals: N/A
+Full day of exciting jungle activities in Chitwan National Park. Begin with a canoe trip along the Rapti River to spot crocodiles, various bird species, and other wildlife. Visit the Elephant Breeding Center to learn about conservation efforts. Take a guided jungle walk with experienced naturalists to discover the park's diverse flora and fauna. The highlight of the day is the elephant or jeep safari through the dense jungle in search of the elusive one-horned rhinoceros, Bengal tigers, leopards, and various deer species. Evening at leisure at the resort.
+
+##### Day 7: Chitwan to Gorakhpur Departure
+* Accommodation: N/A
+* Meals: N/A
+After breakfast and final moments in the jungle paradise, begin the drive back to Gorakhpur. En route, enjoy the changing landscapes from the Terai plains to the Indian border. Complete exit formalities at Sunauli border and continue to Gorakhpur. Transfer to railway station or airport for onward journey, carrying unforgettable memories of Nepal's cultural heritage, natural beauty, and wildlife encounters.
+
+
+---
+### Kailash Aerial Darshan - 02 Nights 03 Days
+* **Slug**: kailash-aerial-darshan-02-nights-03-days
+* **Duration**: 3 days
+* **Difficulty**: N/A
+* **Price**: $600
+* **Group Size**: N/A
+* **Best Time to Visit**: N/A
+* **URL**: https://zeotourism.com/tours/kailash-aerial-darshan-02-nights-03-days
+
+#### Description
+This 3-day spiritual journey offers a unique and comfortable way to seek the blessings of Mount Kailash and Lake Mansarovar via a specialized chartered flight from Nepalgunj. Designed for maximum convenience, this tour eliminates the need for high-altitude trekking, passports, or complex visa processes, making the divine "Darshan" accessible to everyone regardless of age. Guests will enjoy 5-star hospitality at Hotel Soaltee, dedicated ground assistance from Lucknow, and expert guided services, ensuring a seamless and soulful pilgrimage experience.
+
+#### Highlights
+- Chartered Flight: Scenic aerial view of Mt. Kailash and Lake Mansarovar.
+- Effortless Darshan: No trekking or physical strain, making it ideal for senior citizens.
+- Documentation: No passport or China visa required for Indian citizens.
+- Premium Stay: 02 nights at the 5-Star Hotel Soaltee with full board meals.
+- Complete Package: Includes private AC transfers, guides, and spiritual gifts.
+- Quick Trip: A comprehensive 3-day spiritual journey starting from Lucknow.
+
+#### Inclusions
+- Traditional welcome drinks on arrival (Non alcoholic)
+- 02 Nights accommodation at Kathmandu Hotel on AP basis(Breakfast, Lunch & Dinner)
+- 01 litter mineral water per day
+- Hindi/English speaking tour guide for entire trip
+- Gift from the company Kailash Tirtham(jal),Rudraksha Mala
+- All sightseeing and excursions as mentioned in the itinerary.
+- All transfers & sightseeing by private air condition vehicle.
+- Round trip Transportation for Lucknow - Nepalgunj - Lucknow  by Private vehicle
+- Vehicles are not to be at disposal and are available as per itinerary only (point to point basis).
+- All current Nepal Government taxes 
+
+#### Exclusions
+- Domestic/International Airfare 
+- Insurance Fee
+- Personal expenses, tipping and any other services which are not mentioned in the above inclusion
+
+#### Itinerary
+##### Day 1: Arrive in Lucknow - Drive to Nepalgunj(190 km, 04/05 Hrs) 
+* Accommodation: Hotel Soaltee - 4 Star
+* Meals: Dinner
+Upon arrival in Lucknow Airport, you will be greeted and assisted by our representative after completing your airport process, drive to Nepalgunj,arrival at Nepalgunj, transfer to Hotel for check-in. Overnight at Nepalgunj Hotel.
+
+##### Day 2: Kailash MansarovarDarshan Chartered Flight(Aerial view - 1.5 Hrs)
+* Accommodation: Hotel Soaltee - 4 Star
+* Meals: Breakfast, Lunch, Dinner
+After breakfast in the morning our guide will organise group transfer from hotel to Nepalgunj airport where the chartered flight for Kailash Darshan,You will get mesmerizing darshan of holy Mount Kailash and Lake Mansarovar from the window of your flight while flying over the mountains near nepal-Tibet border. The view of mountain and lake from the flight is completely subject to clear weather,back to Nepalgunj transfer to hotel.Overnight at Nepalgunj.
+
+##### Day 3: Nepalgunj - Drive to Lucknow departure transfer(190 km,04/05 Hrs)
+* Accommodation: Hotel Soaltee - 4 Star
+* Meals: Breakfast, Lunch
+After breakfast, the morning will be comparatively free and closer to the time of your flight,drive to Lucknow airport on time to board your flight for onward journey. 
+
+
+---
+### Kailash Mansarovar Yatra 11 Nights 12 Days ex Kathmandu - Helicopter Route
+* **Slug**: kailash-mansarovar-yatra-11-nights-12-days-ex-kathmandu-helicopter-route
+* **Duration**: 12 days
+* **Difficulty**: N/A
+* **Price**: $3250
+* **Group Size**: 25+ People
+* **Best Time to Visit**: N/A
+* **URL**: https://zeotourism.com/tours/kailash-mansarovar-yatra-11-nights-12-days-ex-kathmandu-helicopter-route
+
+#### Description
+Experience the sacred Kailash Mansarovar Yatra via helicopter route from Kathmandu. This premium 12-day journey combines helicopter flights with the spiritual pilgrimage, offering comfort and convenience while maintaining the sacred essence of the yatra. The helicopter route significantly reduces travel time while providing breathtaking aerial views of the Himalayas.
+
+#### Highlights
+No highlights listed.
+
+#### Inclusions
+- Traditional welcome on arrival 
+- 03 Night accommodation at Kathmandu on sharing Twin/Double basis(Premium
+- 01 Night accommodation at Nepalgunj on Double/Twin sharing basis(Premium)
+- 01 Night accommodation at Simikot on sharing basis(Guest house) 
+- 01 Night accommodation at Hilsa on sharing basis(Guest house) 
+- 05 Night accommodation in Tibet on sharing basis(Hotel Basis) 
+- Kathmandu - Nepalgunj – Kathmandu flight cost 
+- Nepalgunj - Simikot - Nepalgunj flight cost(17 Pax at a time)
+- Simikot - Hilsa - Simikot helicopter cost(04 Pax carry at a time)
+- Tibet travel Permit & Visa fees
+- Humla Trekking Permit and fees
+- English speaking Tibetan guide for customers formalities
+- Nepali Supporting Staff(cook,Sherpa & helper) 5:1 basis 
+- Buffet vegetarian meals during Yatra on AP basis(Breakfast, Lunch & Dinner)
+- Nepali experienced Team Leader/Guide during Yatra
+- Supporting truck to carry equipment 
+- Mansarovar and Kailash Yatra Permit fees
+- Duffel bag for carrying goods during Yatra
+- Back pack bag for personal items to carry and Cap
+- Warm down Jacket refundable 
+- First aid medical kit bag & Oxygen cylinder 
+- Emergency evacuation management during Yatra
+- Round trip transportation in Tibet AC Luxury coach
+- Arrival and departure transfer with assistance by A/C Vehicle  
+- All sightseeing and excursions as mentioned in the itinerary.
+- Vehicles are not to be at disposal and are available as per itinerary only (point to point basis).
+- Kailash Mansarovar Yatra appreciation certificate  
+
+#### Exclusions
+- Personal expenses and travel Insurance
+- Medical expenses and Emergency rescue evacuation expenses
+- Horses,Pony and porter during Kailash Parikrama 
+- Tips for Guide, Porter, driver and personal expenses
+- Extra Hotel charges in Kathmandu if early return from Tibet
+- Any additional cost due to natural calamities and unforeseen circumstances
+- Visa splitting charge and extra transportation cost, if returning early from Yatra
+- 5 % GST If you pay India account
+
+#### Itinerary
+##### Day 1: Arrival Kathmandu (1300m
+* Accommodation: Best Western Plus - 4 Start Hotel 
+* Meals: Dinner
+Upon arrival in Kathmandu Airport, you will be greeted and assisted by our representative after completing your custom formalities,transfer to the hotel for check-in. Overnight at Kathmandu Hotel.
+
+##### Day 2: Kathmandu Sightseeing - Fly to Nepalgunj (150M ,1 Hrs)
+* Accommodation: Hotel Soaltee - 4 Star
+* Meals: Breakfast, Lunch, Dinner
+After breakfast Kathmandu city sightseeing tour, visit  Pasupatinath Temple,Bouddhanath Stupa(World heritage site),Jala Narayan Temple(sleeping Vishnu) back to hotel take lunch evening fly to Nepalgunj,arrive at Nepalgunj transfer to hotel for check in.Overnight at Nepalhunj.
+
+##### Day 3: Nepalgunj - Fly to Simikot (2800M ,50 Min)
+* Accommodation: Standard Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast transfer to domestic airport ,fly to Simikot, arrive at Simikot airport, transfer to hotel for check in. Evening short walk to lord Shiva Temple back to hotel. Overnight at Simikot. 
+
+##### Day 4: Simikot - Fly to Hilsa by Helicopter - Drive to Purang (3700M,35 km,2 Hrs)
+* Accommodation: Deluxe Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast fly to Hilsa by Helicopter (20 Min, 15 Kg weight limit for baggage) wait for the others member to arrive at Hilsa (since it is a group visa and everyone have to enter Tibet side in one group) complete immigration and custom formalities in Nepal - China both side continue drive to Purang ,on the way we have to pass up to 2 Checkpoints where checking might take upto 1 hour each check post) transfer to the Hotel for check-in.overnight at Purang hotel.
+
+
+
+##### Day 5: Purang Acclimatization Day (3900M)
+* Accommodation: Deluxe Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast all day is free for acclimatization today you can buy Kailash kora clothes,bottle,sticks and others trekking gears for parikrama.Overnight at Purang hotel.
+
+##### Day 6: Purang - Drive to Mansarovar Parikrama (4550M,102 km,4 Hrs - Holy bath,Pooja,Homa)
+* Accommodation: Basic Hotel(Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast drive to Rakshas Tal (40 km, 1.5 hrs) on the way you will have to pass 1 check point. After reaching Rakshas Tal you will see Gurla Mandhata Parvat and first view of Mt.Kailash south face and Manasarovar Lake, 40 Km drive we reach Mansarovar continue Parikrma of Mansarovar lake by Vehicle (102 Km,4 Hrs) and Overnight at the Shore of the Lake.
+
+
+
+##### Day 7: Mansarovar - Drive to Yamdwar (60 Km,2 Hrs)- Trek to Diraphuk (4860M, 12 Km - First Day of Kora)
+* Accommodation: Basic Hotel(Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast short drive to Darchen, visit Yamdwar.This is starting point of Kora.We will trek to Diraphuk which is 12 km trek (7/8 Hrs) crossing west face of Mt.Kailash,You will visit North face of Mt.Kailash. Arrive at Diraphuk ,transfer to the Guest house for check-in.overnight at Diraphuk.
+
+##### Day 8: Diraphuk - Trek to Zutalphuk (4600M,22 Km - 2nd Day of kora Cross Dolmala Pass)
+* Accommodation: Basic Hotel(Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast trek to Dolma -La Pass and trek to Zutalphuk(22 Km,9/10 hrs Trek).This is the most difficult journey throughout  the the yatra since you have to trek up to (5630m) height. From decent to Gaurikund & trek to Zutulphuk following river. Arrive at Zutalphuk transfer to the Guest house for check-in.overnight at Zutalphuk.
+
+##### Day 9: Zutalphuk - Trek to Darchen(08 Km/3 Hrs - Drive to Hilsa  (3700M,100 km 03 Hrs)
+* Accommodation: Basic Hotel(Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast short trek ( 8 Km ,2 Hrs) and reach to the point where our coach will be waiting and we will drive to Darchen and merge with other member  who were waiting and drive to Hilsa border formalities both side China - Nepal, transfer to hotel for check in.Overnight at Hilsa.
+
+##### Day 10: Hilsa -Fly to  Simikot by Heli -Fly to Nepalgunj – Fly to Kathmandu
+* Accommodation: Best Western Plus - 4 Star
+* Meals: Breakfast, Lunch, Dinner
+After breakfast fly to Simikot by Helicopter (20 Mins), Take connecting flight to  Nepalgunj again fly back to Kathmandu.arrival at Kathmandu transfer to hotel for check in. Overnight at Kathmandu.
+
+
+
+##### Day 11: Bhaktapur Durbar Squire and Doleshwar Mahadev Temple
+* Accommodation: Best Western Plus - 4 Star
+* Meals: Breakfast, Lunch, Dinner
+After breakfast fly to Simikot by Helicopter (20 Mins), Take connecting flight to  Nepalgunj again fly back to Kathmandu.arrival at Kathmandu transfer to hotel for check in. Overnight at Kathmandu.
+
+##### Day 12: Kathmandu departure transfer 
+* Accommodation: N/A
+* Meals: Breakfast, Lunch, Dinner
+After breakfast we will be provide appreciation certificate of Kailash Mansarovar Yatra later drop to airport for final departure.
+
+
+
+
+---
+### Kailash Mansarovar Yatra 13 Nights 14 Days Overland
+* **Slug**: kailash-mansarovar-yatra-13-nights-14-days-overland
+* **Duration**: 14 days
+* **Difficulty**: Challenging
+* **Price**: $2650
+* **Group Size**: 25+ People
+* **Best Time to Visit**: May, June, July, August, September, October
+* **URL**: https://zeotourism.com/tours/kailash-mansarovar-yatra-13-nights-14-days-overland
+
+#### Description
+Embark on the sacred journey to Mount Kailash and Lake Mansarovar, one of the most revered pilgrimage sites in Hinduism, Buddhism, Jainism, and Bon religion. This 13-day overland journey from Kathmandu offers a transformative spiritual experience through the mystical landscapes of Tibet.
+
+#### Highlights
+- Sacred Mount Kailash Parikrama (circumambulation)
+- Holy bath and prayers at Lake Mansarovar
+- Visit to ancient Tibetan monasteries
+- Crossing Dolma La Pass at 5,630m
+- Spiritual journey through pristine Tibetan landscapes
+- Cultural immersion in Tibetan Buddhist traditions
+- Professional guide with spiritual knowledge
+- Gamow bag for altitude sickness prevention
+
+#### Inclusions
+- Traditional welcome on arrival 
+- 03 Night accommodation at Kathmandu on sharing Twin/Double basis(03 Star Premium)
+- 01 Night accommodation at Kyirung on sharing basis(Basic Hotel)
+- 09 Night accommodation in Tibet on sharing basis(Hotels  and Guest houses) 
+- Professional guide throughout the journey
+- Tibet travel Permit & Visa fees
+- English speaking Tibetan guide for customers formalities
+- Nepali Supporting Staff(cook,Sherpa & helper) 5:1 basis 
+- Buffet vegetarian meals during Yatra on AP basis(Breakfast,Lunch & Dinner)
+- Nepali experienced Team Leader/Guide during Yatra
+- Supporting truck to carry equipment 
+- Mansarovar and Kailash Yatra Permit fees
+- Duffel bag for carrying goods during Yatra
+- Duffel bag for carrying goods during Yatra
+- Back pack bag for personal items to carry and Cap
+- Warm down Jacket refundable 
+- First aid medical kit bag & Oxygen cylinder 
+- Emergency evacuation management during Yatra
+- Round trip transportation in Tibet AC Luxury coach
+- Kathmandu - Rasuwagadi - Kathmandu A/C Vehicle
+- Arrival and departure transfer with assistance by A/C Vehicle  
+
+#### Exclusions
+- Personal expenses and travel Insurance
+- Medical expenses and Emergency rescue evacuation expenses
+- Tips for Guide, Porter, driver and personal expenses
+- Extra Hotel charges in Kathmandu if early return from Tibet
+- Any additional cost due to natural calamities and unforeseen circumstances
+- Visa splitting charge and extra transportation cost, if returning early from Yatra
+- 5 % Vat GST India Government
+- Emergency evacuation costs
+
+#### Itinerary
+##### Day 1: Arrival in Kathmandu (1300m)
+* Accommodation: Best Western Plus - 4 Star Hotel
+* Meals: Dinner
+Upon arrival at Kathmandu International Airport, you will be greeted and assisted by our representative after completing custom formalities. Transfer to hotel for check-in. Evening yatra briefing session before dinner covering important aspects of the Kailash Mansarovar Yatra.
+
+##### Day 2: Kathmandu Temple Visit
+* Accommodation: Best Western Plus - 4 Star Hotel
+* Meals: Breakfast, Lunch, Dinner
+After breakfast, embark on Kathmandu city sightseeing tour. Visit Pashupatinath Temple, Boudhanath Stupa (World Heritage Site), Jal Narayan Temple (Sleeping Vishnu), and Kathmandu Durbar Square (Living God Kumari). Return to hotel for packing and preparation for the yatra.
+
+##### Day 3: : Kathmandu - Drive to Kyirung(1600 m)
+* Accommodation: Standard Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+Our representative will pick up you, drive to Kyirung(145 Km ,05/06 Hrs),arrive at Kyirung transfer to hotel for check in. Overnight at  Kyirung Guest house.
+
+##### Day 4: Kyirung- Drive to  Gyirung County(2800m)
+* Accommodation: Deluxe Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast complete immigration and custom formalities in Nepal and China both side continue drive to Gyirung(35 Km ,1 Hrs 2800m). Arrive at Gyirung transfer to hotel for check in. overnight at Gyirung.
+
+##### Day 5: Gyirung County Acclimatation(2800m)
+* Accommodation: Deluxe Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast you are free for visit around Gyirung county or shopping . Overnight at Gyirung County.
+
+##### Day 6: Gyirung - Drive to Saga (4500M ,270 km 06/07 Hrs)
+* Accommodation: Deluxe Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast drive to Saga crossing Bramhaputra river(270 km, 6/7 Hrs),Arrive at Sanga transfer to hotel for check in. Overnight at Saga hotel.
+
+##### Day 7: Saga - Drive to  Mansarovar (4550M ,470 km 08/09 Hrs)
+* Accommodation: Pramath Asram (Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast drive towards Mansarovar lake (470 Km, 08/09 Hrs),Arrive at Mansarovar lake transfer to guest house for check in .Overnight at Mansarovar lake.
+
+##### Day 8: Mansarovar Parikrama - Drive to Darchen (4600 m)
+* Accommodation: Deluxe Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast Parikrma of Mansarovar lake by vehicle (102 Km,3 Hrs) take Holy bath, Perform Puja(prayer ritual, Homa at Mansarovar lake, continue drive to Darchen (58 Km ,1.5 Hrs).Arrive at Darchen transfer to hotel for check in. overnight at Darchen.
+
+##### Day 9: Darchen Darshan Yamdwar - Trek to Diraphuk (4860m, 12 Km - First Day of Kora )
+* Accommodation: Basic Hotel(Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast short drive to Yamddwar, visit Yama Dwar.This is starting point of Kora.We will trek to Diraphuk which is 12 km trek (7/8 Hrs) crossing west face of Mt.Kailash,You will visit North face of Mt.Kailash. Arrive at Diraphuk transfer to hotel for check in. Overnight at Diraphuk. Overnight at a Hotel in Diraphuk.
+
+##### Day 10: Diraphuk - Trek to Zutalphuk (4600M,22 Km - 2nd day of Kora)
+* Accommodation: Basic Hotel(Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast trek to Dolma - La Pass and proceed to Zutalphuk(22 Km,12 hrs Trek). This is the most difficult journey throughout the the Yatra since you have to trek up to (5630m) height. From decent to Gaurikund and trek to Zutulphuk following river. Arrive at Zutalphuk transfer, check in to hotel. overnight at Zutalphuk at Huest house.
+
+##### Day 11: Zutalphuk - Trek to Darchen(08 Km, 03 Hrs) - Drive to Saga (4500M - 3rd day of Kora)
+* Accommodation: Deluxe Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast short trek( 8 Km,2 Hrs) and reach to the point where our coach will be waiting and we will drive to Darchen and merge with other member who were waiting and drive to Saga. Arrive at saga transfer to hotel for check in.overnight at saga.
+
+##### Day 12: Saga - Drive to Gyirung County(2800M ,270 Km,07 Hrs)
+* Accommodation: Deluxe Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+After breakfast drive to Gyirung(270 km, 7 hrs). Arrive at Gyirung transfer to hotel for check in. Overnight at Gyirung
+
+##### Day 13: Gyirung County  - Drive to Kathmandu  (1300 M, 200 Km 08 Hrs))
+* Accommodation: Best Western Plus - 4 Star Hotel
+* Meals: Breakfast, Lunch, Dinner
+After breakfast drive to Kathmandu crossing Nepal - China both side Border formalities continue drive to Kathmandu arrive at Kathmandu  transfer to hotel for check in.Overnight at Kathmandu.
+
+##### Day 14: Kathmandu departure transfer 
+* Accommodation: N/A
+* Meals: Breakfast, Lunch, Dinner
+After breakfast we will be provide appreciation certificate of Kailash Mansarovar Yatra later drop to airport for final departure
+
+
+---
+### Kailash Yatra with Inner Kora 17 Nights 18 Days
+* **Slug**: kailash-yatra-inner-kora-detailed
+* **Duration**: 18 days
+* **Difficulty**: N/A
+* **Price**: $N/A
+* **Group Size**: 25+ People
+* **Best Time to Visit**: May to mid-October
+* **URL**: https://zeotourism.com/tours/kailash-yatra-inner-kora-detailed
+
+#### Description
+A high-intensity spiritual pilgrimage focusing on the 'City of the Gods.' Beyond the standard outer circuit, this yatra leads devotees closer to the south face of Mt. Kailash to perform the Inner Kora. The journey traverses high-altitude terrain (up to 5,860m) to reach ancient meditation caves and sacred rock formations believed to be the home of Lord Shiva. This exclusive experience is designed for seasoned pilgrims seeking profound spiritual immersion through demanding high-altitude trekking and proximity to the divine summit.
+
+#### Highlights
+- Charan Sparsh: Trekking to the very base of the North Face to physically touch the mountain.
+- Nandi Kora: A strenuous 34km circuit around Nandi Parvat, including the high Nandi Pass (5,805m).
+- Saptarishi Caves: Visiting the cliffside caves where the seven legendary sages meditated.
+- 13 Golden Chortens: Reaching the spiritual high point at 5,860m to witness the stupas of eminent monks.
+- Atmalingam: Darshan of the sacred natural rock formation representing the 'soul lingam'.
+- Gauri Kund: Rituals at the 'Lake of Compassion' associated with Goddess Parvati.
+
+#### Inclusions
+- Traditional welcome on arrival
+- 03 Night accommodation at Kathmandu on sharing Twin/Double basis (03 Star Premium)
+- 01 Night accommodation at Kyirung on sharing basis (Guest House)
+- 13 Night accommodation in Tibet on sharing basis (Hotels and Guest houses)
+- Tibet travel Permit and Visa fees
+- English speaking Tibetan guide for customers formalities
+- Nepali Supporting Staff (cook, Sherpa, and helper) on a 5:1 basis
+- Buffet vegetarian meals during Yatra on AP basis (Breakfast, Lunch, and Dinner)
+- Nepali experienced Team Leader/Guide during Yatra
+- Supporting truck to carry equipment
+- Mansarovar and Kailash Yatra Permit fees
+- Duffel bag for carrying goods during Yatra
+- Back pack bag for personal items to carry and Cap
+- Warm down Jacket (refundable)
+- First aid medical kit bag and Oxygen cylinder
+- Emergency evacuation management during Yatra
+- Round trip transportation in Tibet by AC Luxury coach
+- Kathmandu - Rasuwagadi - Kathmandu Non-AC Vehicle
+- Arrival and departure transfer with assistance by A/C Vehicle
+- All sightseeing and excursions as mentioned in the itinerary
+- Vehicles provided on a point-to-point basis according to the itinerary
+- Kailash Yatra appreciation certificate
+
+#### Exclusions
+- International Airfare – Flights to/from Kathmandu.
+- Travel Insurance – High-altitude and medical evacuation coverage.
+- Nepal Visa – Fees for entering Nepal (if applicable).
+- Personal Expenses – Laundry, drinks, Wi-Fi, and phone calls.
+- Pony/Porter – Rental of horses or personal porters for the trek.
+- Staff Tips – Gratuities for guides, drivers, and helpers.
+- Kathmandu Meals – Lunch and dinner during the Kathmandu stay.
+- Emergency Costs – Extra expenses due to delays, landslides, or weather.
+- Medical Bills – Hospitalization or advanced medical treatment.
+- Single Supplement – Extra cost for private room requests.
+
+#### Itinerary
+##### Day 1: Arrival in Kathmandu (1,300m)
+* Accommodation: Hotel Mandala Norling Lord Prime (Twin Sharing)
+* Meals: Breakfast, Lunch, Dinner
+Arrival & Meet: Your spiritual journey begins at Tribhuvan International Airport. Our representative will meet you outside the arrival terminal and transfer you to your hotel. Kathmandu, the capital of Nepal, is a vibrant hub of ancient culture and spirituality.
+
+The Evening Ritual: After settling in, you will attend a comprehensive Yatra Briefing. This session covers vital information on high-altitude health, trekking safety, and the religious protocols of the Kailash circuit. This is also the time to meet your fellow pilgrims and guides.
+
+##### Day 2: Kathmandu Temple Visit & Preparation
+* Accommodation: Hotel Mandala Norling Lord Prime (Twin Sharing)
+* Meals: Breakfast, Lunch, Dinner
+The Pilgrimage Begins: Spend the day visiting the most sacred sites in the Kathmandu Valley.
+
+Pashupatinath Temple: Witness the sacred rituals along the Bagmati River at this legendary Shiva temple.
+
+Boudhanath Stupa: Walk the kora around one of the world’s largest Buddhist stupas, surrounded by the sound of prayer wheels.
+
+Jala Narayan: Visit the reclining "Sleeping Vishnu," a 5th-century masterpiece carved from a single stone.
+
+Kathmandu Durbar Square: Explore the medieval palace complex and the home of the Living Goddess, Kumari.
+
+Final Preparation: Use the afternoon to double-check your gear. Ensure you have your thermal layers, broken-in trekking boots, and a sturdy daypack.
+
+##### Day 3: Kathmandu to Kyirung (1,600m)
+* Accommodation: Basic Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Himalayan Drive: Leave the city early for a 145 km drive toward the border. The route follows winding mountain roads, passing through terraced fields, deep river gorges, and small Nepali villages.
+
+Entry to the Mountains: As you reach Kyirung, you'll feel the air cooling and the landscape becoming more rugged. This lower altitude is the perfect first step for your body to begin its long acclimatization process.
+
+##### Day 4: Kyirung to Gyirung County (2,800m)
+* Accommodation: Basic Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Frontier: Today marks your official entry into Tibet (China). You will spend time completing immigration and custom formalities on both the Nepal and China sides of the border.
+
+Deep Tibet: After crossing, a short 35 km drive brings you to Gyirung County. You will notice a dramatic shift in architecture and culture. Stay hydrated and rest well this evening to help your body adjust to the 2,800m elevation.
+
+##### Day 5: Gyirung to Saga (4,400m)
+* Accommodation: Hotel Basis (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Plateau Crossing: A scenic 270 km drive that showcases the vastness of the Tibetan Plateau. You will cross high mountain passes and catch glimpses of the snow-capped Himalayan range to the south.
+
+The Brahmaputra: One of the highlights is crossing the legendary Brahmaputra River (Yarlung Tsangpo). By the time you reach Saga, you are in high-altitude territory. Walk slowly and avoid overexertion.
+
+##### Day 6: Saga Acclimatization Day (4,400m)
+* Accommodation: Hotel Basis (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Rest Strategy: This day is non-negotiable for safety. At 4,400m, your body needs time to produce more red blood cells.
+
+Explore: Take a gentle walk through the Saga market. It is a great place to observe the local Tibetan lifestyle or buy any last-minute snacks, dried fruits, or oxygen canisters for the trek ahead.
+
+##### Day 7: Saga to Lake Mansarovar (4,550m)
+* Accommodation: Pramath Asram (Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Holy Sight: A long 470 km drive through the high-altitude desert landscape. As you approach the holy land, you will see the peak of Mt. Kailash in the distance.
+
+The Mind Lake: Reach Lake Mansarovar, the world’s highest body of freshwater. Its turquoise waters are believed to wash away the sins of a lifetime. The serenity of this place, with the Himalayas reflecting in the water, is an unforgettable spiritual experience.
+
+##### Day 8: Mansarovar Parikrama & Drive to Darchen (4,600m)
+* Accommodation: Basic hotel (Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Sacred Circle: Complete the 102 km circuit (Parikrama) of Lake Mansarovar by vehicle. Many pilgrims choose a spot to perform a holy dip and conduct a Puja or Homa (fire ritual) by the lakeshore.
+
+Base Camp: Drive 58 km to Darchen, a small settlement located directly at the foot of Mt. Kailash. This is the staging point for the trek. Finalize your daypack for the kora today.
+
+##### Day 9: Darchen to Diraphuk (4,860m) - Kora Day 1
+* Accommodation: Basic Hotel (Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+Yamdwar: Start with a short drive to Yamdwar, the "Gate of Salvation." This is the official starting point of the 52km kora.
+
+The West Face: Begin a 12 km trek through the valley. The trail is relatively gradual and follows the Lha Chu river. You will witness the massive West Face of Mt. Kailash before arriving at Diraphuk, which offers a stunning, unobstructed view of the North Face.
+
+##### Day 10: Trek to Charansparsh (5,332m) & Back
+* Accommodation: Basic Hotel (Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+Touching the Divine: This is an extra-special day for devout pilgrims. You will trek upward toward the very base of the North Face.
+
+The Source: Charansparsh literally means "touching the feet." According to the Bhagawat Purana, the nearby river is the first source of water on Earth. Here, you can meditate in the literal shadow of the mountain and touch the holy rock of Kailash before returning to Diraphuk.
+
+##### Day 11: Diraphuk to Zuthulpuk (4,760m) via Khandesanglam
+* Accommodation: Basic Hotel (Dormitory room, Common Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Inner Path: Today’s trek takes you through Khande Sanglam, a route believed to be where Lord Shiva himself meditates.
+
+Sacred Landmarks: The trail offers views of Shivasthali (a symbolic site of death and rebirth), Kuber Kund, and Kuber Parbat. If taking the standard Outer Kora, you would cross the Dolma-La Pass (5,630m). Both paths converge at Zuthulpuk, the site of Milarepa’s "Cave of Miracles."
+
+##### Day 12: Zuthulpuk to Darchen & Drive to Saga
+* Accommodation: Hotel Basis (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Final Miles: A gentle 8 km morning trek marks the final stretch of the kora. The trail levels out as you reach the pickup point.
+
+Transition: Rejoin your coach for the drive back to Darchen. After a brief rest and celebration of your trek completion, begin the drive back toward Saga.
+
+##### Day 13: Darchen Acclimatization (Rest Day)
+* Accommodation: Hotel Basis (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+Recovery: After the physical exertion of the first kora, this day is for rest.
+
+Mental Prep: The Inner Kora (Nandi Kora) scheduled for tomorrow is significantly more difficult and requires maximum energy. Use this day for quiet reflection, hydration, and light stretching.
+
+##### Day 14: The Nandi Kora (Inner Circuit) (Max 5,800m)
+* Accommodation: Hotel Basis (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Ultimate Test: This is the most challenging day of the journey. A 22 km trek (up to 12 hours) leads you into the Inner Circle of Mt. Kailash.
+
+The Inner Sanctum: Visit Sherlung Gompa, Rishi Cave, and Nandi Parvat. You will trek toward Astapad and the Atmalingam, where you find the sacred Red and White lakes. The high pass between Mt. Kailash and Nandi Parvat is extremely steep and requires determination and physical stamina. Descend following the Kailashi Gange river back to Darchen.
+
+##### Day 15: Darchen to Saga (4,400m)
+* Accommodation: Hotel Basis (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+The Homeward Journey: A long 450 km drive back across the plateau. With the spiritual weight of two koras behind you, enjoy the vast, open views of the Tibetan landscape one last time.
+
+##### Day 16: Saga to Gyirung (2,800m)
+* Accommodation: Basic Hotel (Shared room, Attached Bathroom)
+* Meals: Breakfast, Lunch, Dinner
+Descent: Drive 270 km back toward the border. As the altitude drops from 4,400m to 2,800m, you will notice an immediate improvement in your breathing and energy levels. Arrive in Gyirung for your final night in Tibet.
+
+##### Day 17: Gyirung to Kathmandu (1,300m)
+* Accommodation: Hotel Mandala Norling Lord Prime (Twin Sharing)
+* Meals: Breakfast, Lunch, Dinner
+Back to Nepal: Complete your final border formalities and cross back into Nepal.
+
+The Final Drive: A 200 km drive brings you back through the lush greenery and bustling villages of Nepal, arriving in Kathmandu by late evening. Enjoy a long-awaited hot shower and the comforts of the city.
+
+##### Day 18: Kathmandu Departure
+* Accommodation: N/A
+* Meals: Breakfast
+Final Blessing: After breakfast, you will be honored with an Appreciation Certificate to commemorate your successful completion of the Kailash Mansarovar and Inner Kora Yatra.
+
+Farewell: Transfer to the international airport for your departure flight, carrying home memories of the world's most sacred mountain.
+
+
+---
+### Kathmandu, Pokhara & Muktinath-7N/8D
+* **Slug**: kathmandu-pokhara-muktinath-7n-8d
+* **Duration**: 10 days
+* **Difficulty**: Easy
+* **Price**: $N/A
+* **Group Size**: 2-12 people
+* **Best Time to Visit**: March-May, September-November
+* **URL**: https://zeotourism.com/tours/kathmandu-pokhara-muktinath-7n-8d
+
+#### Description
+Outline Itinerary Day 1: Arrival at Kathmandu Day 2: Kathmandu sightseeing Day 3: Drive to Pokhara and sightseeing Day 4: Drive to Muktinath Day 5: Mu...
+
+#### Highlights
+No highlights listed.
+
+#### Inclusions
+- Airport transfers
+- Accommodation
+- Experienced guide
+- All meals during tour
+- Permits and fees
+- Transportation
+
+#### Exclusions
+- International flights
+- Nepal visa fees
+- Personal expenses
+- Travel insurance
+- Tips for guide
+
+#### Itinerary
+##### Day 1: Day 1
+* Accommodation: N/A
+* Meals: N/A
+: Arrival at Kathmandu
+                                                        
+                                                    
+                                                    
+                                                        
+                                                            Meet up at the arrival and heading towards
+Hotel Our office representative will brief you
+about the tour activities and transfer to
+hotel. Overnight at Hotel.
+
+##### Day 2: Day 2
+* Accommodation: N/A
+* Meals: N/A
+: Kathmandu sightseeing
+                                                        
+                                                    
+                                                    
+                                                        
+                                                            After Breakfast proceed for the sightseeing
+tour of Pasuptinath Temple, Bouddhanath
+Stupa After that we will be going to Patan
+durbar Square which are the three-world
+heritage site of Kathmandu. Overnight at
+Kathmandu.
+
+##### Day 3: Day 3
+* Accommodation: N/A
+* Meals: N/A
+: Drive to Pokhara and sightseeing
+                                                        
+                                                    
+                                                    
+                                                        
+                                                            After Breakfast, Head towards Kathmandu
+Which will take around 7 to 8 hours.
+(Enroute Manakamana Temple which you
+can visit) Overnight at Pokhara.
+
+##### Day 4: Day 4
+* Accommodation: N/A
+* Meals: N/A
+: Drive to Muktinath
+                                                        
+                                                    
+                                                    
+                                                        
+                                                            After breakfast we will be heading towards
+Mustang which will take around 7 to 8
+hours experiencing the breathtaking
+landscape and enroute Rupse fall visit and
+Marpha and at the evening time you can go
+for the Muktinath temple aarti.
+Overnight at Muktinath.
+
+##### Day 5: Day 5
+* Accommodation: N/A
+* Meals: N/A
+: Muktinath Visit & Drive back to Kathmandu
+                                                        
+                                                    
+                                                    
+                                                        
+                                                            Early morning visit to Muktinath Temple
+and Breakfast at hotel and we will be driving
+towards pokhara which will take around 7 to
+8 hours.
+
+##### Day 6: Day 6
+* Accommodation: N/A
+* Meals: N/A
+: Pokhara Sightseeing
+                                                        
+                                                    
+                                                    
+                                                        
+                                                            Breakfast at hotel and we will have full day
+sightseeing of Pumdikot, Bindabasini
+Temple, Gupteshwor Cave, Davis fall &
+International Mountain Musume.
+Overnight at Pokhara
+
+##### Day 7: Day 7
+* Accommodation: N/A
+* Meals: N/A
+: Drive back to Kathmandu
+                                                        
+                                                    
+                                                    
+                                                        
+                                                            Breakfast at hotel and we will be driving
+towards kathmandu which will take around 7
+to 8 hours and rest free hours for your
+shopping at vibrant market of kathmandu.
+
+##### Day 8: Day 8
+* Accommodation: N/A
+* Meals: N/A
+: Departure
+                                                        
+                                                    
+                                                    
+                                                        
+                                                            After Breakfast, as per you flight time 3
+hours prior Proceed to Kathmandu
+International Airport for flight back to home
+with the memories of Nepal.
+
+
+---
+### Muktinath Yatra - 6 Nights 7 Days by Flight
+* **Slug**: muktinath-yatra-6n-7d
+* **Duration**: 7 days
+* **Difficulty**: Moderate
+* **Price**: $N/A
+* **Group Size**: 2-15 people
+* **Best Time to Visit**: March-November
+* **URL**: https://zeotourism.com/tours/muktinath-yatra-6n-7d
+
+#### Description
+Embark on a sacred pilgrimage to Muktinath Temple, one of the most revered Hindu and Buddhist temples in the Himalayas. Located at 3,710 meters in the Mustang district, this holy shrine is believed to grant salvation (moksha) to devotees. The temple houses 108 water spouts and an eternal flame, making it a unique spiritual destination. This comfortable journey by flight eliminates the need for long drives, allowing more time for spiritual contemplation and exploration of the mystical Mustang region.
+
+#### Highlights
+- Sacred Muktinath Temple darshan
+- 108 holy water spouts
+- Eternal flame (Jwala Mai)
+- Spectacular Himalayan views
+- Jomsom and Kagbeni exploration
+- Tibetan Buddhist culture
+- Scenic mountain flights
+
+#### Inclusions
+- Domestic flights (Kathmandu-Jomsom-Kathmandu)
+- Hotel accommodation
+- Daily breakfast
+- All transfers and transportation
+- Professional guide
+- Temple entrance fees
+- Muktinath darshan arrangements
+
+#### Exclusions
+- International flights
+- Lunch and dinner
+- Personal expenses
+- Travel insurance
+- Tips for guide and staff
+- Pony/horse rides (optional)
+- Additional temple donations
+
+#### Itinerary
+##### Day 1: Arrival in Kathmandu
+* Accommodation: N/A
+* Meals: N/A
+Welcome to Nepal! Upon arrival at Tribhuvan International Airport, our representative will receive you with traditional Khada and transfer you to your hotel in Kathmandu. After check-in and refreshment, attend a briefing about your sacred Muktinath Yatra. Visit Pashupatinath Temple in the evening for darshan and to witness the mesmerizing Ganga Aarti ceremony on the banks of the holy Bagmati River. This spiritual preparation sets the tone for your pilgrimage journey. Return to hotel for overnight stay.
+
+##### Day 2: Fly to Jomsom & Drive to Muktinath
+* Accommodation: N/A
+* Meals: N/A
+Early morning flight to Jomsom (2,720m), offering spectacular aerial views of the Annapurna and Dhaulagiri mountain ranges. The 20-minute scenic flight is an experience in itself, flying between towering peaks. Upon landing at Jomsom airport, drive to Muktinath Temple (3,710m) via the ancient trade route. The journey takes you through the mystical landscape of Mustang with its unique desert-like terrain. Check into hotel near Muktinath Temple and acclimatize to the altitude. Evening visit to Muktinath Temple for initial darshan and prayers.
+
+##### Day 3: Muktinath Temple Darshan & Exploration
+* Accommodation: N/A
+* Meals: N/A
+Early morning visit to the sacred Muktinath Temple for the main darshan ceremony. This revered temple is significant for both Hindus and Buddhists, housing the eternal flame (Jwala Mai) that burns continuously from natural gas. Take a purifying bath under the 108 water spouts, each representing a sacred stream. The temple complex includes the main Vishnu temple, Buddhist gompa, and various shrines. Spend time in meditation and prayer. Afternoon exploration of the surrounding area including Jwala Mai Temple where natural gas creates an eternal flame. Experience the spiritual energy of this high-altitude sacred site.
+
+##### Day 4: Muktinath to Jomsom via Kagbeni
+* Accommodation: N/A
+* Meals: N/A
+After morning prayers at Muktinath Temple, drive to the ancient village of Kagbeni, known as the 'Gateway to Upper Mustang.' This medieval village with its narrow alleys, ancient monastery, and traditional Tibetan architecture offers a glimpse into the region's rich cultural heritage. Explore the Red Gompa (monastery) and interact with local Tibetan Buddhist communities. Continue to Jomsom, the administrative center of Mustang district. Visit the local market and experience the unique Thakali culture. Jomsom is famous for its apple orchards and strong afternoon winds. Overnight in Jomsom.
+
+##### Day 5: Jomsom Exploration & Marpha Village
+* Accommodation: N/A
+* Meals: N/A
+Full day exploration of the Jomsom area. Visit Marpha village, famous for its apple brandy, dried fruits, and traditional white-washed houses. This picturesque village is known for its cleanliness and well-preserved Thakali culture. Tour local distilleries and taste the famous apple brandy. Visit the ancient Marpha Gompa and learn about Tibetan Buddhism. Return to Jomsom and explore the local bazaar. Visit Jomsom Gompa and interact with monks. The afternoon brings strong winds characteristic of this region, creating a unique natural phenomenon. Enjoy spectacular sunset views over the Himalayas.
+
+##### Day 6: Fly to Kathmandu
+* Accommodation: N/A
+* Meals: N/A
+Morning flight from Jomsom to Kathmandu, weather permitting. The return flight offers another opportunity to witness the magnificent Himalayan panorama from a different perspective. Upon arrival in Kathmandu, transfer to your hotel and freshen up. Afternoon visit to Swayambhunath Stupa (Monkey Temple) for thanksgiving prayers and to complete your spiritual journey. This ancient Buddhist stupa offers panoramic views of Kathmandu Valley. Evening free for shopping in Thamel or relaxation. Farewell dinner featuring traditional Nepali cuisine with cultural performances.
+
+##### Day 7: Departure
+* Accommodation: N/A
+* Meals: N/A
+After breakfast, enjoy some free time for final prayers, shopping, or relaxation. Visit local temples if time permits for final blessings. Our representative will assist with airport transfer according to your flight schedule. Depart with the sacred blessings of Muktinath and unforgettable memories of this spiritual journey. The pilgrimage to Muktinath is believed to cleanse sins and grant moksha (salvation), making this a truly transformative experience.
+
+
+---
+### Nepal Heritage Tour - 5 Nights 6 Days
+* **Slug**: nepal-heritage-tour-5n-6d
+* **Duration**: 6 days
+* **Difficulty**: Easy
+* **Price**: $N/A
+* **Group Size**: 2-20 people
+* **Best Time to Visit**: September-May
+* **URL**: https://zeotourism.com/tours/nepal-heritage-tour-5n-6d
+
+#### Description
+Immerse yourself in Nepal's rich cultural heritage with this comprehensive tour covering UNESCO World Heritage sites in Kathmandu Valley. Explore ancient temples, medieval palaces, and traditional architecture that showcase Nepal's glorious past. This cultural journey takes you through the living museums of Kathmandu, Patan, and Bhaktapur, where centuries-old traditions continue to thrive. Experience the spiritual essence of Nepal through its sacred sites, vibrant festivals, and warm hospitality of the Newar people.
+
+#### Highlights
+- Seven UNESCO World Heritage sites
+- Kathmandu Durbar Square exploration
+- Patan's ancient art and architecture
+- Bhaktapur medieval city tour
+- Swayambhunath and Boudhanath stupas
+- Pashupatinath Temple ceremonies
+- Traditional Newari culture experience
+
+#### Inclusions
+- Hotel accommodation (3-4 star)
+- Daily breakfast
+- All transfers and transportation
+- Professional cultural guide
+- All entrance fees to heritage sites
+- Cultural performances
+- Airport transfers
+
+#### Exclusions
+- International flights
+- Lunch and dinner
+- Personal expenses
+- Travel insurance
+- Tips for guide and staff
+- Shopping expenses
+- Additional activities
+
+#### Itinerary
+##### Day 1: Arrival in Kathmandu
+* Accommodation: N/A
+* Meals: N/A
+Welcome to the cultural heart of Nepal! Upon arrival at Tribhuvan International Airport, our representative will greet you with traditional Khada and transfer you to your heritage hotel in Kathmandu. After check-in and refreshment, begin your cultural journey with a visit to Kathmandu Durbar Square, the former royal palace complex. Explore the ancient courtyards, intricate wood carvings, and meet the Living Goddess Kumari if she appears at her window. Visit the Hanuman Dhoka Palace and learn about Nepal's royal history. Evening welcome dinner with traditional Newari cuisine and cultural performances.
+
+##### Day 2: Swayambhunath & Patan Heritage Tour
+* Accommodation: N/A
+* Meals: N/A
+After breakfast, visit Swayambhunath Stupa (Monkey Temple), perched atop a hill overlooking Kathmandu Valley. This ancient Buddhist stupa is over 2,000 years old and offers panoramic views of the valley. Observe the harmonious coexistence of Hindu and Buddhist traditions. Drive to Patan, also known as Lalitpur (City of Beauty), famous for its exquisite Newari architecture and metalwork. Explore Patan Durbar Square with its stunning temples, courtyards, and the former royal palace. Visit the Golden Temple (Hiranya Varna Mahavihar) and observe traditional Buddhist rituals. Tour local workshops to see master craftsmen creating traditional metalwork and wood carvings.
+
+##### Day 3: Bhaktapur Medieval City Tour
+* Accommodation: N/A
+* Meals: N/A
+Full day exploration of Bhaktapur, the best-preserved medieval city in Nepal. This living museum showcases authentic Newari culture and architecture. Begin at Bhaktapur Durbar Square with its 55-window palace, Vatsala Temple, and the famous Nyatapola Temple, a five-story pagoda representing the five elements. Visit Pottery Square to watch traditional pottery making using ancient techniques. Explore Dattatreya Square with its medieval temples and traditional houses. Experience local life by walking through narrow alleys, observing daily rituals, and tasting traditional Newari snacks like 'juju dhau' (king curd) and 'bara' (lentil pancakes). Return to Kathmandu in the evening.
+
+##### Day 4: Pashupatinath & Boudhanath Exploration
+* Accommodation: N/A
+* Meals: N/A
+Begin with an early morning visit to Pashupatinath Temple, the most sacred Hindu temple in Nepal dedicated to Lord Shiva. Observe morning rituals, cremation ceremonies on the ghats, and interact with colorful sadhus (holy men). This UNESCO World Heritage site provides deep insights into Hindu traditions and the cycle of life and death. Continue to Boudhanath Stupa, one of the largest Buddhist stupas in the world and a major pilgrimage site for Tibetan Buddhists. Walk around the stupa with pilgrims, spin prayer wheels, and visit surrounding monasteries. Experience the peaceful atmosphere and observe monks in prayer. Evening visit to a traditional Tibetan monastery for meditation session.
+
+##### Day 5: Changu Narayan & Cultural Workshops
+* Accommodation: N/A
+* Meals: N/A
+Visit Changu Narayan Temple, the oldest Hindu temple in Nepal dating back to the 4th century. This UNESCO World Heritage site is dedicated to Lord Vishnu and features the finest examples of stone, wood, and metal craft. The temple offers spectacular views of the Himalayas and surrounding countryside. Afternoon visit to traditional craft workshops in Thimi, famous for pottery and paper-making. Participate in hands-on activities like pottery making, traditional paper production from lokta bark, and observe mask-making techniques. Visit a traditional Newari house to experience authentic local hospitality and learn about traditional architecture and lifestyle.
+
+##### Day 6: Final Heritage Sites & Departure
+* Accommodation: N/A
+* Meals: N/A
+Final morning exploration of any missed heritage sites or revisit your favorite locations for photography and deeper appreciation. Visit the Garden of Dreams, a neo-classical garden that provides a peaceful retreat in the heart of Kathmandu. Last-minute shopping in Thamel for traditional handicrafts, thangka paintings, singing bowls, and souvenirs. Our representative will assist with airport transfer according to your flight schedule. Depart with a deep appreciation of Nepal's rich cultural heritage and unforgettable memories of ancient traditions that continue to thrive in modern times.
+
+
+---
+## 🗺️ Destinations Detailed Database
+### Everest (Nepal)
+Discover the beauty and culture of Everest in Nepal.
+Link: https://zeotourism.com/destinations/everest
+
+### Pokhara (Nepal)
+Discover the beauty and culture of Pokhara in Nepal.
+Link: https://zeotourism.com/destinations/pokhara
+
+### Kathmandu (Nepal)
+Discover the beauty and culture of Kathmandu in Nepal.
+Link: https://zeotourism.com/destinations/kathmandu
+
+### Chitwan (Nepal)
+Discover the beauty and culture of Chitwan in Nepal.
+Link: https://zeotourism.com/destinations/chitwan
+
+### Tibet (China)
+Discover the beauty and culture of Tibet in China.
+Link: https://zeotourism.com/destinations/tibet
+
+### Lumbini (Nepal)
+Discover the beauty and culture of Lumbini in Nepal.
+Link: https://zeotourism.com/destinations/lumbini
+
+### Vietnam (Viet Nam)
+Discover the beauty and culture of Vietnam in Viet Nam.
+Link: https://zeotourism.com/destinations/vietnam
+
+### Muktinath (Nepal)
+Discover the beauty and culture of Muktinath in Nepal.
+Link: https://zeotourism.com/destinations/mustang-region
+
+### Dubai (UAE)
+Discover the beauty and culture of Dubai in UAE.
+Link: https://zeotourism.com/destinations/dubai
+
+### Annapurna  (Nepal)
+Annapurna Region
+Link: https://zeotourism.com/destinations/annapurna-
+
+### Thailand (Thailand)
+Discover the beauty and culture of Thailand in Thailand.
+Link: https://zeotourism.com/destinations/thailand
+
+### Bali (Indonesia)
+Discover the beauty and culture of Bali in Indonesia.
+Link: https://zeotourism.com/destinations/bali
+
+### China (China)
+Discover the beauty and culture of China in China.
+Link: https://zeotourism.com/destinations/china
+
+### Gandruk (Nepal)
+Discover the beauty and culture of Gandruk in Nepal.
+Link: https://zeotourism.com/destinations/gandruk
+
+### Nagarkot (Nepal)
+Discover the beauty and culture of Nagarkot in Nepal.
+Link: https://zeotourism.com/destinations/nagarkot
+
+### Gorakhpur (Nepal)
+Discover the beauty and culture of Gorakhpur in Nepal.
+Link: https://zeotourism.com/destinations/gorakhpur
+
+### Poon Hill (Nepal)
+Discover the beauty and culture of Poon Hill in Nepal.
+Link: https://zeotourism.com/destinations/9-day-ultimate-annapurna-sunrise-trek-ghorepani-poon-hill-beyond
+
+### Gosaikunda Trek (Nepal)
+Discover the beauty and culture of Gosaikunda Trek in Nepal.
+Link: https://zeotourism.com/destinations/gosaikunda-trek
+
+
+---
+## 🏃 Activities Detailed Database
+### Mountaineering
+Challenge yourself with technical climbing on some of the world's highest peaks, requiring advanced skills and mountaineering experience.
+Link: https://zeotourism.com/activities/mountaineering
+
+### Adventure Sports
+Get your adrenaline pumping with exciting activities like paragliding, bungee jumping, white water rafting, and zip-lining.
+Link: https://zeotourism.com/activities/adventure-sports
+
+### Jungle Safari
+Explore Nepal's rich wildlife in national parks and conservation areas, spotting rhinos, tigers, elephants, and exotic birds.
+Link: https://zeotourism.com/activities/jungle-safari
+
+### Cultural Tours
+Immerse yourself in Nepal's rich cultural heritage, visiting ancient temples, traditional villages, and UNESCO World Heritage sites.
+Link: https://zeotourism.com/activities/cultural-tours
+
+### Pilgrimage
+Embark on spiritual journeys to sacred sites, including the holy Mount Kailash and Lake Mansarovar, and Buddhist monasteries.
+Link: https://zeotourism.com/activities/pilgrimage
+
+### Meditation & Healing
+Find inner peace and rejuvenation through meditation retreats, yoga sessions, and traditional healing practices in serene environments.
+Link: https://zeotourism.com/activities/meditation-and-healing
+
+### Volunteering
+Make a meaningful impact while traveling by participating in community development projects, teaching, and conservation efforts.
+Link: https://zeotourism.com/activities/volunteering
+
+### City Tours
+Explore modern cities and urban attractions, from iconic skyscrapers to luxury shopping districts and cultural landmarks.
+Link: https://zeotourism.com/activities/city-tours
+
+### Desert Safari
+Experience the thrill of desert adventures with dune bashing, camel riding, sandboarding, and traditional Bedouin camp experiences.
+Link: https://zeotourism.com/activities/desert-safari
+
+### Luxury Experiences
+Indulge in premium experiences including private tours, fine dining, luxury accommodations, and exclusive access to high-end attractions.
+Link: https://zeotourism.com/activities/luxury-experiences
+
+### Water Activities
+No description available.
+Link: https://zeotourism.com/activities/water-activities
+
+
+---
+## 📰 Blog Posts Database
+### Essential Guide to Everest Base Camp Trek
+* Published: 2024-03-15T10:00:00Z
+* Category: Trekking Tips
+* Summary: Everything you need to know before embarking on the journey of a lifetime to the base of the world's highest mountain.
+Link: https://zeotourism.com/blog/essential-guide-everest-base-camp-trek
+
+### Sacred Journey: Understanding Kailash Mansarovar
+* Published: 2024-03-10T10:00:00Z
+* Category: Spiritual Journeys
+* Summary: Discover the spiritual significance and practical aspects of this holy pilgrimage that attracts thousands each year.
+Link: https://zeotourism.com/blog/sacred-journey-kailash-mansarovar
+
+### Best Time to Visit Nepal: A Seasonal Guide
+* Published: 2024-03-05T10:00:00Z
+* Category: Travel Planning
+* Summary: From clear mountain views to vibrant festivals, learn when to plan your Nepal adventure for the best experience.
+Link: https://zeotourism.com/blog/best-time-visit-nepal-seasonal-guide
+
+### Altitude Sickness: Prevention and Management
+* Published: 2024-02-28T10:00:00Z
+* Category: Health & Safety
+* Summary: Expert advice on recognizing, preventing, and dealing with altitude sickness during high-altitude treks.
+Link: https://zeotourism.com/blog/altitude-sickness-prevention-management
+

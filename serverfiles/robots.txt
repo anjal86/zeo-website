@@ -1,0 +1,24 @@
+# Zeo Tourism - robots.txt
+# https://zeotourism.com
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /api/
+Disallow: /api/*
+Disallow: /uploads/temp
+
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://zeotourism.com/sitemap.xml
+# LLMs Roadmap: https://zeotourism.com/llms.txt
+# LLMs Full Context: https://zeotourism.com/llms-full.txt

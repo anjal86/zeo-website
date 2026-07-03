@@ -1,0 +1,145 @@
+{
+  "id": 203,
+  "slug": "dubai-luxury-experience-5-days",
+  "title": "Dubai Luxury Experience - 5 Days",
+  "category": "Luxury",
+  "description": "Indulge in the ultimate Dubai luxury experience with 5-star accommodations, private tours, fine dining, and exclusive access to premium attractions. Perfect for those seeking the finest Dubai has to offer.",
+  "location": "Dubai, UAE",
+  "price": 0,
+  "duration": "5 days",
+  "group_size": "2-8 people",
+  "difficulty": "Easy",
+  "rating": 4.9,
+  "reviews": 87,
+  "best_time": "November-March",
+  "featured": true,
+  "image": "https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "gallery": [
+    "https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ],
+  "highlights": [
+    "5-star luxury hotel accommodation",
+    "Private helicopter tour over Dubai",
+    "Atlantis Resort VIP day pass",
+    "Private yacht charter experience",
+    "Fine dining at Michelin-starred restaurants",
+    "VIP shopping assistance",
+    "Luxury spa treatments included",
+    "Private desert safari with exclusive camp"
+  ],
+  "inclusions": [
+    "5-star luxury hotel (4 nights)",
+    "All meals at premium restaurants",
+    "Private luxury transportation",
+    "All premium experiences and activities",
+    "Personal concierge service",
+    "Spa treatments (2 sessions)",
+    "Private helicopter tour",
+    "Private yacht charter (4 hours)",
+    "VIP shopping assistance"
+  ],
+  "exclusions": [
+    "International flights",
+    "Personal shopping purchases",
+    "Additional spa services",
+    "Travel insurance",
+    "Alcoholic beverages (unless specified)",
+    "Tips for staff",
+    "Visa fees"
+  ],
+  "activities": [
+    {
+      "name": "Private Helicopter Tour",
+      "description": "Exclusive aerial tour of Dubai's iconic landmarks and coastline"
+    },
+    {
+      "name": "Luxury Yacht Charter",
+      "description": "Private yacht experience with gourmet dining and water activities"
+    },
+    {
+      "name": "VIP Atlantis Experience",
+      "description": "Exclusive access to Atlantis Resort facilities and attractions"
+    },
+    {
+      "name": "Fine Dining Experience",
+      "description": "Curated dining experiences at Dubai's most prestigious restaurants"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Luxury Arrival & Welcome",
+      "description": "VIP airport pickup in luxury vehicle. Check-in at 5-star hotel with suite upgrade. Welcome spa treatment. Evening welcome dinner at Burj Al Arab's Al Muntaha restaurant with panoramic city views.",
+      "accommodation": "5-star luxury hotel suite",
+      "meals": "Welcome dinner"
+    },
+    {
+      "day": 2,
+      "title": "Sky High Dubai Experience",
+      "description": "Private helicopter tour over Dubai's iconic landmarks. VIP access to Burj Khalifa with private guide. Luxury shopping experience at Dubai Mall with personal shopping assistant. Afternoon at luxury spa. Evening fine dining at Nobu Dubai.",
+      "accommodation": "5-star luxury hotel suite",
+      "meals": "Breakfast, Lunch, Dinner"
+    },
+    {
+      "day": 3,
+      "title": "Atlantis VIP Experience",
+      "description": "Private transfer to Atlantis Resort. VIP day pass including Lost Chambers Aquarium, Aquaventure Waterpark, and Dolphin Bay experience. Luxury spa treatment at ShuiQi Spa. Evening dinner at Ossiano underwater restaurant.",
+      "accommodation": "5-star luxury hotel suite",
+      "meals": "Breakfast, Lunch, Dinner"
+    },
+    {
+      "day": 4,
+      "title": "Private Yacht & Desert Luxury",
+      "description": "Morning private yacht charter (4 hours) with gourmet lunch onboard. Water activities and relaxation. Afternoon return to hotel. Evening luxury desert safari with private camp, gourmet dinner, and exclusive entertainment.",
+      "accommodation": "5-star luxury hotel suite",
+      "meals": "Breakfast, Lunch, Dinner"
+    },
+    {
+      "day": 5,
+      "title": "Final Luxury & Departure",
+      "description": "Final spa treatment and relaxation. Last-minute luxury shopping with VIP assistance. Private farewell lunch at At.mosphere restaurant in Burj Khalifa. VIP airport transfer in luxury vehicle.",
+      "accommodation": "End of tour",
+      "meals": "Breakfast, Lunch"
+    }
+  ],
+  "what_to_bring": [
+    "Elegant evening wear",
+    "Smart casual clothing",
+    "Swimwear",
+    "Comfortable walking shoes",
+    "Sun protection",
+    "Camera",
+    "Valid passport",
+    "Credit cards for personal shopping"
+  ],
+  "fitness_requirements": "No specific fitness requirements. All activities are designed for comfort and luxury. Suitable for all ages.",
+  "altitude_profile": {
+    "max_altitude": "Sea level (Dubai)",
+    "acclimatization_days": 0,
+    "difficulty_level": "Easy luxury experience with minimal physical activity"
+  },
+  "booking_info": {
+    "advance_booking": "21 days recommended for best availability",
+    "group_discounts": "Available for private groups of 6+ people",
+    "cancellation_policy": "Free cancellation up to 14 days before departure"
+  },
+  "created_at": "2025-01-20T15:39:00.000Z",
+  "updated_at": "2025-12-18T04:22:18.859Z",
+  "listed": true,
+  "primary_destination_id": 26,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    9
+  ],
+  "related_destinations": [
+    "Dubai"
+  ],
+  "related_activities": [
+    "Desert Safari"
+  ],
+  "priceAvailable": false,
+  "hasDiscount": true,
+  "discountPercentage": 10
+}

@@ -1,0 +1,191 @@
+{
+  "id": 105,
+  "slug": "pokhara-complete-experience-5-days",
+  "title": "Pokhara Complete Experience – 5 Days",
+  "category": "Cultural",
+  "description": "A 5-day curated journey in and around Pokhara. From sunrise at Sarangkot and lake adventures to caves, cultural gems, and nearby hidden escapes like Begnas and Kusma, this package offers couples and explorers a perfect mix of leisure, thrill, and discovery. Experience the best of Pokhara with scenic flights, spiritual sites, adventure activities, and local cultural immersion.",
+  "location": "Pokhara",
+  "price": 0,
+  "duration": "54 days",
+  "group_size": "2-7 people",
+  "difficulty": "Easy",
+  "rating": 4.7,
+  "reviews": 49,
+  "best_time": "Sep-May",
+  "featured": true,
+  "listed": true,
+  "image": "/uploads/destinations/pokhara/pokhara_1758268514571.jpg",
+  "gallery": [
+    "/uploads/destinations/pokhara/pokhara_1758268514571.jpg",
+    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1571401835393-8c5f35328320?q=80&w=2074&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1600298881974-6be191ceeda1?q=80&w=2070&auto=format&fit=crop"
+  ],
+  "highlights": [
+    "Scenic domestic flights with stunning Himalayan mountain views during takeoff and landing",
+    "Romantic hilltop resort experience in Sarangkot with panoramic Annapurna range vistas",
+    "Guided spiritual tours to World Peace Stupa and impressive Pumdikot Shiva Statue",
+    "Flexible lake activities including Phewa Lake boating and serene Begnas Lake exploration",
+    "Morning ultralight flight or optional paragliding over Pokhara valley",
+    "Adventure day at Kusma with sky bridge walk, bungee, or swing options",
+    "Cultural immersion at Majhikuna village with local fish dishes",
+    "Sunrise experience at Sarangkot viewpoint",
+    "Cave exploration at Davis Falls and Gupteswor Cave"
+  ],
+  "inclusions": [
+    "Private ground transportation (Kathmandu ↔ Pokhara if by road, or airport transfers if by flight)",
+    "4 nights accommodation in Pokhara lakeside hotel",
+    "Daily breakfast (Day 2-5)",
+    "Lunch on Day 1 (if traveling by road)",
+    "Lunch on Days 2, 3, and 4",
+    "Sarangkot sunrise tour with transportation",
+    "Bindabasini Temple visit with guide",
+    "Davis Falls & Gupteswor Cave entrance fees",
+    "World Peace Stupa sunset tour",
+    "Kusma Sky Bridge walk entry fee",
+    "Begnas Lake boating experience",
+    "Majhikuna village cultural experience",
+    "Professional local guide for sightseeing",
+    "All permits and entrance fees mentioned"
+  ],
+  "exclusions": [
+    "Domestic flights Kathmandu-Pokhara-Kathmandu (if chosen)",
+    "Meals not mentioned in itinerary",
+    "Beverages and alcoholic drinks",
+    "Optional activities: bungee jump, swing, paragliding",
+    "Personal expenses (shopping, laundry, phone calls, etc.)",
+    "Tips for driver and guides",
+    "Travel insurance or medical expenses",
+    "International flights",
+    "Nepal visa fees",
+    "Emergency evacuation costs"
+  ],
+  "activities": [
+    {
+      "name": "Sunrise Viewing",
+      "description": "Early morning sunrise experience at Sarangkot with panoramic Annapurna mountain views"
+    },
+    {
+      "name": "Cultural Sightseeing",
+      "description": "Visit to Bindabasini Temple, Davis Falls, Gupteswor Cave, and World Peace Stupa"
+    },
+    {
+      "name": "Lake Activities",
+      "description": "Boating experiences on both Phewa Lake and serene Begnas Lake"
+    },
+    {
+      "name": "Adventure Options",
+      "description": "Optional ultralight flight, paragliding, and Kusma sky bridge adventures"
+    },
+    {
+      "name": "Village Experience",
+      "description": "Cultural immersion at Majhikuna village with local cuisine tasting"
+    },
+    {
+      "name": "Leisure Time",
+      "description": "Free time for lakeside walks, café hopping, and shopping"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Kathmandu → Pokhara",
+      "description": "Arrive in Pokhara by scenic domestic flight (25 minutes) or drive (6-7 hours) with stunning Himalayan views during takeoff and landing. Check into your lakeside hotel and settle in. Evening at leisure with optional lakeside walk along the vibrant Lakeside area, café hopping, or simply relaxing by Phewa Lake. The evening is perfect for acclimatizing to Pokhara's serene atmosphere. Overnight in Pokhara."
+    },
+    {
+      "day": 2,
+      "title": "Pokhara Sightseeing",
+      "description": "Early morning drive to Sarangkot (1,592m) for a breathtaking sunrise over the Annapurna range, Dhaulagiri, and Machhapuchhre (Fishtail) mountain. After sunrise, visit the sacred Bindabasini Temple, one of the oldest temples in Pokhara. Continue to Davis Falls (Patale Chhango) and explore the mysterious Gupteswor Cave with its impressive limestone formations. Evening visit to World Peace Stupa or Pumdikot Shiva Temple for sunset views over Pokhara valley. Return to hotel for overnight stay."
+    },
+    {
+      "day": 3,
+      "title": "Pokhara Adventure Day",
+      "description": "Morning ultralight flight (30 minutes) over Pokhara valley for aerial views of the Himalayas and lakes, or opt for paragliding for a more adventurous experience. After breakfast, drive to Kusma (2 hours) for sky bridge walk experience - one of the world's highest suspension bridges. Optional activities include bungee jumping or swing for thrill-seekers. The sky bridge offers spectacular views of the Kaligandaki River gorge. Return to Pokhara in the evening. Overnight in Pokhara."
+    },
+    {
+      "day": 4,
+      "title": "Begnas & Local Culture",
+      "description": "Morning drive to Begnas Lake (15 km from Pokhara), a pristine and less crowded alternative to Phewa Lake. Enjoy peaceful boating on the crystal-clear waters surrounded by lush hills. Visit Majhikuna village for authentic cultural experience and taste local fish dishes prepared in traditional style. Interact with local communities and learn about their lifestyle. Afternoon return to Pokhara for leisure time in Lakeside cafés, shopping for souvenirs, or simply relaxing by Phewa Lake. Overnight in Pokhara."
+    },
+    {
+      "day": 5,
+      "title": "Pokhara → Kathmandu",
+      "description": "Free morning in Pokhara for last-minute shopping at Lakeside markets, final lakeside walk, or relaxing at your hotel. Visit local shops for handicrafts, pashmina, or trekking gear. Check out from hotel and transfer to Pokhara airport for flight back to Kathmandu (25 minutes) or begin drive back to Kathmandu (6-7 hours). Trip concludes with drop-off at your Kathmandu hotel or Tribhuvan International Airport as per your requirement."
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable walking shoes",
+    "Light jacket for early morning sunrise",
+    "Sunglasses and sunscreen",
+    "Camera for scenic photography",
+    "Personal medications",
+    "Casual clothing suitable for temples",
+    "Swimwear (optional for lake activities)",
+    "Small daypack for excursions",
+    "Cash for personal expenses",
+    "Valid ID for domestic flights"
+  ],
+  "fitness_requirements": "Easy fitness level required. Suitable for all ages and fitness levels. Involves minimal walking and comfortable sightseeing activities.",
+  "altitude_profile": {
+    "max_altitude": "1,592m (Sarangkot)",
+    "acclimatization_days": 0,
+    "difficulty_level": "Easy"
+  },
+  "booking_info": {
+    "advance_booking": "5-7 days recommended for flight bookings and activity reservations",
+    "group_discounts": "Available for groups of 4+ people",
+    "cancellation_policy": "Free cancellation up to 3 days before departure. Flight-dependent packages subject to airline policies."
+  },
+  "primary_destination_id": 5,
+  "secondary_destination_ids": [
+    6
+  ],
+  "activity_ids": [
+    3,
+    5
+  ],
+  "related_destinations": [
+    "Kathmandu",
+    "Sarangkot",
+    "Begnas",
+    "Kusma"
+  ],
+  "related_activities": [
+    "Sightseeing",
+    "Cultural Tours",
+    "Lake Activities",
+    "Adventure Sports"
+  ],
+  "good_to_know": {
+    "main_attractions": "Breathtaking sunrise experience at Sarangkot with panoramic Annapurna views, scenic domestic flights with stunning Himalayan aerial perspectives, cultural exploration of Bindabasini Temple and World Peace Stupa, adventure activities at Kusma sky bridge, serene boating on both Phewa and Begnas lakes, and authentic cultural immersion at Majhikuna village.",
+    "travel_distances": "Kathmandu to Pokhara domestic flight takes 25 minutes with mountain views, or 6-7 hours scenic drive option, Pokhara to Kusma requires 2 hours for sky bridge activities, Pokhara to Begnas Lake involves 30 minutes comfortable drive, and all local sightseeing within Pokhara area covers short distances.",
+    "accommodation_standards": "Premium lakeside hotels in Pokhara with modern amenities and lake views, comfortable rooms with attached bathrooms, restaurant facilities, and convenient location for easy access to Lakeside area attractions, cafés, and shopping opportunities.",
+    "additional_activities": "Optional paragliding experiences, extended hiking to additional viewpoints, spa treatments, cultural cooking classes, photography workshops, shopping tours in Lakeside markets, and extended village experiences are available with advance arrangement and additional costs."
+  },
+  "faqs": [
+    {
+      "question": "Can this cultural itinerary be customized according to my preferences?",
+      "answer": "Absolutely! We offer flexible options including choice between flight or drive to Pokhara, extended stays for relaxation, upgraded accommodation standards, additional cultural sites, optional adventure activities like paragliding, or photography-focused extensions with professional guidance."
+    },
+    {
+      "question": "What specific items are included and excluded from the package price?",
+      "answer": "Included are accommodation, daily breakfast, specified lunches, ground transportation, guided sightseeing tours, entrance fees to mentioned sites, Kusma sky bridge entry, and boating experiences. Excluded are domestic flights (optional), dinners, beverages, personal expenses, tips, optional activities, and travel insurance."
+    },
+    {
+      "question": "What is the cancellation policy?",
+      "answer": "Cancellations made 5 days before departure receive full refund (minus processing fees), 50% refund for cancellations within 2-4 days, and no refund for cancellations less than 1 day before departure. Flight-dependent packages subject to airline cancellation policies."
+    },
+    {
+      "question": "What is the best time for this cultural experience?",
+      "answer": "The optimal time is September to May when weather is pleasant for sightseeing, clear mountain views are guaranteed for sunrise experiences, and comfortable temperatures make cultural exploration and outdoor activities most enjoyable throughout the day."
+    },
+    {
+      "question": "How do I book this cultural trip?",
+      "answer": "Booking is simple through Gomayu travel agency - contact our cultural tour specialists, use our online booking platform with secure payment, or visit our office for personalized consultation about flight options and cultural activity preferences."
+    }
+  ],
+  "created_at": "2025-10-02T07:10:00.000Z",
+  "updated_at": "2025-12-18T04:23:52.061Z",
+  "priceAvailable": false
+}

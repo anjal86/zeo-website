@@ -1,0 +1,120 @@
+{
+  "id": 3,
+  "slug": "chitwan-safari-adventure",
+  "title": "Chitwan Safari Adventure",
+  "category": "Wildlife",
+  "description": "Explore Nepal's premier wildlife destination with jungle safaris, elephant encounters, and bird watching in Chitwan National Park.",
+  "location": "Chitwan Region",
+  "price": 0,
+  "duration": "23 days",
+  "group_size": "2-20 people",
+  "difficulty": "Easy",
+  "rating": 4.5,
+  "reviews": 89,
+  "best_time": "October-March",
+  "featured": false,
+  "image": "/uploads/destinations/tours/tours-pic-3.webp",
+  "gallery": [
+    "/uploads/destinations/tours/tours-pic-3.webp"
+  ],
+  "highlights": [
+    "Jungle safari in 4WD vehicle",
+    "Elephant breeding center visit",
+    "Canoe ride on Rapti River",
+    "Bird watching opportunities",
+    "Traditional Tharu cultural show",
+    "Wildlife photography sessions"
+  ],
+  "inclusions": [
+    "Transportation from Kathmandu",
+    "Full board accommodation",
+    "All safari activities",
+    "Experienced naturalist guide",
+    "Park entrance fees",
+    "Cultural programs",
+    "Canoe ride",
+    "Jungle walks"
+  ],
+  "exclusions": [
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide and driver",
+    "Alcoholic beverages",
+    "Personal equipment",
+    "Emergency evacuation",
+    "Extra activities not mentioned"
+  ],
+  "activities": [
+    {
+      "name": "Wildlife Safari",
+      "description": "4WD jungle safari to spot rhinos, tigers, and other wildlife"
+    },
+    {
+      "name": "Bird Watching",
+      "description": "Over 500 bird species in the park"
+    },
+    {
+      "name": "Cultural Experience",
+      "description": "Traditional Tharu culture and dance performances"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Kathmandu to Chitwan",
+      "description": "Drive from Kathmandu to Chitwan (5-6 hours). Check-in at resort. Evening cultural program.",
+      "accommodation": "Resort in Chitwan",
+      "meals": "Lunch, Dinner"
+    },
+    {
+      "day": 2,
+      "title": "Full Day Safari Activities",
+      "description": "Early morning bird watching, jungle safari, canoe ride, elephant breeding center visit, and evening cultural show.",
+      "accommodation": "Resort in Chitwan",
+      "meals": "Breakfast, Lunch, Dinner"
+    },
+    {
+      "day": 3,
+      "title": "Morning Activities and Return",
+      "description": "Morning jungle walk, final wildlife spotting, and drive back to Kathmandu.",
+      "accommodation": "End of tour",
+      "meals": "Breakfast, Lunch"
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable walking shoes",
+    "Light cotton clothing",
+    "Hat and sunglasses",
+    "Insect repellent",
+    "Camera with extra batteries",
+    "Binoculars (optional)",
+    "Personal medications",
+    "Light jacket for evenings"
+  ],
+  "fitness_requirements": "Basic fitness level sufficient. Suitable for all ages.",
+  "altitude_profile": {
+    "max_altitude": "415m (Chitwan National Park)",
+    "acclimatization_days": 0,
+    "difficulty_level": "Low altitude, easy walking"
+  },
+  "booking_info": {
+    "advance_booking": "7 days recommended",
+    "group_discounts": "Available for 10+ people",
+    "cancellation_policy": "Free cancellation up to 3 days before departure"
+  },
+  "created_at": "2025-08-24T13:52:18.550Z",
+  "updated_at": "2025-12-18T04:24:53.207Z",
+  "listed": true,
+  "primary_destination_id": 7,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    4
+  ],
+  "related_destinations": [
+    "Chitwan"
+  ],
+  "related_activities": [
+    "Jungle Safari"
+  ],
+  "priceAvailable": false
+}

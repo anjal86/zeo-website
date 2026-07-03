@@ -1,0 +1,85 @@
+{
+  "id": 19,
+  "slug": "lumbini-pilgrimage-tour-package2n-3d",
+  "title": "Lumbini Pilgrimage Tour Package2N/3D",
+  "category": "Cultural",
+  "description": "Lumbini Pilgrimage Tour from Kathmandu (2N/3D): Journey to the Birthplace of BuddhaIntroductionStep into peace and spirituality with the Lumbini Pilgr...",
+  "location": "Lumbini",
+  "price": 200,
+  "duration": "10 days",
+  "group_size": "2-12 people",
+  "difficulty": "Easy",
+  "rating": 4.471930954805882,
+  "reviews": 164,
+  "best_time": "March-May, September-November",
+  "featured": false,
+  "listed": false,
+  "image": "https://gurutravelsltd.com/uploads/package/images/AOTCA_SPECIAL_PACAKAGE_4_y8ANQNm.png",
+  "gallery": [
+    "https://gurutravelsltd.com/uploads/package/images/AOTCA_SPECIAL_PACAKAGE_4_y8ANQNm.png",
+    "https://gurutravelsltd.com/uploads/package/images/Screenshot_3_cNqxDwI_zgeBdwr.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/peace-eternal-flame-lumbini-600n.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/world-peace-pagoda-lumbini-nepal.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/maya-devi-temple-ashoka-pillar-r.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/lumbini-nepal-503-interior-buddh_u0KhRcN.jpg"
+  ],
+  "highlights": [],
+  "inclusions": [
+    "Airport transfers",
+    "Accommodation",
+    "Experienced guide",
+    "All meals during tour",
+    "Permits and fees",
+    "Transportation"
+  ],
+  "exclusions": [
+    "International flights",
+    "Nepal visa fees",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide"
+  ],
+  "activities": [
+    {
+      "name": "Cultural Experience",
+      "description": "Experience cultural activities"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Day 1",
+      "description": ": Kathmandu ➝ Lumbini | Arrival & Evening Walk\n                                                        \n                                                    \n                                                    \n                                                        \n                                                            Morning flight/drive from Kathmandu to Bhairahawa. Transfer to hotel in Lumbini, welcome drink & check-in. After a short rest, evening walk around the Sacred Garden for a peaceful start. Dinner & overnight stay."
+    },
+    {
+      "day": 2,
+      "title": "Day 2",
+      "description": ": Full-Day Lumbini Exploration | Sacred Sites & Monasteries\n                                                        \n                                                    \n                                                    \n                                                        \n                                                            After breakfast, begin a guided tour of Maya Devi Temple, Ashoka Pillar, Sacred Pond, and Monastic Zone where monasteries built by Thailand, Myanmar, Japan, Germany, and others showcase unique Buddhist architecture. After lunch, visit the World Peace Pagoda and Lumbini Museum. Optional evening meditation session can be arranged. Dinner & overnight at hotel."
+    },
+    {
+      "day": 3,
+      "title": "Day 3",
+      "description": ": Tilaurakot Excursion ➝ Kathmandu\n                                                        \n                                                    \n                                                    \n                                                        \n                                                            Morning visit to Tilaurakot, the ancient palace ruins where Prince Siddhartha spent his early life before enlightenment. Return for breakfast, check-out, and transfer to Bhairahawa for flight/drive back to Kathmandu with blessings of peace."
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable walking shoes",
+    "Weather appropriate clothing",
+    "Personal medications",
+    "Camera",
+    "Sunglasses and sunscreen"
+  ],
+  "fitness_requirements": "Basic fitness level sufficient.",
+  "altitude_profile": {
+    "max_altitude": "Low altitude",
+    "acclimatization_days": 0,
+    "difficulty_level": "Moderate"
+  },
+  "booking_info": {
+    "advance_booking": "7 days recommended",
+    "group_discounts": "Available for 6+ people",
+    "cancellation_policy": "Free cancellation up to 7 days before departure"
+  },
+  "created_at": "2025-09-19T04:13:16.254Z",
+  "updated_at": "2025-09-19T04:47:52.541Z"
+}

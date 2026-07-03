@@ -1,0 +1,1 @@
+import{j as r}from"./index-YWdne0DJ.js";const n=({message:s,onRetry:e,className:t=""})=>r.jsxs("div",{className:`text-center p-4 ${t}`,children:[r.jsx("p",{className:"text-red-600 mb-2",children:s}),e&&r.jsx("button",{onClick:e,className:"bg-primary text-white px-4 py-2 rounded-none hover:bg-primary-dark transition-colors",children:"Try Again"})]});export{n as E};

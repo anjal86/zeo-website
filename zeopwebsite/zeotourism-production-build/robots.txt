@@ -1,0 +1,51 @@
+# Allow good bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Allow AI crawlers to read public content while protecting private areas
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+# Block common bad bots/scrapers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: Rogerbot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Block access to private directories
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/admin
+Disallow: /api/auth
+Disallow: /uploads/temp
+
+# AI crawler context files
+# Info: https://llmstxt.org/
+# LLMs Roadmap: https://zeotourism.com/llms.txt
+# LLMs Full Context: https://zeotourism.com/llms-full.txt
+
+Sitemap: https://zeotourism.com/sitemap.xml

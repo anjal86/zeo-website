@@ -1,0 +1,330 @@
+[
+  {
+    "id": 2,
+    "name": "Mountaineering",
+    "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070",
+    "tourCount": 6,
+    "href": "/activities/mountaineering",
+    "type": "adventure",
+    "description": "Challenge yourself with technical climbing on some of the world's highest peaks, requiring advanced skills and mountaineering experience.",
+    "highlights": [
+      "Peak Climbing",
+      "Technical Skills",
+      "High Altitude",
+      "Achievement"
+    ],
+    "difficulty": "Very Challenging",
+    "bestTime": "Apr-May, Sep-Oct",
+    "duration": "15-60 Days",
+    "popularDestinations": [
+      "Everest",
+      "Annapurna",
+      "Manaslu",
+      "Island Peak"
+    ],
+    "relatedTours": [],
+    "relatedDestinations": [
+      2,
+      1,
+      4
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Adventure Sports",
+    "image": "https://images.unsplash.com/photo-1540882082344-b273b04e2c2f?q=80&w=2070",
+    "tourCount": 15,
+    "href": "/activities/adventure",
+    "type": "adventure",
+    "description": "Get your adrenaline pumping with exciting activities like paragliding, bungee jumping, white water rafting, and zip-lining.",
+    "highlights": [
+      "Paragliding",
+      "Bungee Jumping",
+      "White Water Rafting",
+      "Zip-lining"
+    ],
+    "difficulty": "Easy to Moderate",
+    "bestTime": "Sep-May",
+    "duration": "1-7 Days",
+    "popularDestinations": [
+      "Pokhara",
+      "Kathmandu",
+      "Chitwan",
+      "Bandipur"
+    ],
+    "relatedTours": [
+      6,
+      9
+    ],
+    "relatedDestinations": [
+      5,
+      12,
+      13
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Jungle Safari",
+    "image": "https://images.unsplash.com/photo-1558799401-1dcba79e728e?q=80&w=2072",
+    "tourCount": 10,
+    "href": "/activities/jungle-safari",
+    "type": "adventure",
+    "description": "Explore Nepal's rich wildlife in national parks and conservation areas, spotting rhinos, tigers, elephants, and exotic birds.",
+    "highlights": [
+      "Wildlife Viewing",
+      "Elephant Safari",
+      "Bird Watching",
+      "Nature Photography"
+    ],
+    "difficulty": "Easy",
+    "bestTime": "Oct-Mar",
+    "duration": "2-5 Days",
+    "popularDestinations": [
+      "Chitwan",
+      "Bardia",
+      "Koshi Tappu",
+      "Parsa"
+    ],
+    "relatedTours": [],
+    "relatedDestinations": [
+      7,
+      14
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Cultural Tours",
+    "image": "https://images.unsplash.com/photo-1565537714828-9bbde8c42c3f?q=80&w=2070",
+    "tourCount": 18,
+    "href": "/activities/cultural",
+    "type": "cultural",
+    "description": "Immerse yourself in Nepal's rich cultural heritage, visiting ancient temples, traditional villages, and UNESCO World Heritage sites.",
+    "highlights": [
+      "UNESCO Sites",
+      "Ancient Temples",
+      "Traditional Villages",
+      "Local Festivals"
+    ],
+    "difficulty": "Easy",
+    "bestTime": "Year-round",
+    "duration": "1-10 Days",
+    "popularDestinations": [
+      "Kathmandu",
+      "Bhaktapur",
+      "Patan",
+      "Bandipur"
+    ],
+    "relatedTours": [
+      4,
+      7
+    ],
+    "relatedDestinations": [
+      6,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Pilgrimage",
+    "image": "https://images.unsplash.com/photo-1601999109497-ba1c7b6e0cfb?q=80&w=2070",
+    "tourCount": 12,
+    "href": "/activities/pilgrimage",
+    "type": "cultural",
+    "description": "Embark on spiritual journeys to sacred sites, including the holy Mount Kailash and Lake Mansarovar, and Buddhist monasteries.",
+    "highlights": [
+      "Sacred Sites",
+      "Spiritual Experience",
+      "Religious Ceremonies",
+      "Meditation"
+    ],
+    "difficulty": "Moderate to Challenging",
+    "bestTime": "May-Sep",
+    "duration": "7-21 Days",
+    "popularDestinations": [
+      "Tibet",
+      "Lumbini",
+      "Muktinath",
+      "Gosaikunda"
+    ],
+    "relatedTours": [
+      2
+    ],
+    "relatedDestinations": [
+      9,
+      1
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Meditation & Healing",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070",
+    "tourCount": 7,
+    "href": "/activities/meditation",
+    "type": "cultural",
+    "description": "Find inner peace and rejuvenation through meditation retreats, yoga sessions, and traditional healing practices in serene environments.",
+    "highlights": [
+      "Meditation Retreats",
+      "Yoga Sessions",
+      "Ayurvedic Healing",
+      "Mindfulness"
+    ],
+    "difficulty": "Easy",
+    "bestTime": "Year-round",
+    "duration": "3-14 Days",
+    "popularDestinations": [
+      "Pokhara",
+      "Kathmandu",
+      "Nagarkot",
+      "Dhulikhel"
+    ],
+    "relatedTours": [
+      8
+    ],
+    "relatedDestinations": [
+      5,
+      6,
+      13
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Volunteering",
+    "image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=2070",
+    "tourCount": 5,
+    "href": "/activities/volunteering",
+    "type": "cultural",
+    "description": "Make a meaningful impact while traveling by participating in community development projects, teaching, and conservation efforts.",
+    "highlights": [
+      "Community Service",
+      "Teaching Programs",
+      "Conservation Work",
+      "Cultural Exchange"
+    ],
+    "difficulty": "Easy to Moderate",
+    "bestTime": "Year-round",
+    "duration": "1-12 Weeks",
+    "popularDestinations": [
+      "Kathmandu",
+      "Pokhara",
+      "Rural Villages",
+      "Chitwan"
+    ],
+    "relatedTours": [],
+    "relatedDestinations": [
+      6,
+      5,
+      7
+    ]
+  },
+  {
+    "id": 9,
+    "name": "City Tours",
+    "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 8,
+    "href": "/activities/city-tours",
+    "type": "cultural",
+    "description": "Explore modern cities and urban attractions, from iconic skyscrapers to luxury shopping districts and cultural landmarks.",
+    "highlights": [
+      "Iconic Architecture",
+      "Shopping Districts",
+      "Urban Culture",
+      "Modern Attractions"
+    ],
+    "difficulty": "Easy",
+    "bestTime": "Year-round",
+    "duration": "1-7 Days",
+    "popularDestinations": [
+      "Dubai",
+      "Bangkok",
+      "Singapore",
+      "Kuala Lumpur"
+    ],
+    "relatedTours": [
+      201
+    ],
+    "relatedDestinations": [
+      26,
+      12
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Desert Safari",
+    "image": "https://images.unsplash.com/photo-1451337516015-6b6e9a44a8a3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 5,
+    "href": "/activities/desert-safari",
+    "type": "adventure",
+    "description": "Experience the thrill of desert adventures with dune bashing, camel riding, sandboarding, and traditional Bedouin camp experiences.",
+    "highlights": [
+      "Dune Bashing",
+      "Camel Riding",
+      "Sandboarding",
+      "Desert Camping"
+    ],
+    "difficulty": "Moderate",
+    "bestTime": "Oct-Apr",
+    "duration": "1-3 Days",
+    "popularDestinations": [
+      "Dubai",
+      "Abu Dhabi",
+      "Oman",
+      "Jordan"
+    ],
+    "relatedTours": [
+      202
+    ],
+    "relatedDestinations": [
+      26
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Luxury Experiences",
+    "image": "https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 3,
+    "href": "/activities/luxury",
+    "type": "luxury",
+    "description": "Indulge in premium experiences including private tours, fine dining, luxury accommodations, and exclusive access to high-end attractions.",
+    "highlights": [
+      "5-Star Hotels",
+      "Private Tours",
+      "Fine Dining",
+      "Exclusive Access"
+    ],
+    "difficulty": "Easy",
+    "bestTime": "Year-round",
+    "duration": "3-10 Days",
+    "popularDestinations": [
+      "Dubai",
+      "Maldives",
+      "Singapore",
+      "Thailand"
+    ],
+    "relatedTours": [
+      203
+    ],
+    "relatedDestinations": [
+      26,
+      13,
+      12
+    ]
+  },
+  {
+    "id": 17,
+    "name": "test",
+    "image": "",
+    "tourCount": 0,
+    "href": "/activities/test",
+    "type": "adventure",
+    "description": "",
+    "highlights": [],
+    "difficulty": "Moderate",
+    "bestTime": "Year-round",
+    "duration": "1 Day",
+    "popularDestinations": [],
+    "relatedTours": [],
+    "relatedDestinations": []
+  }
+]

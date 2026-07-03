@@ -1,0 +1,90 @@
+{
+  "id": 8,
+  "slug": "haleshi-mahadev-temple-tour-1n-2d",
+  "title": "Haleshi Mahadev temple Tour-1N/2D",
+  "category": "Cultural",
+  "description": "Setting out from Kathmandu in the early morning, embark on a picturesque 12-14 hour journey to reach the sacred destination of Haleshi Mahadev. Upon a...",
+  "location": "Nepal",
+  "price": 0,
+  "duration": "2 days",
+  "group_size": "2-12 people",
+  "difficulty": "Easy",
+  "rating": 4.751259623511732,
+  "reviews": 209,
+  "best_time": "March-May, September-November",
+  "featured": true,
+  "listed": true,
+  "image": "https://gurutravelsltd.com/uploads/package/images/halesi-img_we1LJyT.jpg",
+  "gallery": [
+    "https://gurutravelsltd.com/uploads/package/images/halesi-img_we1LJyT.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/halesi-mahadev.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/241919150_5320447457988004_5803493248696345463_n.jpg",
+    "https://gurutravelsltd.com/uploads/package/images/Haleshi-Mahadev-Temple-Entry-Point-on-Night--px2rdkxqyvlh4d5evm1ovnqpo6p3_oTbNylA.jpg"
+  ],
+  "highlights": [],
+  "inclusions": [
+    "Airport transfers",
+    "Accommodation",
+    "Experienced guide",
+    "All meals during tour",
+    "Permits and fees",
+    "Transportation"
+  ],
+  "exclusions": [
+    "International flights",
+    "Nepal visa fees",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide"
+  ],
+  "activities": [
+    {
+      "name": "Cultural Experience",
+      "description": "Experience general activities"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Day 1",
+      "description": ": Arrival in Haleshi Mahadev Depart from Kathmandu early in the morning (around 6:00 AM) by private vehicle or public bus to Haleshi Mahadev, Khotang. The journey by road takes approximately 12-14 hours, depending on road conditions and traffic. Along the way, you'll pass through beautiful landscapes, small towns, and winding mountain roads. Arrive at Haleshi Mahadev in the evening. Check-in at a guesthouse or hotel near Haleshi Mahadev temple. Spend the evening exploring the area and visiting the temple."
+    },
+    {
+      "day": 2,
+      "title": "Day 2",
+      "description": ": Explore Haleshi Mahadev  and Departure Kathmandu\n                                                        \n                                                    \n                                                    \n                                                        \n                                                            Wake up early and visit Haleshi Mahadev temple for morning prayers and meditation. After breakfast, explore the surroundings and visit other nearby attractions such as Maratika Cave (Halesi Cave) and Siddha Baba Mandir. Depart from Haleshi Mahadev by midday for the return journey to Kathmandu. Arrive back in Kathmandu in the late evening."
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable walking shoes",
+    "Weather appropriate clothing",
+    "Personal medications",
+    "Camera",
+    "Sunglasses and sunscreen"
+  ],
+  "fitness_requirements": "Basic fitness level sufficient.",
+  "altitude_profile": {
+    "max_altitude": "Low altitude",
+    "acclimatization_days": 0,
+    "difficulty_level": "Moderate"
+  },
+  "booking_info": {
+    "advance_booking": "7 days recommended",
+    "group_discounts": "Available for 6+ people",
+    "cancellation_policy": "Free cancellation up to 7 days before departure"
+  },
+  "created_at": "2025-09-19T04:13:16.254Z",
+  "updated_at": "2025-12-18T04:25:08.811Z",
+  "primary_destination_id": 3,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    5
+  ],
+  "related_destinations": [
+    "Langtang"
+  ],
+  "related_activities": [
+    "Cultural Tours"
+  ],
+  "priceAvailable": false
+}

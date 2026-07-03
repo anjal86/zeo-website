@@ -1,0 +1,70 @@
+{
+  "slug": "kailash-aerial-darshan-02-nights-03-days",
+  "title": "Kailash Aerial Darshan - 02 Nights 03 Days",
+  "description": "Kailash Aerial Darshan ",
+  "price": 600,
+  "duration": "3 days",
+  "group_size": "",
+  "best_time": "",
+  "image": "/uploads/destinations/tours/tours_1766067805331.jpg",
+  "gallery": [],
+  "highlights": [],
+  "inclusions": [
+    "Traditional welcome drinks on arrival (Non alcoholic)",
+    "02 Nights accommodation at Kathmandu Hotel on AP basis(Breakfast, Lunch & Dinner)",
+    "01 litter mineral water per day",
+    "Hindi/English speaking tour guide for entire trip",
+    "Gift from the company Kailash Tirtham(jal),Rudraksha Mala",
+    "All sightseeing and excursions as mentioned in the itinerary.",
+    "All transfers & sightseeing by private air condition vehicle.",
+    "Round trip Transportation for Lucknow - Nepalgunj - Lucknow  by Private vehicle",
+    "Vehicles are not to be at disposal and are available as per itinerary only (point to point basis).",
+    "All current Nepal Government taxes "
+  ],
+  "exclusions": [
+    "Domestic/International Airfare ",
+    "Insurance Fee",
+    "Personal expenses, tipping and any other services which are not mentioned in the above inclusion"
+  ],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrive in Lucknow - Drive to Nepalgunj(190 km, 04/05 Hrs) ",
+      "description": "Upon arrival in Lucknow Airport, you will be greeted and assisted by our representative after completing your airport process, drive to Nepalgunj,arrival at Nepalgunj, transfer to Hotel for check-in. Overnight at Nepalgunj Hotel.",
+      "accommodation": "Hotel Soaltee - 4 Star",
+      "meals": "Dinner"
+    },
+    {
+      "day": 2,
+      "title": "Kailash MansarovarDarshan Chartered Flight(Aerial view - 1.5 Hrs)",
+      "description": "After breakfast in the morning our guide will organise group transfer from hotel to Nepalgunj airport where the chartered flight for Kailash Darshan,You will get mesmerizing darshan of holy Mount Kailash and Lake Mansarovar from the window of your flight while flying over the mountains near nepal-Tibet border. The view of mountain and lake from the flight is completely subject to clear weather,back to Nepalgunj transfer to hotel.Overnight at Nepalgunj.",
+      "accommodation": "Hotel Soaltee - 4 Star",
+      "meals": "Breakfast, Lunch, Dinner"
+    },
+    {
+      "day": 3,
+      "title": "Nepalgunj - Drive to Lucknow departure transfer(190 km,04/05 Hrs)",
+      "description": "After breakfast, the morning will be comparatively free and closer to the time of your flight,drive to Lucknow airport on time to board your flight for onward journey. ",
+      "accommodation": "Hotel Soaltee - 4 Star",
+      "meals": "Breakfast, Lunch"
+    }
+  ],
+  "fitness_requirements": "",
+  "primary_destination_id": 9,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    6,
+    5
+  ],
+  "related_destinations": [
+    "Tibet"
+  ],
+  "related_activities": [
+    "Pilgrimage",
+    "Cultural Tours"
+  ],
+  "id": 316,
+  "created_at": "2025-12-18T14:19:26.720Z",
+  "updated_at": "2025-12-18T14:23:28.953Z"
+}

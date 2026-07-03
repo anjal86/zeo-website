@@ -1,0 +1,128 @@
+{
+  "id": 202,
+  "slug": "dubai-desert-adventure-3-days",
+  "title": "Dubai Desert Adventure - 3 Days",
+  "category": "Adventure",
+  "description": "Experience the thrill of the Arabian Desert with dune bashing, camel riding, and traditional Bedouin camp experiences. Perfect for adventure seekers looking for authentic desert culture.",
+  "location": "Dubai Desert, UAE",
+  "price": 649,
+  "duration": "3 days",
+  "group_size": "4-12 people",
+  "difficulty": "Moderate",
+  "rating": 4.7,
+  "reviews": 203,
+  "best_time": "October-April",
+  "featured": true,
+  "image": "https://images.unsplash.com/photo-1451337516015-6b6e9a44a8a3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "gallery": [
+    "https://images.unsplash.com/photo-1451337516015-6b6e9a44a8a3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ],
+  "highlights": [
+    "4WD dune bashing adventure",
+    "Camel trekking experience",
+    "Traditional Bedouin camp overnight",
+    "Sandboarding activities",
+    "Falconry demonstration",
+    "Arabian BBQ dinner under stars",
+    "Traditional henna painting",
+    "Desert sunrise photography"
+  ],
+  "inclusions": [
+    "Desert camp accommodation (2 nights)",
+    "All meals during desert stay",
+    "4WD transportation",
+    "All desert activities",
+    "Professional desert guide",
+    "Traditional entertainment",
+    "Camel riding",
+    "Sandboarding equipment"
+  ],
+  "exclusions": [
+    "Dubai hotel accommodation",
+    "International flights",
+    "Personal expenses",
+    "Travel insurance",
+    "Alcoholic beverages",
+    "Tips for guide and driver",
+    "City transfers (if not staying in Dubai)"
+  ],
+  "activities": [
+    {
+      "name": "Dune Bashing",
+      "description": "Thrilling 4WD ride over sand dunes with experienced drivers"
+    },
+    {
+      "name": "Camel Trekking",
+      "description": "Traditional camel rides through the desert landscape"
+    },
+    {
+      "name": "Bedouin Camp Experience",
+      "description": "Overnight stay in traditional desert camp with cultural activities"
+    },
+    {
+      "name": "Sandboarding",
+      "description": "Surf the sand dunes on specially designed boards"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Desert Safari & Camp Setup",
+      "description": "Pickup from Dubai in the afternoon. Drive to desert location. Thrilling dune bashing session. Camel ride at sunset. Arrive at Bedouin camp. Traditional welcome with Arabic coffee and dates. BBQ dinner with live entertainment including belly dancing and fire shows.",
+      "accommodation": "Traditional Bedouin camp",
+      "meals": "Dinner"
+    },
+    {
+      "day": 2,
+      "title": "Desert Activities & Culture",
+      "description": "Early morning sunrise photography session. Traditional breakfast. Sandboarding activities. Falconry demonstration. Learn about desert survival techniques. Henna painting session. Traditional lunch. Afternoon rest. Evening cultural programs and stargazing.",
+      "accommodation": "Traditional Bedouin camp",
+      "meals": "Breakfast, Lunch, Dinner"
+    },
+    {
+      "day": 3,
+      "title": "Morning Desert Walk & Return",
+      "description": "Early morning desert walk and bird watching. Final breakfast in the desert. Pack up camp. Scenic drive back to Dubai with photo stops. Drop-off at Dubai location.",
+      "accommodation": "End of tour",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable loose clothing",
+    "Closed-toe shoes for activities",
+    "Sandals for camp",
+    "Sun hat and sunglasses",
+    "High SPF sunscreen",
+    "Camera with extra batteries",
+    "Light jacket for cool evenings",
+    "Personal toiletries",
+    "Flashlight/headlamp"
+  ],
+  "fitness_requirements": "Moderate fitness required for sandboarding and camel riding. Some activities may not be suitable for pregnant women or people with back problems.",
+  "altitude_profile": {
+    "max_altitude": "300m (Desert dunes)",
+    "acclimatization_days": 0,
+    "difficulty_level": "Moderate adventure activities in desert environment"
+  },
+  "booking_info": {
+    "advance_booking": "10 days recommended",
+    "group_discounts": "Available for 8+ people",
+    "cancellation_policy": "Free cancellation up to 5 days before departure"
+  },
+  "created_at": "2025-01-20T15:38:00.000Z",
+  "updated_at": "2025-09-20T19:40:45.164Z",
+  "listed": true,
+  "primary_destination_id": 26,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    9
+  ],
+  "related_destinations": [
+    "Dubai"
+  ],
+  "related_activities": [
+    "Desert Safari"
+  ]
+}

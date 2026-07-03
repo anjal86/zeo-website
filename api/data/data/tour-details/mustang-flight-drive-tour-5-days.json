@@ -1,0 +1,119 @@
+{
+  "id": 301,
+  "slug": "mustang-flight-drive-tour-5-days",
+  "title": "Mustang Flight & Drive Tour - 5 Days",
+  "category": "Adventure",
+  "description": "Experience the mystical kingdom of Mustang with a perfect combination of flight and drive. Explore ancient monasteries, dramatic landscapes, and unique Tibetan culture in the rain shadow of the Himalayas.",
+  "location": "Mustang",
+  "price": 0,
+  "duration": "5 days",
+  "group_size": "2-12 people",
+  "difficulty": "Moderate",
+  "rating": 4.6,
+  "reviews": 87,
+  "best_time": "March-November",
+  "featured": true,
+  "listed": true,
+  "image": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2071&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2071&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1571401835393-8c5f35328320?q=80&w=2074&auto=format&fit=crop"
+  ],
+  "highlights": [
+    "Flight to Jomsom with mountain views",
+    "Lo Manthang ancient walled city",
+    "Tiji Festival experience (seasonal)",
+    "Unique Tibetan Buddhist culture",
+    "Dramatic desert landscapes",
+    "Ancient monasteries and caves"
+  ],
+  "inclusions": [
+    "Domestic flights (Kathmandu-Pokhara-Jomsom)",
+    "Private vehicle transportation",
+    "Accommodation in hotels/guesthouses",
+    "All meals during tour",
+    "Professional guide",
+    "Permits and entrance fees"
+  ],
+  "exclusions": [
+    "International flights",
+    "Nepal visa fees",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide and driver",
+    "Meals in Kathmandu and Pokhara"
+  ],
+  "activities": [
+    {
+      "name": "Cultural Tours",
+      "description": "Explore ancient monasteries and local culture"
+    },
+    {
+      "name": "Adventure Sports",
+      "description": "Experience unique high-altitude adventure"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Kathmandu to Pokhara to Jomsom",
+      "description": "Early morning flight from Kathmandu to Pokhara, then scenic flight to Jomsom. Explore Jomsom bazaar and acclimatize to the altitude. Visit local monastery and enjoy mountain views."
+    },
+    {
+      "day": 2,
+      "title": "Jomsom to Charang to Lo Manthang",
+      "description": "Drive through dramatic landscapes to Charang village. Visit Charang monastery and continue to Lo Manthang, the ancient walled capital of Mustang. Explore the royal palace and monasteries."
+    },
+    {
+      "day": 3,
+      "title": "Explore Lo Manthang",
+      "description": "Full day exploration of Lo Manthang. Visit Jampa Gompa, Thubchen Gompa, and Choprang Gompa. Experience local Tibetan culture and visit the King's Palace (if permitted)."
+    },
+    {
+      "day": 4,
+      "title": "Lo Manthang to Jomsom",
+      "description": "Return journey to Jomsom via different route. Stop at Ghami village and see the longest mani wall in Nepal. Arrive in Jomsom and explore the local area."
+    },
+    {
+      "day": 5,
+      "title": "Jomsom to Pokhara to Kathmandu",
+      "description": "Morning flight from Jomsom to Pokhara with stunning mountain views. Connect to Kathmandu flight or enjoy leisure time in Pokhara before evening flight to Kathmandu."
+    }
+  ],
+  "what_to_bring": [
+    "Warm clothing for high altitude",
+    "Comfortable walking shoes",
+    "Sun protection (hat, sunglasses, sunscreen)",
+    "Personal medications",
+    "Camera with extra batteries",
+    "Cash for personal expenses"
+  ],
+  "fitness_requirements": "Moderate physical fitness required. Some walking at high altitude.",
+  "altitude_profile": {
+    "max_altitude": "3,840m (Lo Manthang)",
+    "acclimatization_days": 1,
+    "difficulty_level": "Moderate"
+  },
+  "booking_info": {
+    "advance_booking": "14 days recommended",
+    "group_discounts": "Available for 6+ people",
+    "cancellation_policy": "Free cancellation up to 14 days before departure"
+  },
+  "created_at": "2025-01-02T10:00:00.000Z",
+  "updated_at": "2025-12-18T04:23:03.711Z",
+  "primary_destination_id": 15,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    5,
+    3
+  ],
+  "related_destinations": [
+    "Mustang",
+    "Pokhara"
+  ],
+  "related_activities": [
+    "Cultural Tours",
+    "Adventure Sports"
+  ]
+}

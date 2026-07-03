@@ -1,0 +1,125 @@
+{
+  "id": 306,
+  "slug": "indo-nepal-cross-border-tour-6n-7d",
+  "title": "Indo Nepal Cross Border Tour - 6 Nights 7 Days",
+  "category": "Cultural",
+  "description": "Experience the best of Nepal with this comprehensive cross-border tour covering Pokhara's natural beauty, Kathmandu's cultural heritage, and Chitwan's wildlife adventure. This unique journey starts from Gorakhpur, India, and takes you through the sacred birthplace of Lord Buddha in Lumbini, the serene lakes of Pokhara, the ancient temples of Kathmandu, and the wildlife paradise of Chitwan National Park.",
+  "location": "Nepal",
+  "price": 0,
+  "duration": "7 days",
+  "group_size": "2-15 people",
+  "difficulty": "Easy",
+  "rating": 4.5,
+  "reviews": 89,
+  "best_time": "October-April",
+  "featured": false,
+  "listed": true,
+  "image": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "gallery": [
+    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ],
+  "highlights": [
+    "Lumbini - Birthplace of Lord Buddha",
+    "Pokhara valley with mountain views",
+    "Kathmandu UNESCO World Heritage sites",
+    "Chitwan National Park safari",
+    "Manakamana Temple cable car ride",
+    "Tharu cultural dance experience"
+  ],
+  "inclusions": [
+    "Hotel accommodation (3-5 star options)",
+    "Daily breakfast",
+    "All transfers and transportation",
+    "Professional guide",
+    "All entrance fees",
+    "Chitwan safari activities",
+    "Cable car to Manakamana Temple"
+  ],
+  "exclusions": [
+    "International flights",
+    "Lunch and dinner (except in Chitwan)",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide and staff"
+  ],
+  "activities": [
+    {
+      "name": "Cultural Tours",
+      "description": "Visit UNESCO World Heritage sites and ancient temples"
+    },
+    {
+      "name": "Wildlife Safari",
+      "description": "Jungle safari in Chitwan National Park"
+    },
+    {
+      "name": "Scenic Drives",
+      "description": "Beautiful mountain and valley views"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Gorakhpur - Lumbini - Pokhara",
+      "description": "Arrive in Gorakhpur and meet our representative. Drive to Sunauli border crossing and complete immigration formalities. Visit Lumbini, the sacred birthplace of Lord Buddha, and explore the Maya Devi Temple and various international monasteries. Continue the scenic drive to Pokhara, Nepal's adventure capital. Check into hotel and enjoy the lakeside atmosphere. Evening at leisure to explore the vibrant Lakeside area."
+    },
+    {
+      "day": 2,
+      "title": "Sarangkot Excursion & Pokhara Sightseeing",
+      "description": "Early morning drive to Sarangkot viewpoint to witness the spectacular sunrise over the Annapurna and Dhaulagiri mountain ranges. Return to hotel for breakfast. Begin full-day Pokhara city tour visiting Bindavasini Temple, the mystical David Falls (Patale Chhango), and Gupteshwor Cave with its underground waterfall. Enjoy a peaceful boat ride on Phewa Lake and visit Tal Barahi Temple situated on an island in the middle of the lake. Evening free for shopping and relaxation."
+    },
+    {
+      "day": 3,
+      "title": "Pokhara to Kathmandu via Manakamana",
+      "description": "After breakfast, begin the scenic drive to Kathmandu. En route, stop at Kurintar and take the thrilling cable car ride to Manakamana Temple, dedicated to the Hindu goddess Bhagwati. The temple is believed to fulfill the wishes of devotees. Enjoy panoramic mountain views during the cable car journey. Continue drive to Kathmandu and check into hotel. Evening at leisure to explore Thamel, the tourist hub of Kathmandu."
+    },
+    {
+      "day": 4,
+      "title": "Kathmandu City Sightseeing",
+      "description": "Full day exploration of Kathmandu's UNESCO World Heritage sites. Begin with Pashupatinath Temple, the most sacred Hindu temple dedicated to Lord Shiva, located on the banks of the holy Bagmati River. Visit Jala Narayan Temple and then proceed to Swayambhunath Stupa (Monkey Temple), offering panoramic views of Kathmandu Valley. Continue to Boudhanath Stupa, one of the largest Buddhist stupas in the world and a center of Tibetan Buddhism. End the day at Kathmandu Durbar Square, the ancient royal palace complex with intricate wood carvings and the living goddess Kumari's residence."
+    },
+    {
+      "day": 5,
+      "title": "Kathmandu to Chitwan",
+      "description": "After breakfast, drive to Chitwan National Park, Nepal's first national park and a UNESCO World Heritage site. Upon arrival, check into jungle resort and enjoy welcome drinks. In the afternoon, visit a traditional Tharu village to learn about the indigenous culture and lifestyle of the Tharu people. Experience their unique architecture, customs, and way of life. In the evening, enjoy an authentic Tharu stick dance performance showcasing their rich cultural heritage. Dinner at the resort with traditional Tharu cuisine."
+    },
+    {
+      "day": 6,
+      "title": "Chitwan Safari Activities",
+      "description": "Full day of exciting jungle activities in Chitwan National Park. Begin with a canoe trip along the Rapti River to spot crocodiles, various bird species, and other wildlife. Visit the Elephant Breeding Center to learn about conservation efforts. Take a guided jungle walk with experienced naturalists to discover the park's diverse flora and fauna. The highlight of the day is the elephant or jeep safari through the dense jungle in search of the elusive one-horned rhinoceros, Bengal tigers, leopards, and various deer species. Evening at leisure at the resort."
+    },
+    {
+      "day": 7,
+      "title": "Chitwan to Gorakhpur Departure",
+      "description": "After breakfast and final moments in the jungle paradise, begin the drive back to Gorakhpur. En route, enjoy the changing landscapes from the Terai plains to the Indian border. Complete exit formalities at Sunauli border and continue to Gorakhpur. Transfer to railway station or airport for onward journey, carrying unforgettable memories of Nepal's cultural heritage, natural beauty, and wildlife encounters."
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable walking shoes",
+    "Light cotton clothes for plains",
+    "Warm jacket for early mornings",
+    "Sunglasses and sunscreen",
+    "Camera with extra batteries",
+    "Personal medications",
+    "Insect repellent for Chitwan"
+  ],
+  "fitness_requirements": "Basic fitness level required for walking and light activities.",
+  "altitude_profile": {
+    "max_altitude": "Low altitude (below 1,400m)",
+    "acclimatization_days": 0,
+    "difficulty_level": "Easy"
+  },
+  "booking_info": {
+    "advance_booking": "7 days recommended",
+    "group_discounts": "Available for 6+ people",
+    "cancellation_policy": "Free cancellation up to 7 days before departure"
+  },
+  "created_at": "2024-12-30T10:00:00.000Z",
+  "updated_at": "2025-12-18T04:22:40.981Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [],
+  "related_destinations": [],
+  "related_activities": [],
+  "priceAvailable": false
+}

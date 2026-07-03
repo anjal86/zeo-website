@@ -1,0 +1,114 @@
+{
+  "id": 303,
+  "slug": "bardiya-wilderness-experience-4-days",
+  "title": "Bardiya Wilderness Experience - 4 Days",
+  "category": "Wildlife",
+  "description": "Experience Nepal's best kept wildlife secret in Bardiya National Park. Enjoy thrilling jungle safaris, spot Royal Bengal tigers, one-horned rhinos, and diverse wildlife in their natural habitat.",
+  "location": "Bardiya",
+  "price": 0,
+  "duration": "4 days",
+  "group_size": "2-12 people",
+  "difficulty": "Easy",
+  "rating": 4.5,
+  "reviews": 67,
+  "best_time": "October-April",
+  "featured": true,
+  "listed": false,
+  "image": "https://images.unsplash.com/photo-1558799401-1dcba79e728e?q=80&w=2072&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1558799401-1dcba79e728e?q=80&w=2072&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1571401835393-8c5f35328320?q=80&w=2074&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop"
+  ],
+  "highlights": [
+    "Royal Bengal tiger spotting",
+    "One-horned rhinoceros sightings",
+    "Elephant safari experience",
+    "Karnali River boat safari",
+    "Bird watching (400+ species)",
+    "Tharu cultural experience"
+  ],
+  "inclusions": [
+    "Airport/hotel transfers",
+    "Accommodation in jungle lodge",
+    "All meals during safari",
+    "Professional naturalist guide",
+    "All safari activities",
+    "National park permits"
+  ],
+  "exclusions": [
+    "Transportation to/from Bardiya",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guides",
+    "Extra drinks",
+    "Camera permits"
+  ],
+  "activities": [
+    {
+      "name": "Jungle Safari",
+      "description": "Experience wildlife safaris in pristine jungle"
+    },
+    {
+      "name": "Cultural Tours",
+      "description": "Interact with indigenous Tharu community"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Bardiya",
+      "description": "Arrive in Bardiya National Park area. Check into jungle lodge. Evening Tharu cultural program with traditional dance and local dinner. Briefing about jungle activities."
+    },
+    {
+      "day": 2,
+      "title": "Full Day Jungle Safari",
+      "description": "Early morning jeep safari in search of tigers and rhinos. Return for breakfast. Afternoon elephant safari or walking safari. Evening boat safari on Karnali River for wildlife and bird watching."
+    },
+    {
+      "day": 3,
+      "title": "Wildlife Activities",
+      "description": "Morning bird watching and nature walk. Visit Tharu village and experience local lifestyle. Afternoon jungle safari with different route. Evening leisure time by the river."
+    },
+    {
+      "day": 4,
+      "title": "Departure",
+      "description": "Early morning final safari activity. Return to lodge for breakfast and checkout. Transfer to departure point with wonderful wildlife memories."
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable safari clothing (earth colors)",
+    "Sturdy walking shoes",
+    "Hat and sunglasses",
+    "Insect repellent",
+    "Camera with zoom lens",
+    "Binoculars"
+  ],
+  "fitness_requirements": "Basic fitness required for walking safaris.",
+  "altitude_profile": {
+    "max_altitude": "200m",
+    "acclimatization_days": 0,
+    "difficulty_level": "Easy"
+  },
+  "booking_info": {
+    "advance_booking": "7 days recommended",
+    "group_discounts": "Available for 6+ people",
+    "cancellation_policy": "Free cancellation up to 7 days before departure"
+  },
+  "created_at": "2025-01-02T10:00:00.000Z",
+  "updated_at": "2025-12-18T04:20:55.575Z",
+  "primary_destination_id": 14,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    4,
+    5
+  ],
+  "related_destinations": [
+    "Bardiya"
+  ],
+  "related_activities": [
+    "Jungle Safari",
+    "Cultural Tours"
+  ],
+  "priceAvailable": false
+}

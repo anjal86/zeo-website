@@ -1,0 +1,174 @@
+{
+  "id": 308,
+  "slug": "everest-base-camp-trek-13n-14d",
+  "title": "Everest Base Camp Trek - 13 Nights 14 Days",
+  "category": "Trekking",
+  "description": "Embark on the ultimate Himalayan adventure to Everest Base Camp, following in the footsteps of legendary mountaineers. This iconic trek takes you through the heart of the Khumbu region, offering breathtaking views of the world's highest peaks including Mount Everest, Lhotse, and Ama Dablam. Experience Sherpa culture, visit ancient monasteries, and challenge yourself on this once-in-a-lifetime journey to the base of the world's tallest mountain.",
+  "location": "Nepal",
+  "price": 0,
+  "duration": "14 days",
+  "group_size": "2-12 people",
+  "difficulty": "Challenging",
+  "rating": 4.9,
+  "reviews": 287,
+  "best_time": "March-May, September-November",
+  "featured": true,
+  "listed": true,
+  "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "gallery": [
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ],
+  "highlights": [
+    "Reach Everest Base Camp at 5,364m",
+    "Spectacular mountain views from Kala Patthar",
+    "Experience authentic Sherpa culture",
+    "Visit Tengboche Monastery",
+    "Cross suspension bridges over deep gorges",
+    "Explore Sagarmatha National Park",
+    "Witness sunrise over Mount Everest"
+  ],
+  "inclusions": [
+    "Domestic flights (Kathmandu-Lukla-Kathmandu)",
+    "Teahouse accommodation during trek",
+    "All meals during trekking",
+    "Professional trekking guide",
+    "Porter service (1 porter for 2 trekkers)",
+    "All permits and fees",
+    "First aid kit and oxygen meter",
+    "Airport transfers"
+  ],
+  "exclusions": [
+    "International flights",
+    "Nepal visa fees",
+    "Meals in Kathmandu",
+    "Personal trekking equipment",
+    "Travel insurance",
+    "Emergency evacuation",
+    "Tips for guide and porters",
+    "Personal expenses"
+  ],
+  "activities": [
+    {
+      "name": "High Altitude Trekking",
+      "description": "Trek through diverse landscapes from subtropical forests to alpine terrain"
+    },
+    {
+      "name": "Cultural Immersion",
+      "description": "Experience Sherpa culture and visit Buddhist monasteries"
+    },
+    {
+      "name": "Mountain Photography",
+      "description": "Capture stunning views of world's highest peaks"
+    },
+    {
+      "name": "Wildlife Viewing",
+      "description": "Spot Himalayan wildlife in Sagarmatha National Park"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Kathmandu (1,400m)",
+      "description": "Welcome to Nepal! Upon arrival at Tribhuvan International Airport, our representative will meet you and transfer you to your hotel in Kathmandu. After check-in, attend a pre-trek briefing where you'll meet your trekking guide and receive detailed information about the trek. Equipment check and final preparations. Evening welcome dinner featuring traditional Nepali cuisine. Overnight in Kathmandu."
+    },
+    {
+      "day": 2,
+      "title": "Fly to Lukla & Trek to Phakding (2,652m)",
+      "description": "Early morning flight to Lukla (2,800m), one of the world's most thrilling airports. The 35-minute scenic flight offers spectacular mountain views. Upon landing, meet your porter and begin the trek to Phakding. The trail descends through pine forests and crosses several suspension bridges over the Dudh Koshi River. Pass through small Sherpa villages and enjoy your first taste of mountain hospitality. Trek duration: 3-4 hours. Overnight in teahouse."
+    },
+    {
+      "day": 3,
+      "title": "Trek to Namche Bazaar (3,440m)",
+      "description": "Today's trek takes you to the famous Namche Bazaar, the gateway to Everest. Cross numerous suspension bridges including the spectacular Hillary Suspension Bridge. Enter Sagarmatha National Park and begin the steep ascent to Namche. The trail offers first glimpses of Mount Everest, Lhotse, and other peaks. Namche Bazaar is a bustling Sherpa town with shops, restaurants, and internet cafes. Trek duration: 5-6 hours. Overnight in teahouse."
+    },
+    {
+      "day": 4,
+      "title": "Acclimatization Day in Namche Bazaar",
+      "description": "Important acclimatization day to help your body adjust to altitude. Optional hike to Everest View Hotel (3,880m) for spectacular mountain panoramas including Mount Everest, Ama Dablam, and Lhotse. Visit the Sherpa Culture Museum and learn about mountaineering history. Explore Namche's colorful Saturday market (if timing permits). Alternative hike to Khumjung village to visit Hillary School and monastery. Rest and prepare for higher altitudes ahead."
+    },
+    {
+      "day": 5,
+      "title": "Trek to Tengboche (3,867m)",
+      "description": "Descend from Namche and cross the Dudh Koshi River. The trail contours around the mountainside with stunning views of Ama Dablam, one of the most beautiful peaks in the Himalayas. Gradual ascent through rhododendron forests leads to Tengboche, home to the region's largest monastery. Visit Tengboche Monastery and witness evening prayers if timing permits. Spectacular 360-degree mountain views including Everest, Nuptse, and Lhotse. Trek duration: 5-6 hours. Overnight in teahouse."
+    },
+    {
+      "day": 6,
+      "title": "Trek to Dingboche (4,410m)",
+      "description": "Descend through forests to Debuche and cross the Imja River. The trail gradually ascends through alpine meadows with incredible mountain views. Pass through Pangboche village, one of the highest permanent settlements in the world. Continue ascending to Dingboche, a summer settlement with stone-walled fields. The landscape becomes more barren and alpine. Spectacular views of Island Peak, Lhotse, and Ama Dablam. Trek duration: 5-6 hours. Overnight in teahouse."
+    },
+    {
+      "day": 7,
+      "title": "Acclimatization Day in Dingboche",
+      "description": "Another crucial acclimatization day. Optional hike to Nagarjun Hill (5,083m) for panoramic views of Makalu, Lhotse, Chalotse, Tawache, and Ama Dablam. Alternative hike to Chhukung village (4,730m) for closer views of Island Peak and Lhotse South Face. Rest day allows your body to produce more red blood cells and adjust to the thin air. Explore the village and interact with local Sherpa families. Prepare for the challenging days ahead."
+    },
+    {
+      "day": 8,
+      "title": "Trek to Lobuche (4,940m)",
+      "description": "Continue ascending through the alpine desert landscape. Pass the memorial site dedicated to climbers who lost their lives on Everest, including Scott Fischer and others. The trail becomes more challenging as oxygen levels decrease. Cross the terminal moraine of the Khumbu Glacier with views of Pumori and other peaks. Arrive at Lobuche, a small settlement in a dramatic setting surrounded by towering peaks. Trek duration: 5-6 hours. Overnight in teahouse."
+    },
+    {
+      "day": 9,
+      "title": "Trek to Everest Base Camp (5,364m) & Return to Gorak Shep (5,164m)",
+      "description": "The ultimate day! Early start for the trek to Everest Base Camp. Navigate through the Khumbu Glacier's rocky moraine with prayer flags marking the way. Reach Everest Base Camp, the staging point for Everest expeditions. Celebrate this incredible achievement with photos and take in the surreal landscape of ice seracs and glacial formations. Return to Gorak Shep for overnight stay. Trek duration: 7-8 hours. This is the highlight of your journey!"
+    },
+    {
+      "day": 10,
+      "title": "Hike to Kala Patthar (5,545m) & Trek to Pheriche (4,371m)",
+      "description": "Pre-dawn start for the challenging climb to Kala Patthar, the best viewpoint for Mount Everest. Watch the sunrise illuminate the world's highest peak along with Nuptse, Changtse, and Lhotse. The panoramic views are absolutely breathtaking and worth every step of the challenging ascent. Descend to Gorak Shep for breakfast, then continue down to Pheriche. Trek duration: 6-7 hours. Overnight in teahouse."
+    },
+    {
+      "day": 11,
+      "title": "Trek to Namche Bazaar (3,440m)",
+      "description": "Long descent day retracing your steps through Pangboche and Tengboche. Cross the suspension bridge over Dudh Koshi River and ascend back to Namche Bazaar. Enjoy the thicker air and warmer temperatures as you descend. Celebrate your successful Everest Base Camp achievement with fellow trekkers. Last night in the mountains with hot showers and comfortable beds available. Trek duration: 6-7 hours. Overnight in teahouse."
+    },
+    {
+      "day": 12,
+      "title": "Trek to Lukla (2,800m)",
+      "description": "Final trekking day descending through familiar territory. Pass through Phakding and continue to Lukla. Reflect on your incredible journey and the memories created. Celebrate with your trekking team and enjoy a farewell dinner. Pack your bags and prepare for the flight back to Kathmandu tomorrow. Trek duration: 6-7 hours. Overnight in teahouse."
+    },
+    {
+      "day": 13,
+      "title": "Fly to Kathmandu",
+      "description": "Morning flight from Lukla to Kathmandu (weather permitting). Upon arrival, transfer to your hotel and enjoy a hot shower and comfortable bed. Afternoon free for shopping, spa treatments, or exploring Kathmandu. Evening celebration dinner with cultural show featuring traditional Nepali music and dance. Receive your trek completion certificate. Overnight in Kathmandu."
+    },
+    {
+      "day": 14,
+      "title": "Departure",
+      "description": "Final day in Nepal. Depending on your flight schedule, enjoy some last-minute shopping in Thamel or visit additional sights in Kathmandu. Our representative will assist with airport transfer. Depart with incredible memories of your Everest Base Camp adventure and a sense of accomplishment that will last a lifetime."
+    }
+  ],
+  "what_to_bring": [
+    "Warm sleeping bag (-15°C rating)",
+    "Insulated down jacket",
+    "Waterproof trekking boots",
+    "Trekking poles",
+    "Warm layers and base layers",
+    "Waterproof jacket and pants",
+    "Warm hat and sun hat",
+    "Sunglasses (glacier glasses)",
+    "Headlamp with extra batteries",
+    "Personal first aid kit",
+    "Water purification tablets",
+    "High SPF sunscreen"
+  ],
+  "fitness_requirements": "Excellent physical fitness required. Regular cardio training and hiking experience recommended. Ability to walk 6-8 hours daily on rough terrain.",
+  "altitude_profile": {
+    "max_altitude": "5,545m (Kala Patthar)",
+    "acclimatization_days": 2,
+    "difficulty_level": "Challenging - High altitude trekking"
+  },
+  "booking_info": {
+    "advance_booking": "30 days recommended",
+    "group_discounts": "Available for 4+ people",
+    "cancellation_policy": "Free cancellation up to 15 days before departure"
+  },
+  "created_at": "2024-12-30T10:00:00.000Z",
+  "updated_at": "2025-12-18T04:22:29.921Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [],
+  "related_destinations": [],
+  "related_activities": [],
+  "priceAvailable": false
+}

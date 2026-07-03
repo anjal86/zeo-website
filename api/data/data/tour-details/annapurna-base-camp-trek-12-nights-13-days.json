@@ -1,0 +1,178 @@
+{
+  "id": 312,
+  "slug": "annapurna-base-camp-trek-12-nights-13-days",
+  "title": "Annapurna Base Camp Trek - 12 Nights 13 Days",
+  "category": "Trekking",
+  "description": "Embark on one of Nepal's most spectacular trekking adventures to Annapurna Base Camp, situated in the heart of the Annapurna Sanctuary. This incredible journey takes you through diverse landscapes from subtropical forests to alpine meadows, culminating at the base camp surrounded by towering peaks including Annapurna I (8,091m), Machapuchare (6,993m), and Hiunchuli (6,441m). Experience the rich culture of Gurung and Magar communities, soak in natural hot springs, and witness breathtaking sunrise views over the Annapurna massif.",
+  "location": "Nepal",
+  "price": 0,
+  "duration": "13 days",
+  "group_size": "2-12 people",
+  "difficulty": "Moderate to Challenging",
+  "rating": 4.8,
+  "reviews": 234,
+  "best_time": "March-May, September-November",
+  "featured": false,
+  "listed": true,
+  "image": "",
+  "gallery": [
+    "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ],
+  "highlights": [
+    "Reach Annapurna Base Camp at 4,130m",
+    "360-degree mountain views in the sanctuary",
+    "Natural hot springs at Jhinu Danda",
+    "Diverse flora and fauna",
+    "Gurung and Magar cultural experience",
+    "Spectacular sunrise over Annapurna massif",
+    "Rhododendron forests in spring"
+  ],
+  "inclusions": [
+    "Teahouse accommodation during trek",
+    "All meals during trekking",
+    "Professional trekking guide",
+    "Porter service (1 porter for 2 trekkers)",
+    "All permits and fees (ACAP, TIMS)",
+    "First aid kit and oxygen meter",
+    "Transportation (Kathmandu-Pokhara-Kathmandu)",
+    "Airport transfers"
+  ],
+  "exclusions": [
+    "International flights",
+    "Nepal visa fees",
+    "Meals in Kathmandu and Pokhara",
+    "Personal trekking equipment",
+    "Travel insurance",
+    "Emergency evacuation",
+    "Tips for guide and porters",
+    "Personal expenses and drinks"
+  ],
+  "activities": [
+    {
+      "name": "High Altitude Trekking",
+      "description": "Trek through diverse ecosystems from tropical to alpine zones"
+    },
+    {
+      "name": "Cultural Immersion",
+      "description": "Experience Gurung and Magar village life and traditions"
+    },
+    {
+      "name": "Natural Hot Springs",
+      "description": "Relax in therapeutic hot springs at Jhinu Danda"
+    },
+    {
+      "name": "Wildlife Observation",
+      "description": "Spot Himalayan wildlife in the Annapurna Conservation Area"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Kathmandu (1,400m)sssss",
+      "description": "Welcome to Nepal! Upon arrival at Tribhuvan International Airport, our representative will meet you and transfer you to your hotel in Kathmandu. After check-in, attend a comprehensive pre-trek briefing where you'll meet your trekking guide and receive detailed information about the Annapurna Base Camp trek. Equipment check and final preparations. Evening welcome dinner featuring traditional Nepali cuisine and cultural performances. Overnight in Kathmandu."
+    },
+    {
+      "day": 2,
+      "title": "Drive to Pokhara (822m)",
+      "description": "After breakfast, embark on a scenic 6-7 hour drive to Pokhara through winding mountain roads, terraced fields, and traditional villages. The journey offers glimpses of rural Nepali life and changing landscapes. Alternatively, take a 25-minute domestic flight for spectacular aerial views of the Himalayas. Upon arrival in Pokhara, check into lakeside hotel and enjoy the serene atmosphere of Phewa Lake. Evening free to explore the vibrant Lakeside area with its restaurants, cafes, and shops. Final trek preparations and equipment check."
+    },
+    {
+      "day": 3,
+      "title": "Drive to Nayapul & Trek to Tikhedhunga (1,577m)",
+      "description": "Early morning drive to Nayapul (1,070m), the starting point of your Annapurna Base Camp trek. Begin trekking along the Modi Khola river through beautiful countryside and traditional villages. Cross suspension bridges and pass through Birethanti, where you'll complete permit formalities. The trail gradually ascends through terraced fields and small settlements. Arrive at Tikhedhunga, a small village with teahouses offering basic but comfortable accommodation. Trek duration: 4-5 hours. Overnight in teahouse."
+    },
+    {
+      "day": 4,
+      "title": "Trek to Ghorepani (2,874m)",
+      "description": "Today involves a challenging climb up the famous stone steps to Ulleri village, followed by a gradual ascent through beautiful rhododendron and oak forests. The trail offers occasional glimpses of Annapurna South and Hiunchuli peaks. Pass through several small villages and experience the hospitality of local Magar and Gurung communities. Arrive at Ghorepani, a popular trekking hub with stunning mountain views. The village name means 'horse water,' reflecting its historical importance as a trading route. Trek duration: 6-7 hours. Overnight in teahouse."
+    },
+    {
+      "day": 5,
+      "title": "Poon Hill Sunrise & Trek to Tadapani (2,630m)",
+      "description": "Pre-dawn hike to Poon Hill (3,210m), one of the most famous viewpoints in the Himalayas. Watch the spectacular sunrise illuminate the Annapurna and Dhaulagiri mountain ranges, including Annapurna I, Annapurna South, Machapuchare, Dhaulagiri, and many other peaks. The panoramic 360-degree views are absolutely breathtaking. Return to Ghorepani for breakfast, then continue trekking through dense rhododendron forests (spectacular in spring) to Tadapani. The trail offers beautiful mountain views and diverse flora. Trek duration: 6-7 hours including Poon Hill. Overnight in teahouse."
+    },
+    {
+      "day": 6,
+      "title": "Trek to Sinuwa (2,360m)",
+      "description": "Descend through beautiful forests with occasional clearings offering mountain views. The trail passes through Banthanti and continues through dense rhododendron and bamboo forests. Cross several streams and enjoy the changing vegetation as you descend. The path can be muddy and slippery during monsoon season, requiring careful footing. Arrive at Sinuwa, a small settlement with basic teahouse facilities. The village offers good views of Machapuchare and Annapurna South. Trek duration: 5-6 hours. Overnight in teahouse."
+    },
+    {
+      "day": 7,
+      "title": "Trek to Deurali (3,230m)",
+      "description": "Continue ascending through the Modi Khola valley with increasingly spectacular mountain views. Pass through Chhomrong, a large Gurung village with excellent mountain views and the last permanent settlement before entering the Annapurna Sanctuary. Cross the Chhomrong Khola on a suspension bridge and climb steeply up stone steps. The trail then descends to Bamboo and continues through dense bamboo and rhododendron forests to Deurali. The landscape becomes more alpine as you gain altitude. Trek duration: 6-7 hours. Overnight in teahouse."
+    },
+    {
+      "day": 8,
+      "title": "Trek to Annapurna Base Camp (4,130m)",
+      "description": "The ultimate day! Early start for the final push to Annapurna Base Camp. Pass through Machapuchare Base Camp (3,700m) with stunning close-up views of the sacred Machapuchare peak. Continue ascending through the glacial valley into the heart of the Annapurna Sanctuary. The landscape becomes increasingly dramatic with towering peaks surrounding you on all sides. Reach Annapurna Base Camp, situated in a natural amphitheater surrounded by some of the world's highest peaks. Celebrate this incredible achievement and take in the surreal 360-degree mountain panorama. Trek duration: 5-6 hours. Overnight in teahouse."
+    },
+    {
+      "day": 9,
+      "title": "Sunrise at ABC & Trek to Bamboo (2,310m)",
+      "description": "Wake up early to witness one of the world's most spectacular sunrises as the first rays of light illuminate the surrounding peaks including Annapurna I, Annapurna South, Machapuchare, Hiunchuli, and Gangapurna. The golden glow on the snow-capped peaks is absolutely magical. After breakfast and final photos, begin the descent retracing your steps through Machapuchare Base Camp and Deurali to Bamboo. The long descent requires careful attention to footing. Trek duration: 7-8 hours. Overnight in teahouse."
+    },
+    {
+      "day": 10,
+      "title": "Trek to Jhinu Danda (1,780m)",
+      "description": "Continue descending through the Modi Khola valley, passing through Sinuwa and Chhomrong. The trail offers different perspectives of the mountains you've just visited. Arrive at Jhinu Danda, famous for its natural hot springs. After checking into the teahouse, take a 20-minute walk down to the hot springs located beside the Modi Khola river. Soak your tired muscles in the therapeutic hot water while enjoying views of the surrounding hills. This is a perfect way to relax after days of challenging trekking. Trek duration: 6-7 hours. Overnight in teahouse."
+    },
+    {
+      "day": 11,
+      "title": "Trek to Nayapul & Drive to Pokhara",
+      "description": "Final trekking day descending through familiar territory with a sense of accomplishment. Pass through traditional villages, terraced fields, and cross suspension bridges over rushing rivers. Reflect on your incredible journey and the memories created in the Annapurna Sanctuary. Arrive at Nayapul where your trek officially ends. Drive back to Pokhara and check into your lakeside hotel. Celebrate your successful Annapurna Base Camp trek with your team. Evening free for shopping, spa treatments, or simply relaxing by Phewa Lake. Trek duration: 5-6 hours. Overnight in Pokhara."
+    },
+    {
+      "day": 12,
+      "title": "Return to Kathmandu",
+      "description": "Morning flight or drive back to Kathmandu depending on your preference and weather conditions. The flight offers spectacular aerial views of the mountains you've just trekked to, providing a different perspective of your achievement. Upon arrival in Kathmandu, transfer to your hotel and enjoy a hot shower and comfortable bed. Afternoon free for shopping in Thamel, spa treatments, or exploring additional sights in Kathmandu. Evening celebration dinner with cultural show featuring traditional Nepali music and dance. Receive your trek completion certificate. Overnight in Kathmandu."
+    },
+    {
+      "day": 13,
+      "title": "Departure",
+      "description": "Final day in Nepal. Depending on your flight schedule, enjoy some last-minute shopping in Thamel for trekking gear, handicrafts, or souvenirs. Visit additional sights in Kathmandu if time permits. Our representative will assist with airport transfer according to your flight schedule. Depart with incredible memories of your Annapurna Base Camp adventure, the stunning mountain views, cultural experiences, and a tremendous sense of personal achievement that will last a lifetime."
+    }
+  ],
+  "what_to_bring": [
+    "Warm sleeping bag (-10°C rating)",
+    "Down jacket for high altitude",
+    "Waterproof trekking boots",
+    "Trekking poles",
+    "Layered clothing system",
+    "Waterproof jacket and pants",
+    "Warm hat and sun hat",
+    "Sunglasses and sunscreen",
+    "Headlamp with extra batteries",
+    "Personal first aid kit",
+    "Water purification tablets",
+    "Quick-dry towel"
+  ],
+  "fitness_requirements": "Good physical fitness required. Regular cardio training and hiking experience recommended. Ability to walk 6-8 hours daily on varied terrain.",
+  "altitude_profile": {
+    "max_altitude": "4,130m (Annapurna Base Camp)",
+    "acclimatization_days": 1,
+    "difficulty_level": "Moderate to Challenging - High altitude trekking"
+  },
+  "booking_info": {
+    "advance_booking": "21 days recommended",
+    "group_discounts": "Available for 4+ people",
+    "cancellation_policy": "Free cancellation up to 10 days before departure"
+  },
+  "created_at": "2024-12-30T10:00:00.000Z",
+  "updated_at": "2025-12-18T04:20:38.534Z",
+  "primary_destination_id": 28,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    3,
+    2
+  ],
+  "related_destinations": [
+    "Annapurna "
+  ],
+  "related_activities": [
+    "Adventure Sports",
+    "Mountaineering"
+  ],
+  "priceAvailable": false
+}

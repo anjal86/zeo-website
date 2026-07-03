@@ -1,0 +1,114 @@
+{
+  "id": 304,
+  "slug": "chitwan-jungle-stay-4-days",
+  "title": "Chitwan Jungle Stay - 4 Days",
+  "category": "Wildlife",
+  "description": "Immerse yourself in the heart of Chitwan National Park with an authentic jungle stay experience. Encounter diverse wildlife including rhinos, tigers, elephants and enjoy traditional Tharu culture.",
+  "location": "Chitwan",
+  "price": 0,
+  "duration": "4 days",
+  "group_size": "2-16 people",
+  "difficulty": "Easy",
+  "rating": 4.4,
+  "reviews": 132,
+  "best_time": "October-March",
+  "featured": true,
+  "listed": true,
+  "image": "https://images.unsplash.com/photo-1558799401-1dcba79e728e?q=80&w=2072&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1558799401-1dcba79e728e?q=80&w=2072&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1571401835393-8c5f35328320?q=80&w=2074&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2071&auto=format&fit=crop"
+  ],
+  "highlights": [
+    "One-horned rhinoceros encounters",
+    "Tiger tracking expeditions",
+    "Elephant breeding center visit",
+    "Canoe ride on Rapti River",
+    "Tharu village cultural tour",
+    "Jungle walking safari"
+  ],
+  "inclusions": [
+    "Accommodation in jungle resort",
+    "All meals (breakfast, lunch, dinner)",
+    "Professional nature guide",
+    "All jungle activities",
+    "National park permits",
+    "Transportation within park"
+  ],
+  "exclusions": [
+    "Transportation to/from Chitwan",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guides and staff",
+    "Alcoholic beverages",
+    "Camera permits"
+  ],
+  "activities": [
+    {
+      "name": "Jungle Safari",
+      "description": "Experience diverse wildlife safaris"
+    },
+    {
+      "name": "Cultural Tours",
+      "description": "Explore Tharu indigenous culture"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival and Tharu Culture",
+      "description": "Arrive in Chitwan and check into jungle resort. Lunch followed by Tharu village tour to experience local lifestyle. Evening Tharu cultural dance program with traditional dinner."
+    },
+    {
+      "day": 2,
+      "title": "Jungle Safari Adventures",
+      "description": "Early morning jeep safari in core jungle area for tiger and rhino spotting. Return for breakfast. Afternoon canoe ride on Rapti River followed by jungle walking safari. Evening leisure at resort."
+    },
+    {
+      "day": 3,
+      "title": "Elephant Activities and Nature Walk",
+      "description": "Morning visit to Elephant Breeding Center to learn about conservation efforts. Elephant safari through grasslands. Afternoon bird watching and nature walk. Sunset views from watchtower."
+    },
+    {
+      "day": 4,
+      "title": "Final Safari and Departure",
+      "description": "Early morning final safari opportunity for any missed wildlife sightings. Return for breakfast and checkout. Departure with unforgettable jungle memories."
+    }
+  ],
+  "what_to_bring": [
+    "Comfortable safari clothing",
+    "Sturdy walking shoes",
+    "Hat and sunscreen",
+    "Insect repellent",
+    "Camera with telephoto lens",
+    "Binoculars for bird watching"
+  ],
+  "fitness_requirements": "Basic fitness required for walking activities.",
+  "altitude_profile": {
+    "max_altitude": "150m",
+    "acclimatization_days": 0,
+    "difficulty_level": "Easy"
+  },
+  "booking_info": {
+    "advance_booking": "5 days recommended",
+    "group_discounts": "Available for 8+ people",
+    "cancellation_policy": "Free cancellation up to 5 days before departure"
+  },
+  "created_at": "2025-01-02T10:00:00.000Z",
+  "updated_at": "2025-12-18T04:21:19.544Z",
+  "primary_destination_id": 7,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    4,
+    5
+  ],
+  "related_destinations": [
+    "Chitwan"
+  ],
+  "related_activities": [
+    "Jungle Safari",
+    "Cultural Tours"
+  ],
+  "priceAvailable": false
+}

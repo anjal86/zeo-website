@@ -1,0 +1,126 @@
+{
+  "id": 305,
+  "slug": "upper-mustang-flight-drive-tour-6-days",
+  "title": "Upper Mustang Flight & Drive Tour - 6 Days",
+  "category": "Adventure",
+  "description": "Journey to the forbidden kingdom of Upper Mustang, a restricted area that preserves ancient Tibetan culture and traditions. Explore medieval cities, ancient monasteries, and dramatic desert landscapes.",
+  "location": "Mustang",
+  "price": 0,
+  "duration": "6 days",
+  "group_size": "2-10 people",
+  "difficulty": "Moderate",
+  "rating": 4.8,
+  "reviews": 54,
+  "best_time": "March-November",
+  "featured": true,
+  "listed": true,
+  "image": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2071&auto=format&fit=crop",
+  "gallery": [
+    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2071&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1571401835393-8c5f35328320?q=80&w=2074&auto=format&fit=crop"
+  ],
+  "highlights": [
+    "Restricted Upper Mustang region",
+    "Lo Manthang walled city",
+    "Ancient Tibetan monasteries",
+    "Unique high-altitude desert",
+    "Sky caves exploration",
+    "Royal Palace of Mustang King"
+  ],
+  "inclusions": [
+    "Domestic flights (Kathmandu-Pokhara-Jomsom)",
+    "Private vehicle for sightseeing",
+    "Accommodation in best available lodges",
+    "All meals during tour",
+    "Professional guide",
+    "Upper Mustang restricted area permits",
+    "All entrance fees"
+  ],
+  "exclusions": [
+    "International flights",
+    "Nepal visa fees",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide and driver",
+    "Meals in Kathmandu and Pokhara"
+  ],
+  "activities": [
+    {
+      "name": "Cultural Tours",
+      "description": "Explore ancient Tibetan Buddhist culture"
+    },
+    {
+      "name": "Adventure Sports",
+      "description": "High-altitude adventure exploration"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Kathmandu to Pokhara to Jomsom",
+      "description": "Morning flight to Pokhara, then scenic mountain flight to Jomsom. Arrive in the apple capital of Nepal. Explore Jomsom town and visit local monastery. Overnight in Jomsom."
+    },
+    {
+      "day": 2,
+      "title": "Jomsom to Charang to Lo Manthang",
+      "description": "Drive through the Kali Gandaki valley to Charang. Visit the impressive Charang monastery with ancient murals. Continue to Lo Manthang, the walled capital of former Mustang kingdom."
+    },
+    {
+      "day": 3,
+      "title": "Explore Lo Manthang",
+      "description": "Full day exploring Lo Manthang's medieval architecture. Visit Jampa Gompa (15th century), Thubchen Gompa, and Choprang Gompa. Meet with local Loba people and experience their unique culture."
+    },
+    {
+      "day": 4,
+      "title": "Lo Manthang to Ghar Gompa to Ghami",
+      "description": "Visit ancient Ghar Gompa and explore mysterious sky caves. Drive to Ghami village via different route. See the longest mani wall in Nepal and stay overnight in traditional guesthouse."
+    },
+    {
+      "day": 5,
+      "title": "Ghami to Jomsom",
+      "description": "Return journey to Jomsom through scenic Mustang landscapes. Stop at Samar village and Chele. Enjoy last evening in Mustang with mountain views and local hospitality."
+    },
+    {
+      "day": 6,
+      "title": "Jomsom to Pokhara to Kathmandu",
+      "description": "Morning flight from Jomsom to Pokhara with spectacular Annapurna and Dhaulagiri views. Connect to Kathmandu flight or extend stay in Pokhara."
+    }
+  ],
+  "what_to_bring": [
+    "Warm layers for high altitude",
+    "Sturdy walking shoes",
+    "Wind and sun protection",
+    "Personal first aid kit",
+    "Camera with extra batteries",
+    "Passport copy for permits"
+  ],
+  "fitness_requirements": "Good physical fitness required for high altitude activities.",
+  "altitude_profile": {
+    "max_altitude": "3,840m (Lo Manthang)",
+    "acclimatization_days": 1,
+    "difficulty_level": "Moderate"
+  },
+  "booking_info": {
+    "advance_booking": "21 days recommended for permits",
+    "group_discounts": "Available for 6+ people",
+    "cancellation_policy": "Free cancellation up to 21 days before departure"
+  },
+  "created_at": "2025-01-02T10:00:00.000Z",
+  "updated_at": "2025-12-18T04:24:24.308Z",
+  "primary_destination_id": 15,
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    5,
+    3
+  ],
+  "related_destinations": [
+    "Mustang",
+    "Pokhara"
+  ],
+  "related_activities": [
+    "Cultural Tours",
+    "Adventure Sports"
+  ],
+  "priceAvailable": false
+}

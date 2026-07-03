@@ -1,0 +1,50 @@
+{
+  "leads": [
+    {
+      "id": 1,
+      "type": "trip_planner",
+      "name": "Test User",
+      "email": "test@example.com",
+      "meta": {
+        "experience": "trekking",
+        "companions": "couple",
+        "duration": "medium",
+        "fitness": "moderate"
+      },
+      "status": "new",
+      "created_at": "2026-04-25T09:32:32.720Z"
+    },
+    {
+      "id": 2,
+      "type": "pdf_download",
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "meta": {
+        "tour": "Everest Base Camp Trek"
+      },
+      "status": "new",
+      "created_at": "2026-04-25T09:32:32.729Z"
+    },
+    {
+      "id": 3,
+      "type": "price_alert",
+      "name": null,
+      "email": "alert@example.com",
+      "meta": {
+        "tour": "Annapurna Circuit",
+        "currentPrice": 1299
+      },
+      "status": "new",
+      "created_at": "2026-04-25T09:32:32.737Z"
+    },
+    {
+      "id": 4,
+      "type": "exit_popup",
+      "name": null,
+      "email": "exit@example.com",
+      "meta": {},
+      "status": "new",
+      "created_at": "2026-04-25T09:32:32.745Z"
+    }
+  ]
+}

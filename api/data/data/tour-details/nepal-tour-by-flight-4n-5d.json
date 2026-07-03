@@ -1,0 +1,124 @@
+{
+  "id": 311,
+  "slug": "nepal-tour-by-flight-4n-5d",
+  "title": "Nepal Tour by Flight - 4 Nights 5 Days",
+  "category": "Adventure",
+  "description": "Experience Nepal from a unique perspective with this exciting tour featuring scenic mountain flights and ground exploration. This compact yet comprehensive tour combines the thrill of mountain flights with cultural immersion, offering spectacular aerial views of the Himalayas including Mount Everest, followed by ground tours of Nepal's most significant cultural and natural attractions. Perfect for travelers with limited time who want to maximize their Nepal experience with both aerial and terrestrial adventures.",
+  "location": "Nepal",
+  "price": 0,
+  "duration": "5 days",
+  "group_size": "2-16 people",
+  "difficulty": "Easy",
+  "rating": 4.8,
+  "reviews": 89,
+  "best_time": "October-May",
+  "featured": false,
+  "listed": true,
+  "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "gallery": [
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ],
+  "highlights": [
+    "Everest mountain flight experience",
+    "Aerial views of world's highest peaks",
+    "Pokhara scenic flight",
+    "Kathmandu heritage sites",
+    "Pokhara lakeside exploration",
+    "Mountain sunrise from aircraft",
+    "Professional flight commentary"
+  ],
+  "inclusions": [
+    "Mountain flight to Everest region",
+    "Domestic flights (Kathmandu-Pokhara-Kathmandu)",
+    "Hotel accommodation (4-5 star)",
+    "Daily breakfast",
+    "All transfers and transportation",
+    "Professional guide",
+    "All entrance fees",
+    "Flight certificates"
+  ],
+  "exclusions": [
+    "International flights",
+    "Lunch and dinner",
+    "Personal expenses",
+    "Travel insurance",
+    "Tips for guide and staff",
+    "Additional mountain flights",
+    "Personal flight photos/videos"
+  ],
+  "activities": [
+    {
+      "name": "Mountain Flights",
+      "description": "Scenic flights offering aerial views of Himalayan peaks including Everest"
+    },
+    {
+      "name": "Cultural Tours",
+      "description": "Explore UNESCO World Heritage sites and traditional architecture"
+    },
+    {
+      "name": "Lake Activities",
+      "description": "Boating and lakeside exploration in Pokhara"
+    },
+    {
+      "name": "Photography",
+      "description": "Capture stunning aerial and ground-level mountain photography"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival & Everest Mountain Flight",
+      "description": "Welcome to Nepal! Upon arrival at Tribhuvan International Airport, our representative will meet you and transfer you to your hotel in Kathmandu. After check-in and refreshment, prepare for the highlight of your trip - the Everest Mountain Flight. This one-hour scenic flight takes you close to the world's highest peaks, offering unparalleled views of Mount Everest, Lhotse, Nuptse, Ama Dablam, and other towering giants of the Himalayas. Each passenger gets a window seat and receives a mountain identification chart. The flight provides a unique perspective of the Everest region that would otherwise require weeks of trekking to experience. Return to hotel and rest. Evening briefing about the upcoming tour."
+    },
+    {
+      "day": 2,
+      "title": "Kathmandu Sightseeing & Flight to Pokhara",
+      "description": "After breakfast, explore Kathmandu's cultural treasures with visits to UNESCO World Heritage sites. Begin at Swayambhunath Stupa (Monkey Temple) for panoramic valley views and spiritual ambiance. Continue to Kathmandu Durbar Square to explore ancient palaces, courtyards, and meet the Living Goddess Kumari. Visit Pashupatinath Temple, the most sacred Hindu temple in Nepal, and observe religious ceremonies on the banks of the Bagmati River. Afternoon flight to Pokhara, offering spectacular aerial views of the Annapurna and Manaslu mountain ranges. The 25-minute flight showcases Nepal's diverse topography from the Kathmandu Valley to the lake city of Pokhara. Check into lakeside hotel and enjoy the serene atmosphere."
+    },
+    {
+      "day": 3,
+      "title": "Pokhara Exploration & Mountain Views",
+      "description": "Early morning drive to Sarangkot viewpoint (1,592m) to witness one of the world's most spectacular sunrises over the Annapurna and Dhaulagiri mountain ranges. Watch as the first rays of sunlight illuminate the snow-capped peaks, creating a golden glow on mountains including Machhapuchhre (Fishtail Mountain). Return to hotel for breakfast. Begin comprehensive Pokhara sightseeing including Bindabasini Temple, David Falls (Patale Chhango), and Gupteshwor Cave. Enjoy a peaceful boat ride on Phewa Lake and visit Tal Barahi Temple situated on an island. Explore the International Mountain Museum to learn about mountaineering history and Himalayan culture. Evening free to explore the vibrant Lakeside area with its restaurants, cafes, and shops."
+    },
+    {
+      "day": 4,
+      "title": "Pokhara to Kathmandu Flight & Heritage Tour",
+      "description": "Morning flight from Pokhara to Kathmandu, offering another opportunity to enjoy aerial mountain views from a different angle. Upon arrival, continue your cultural exploration with visits to Boudhanath Stupa, one of the largest Buddhist stupas in the world and a major pilgrimage site for Tibetan Buddhists. Walk around the stupa with pilgrims, spin prayer wheels, and visit surrounding monasteries. Continue to Patan Durbar Square, known for its exquisite Newari architecture and metalwork. Explore the ancient courtyards, temples, and visit the Golden Temple (Hiranya Varna Mahavihar). Tour traditional workshops to observe master craftsmen creating intricate metalwork and wood carvings. Evening farewell dinner with cultural performances showcasing traditional Nepali music and dance."
+    },
+    {
+      "day": 5,
+      "title": "Final Sightseeing & Departure",
+      "description": "Final morning in Nepal with optional activities based on your flight schedule. If time permits, visit Bhaktapur Durbar Square, the best-preserved medieval city in Nepal, or explore Thamel for last-minute shopping of traditional handicrafts, pashmina shawls, and souvenirs. Visit the Garden of Dreams for a peaceful retreat in the heart of Kathmandu. Our representative will assist with airport transfer according to your flight schedule. Depart with incredible memories of Nepal's majestic mountains viewed from both air and ground, along with rich cultural experiences that showcase the country's diverse heritage and natural beauty."
+    }
+  ],
+  "what_to_bring": [
+    "Camera with extra batteries",
+    "Comfortable walking shoes",
+    "Light layers for varying altitudes",
+    "Sunglasses and sunscreen",
+    "Motion sickness medication (if needed)",
+    "Personal medications",
+    "Warm jacket for early morning flights",
+    "Binoculars for enhanced mountain viewing"
+  ],
+  "fitness_requirements": "Basic fitness level required for walking and light activities. Suitable for all age groups including elderly travelers.",
+  "altitude_profile": {
+    "max_altitude": "Flight altitude up to 25,000 feet (pressurized cabin)",
+    "acclimatization_days": 0,
+    "difficulty_level": "Easy - Flights and city tours"
+  },
+  "booking_info": {
+    "advance_booking": "10 days recommended (weather dependent flights)",
+    "group_discounts": "Available for 6+ people",
+    "cancellation_policy": "Free cancellation up to 7 days before departure"
+  },
+  "created_at": "2024-12-30T10:00:00.000Z",
+  "updated_at": "2025-12-18T04:23:40.539Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [],
+  "related_destinations": [],
+  "related_activities": [],
+  "priceAvailable": false
+}

@@ -1,0 +1,495 @@
+[
+  {
+    "id": 2,
+    "name": "Everest",
+    "country": "Nepal",
+    "image": "/uploads/destinations/everest/everest_1758268423519.webp",
+    "tourCount": 5,
+    "href": "/destinations/everest",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Everest in Nepal.",
+    "highlights": [
+      "Everest Base Camp",
+      "Kala Patthar",
+      "Namche Bazaar",
+      "Tengboche Monastery"
+    ],
+    "bestTime": "Mar-May, Sep-Nov",
+    "altitude": "5,364m",
+    "difficulty": "Challenging",
+    "relatedTours": [
+      1,
+      26,
+      30,
+      39,
+      308
+    ],
+    "relatedActivities": [
+      2
+    ],
+    "title": "Everest",
+    "listed": true
+  },
+  {
+    "id": 5,
+    "name": "Pokhara",
+    "country": "Nepal",
+    "image": "/uploads/destinations/pokhara/pokhara_1758268514571.jpg",
+    "tourCount": 11,
+    "href": "/destinations/pokhara",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Pokhara in Nepal.",
+    "highlights": [
+      "Phewa Lake",
+      "Paragliding",
+      "World Peace Pagoda",
+      "Sarangkot Sunrise"
+    ],
+    "bestTime": "Sep-May",
+    "altitude": "822m",
+    "difficulty": "Easy",
+    "relatedTours": [
+      7,
+      9,
+      32,
+      105,
+      104,
+      307,
+      310,
+      309,
+      325,
+      326,
+      306
+    ],
+    "relatedActivities": [
+      3
+    ],
+    "title": "Pokhara",
+    "listed": true
+  },
+  {
+    "id": 6,
+    "name": "Kathmandu",
+    "country": "Nepal",
+    "image": "/uploads/destinations/kathmandu/kathmandu_1758268554199.jpeg",
+    "tourCount": 12,
+    "href": "/destinations/kathmandu",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Kathmandu in Nepal.",
+    "highlights": [
+      "Durbar Square",
+      "Swayambhunath",
+      "Boudhanath",
+      "Pashupatinath"
+    ],
+    "bestTime": "Year-round",
+    "altitude": "1,400m",
+    "difficulty": "Easy",
+    "relatedTours": [
+      31,
+      106,
+      105,
+      104,
+      324,
+      307,
+      310,
+      309,
+      325,
+      326,
+      327,
+      306
+    ],
+    "relatedActivities": [
+      5
+    ],
+    "title": "Kathmandu",
+    "listed": true
+  },
+  {
+    "id": 7,
+    "name": "Chitwan",
+    "country": "Nepal",
+    "image": "/uploads/destinations/chitwan/chitwan_1758268583730.jpg",
+    "tourCount": 6,
+    "href": "/destinations/chitwan",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Chitwan in Nepal.",
+    "highlights": [
+      "Jungle Safari",
+      "Elephant Breeding Center",
+      "Tharu Culture",
+      "Bird Watching"
+    ],
+    "bestTime": "Oct-Mar",
+    "altitude": "150m",
+    "difficulty": "Easy",
+    "relatedTours": [
+      33,
+      106,
+      3,
+      307,
+      325,
+      306
+    ],
+    "relatedActivities": [
+      4,
+      5
+    ],
+    "title": "Chitwan",
+    "listed": true
+  },
+  {
+    "id": 9,
+    "name": "Tibet",
+    "country": "China",
+    "image": "/uploads/destinations/tibet/tibet_1766145875819.jpg",
+    "tourCount": 6,
+    "href": "/destinations/tibet",
+    "type": "international",
+    "description": "Discover the beauty and culture of Tibet in China.",
+    "highlights": [
+      "Mount Kailash",
+      "Lake Mansarovar",
+      "Potala Palace",
+      "Jokhang Temple"
+    ],
+    "bestTime": "May-Sep",
+    "altitude": "3,656m",
+    "difficulty": "Moderate to Challenging",
+    "relatedTours": [
+      317,
+      314,
+      13,
+      11,
+      315,
+      316
+    ],
+    "relatedActivities": [
+      6,
+      5
+    ],
+    "listed": true,
+    "title": "Tibet",
+    "featured": false
+  },
+  {
+    "id": 16,
+    "name": "Lumbini",
+    "country": "Nepal",
+    "image": "/uploads/destinations/lumbini/lumbini_1766899454279.avif",
+    "tourCount": 2,
+    "href": "/destinations/lumbini",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Lumbini in Nepal.",
+    "highlights": [],
+    "bestTime": "Mar-May, Sep-Nov",
+    "altitude": "Varies",
+    "difficulty": "Easy",
+    "relatedTours": [
+      29,
+      306
+    ],
+    "relatedActivities": [],
+    "listed": true,
+    "title": "Lumbini",
+    "featured": false
+  },
+  {
+    "id": 17,
+    "name": "Vietnam",
+    "country": "Viet Nam",
+    "image": "/uploads/destinations/vietnam/vietnam_1769503837496.jpg",
+    "tourCount": 1,
+    "href": "/destinations/vietnam",
+    "type": "international",
+    "description": "Discover the beauty and culture of Vietnam in Viet Nam.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      328
+    ],
+    "relatedActivities": [],
+    "listed": true,
+    "title": "Vietnam",
+    "featured": false
+  },
+  {
+    "id": 23,
+    "name": "Muktinath",
+    "slug": "mustang-region",
+    "title": "Muktinath",
+    "country": "Nepal",
+    "region": "Mustang",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop",
+    "featured": false,
+    "tourCount": 2,
+    "href": "/destinations/mustang-region",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Muktinath in Nepal.",
+    "highlights": [
+      "Upper Mustang",
+      "Lo Manthang",
+      "Muktinath Temple",
+      "Tibetan Culture"
+    ],
+    "bestTime": "Mar-Nov",
+    "altitude": "3,800m",
+    "difficulty": "Moderate",
+    "relatedTours": [
+      7,
+      309
+    ],
+    "relatedActivities": [],
+    "listed": true
+  },
+  {
+    "id": 26,
+    "name": "Dubai",
+    "country": "UAE",
+    "image": "/uploads/destinations/dubai/dubai_1766145747532.jpg",
+    "tourCount": 3,
+    "href": "/destinations/dubai",
+    "type": "international",
+    "description": "Discover the beauty and culture of Dubai in UAE.",
+    "highlights": [
+      "Burj Khalifa",
+      "Dubai Mall",
+      "Desert Safari",
+      "Palm Jumeirah",
+      "Dubai Marina",
+      "Gold Souk",
+      "Atlantis Resort",
+      "Dubai Fountain"
+    ],
+    "bestTime": "Nov-Mar",
+    "altitude": "Sea Level",
+    "difficulty": "Easy",
+    "relatedTours": [
+      202,
+      203,
+      201
+    ],
+    "relatedActivities": [
+      8,
+      9,
+      10
+    ],
+    "title": "Dubai",
+    "region": "Middle East",
+    "slug": "dubai",
+    "featured": false,
+    "listed": true
+  },
+  {
+    "id": 28,
+    "name": "Annapurna ",
+    "slug": "annapurna-",
+    "title": "Annapurna ",
+    "country": "Nepal",
+    "region": "",
+    "image": "/uploads/destinations/annapurna-/annapurna-_1762006248934.jpeg",
+    "featured": false,
+    "listed": true,
+    "tourCount": 1,
+    "href": "/destinations/annapurna-",
+    "type": "nepal",
+    "description": "Annapurna Region",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      312
+    ],
+    "relatedActivities": []
+  },
+  {
+    "id": 30,
+    "name": "Thailand",
+    "slug": "thailand",
+    "title": "Thailand",
+    "country": "Thailand",
+    "region": "",
+    "image": "/uploads/destinations/thailand/thailand_1766316382659.jpg",
+    "featured": false,
+    "listed": true,
+    "tourCount": 3,
+    "href": "/destinations/thailand",
+    "type": "international",
+    "description": "Discover the beauty and culture of Thailand in Thailand.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      319,
+      320,
+      329
+    ],
+    "relatedActivities": []
+  },
+  {
+    "id": 31,
+    "name": "Bali",
+    "slug": "bali",
+    "title": "Bali",
+    "country": "Indonesia",
+    "region": "",
+    "image": "/uploads/destinations/bali/bali_1766402663421.jpg",
+    "featured": false,
+    "listed": true,
+    "tourCount": 1,
+    "href": "/destinations/bali",
+    "type": "international",
+    "description": "Discover the beauty and culture of Bali in Indonesia.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      321
+    ],
+    "relatedActivities": []
+  },
+  {
+    "id": 32,
+    "name": "China",
+    "slug": "china",
+    "title": "China",
+    "country": "China",
+    "region": "",
+    "image": "/uploads/destinations/china/china_1766901366395.jpg",
+    "featured": false,
+    "listed": true,
+    "tourCount": 1,
+    "href": "/destinations/china",
+    "type": "international",
+    "description": "Discover the beauty and culture of China in China.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      322
+    ],
+    "relatedActivities": []
+  },
+  {
+    "id": 33,
+    "name": "Gandruk",
+    "slug": "gandruk",
+    "title": "Gandruk",
+    "country": "Nepal",
+    "region": "",
+    "image": "/uploads/destinations/gandruk/gandruk_1766568489552.jpg",
+    "featured": false,
+    "listed": true,
+    "tourCount": 1,
+    "href": "/destinations/gandruk",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Gandruk in Nepal.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      323
+    ],
+    "relatedActivities": []
+  },
+  {
+    "id": 34,
+    "name": "Nagarkot",
+    "slug": "nagarkot",
+    "title": "Nagarkot",
+    "country": "Nepal",
+    "region": "",
+    "image": "/uploads/destinations/nagarkot/nagarkot_1766900084317.jpg",
+    "featured": false,
+    "listed": true,
+    "tourCount": 2,
+    "href": "/destinations/nagarkot",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Nagarkot in Nepal.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      326,
+      327
+    ],
+    "relatedActivities": []
+  },
+  {
+    "id": 35,
+    "name": "Gorakhpur",
+    "slug": "gorakhpur",
+    "title": "Gorakhpur",
+    "country": "Nepal",
+    "region": "",
+    "image": "/uploads/destinations/gorakhpur/gorakhpur_1766922735862.jpg",
+    "featured": false,
+    "listed": true,
+    "tourCount": 1,
+    "href": "/destinations/gorakhpur",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Gorakhpur in Nepal.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      306
+    ],
+    "relatedActivities": []
+  },
+  {
+    "id": 36,
+    "name": "Poon Hill",
+    "slug": "9-day-ultimate-annapurna-sunrise-trek-ghorepani-poon-hill-beyond",
+    "title": "Poon Hill",
+    "country": "Nepal",
+    "region": "",
+    "image": "/uploads/destinations/9-day-ultimate-annapurna-sunrise-trek-ghorepani-poon-hill-beyond/9-day-ultimate-annapurna-sunrise-trek-ghorepani-poon-hill-beyond_1769768713282.jpeg",
+    "featured": false,
+    "listed": true,
+    "tourCount": 1,
+    "href": "/destinations/9-day-ultimate-annapurna-sunrise-trek-ghorepani-poon-hill-beyond",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Poon Hill in Nepal.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      330
+    ],
+    "relatedActivities": []
+  },
+  {
+    "id": 37,
+    "name": "Gosaikunda Trek",
+    "slug": "gosaikunda-trek",
+    "title": "Gosaikunda Trek",
+    "country": "Nepal",
+    "region": "",
+    "image": "/uploads/destinations/gosaikunda-trek/gosaikunda-trek_1769941169881.jpg",
+    "featured": false,
+    "listed": true,
+    "tourCount": 1,
+    "href": "/destinations/gosaikunda-trek",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Gosaikunda Trek in Nepal.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      331
+    ],
+    "relatedActivities": []
+  }
+]

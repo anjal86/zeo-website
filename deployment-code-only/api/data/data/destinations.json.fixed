@@ -1,0 +1,584 @@
+[
+  {
+    "id": 1,
+    "name": "Annapurna",
+    "country": "Nepal",
+    "image": "/uploads/destinations/annapurna/annapurna_1758268396020.jpg",
+    "tourCount": 5,
+    "href": "/destinations/annapurna",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Annapurna in Nepal.",
+    "highlights": [
+      "Annapurna Circuit",
+      "Annapurna Base Camp",
+      "Poon Hill",
+      "Thorong La Pass"
+    ],
+    "bestTime": "Mar-May, Sep-Nov",
+    "altitude": "3,210m",
+    "difficulty": "Moderate to Challenging",
+    "relatedTours": [
+      2,
+      3,
+      11,
+      23,
+      34,
+      24,
+      103
+    ],
+    "relatedActivities": [],
+    "title": "Annapurna",
+    "region": "asdasd",
+    "listed": true
+  },
+  {
+    "id": 2,
+    "name": "Everest",
+    "country": "Nepal",
+    "image": "/uploads/destinations/everest/everest_1758268423519.webp",
+    "tourCount": 4,
+    "href": "/destinations/everest",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Everest in Nepal.",
+    "highlights": [
+      "Everest Base Camp",
+      "Kala Patthar",
+      "Namche Bazaar",
+      "Tengboche Monastery"
+    ],
+    "bestTime": "Mar-May, Sep-Nov",
+    "altitude": "5,364m",
+    "difficulty": "Challenging",
+    "relatedTours": [
+      1,
+      26,
+      30,
+      39
+    ],
+    "relatedActivities": [
+      2
+    ],
+    "title": "Everest",
+    "listed": true
+  },
+  {
+    "id": 3,
+    "name": "Langtang",
+    "country": "Nepal",
+    "image": "/uploads/destinations/langtang/langtang_1758268458527.jpg",
+    "tourCount": 2,
+    "href": "/destinations/langtang",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Langtang in Nepal.",
+    "highlights": [
+      "Kyanjin Gompa",
+      "Langtang Valley",
+      "Tamang Heritage Trail",
+      "Cheese Factory"
+    ],
+    "bestTime": "Mar-May, Sep-Nov",
+    "altitude": "3,870m",
+    "difficulty": "Moderate",
+    "relatedTours": [
+      4,
+      38,
+      8
+    ],
+    "relatedActivities": [
+      5
+    ],
+    "title": "Langtang"
+  },
+  {
+    "id": 5,
+    "name": "Pokhara",
+    "country": "Nepal",
+    "image": "/uploads/destinations/pokhara/pokhara_1758268514571.jpg",
+    "tourCount": 5,
+    "href": "/destinations/pokhara",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Pokhara in Nepal.",
+    "highlights": [
+      "Phewa Lake",
+      "Paragliding",
+      "World Peace Pagoda",
+      "Sarangkot Sunrise"
+    ],
+    "bestTime": "Sep-May",
+    "altitude": "822m",
+    "difficulty": "Easy",
+    "relatedTours": [
+      7,
+      9,
+      32,
+      104,
+      105
+    ],
+    "relatedActivities": [
+      3
+    ],
+    "title": "Pokhara"
+  },
+  {
+    "id": 6,
+    "name": "Kathmandu",
+    "country": "Nepal",
+    "image": "/uploads/destinations/kathmandu/kathmandu_1758268554199.jpeg",
+    "tourCount": 1,
+    "href": "/destinations/kathmandu",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Kathmandu in Nepal.",
+    "highlights": [
+      "Durbar Square",
+      "Swayambhunath",
+      "Boudhanath",
+      "Pashupatinath"
+    ],
+    "bestTime": "Year-round",
+    "altitude": "1,400m",
+    "difficulty": "Easy",
+    "relatedTours": [
+      31
+    ],
+    "relatedActivities": [
+      5
+    ],
+    "title": "Kathmandu"
+  },
+  {
+    "id": 7,
+    "name": "Chitwan",
+    "country": "Nepal",
+    "image": "/uploads/destinations/chitwan/chitwan_1758268583730.jpg",
+    "tourCount": 3,
+    "href": "/destinations/chitwan",
+    "type": "nepal",
+    "description": "Discover the beauty and culture of Chitwan in Nepal.",
+    "highlights": [
+      "Jungle Safari",
+      "Elephant Breeding Center",
+      "Tharu Culture",
+      "Bird Watching"
+    ],
+    "bestTime": "Oct-Mar",
+    "altitude": "150m",
+    "difficulty": "Easy",
+    "relatedTours": [
+      33,
+      3,
+      106,
+      107
+    ],
+    "relatedActivities": [
+      4,
+      5
+    ],
+    "title": "Chitwan"
+  },
+  {
+    "id": 9,
+    "name": "Tibet",
+    "country": "Tibet",
+    "image": "https://images.unsplash.com/photo-1627894483216-2138af692e32?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/tibet",
+    "type": "international",
+    "description": "The 'Roof of the World' offers spiritual journeys, ancient monasteries, and breathtaking high-altitude landscapes including Mount Kailash.",
+    "highlights": [
+      "Mount Kailash",
+      "Lake Mansarovar",
+      "Potala Palace",
+      "Jokhang Temple"
+    ],
+    "bestTime": "May-Sep",
+    "altitude": "3,656m",
+    "difficulty": "Moderate to Challenging",
+    "relatedTours": [
+      13,
+      11
+    ],
+    "relatedActivities": [
+      6,
+      5
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Bhutan",
+    "country": "Bhutan",
+    "image": "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/bhutan",
+    "type": "international",
+    "description": "The Last Shangri-La, known for its pristine environment, unique culture, and philosophy of Gross National Happiness.",
+    "highlights": [
+      "Tiger's Nest Monastery",
+      "Thimphu Dzong",
+      "Punakha Dzong",
+      "Buddhist Culture"
+    ],
+    "bestTime": "Mar-May, Sep-Nov",
+    "altitude": "2,320m",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [],
+    "relatedActivities": [
+      5
+    ]
+  },
+  {
+    "id": 11,
+    "name": "India",
+    "country": "India",
+    "image": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/india",
+    "type": "international",
+    "description": "A land of incredible diversity, offering everything from the Taj Mahal to the Himalayas, spiritual experiences to vibrant cultures.",
+    "highlights": [
+      "Taj Mahal",
+      "Golden Triangle",
+      "Kerala Backwaters",
+      "Rajasthan Palaces"
+    ],
+    "bestTime": "Oct-Mar",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      18
+    ],
+    "relatedActivities": [
+      5,
+      6
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Thailand",
+    "country": "Thailand",
+    "image": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/thailand",
+    "type": "international",
+    "description": "The Land of Smiles offers tropical beaches, ancient temples, vibrant street food, and warm hospitality.",
+    "highlights": [
+      "Phi Phi Islands",
+      "Bangkok Temples",
+      "Chiang Mai",
+      "Thai Cuisine"
+    ],
+    "bestTime": "Nov-Mar",
+    "altitude": "Sea Level",
+    "difficulty": "Easy",
+    "relatedTours": [],
+    "relatedActivities": [
+      3,
+      5
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Maldives",
+    "country": "Maldives",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1pYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/maldives",
+    "type": "international",
+    "description": "A tropical paradise of crystal-clear waters, pristine beaches, and luxury overwater villas perfect for romantic getaways.",
+    "highlights": [
+      "Overwater Villas",
+      "Coral Reefs",
+      "Water Sports",
+      "Luxury Spas"
+    ],
+    "bestTime": "Nov-Apr",
+    "altitude": "Sea Level",
+    "difficulty": "Easy",
+    "relatedTours": [],
+    "relatedActivities": [
+      7,
+      3
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Sri Lanka",
+    "country": "Sri Lanka",
+    "image": "https://images.unsplash.com/photo-1566552881560-0be862a7c445?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/sri-lanka",
+    "type": "international",
+    "description": "The Pearl of the Indian Ocean, offering ancient ruins, tea plantations, wildlife safaris, and beautiful beaches.",
+    "highlights": [
+      "Sigiriya Rock",
+      "Tea Plantations",
+      "Elephant Orphanage",
+      "Galle Fort"
+    ],
+    "bestTime": "Dec-Mar, Jul-Sep",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [],
+    "relatedActivities": [
+      5,
+      4
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Lumbini",
+    "country": "Nepal",
+    "image": "https://gurutravelsltd.com/uploads/package/images/AOTCA_SPECIAL_PACAKAGE_4_y8ANQNm.png",
+    "tourCount": 1,
+    "href": "/destinations/lumbini",
+    "type": "nepal",
+    "description": "Discover the beauty and adventure of Lumbini in Nepal.",
+    "highlights": [],
+    "bestTime": "Mar-May, Sep-Nov",
+    "altitude": "Varies",
+    "difficulty": "Easy",
+    "relatedTours": [
+      29
+    ],
+    "relatedActivities": []
+  },
+  {
+    "id": 17,
+    "name": "Vietnam",
+    "country": "Vietnam",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/vietnam",
+    "type": "international",
+    "description": "Discover the beauty and adventure of Vietnam.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [],
+    "relatedActivities": []
+  },
+  {
+    "id": 18,
+    "name": "Indonesia",
+    "country": "Indonesia",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/indonesia",
+    "type": "international",
+    "description": "Discover the beauty and adventure of Indonesia.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [],
+    "relatedActivities": []
+  },
+  {
+    "id": 19,
+    "name": "Philippines",
+    "country": "Philippines",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/philippines",
+    "type": "international",
+    "description": "Discover the beauty and adventure of Philippines.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [],
+    "relatedActivities": []
+  },
+  {
+    "id": 20,
+    "name": "Azerbaijan",
+    "country": "Azerbaijan",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/azerbaijan",
+    "type": "international",
+    "description": "Discover the beauty and adventure of Azerbaijan.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [],
+    "relatedActivities": []
+  },
+  {
+    "id": 21,
+    "name": "Kenya",
+    "country": "Kenya",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/kenya",
+    "type": "international",
+    "description": "Discover the beauty and adventure of Kenya.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [],
+    "relatedActivities": []
+  },
+  {
+    "id": 22,
+    "name": "Canada",
+    "country": "Canada",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 0,
+    "href": "/destinations/canada",
+    "type": "international",
+    "description": "Discover the beauty and adventure of Canada.",
+    "highlights": [],
+    "bestTime": "Year-round",
+    "altitude": "Varies",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [],
+    "relatedActivities": []
+  },
+  {
+    "id": 23,
+    "name": "Mustang Region",
+    "slug": "mustang-region",
+    "title": "Mustang Region",
+    "country": "Nepal",
+    "region": "Mustang",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop",
+    "featured": false,
+    "tourCount": 0,
+    "href": "/destinations/mustang-region",
+    "type": "nepal",
+    "description": "Discover the ancient kingdom of Mustang with its unique Tibetan culture, dramatic landscapes, and historic monasteries.",
+    "highlights": [
+      "Upper Mustang",
+      "Lo Manthang",
+      "Muktinath Temple",
+      "Tibetan Culture"
+    ],
+    "bestTime": "Mar-Nov",
+    "altitude": "3,800m",
+    "difficulty": "Moderate",
+    "relatedTours": [],
+    "relatedActivities": []
+  },
+  {
+    "id": 24,
+    "name": "Khotang Region",
+    "slug": "khotang-region",
+    "title": "Khotang Region",
+    "country": "Nepal",
+    "region": "Khotang",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop",
+    "featured": false,
+    "tourCount": 0,
+    "href": "/destinations/khotang-region",
+    "type": "nepal",
+    "description": "Explore the sacred Khotang region, home to Haleshi Mahadev temple and rich spiritual heritage.",
+    "highlights": [
+      "Haleshi Mahadev Temple",
+      "Maratika Cave",
+      "Spiritual Sites",
+      "Local Culture"
+    ],
+    "bestTime": "Year-round",
+    "altitude": "1,200m",
+    "difficulty": "Easy",
+    "relatedTours": [],
+    "relatedActivities": []
+  },
+  {
+    "id": 25,
+    "name": "Far Western Region",
+    "slug": "far-western-region",
+    "title": "Far Western Region",
+    "country": "Nepal",
+    "region": "Far West",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop",
+    "featured": false,
+    "tourCount": 0,
+    "href": "/destinations/far-western-region",
+    "type": "nepal",
+    "description": "Discover Nepal's remote far western region with pristine wilderness, Api Base Camp, and untouched natural beauty.",
+    "highlights": [
+      "Api Base Camp",
+      "Remote Wilderness",
+      "Pristine Nature",
+      "Adventure Trekking"
+    ],
+    "bestTime": "Mar-May, Sep-Nov",
+    "altitude": "4,000m+",
+    "difficulty": "Challenging",
+    "relatedTours": [],
+    "relatedActivities": []
+  },
+  {
+    "id": 27,
+    "name": "Rara",
+    "country": "Nepal",
+    "image": "https://images.unsplash.com/photo-1600298881974-6be191ceeda1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 1,
+    "href": "/destinations/rara",
+    "type": "nepal",
+    "description": "Discover Nepal's largest and most pristine alpine lake, nestled in the remote far-western hills of Rara National Park.",
+    "highlights": [
+      "Nepal's Largest Alpine Lake",
+      "Crystal Clear Turquoise Waters",
+      "Pristine Wilderness",
+      "Murma Top Viewpoint",
+      "Remote Mountain Villages",
+      "Untouched Natural Beauty"
+    ],
+    "bestTime": "Sep-May",
+    "altitude": "2,990m",
+    "difficulty": "Easy to Moderate",
+    "relatedTours": [
+      108
+    ],
+    "relatedActivities": [
+      1,
+      5
+    ],
+    "title": "Rara",
+    "region": "Far West",
+    "slug": "rara",
+    "featured": true
+  },
+  {
+    "id": 26,
+    "name": "Dubai",
+    "country": "UAE",
+    "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "tourCount": 3,
+    "href": "/destinations/dubai",
+    "type": "international",
+    "description": "Experience the futuristic city of Dubai with its iconic skyline, luxury shopping, desert adventures, and world-class attractions.",
+    "highlights": [
+      "Burj Khalifa",
+      "Dubai Mall",
+      "Desert Safari",
+      "Palm Jumeirah",
+      "Dubai Marina",
+      "Gold Souk",
+      "Atlantis Resort",
+      "Dubai Fountain"
+    ],
+    "bestTime": "Nov-Mar",
+    "altitude": "Sea Level",
+    "difficulty": "Easy",
+    "relatedTours": [
+      202,
+      201,
+      203
+    ],
+    "relatedActivities": [
+      8,
+      9,
+      10
+    ],
+    "title": "Dubai",
+    "region": "Middle East",
+    "slug": "dubai",
+    "featured": true
+  }
+]
