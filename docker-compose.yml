@@ -1,0 +1,57 @@
+# =============================================================================
+# ZEO WEBSITE - LOCAL DEVELOPMENT ENVIRONMENT
+# Docker Compose for MySQL 8.0 + phpMyAdmin
+# =============================================================================
+# Usage: docker-compose up -d
+# Stop:   docker-compose down
+# Logs:   docker-compose logs -f mysql
+# =============================================================================
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: zeo-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: zeo_website
+      MYSQL_USER: zeo_user
+      MYSQL_PASSWORD: zeopassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - zeo-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: zeo-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+      PMA_ARBITRARY: 0
+    ports:
+      - "8080:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - zeo-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  zeo-network:
+    driver: bridge
