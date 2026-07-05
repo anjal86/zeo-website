@@ -27,6 +27,33 @@ export type HomeData = {
   contactInfo: any;
 };
 
+const planningSteps = [
+  {
+    href: "/destinations",
+    icon: MapPin,
+    eyebrow: "Find the right place",
+    title: "Explore destinations",
+    description: "See the main regions, routes and trip styles before choosing a package.",
+    action: "View destinations",
+  },
+  {
+    href: "/tours",
+    icon: Clock,
+    eyebrow: "Compare your options",
+    title: "Browse tour packages",
+    description: "Shortlist itineraries by duration, difficulty, budget and travel purpose.",
+    action: "Browse tours",
+  },
+  {
+    href: "/contact",
+    icon: MessageCircle,
+    eyebrow: "Need clarity first?",
+    title: "Talk to a local expert",
+    description: "Ask about timing, permits, transport and the practical details before booking.",
+    action: "Get guidance",
+  },
+];
+
 const AnimatedCounter: React.FC<{
   end: number;
   suffix?: string;
@@ -57,69 +84,58 @@ export default function HomeClient({ sliders, featuredDestinations, testimonials
       <Hero initialSlides={sliders} />
 
       <motion.section
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8 }}
-        className="py-16 md:py-24 bg-gray-950 relative overflow-hidden"
+        transition={{ duration: 0.7 }}
+        className="bg-gray-950 py-12 md:py-16 border-y border-white/10 relative overflow-hidden"
       >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,119,204,0.12),transparent_32%)] pointer-events-none" />
         <div className="container-xl relative z-10">
-          <div className="mb-12">
-            <span className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3 block">
-              01 — Our Expertise
-            </span>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-white max-w-2xl leading-tight">
-              Curating Extraordinary <span className="text-primary italic font-light">Journeys</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-b border-gray-800">
-            <div className="group relative p-6 md:p-8 border-b md:border-b-0 md:border-r border-gray-800 hover:bg-gray-900 transition-colors duration-500 overflow-hidden">
-              <span className="absolute -bottom-6 -right-2 text-[8rem] font-serif font-bold text-gray-800/20 group-hover:text-primary/10 transition-colors duration-700 pointer-events-none select-none">
-                01
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.6fr] lg:items-end">
+            <div>
+              <span className="text-primary text-xs font-bold uppercase tracking-[0.22em] mb-3 block">
+                Start here
               </span>
-              <div className="relative z-10 h-full flex flex-col">
-                <MapPin className="w-6 h-6 text-primary mb-6" />
-                <h3 className="text-xl font-serif font-bold text-white mb-3">Explore Destinations</h3>
-                <p className="text-gray-400 mb-6 leading-relaxed flex-grow text-sm">
-                  Discover breathtaking locations from the towering peaks of Everest to the sacred valleys of ancient Nepal.
-                </p>
-                <Link href="/destinations" className="inline-flex items-center text-white hover:text-primary transition-colors text-xs uppercase tracking-wider font-semibold group-hover:gap-3 gap-1.5 duration-300">
-                  View Destinations <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-white leading-tight max-w-xl">
+                Plan with less confusion.
+              </h2>
+              <p className="mt-4 text-sm md:text-base text-gray-400 leading-relaxed max-w-lg">
+                Choose your route, compare practical options, or ask us directly. Three simple paths instead of endless searching.
+              </p>
             </div>
 
-            <div className="group relative p-6 md:p-8 border-b md:border-b-0 md:border-r border-gray-800 hover:bg-gray-900 transition-colors duration-500 overflow-hidden">
-              <span className="absolute -bottom-6 -right-2 text-[8rem] font-serif font-bold text-gray-800/20 group-hover:text-primary/10 transition-colors duration-700 pointer-events-none select-none">
-                02
-              </span>
-              <div className="relative z-10 h-full flex flex-col">
-                <Clock className="w-6 h-6 text-primary mb-6" />
-                <h3 className="text-xl font-serif font-bold text-white mb-3">Book Tours</h3>
-                <p className="text-gray-400 mb-6 leading-relaxed flex-grow text-sm">
-                  Choose from expertly crafted tours and adventures designed to create memories that last a lifetime.
-                </p>
-                <Link href="/tours" className="inline-flex items-center text-white hover:text-primary transition-colors text-xs uppercase tracking-wider font-semibold group-hover:gap-3 gap-1.5 duration-300">
-                  Browse Tours <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-
-            <div className="group relative p-6 md:p-8 hover:bg-gray-900 transition-colors duration-500 overflow-hidden">
-              <span className="absolute -bottom-6 -right-2 text-[8rem] font-serif font-bold text-gray-800/20 group-hover:text-primary/10 transition-colors duration-700 pointer-events-none select-none">
-                03
-              </span>
-              <div className="relative z-10 h-full flex flex-col">
-                <MessageCircle className="w-6 h-6 text-primary mb-6" />
-                <h3 className="text-xl font-serif font-bold text-white mb-3">Expert Consultation</h3>
-                <p className="text-gray-400 mb-6 leading-relaxed flex-grow text-sm">
-                  Connect with our travel experts for personalized planning and insider knowledge of Nepal&apos;s hidden gems.
-                </p>
-                <Link href="/contact" className="inline-flex items-center text-white hover:text-primary transition-colors text-xs uppercase tracking-wider font-semibold group-hover:gap-3 gap-1.5 duration-300">
-                  Contact Us <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              {planningSteps.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <Link
+                    key={step.href}
+                    href={step.href}
+                    className="group relative overflow-hidden border border-white/10 bg-white/[0.03] p-5 md:p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 hover:bg-white/[0.06] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+                  >
+                    <div className="flex items-start justify-between gap-4 mb-7">
+                      <div className="w-10 h-10 border border-white/10 bg-black/20 flex items-center justify-center transition-colors group-hover:border-primary/50 group-hover:bg-primary/10">
+                        <Icon className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="text-xs font-bold text-white/20 tracking-wider">0{index + 1}</span>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary/90">
+                      {step.eyebrow}
+                    </span>
+                    <h3 className="mt-3 text-lg font-serif font-bold text-white leading-tight">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-gray-400">
+                      {step.description}
+                    </p>
+                    <div className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white transition-colors group-hover:text-primary">
+                      {step.action}
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
