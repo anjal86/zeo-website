@@ -7,62 +7,65 @@ import { ArrowRight, Quote } from 'lucide-react';
 import api, { type DirectorMessage, type TeamMember } from '../../services/api';
 
 const proofStats = [
-  { value: '2018', label: 'Founded in Kathmandu', tone: 'primary' },
-  { value: '24/7', label: 'Support mindset', tone: 'secondary' },
-  { value: 'Nepal', label: 'Local route knowledge', tone: 'primary' },
-  { value: 'Global', label: 'Travel planning scope', tone: 'secondary' },
+  { value: '2018', label: 'Founded in Kathmandu' },
+  { value: '24/7', label: 'Support mindset' },
+  { value: 'Nepal', label: 'Local route knowledge' },
+  { value: 'Global', label: 'Travel planning scope' },
 ];
 
-const servicePillars = [
+const routeChips = ['Kathmandu', 'Kailash', 'Muktinath', 'Everest', 'Private trips'];
+
+const journeyLanes = [
   {
+    label: 'Pilgrimage Desk',
     title: 'Sacred journeys',
-    description: 'Kailash Mansarovar, Muktinath, Gosaikunda and pilgrimage travel planned with route, permit, timing and support clarity.',
+    description: 'Kailash Mansarovar, Muktinath, Gosaikunda and pilgrimage routes planned with permit, timing and support clarity.',
     href: '/kailash-mansarovar',
-    label: 'Pilgrimage',
   },
   {
+    label: 'Nepal Desk',
     title: 'Nepal tours',
-    description: 'Culture, heritage, trekking, family holidays, helicopter trips and private Nepal itineraries with local ground planning.',
+    description: 'Culture, trekking, family holidays, helicopter trips and private Nepal itineraries with local ground planning.',
     href: '/tours',
-    label: 'Nepal',
   },
   {
-    title: 'International travel',
-    description: 'Selected outbound and cross-border journeys for travellers starting from Nepal, handled with practical travel essentials.',
-    href: '/destinations',
     label: 'Beyond Nepal',
+    title: 'International travel',
+    description: 'Selected outbound and cross-border journeys for travellers starting from Nepal, handled with practical essentials.',
+    href: '/destinations',
   },
   {
-    title: 'Custom planning',
-    description: 'Private routes for families, groups and travellers who need advice before choosing a final package.',
+    label: 'Custom Desk',
+    title: 'Private planning',
+    description: 'Custom routes for families, groups and travellers who need advice before choosing a final package.',
     href: '/contact',
-    label: 'Tailor-made',
   },
 ];
 
 const processSteps = [
   {
-    title: 'Listen',
-    description: 'Purpose, dates, group size, comfort level and travel expectations come before package suggestions.',
+    step: '01',
+    title: 'Conversation first',
+    description: 'We start with your reason for travelling, dates, group size, comfort level and what feels unclear.',
   },
   {
-    title: 'Clarify',
-    description: 'Timing, permits, transport, altitude, hotels and practical trade-offs are explained clearly.',
+    step: '02',
+    title: 'Route made simple',
+    description: 'We translate timing, permits, transport, altitude, hotels and trade-offs into a plan you can understand.',
   },
   {
-    title: 'Support',
-    description: 'Fewer surprises, realistic preparation and dependable communication before and during travel.',
+    step: '03',
+    title: 'Support that stays close',
+    description: 'Before and during the journey, the focus is fewer surprises, realistic preparation and dependable communication.',
   },
 ];
 
-const values = [
+const principles = [
   'No pressure before booking',
-  'Clear route advice over generic packages',
+  'Route clarity over generic packages',
   'Kathmandu-based accountability',
   'Realistic planning for pilgrimage and Himalayan travel',
 ];
-
-const routeChips = ['Kathmandu', 'Kailash', 'Muktinath', 'Everest', 'Private trips'];
 
 const BrandMark = () => (
   <div className="flex items-center gap-1.5" aria-hidden="true">
@@ -96,58 +99,68 @@ const About: React.FC = () => {
 
   return (
     <div className="bg-white">
-      <section className="relative overflow-hidden bg-white py-16 md:py-20 border-t border-gray-100">
-        <div className="absolute right-0 top-0 h-72 w-72 bg-primary/[0.035] blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 left-8 h-40 w-40 bg-secondary/[0.035] blur-3xl pointer-events-none" />
+      <section className="relative overflow-hidden border-t border-gray-100 bg-[#fbfcfe] py-14 md:py-20">
+        <div className="absolute right-[-10%] top-10 h-80 w-80 bg-primary/[0.04] blur-3xl" />
+        <div className="absolute left-[-8%] bottom-10 h-72 w-72 bg-secondary/[0.05] blur-3xl" />
+
         <div className="container-xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="grid gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:items-start"
+            transition={{ duration: 0.65 }}
+            className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center"
           >
-            <aside className="lg:sticky lg:top-28">
-              <div className="max-w-sm border-t border-gray-950 pt-5">
-                <BrandMark />
-                <span className="mt-6 block text-secondary text-xs font-bold uppercase tracking-[0.22em]">
-                  Who we are
-                </span>
-                <p className="mt-5 text-sm leading-7 text-gray-500">
-                  A local team for travellers who want a practical route, not just a package list.
+            <div className="relative order-2 lg:order-1">
+              <div className="relative min-h-[520px] overflow-hidden bg-gray-950 shadow-2xl shadow-gray-900/10">
+                <img
+                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1600&auto=format&fit=crop"
+                  alt="Himalayan travel planning"
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover opacity-78"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/45 to-transparent" />
+                <div className="absolute left-6 top-6 flex items-center gap-2 bg-white/90 px-4 py-3 backdrop-blur-sm">
+                  <BrandMark />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-700">Kathmandu route desk</span>
+                </div>
+
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                  <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em]">Route-first planning</span>
+                  <h3 className="mt-4 max-w-xl text-3xl md:text-4xl font-serif font-bold leading-tight">
+                    We help turn a travel idea into a route you can actually understand.
+                  </h3>
+                </div>
+              </div>
+
+              <div className="absolute -right-4 bottom-10 hidden w-64 border border-gray-200 bg-white p-5 shadow-xl shadow-gray-900/10 md:block">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Planning note</span>
+                <p className="mt-3 text-sm leading-6 text-gray-700">
+                  Bring the idea. We help shape the path, timing, support and next step.
                 </p>
               </div>
-            </aside>
+            </div>
 
-            <div>
-              <h2 className="max-w-5xl text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-950 leading-[1.02] tracking-tight">
-                A Kathmandu travel team focused on clarity before commitment.
-              </h2>
-
-              <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.85fr] lg:items-start">
-                <div>
-                  <p className="text-lg leading-8 text-gray-700">
-                    Zeo Tourism helps travellers plan sacred journeys, Nepal tours, international trips and private itineraries with practical route advice and local context.
-                  </p>
-                  <p className="mt-5 text-sm md:text-base leading-7 text-gray-600">
-                    We do not treat travel planning as a list of packages. We help people understand the route, timing, support level and decisions that matter before they choose a journey.
-                  </p>
-                </div>
-
-                <div className="relative border border-gray-200 bg-gray-50 p-5 shadow-sm">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Planning note</span>
-                  <p className="mt-3 text-sm leading-6 text-gray-700">
-                    You do not need to know the full route before you talk to us. Bring the idea — we help shape the path.
-                  </p>
-                  <div className="mt-5 flex gap-1.5">
-                    <span className="h-2 w-2 rotate-45 bg-primary" />
-                    <span className="h-2 w-2 rotate-45 bg-secondary" />
-                  </div>
-                </div>
+            <div className="order-1 lg:order-2">
+              <div className="mb-6 flex items-center gap-3">
+                <BrandMark />
+                <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em]">Who we are</span>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-2 border-y border-gray-100 py-4">
-                <span className="mr-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Common routes</span>
+              <h2 className="max-w-4xl text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-[1.02] tracking-tight text-gray-950">
+                A travel team for people who want clarity before commitment.
+              </h2>
+
+              <div className="mt-8 max-w-3xl space-y-5">
+                <p className="text-lg leading-8 text-gray-700">
+                  Zeo Tourism is a Kathmandu-based planning team for sacred journeys, Nepal tours, international travel and private itineraries.
+                </p>
+                <p className="text-sm md:text-base leading-7 text-gray-600">
+                  We do not start by pushing packages. We start by understanding the purpose of the trip, then explain the route, timing, permit logic, support level and practical decisions that matter before booking.
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-2">
                 {routeChips.map((item, index) => (
                   <span
                     key={item}
@@ -158,100 +171,91 @@ const About: React.FC = () => {
                   </span>
                 ))}
               </div>
-            </div>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, delay: 0.1 }}
-            className="mt-12 grid gap-px overflow-hidden border border-gray-200 bg-gray-200 sm:grid-cols-2 lg:grid-cols-4"
-          >
-            {proofStats.map((stat, index) => (
-              <div key={stat.label} className="bg-white p-5 transition-colors hover:bg-gray-50">
-                <div className="flex items-start justify-between gap-4">
-                  <span className={`h-2.5 w-2.5 rotate-45 ${stat.tone === 'primary' ? 'bg-primary' : 'bg-secondary'}`} />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-300">0{index + 1}</span>
-                </div>
-                <div className="mt-6 text-3xl md:text-4xl font-bold text-gray-950">{stat.value}</div>
-                <div className="mt-2 text-xs uppercase tracking-[0.16em] text-gray-500">{stat.label}</div>
+              <div className="mt-10 grid gap-px overflow-hidden border border-gray-200 bg-gray-200 sm:grid-cols-2">
+                {proofStats.map((stat, index) => (
+                  <div key={stat.label} className="bg-white p-5">
+                    <div className="flex items-center justify-between">
+                      <span className={`h-2.5 w-2.5 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
+                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-300">0{index + 1}</span>
+                    </div>
+                    <div className="mt-5 text-3xl font-bold text-gray-950">{stat.value}</div>
+                    <div className="mt-2 text-xs uppercase tracking-[0.16em] text-gray-500">{stat.label}</div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-gray-50 py-16 md:py-20 border-y border-gray-100">
+      <section className="bg-white py-14 md:py-20">
         <div className="container-xl">
-          <div className="mb-10 grid gap-6 lg:grid-cols-[0.42fr_0.58fr] lg:items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-10 grid gap-6 lg:grid-cols-[0.42fr_0.58fr] lg:items-end"
+          >
             <div>
               <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em]">What we plan</span>
               <h2 className="mt-4 max-w-xl text-3xl md:text-4xl font-serif font-bold text-gray-950 leading-tight">
-                Journeys shaped around purpose, route and readiness.
+                Four travel desks, one planning mindset.
               </h2>
             </div>
             <p className="text-sm md:text-base leading-7 text-gray-600 lg:max-w-xl lg:justify-self-end">
-              Many travellers know where they want to go, but not how to plan it properly. That is where our work begins.
+              The destination may change, but the principle stays the same: make the route practical, understandable and right for the traveller.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch">
-            <motion.div
-              initial={{ opacity: 0, x: -24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative min-h-[460px] overflow-hidden bg-gray-950 shadow-xl shadow-gray-900/10"
-            >
+          <div className="grid gap-8 lg:grid-cols-[0.34fr_0.66fr] lg:items-start">
+            <div className="relative hidden min-h-[560px] overflow-hidden bg-gray-950 lg:block">
               <img
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1400&auto=format&fit=crop"
-                alt="Himalayan route planning"
+                src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200&auto=format&fit=crop"
+                alt="Kathmandu travel desk"
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover opacity-70"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/45 to-transparent" />
-              <div className="absolute left-6 top-6 flex gap-1.5">
-                <span className="h-3 w-3 rotate-45 bg-primary" />
-                <span className="h-3 w-3 rotate-45 bg-secondary" />
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-7 text-white">
+                <span className="text-primary text-xs font-bold uppercase tracking-[0.22em]">Zeo approach</span>
+                <p className="mt-4 text-2xl font-serif font-bold leading-tight">
+                  Travel planning should feel less confusing after the first conversation.
+                </p>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
-                <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em]">Our role</span>
-                <h3 className="mt-4 max-w-xl text-3xl md:text-4xl font-serif font-bold leading-tight">
-                  Turning uncertainty into a route you can understand.
-                </h3>
-              </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="border-y border-gray-200 bg-white"
-            >
-              {servicePillars.map((service, index) => (
-                <Link
-                  key={service.title}
-                  href={service.href}
-                  className="group grid gap-4 border-b border-gray-200 px-5 py-6 last:border-b-0 transition-colors hover:bg-gray-50 md:grid-cols-[86px_0.36fr_1fr_auto] md:items-start"
+            <div className="border-y border-gray-200">
+              {journeyLanes.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, delay: index * 0.05 }}
                 >
-                  <span className="flex items-center gap-3 text-xs font-bold tracking-wider text-gray-400">
-                    <span className={`h-2.5 w-2.5 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
-                    0{index + 1}
-                  </span>
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400">{service.label}</span>
-                    <h4 className="mt-2 font-serif text-2xl font-bold text-gray-950 group-hover:text-primary transition-colors">
-                      {service.title}
-                    </h4>
-                  </div>
-                  <p className="text-sm leading-6 text-gray-600">{service.description}</p>
-                  <ArrowRight className="h-4 w-4 text-gray-300 transition-all group-hover:translate-x-1 group-hover:text-primary" />
-                </Link>
+                  <Link
+                    href={item.href}
+                    className="group grid gap-5 border-b border-gray-200 px-1 py-7 last:border-b-0 transition-colors hover:bg-gray-50 md:grid-cols-[90px_0.38fr_1fr_auto] md:items-start md:px-5"
+                  >
+                    <span className="flex items-center gap-3 text-xs font-bold tracking-wider text-gray-400">
+                      <span className={`h-2.5 w-2.5 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
+                      0{index + 1}
+                    </span>
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400">{item.label}</span>
+                      <h3 className="mt-2 font-serif text-2xl font-bold text-gray-950 group-hover:text-primary transition-colors">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="text-sm leading-6 text-gray-600">{item.description}</p>
+                    <ArrowRight className="h-4 w-4 text-gray-300 transition-all group-hover:translate-x-1 group-hover:text-primary" />
+                  </Link>
+                </motion.div>
               ))}
 
-              <div className="flex flex-col gap-3 border-t border-gray-200 px-5 py-6 sm:flex-row">
+              <div className="flex flex-col gap-3 border-t border-gray-200 px-1 py-7 sm:flex-row md:px-5">
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center bg-primary px-6 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-primary-dark"
@@ -265,18 +269,18 @@ const About: React.FC = () => {
                   Browse tours
                 </Link>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 md:py-20 bg-white">
+      <section className="bg-gray-50 py-14 md:py-20 border-y border-gray-100">
         <div className="container-xl">
           <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr]">
             <div>
               <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em]">How we work</span>
               <h2 className="mt-4 text-3xl md:text-4xl font-serif font-bold text-gray-950 leading-tight">
-                A quieter, clearer way to plan.
+                A clearer path from idea to itinerary.
               </h2>
             </div>
 
@@ -289,13 +293,13 @@ const About: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: index * 0.06 }}
-                  className={`relative grid gap-4 border-b border-gray-200 py-7 transition-colors hover:bg-gray-50/60 md:grid-cols-[96px_0.38fr_1fr] md:items-start md:px-3 ${index === 0 ? 'border-t' : ''}`}
+                  className={`relative grid gap-4 border-b border-gray-200 py-7 transition-colors hover:bg-white/70 md:grid-cols-[96px_0.38fr_1fr] md:items-start md:px-3 ${index === 0 ? 'border-t' : ''}`}
                 >
                   <span className="flex items-center gap-3 text-xs font-bold tracking-wider text-gray-400">
-                    <span className="relative z-10 h-6 w-6 border border-gray-200 bg-white flex items-center justify-center">
+                    <span className="relative z-10 flex h-6 w-6 items-center justify-center border border-gray-200 bg-white">
                       <span className={`h-2 w-2 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
                     </span>
-                    0{index + 1}
+                    {step.step}
                   </span>
                   <h3 className="text-xl font-serif font-bold text-gray-950">{step.title}</h3>
                   <p className="text-sm md:text-base leading-7 text-gray-600">{step.description}</p>
@@ -307,14 +311,14 @@ const About: React.FC = () => {
       </section>
 
       {directorMessage && (
-        <section className="py-16 md:py-20 bg-gray-50 border-y border-gray-100">
+        <section className="bg-white py-14 md:py-20">
           <div className="container-xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="grid gap-8 lg:grid-cols-[0.34fr_0.66fr] lg:items-center"
+              className="grid gap-8 lg:grid-cols-[0.38fr_0.62fr] lg:items-center"
             >
               <div className="relative aspect-[4/5] overflow-hidden bg-gray-100 shadow-xl shadow-gray-900/10">
                 <img
@@ -326,6 +330,7 @@ const About: React.FC = () => {
                 <span className="absolute bottom-4 left-4 h-2.5 w-2.5 rotate-45 bg-primary" />
                 <span className="absolute bottom-4 left-8 h-2.5 w-2.5 rotate-45 bg-secondary" />
               </div>
+
               <div className="border-l border-gray-200 pl-6 md:pl-10">
                 <Quote className="h-10 w-10 text-secondary/20" />
                 <span className="mt-6 block text-primary text-xs font-bold uppercase tracking-[0.22em]">
@@ -344,7 +349,7 @@ const About: React.FC = () => {
         </section>
       )}
 
-      <section className="py-16 md:py-20 bg-white">
+      <section className="bg-gray-50 py-14 md:py-20 border-y border-gray-100">
         <div className="container-xl">
           <div className="grid gap-10 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
             <div>
@@ -353,15 +358,15 @@ const About: React.FC = () => {
                 Travel planning built on trust, not noise.
               </h2>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {values.map((value, index) => (
+            <div className="grid gap-px overflow-hidden border border-gray-200 bg-gray-200 sm:grid-cols-2">
+              {principles.map((value, index) => (
                 <motion.div
                   key={value}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: index * 0.05 }}
-                  className={`border border-gray-200 bg-white p-5 shadow-sm transition-transform duration-300 hover:-translate-y-1 ${index % 2 === 1 ? 'sm:translate-y-4' : ''}`}
+                  className="bg-white p-6 transition-colors hover:bg-gray-50"
                 >
                   <span className={`mb-5 block h-2.5 w-2.5 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
                   <p className="text-base md:text-lg font-medium leading-7 text-gray-800">{value}</p>
@@ -373,7 +378,7 @@ const About: React.FC = () => {
       </section>
 
       {teamMembers.length > 0 && (
-        <section className="py-16 md:py-20 bg-gray-50 border-y border-gray-100">
+        <section className="bg-white py-14 md:py-20">
           <div className="container-xl">
             <div className="mb-10 grid gap-5 lg:grid-cols-[0.42fr_0.58fr] lg:items-end">
               <div>
