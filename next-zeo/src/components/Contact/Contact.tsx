@@ -171,23 +171,23 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.55 }}
             className="space-y-4"
           >
-            <div className="border border-gray-200 bg-gray-950 p-5 md:p-6 text-white relative overflow-hidden">
-              <div className="absolute -right-12 -top-12 h-32 w-32 border border-white/10" />
-              <span className="text-primary text-[10px] font-bold uppercase tracking-[0.22em]">Best first step</span>
-              <h3 className="mt-3 text-xl md:text-2xl font-serif font-bold leading-tight">
+            <div className="border border-gray-200 bg-white p-5 md:p-6 text-gray-950 relative overflow-hidden shadow-sm">
+              <div className="absolute -right-12 -top-12 h-32 w-32 border border-gray-100 bg-gray-50/60" />
+              <span className="text-secondary text-[10px] font-bold uppercase tracking-[0.22em]">Best first step</span>
+              <h3 className="mt-3 text-xl md:text-2xl font-serif font-bold leading-tight text-gray-950">
                 Ask before you book.
               </h3>
-              <p className="mt-3 text-sm leading-6 text-gray-400">
+              <p className="mt-3 text-sm leading-6 text-gray-600">
                 No pressure. We help you understand the practical next step before you commit.
               </p>
 
               <div className="mt-5 grid gap-2.5">
                 {planningSteps.map((step, index) => (
-                  <div key={step.title} className="grid grid-cols-[auto_1fr] gap-3 border border-white/10 bg-white/[0.04] p-3.5">
+                  <div key={step.title} className="grid grid-cols-[auto_1fr] gap-3 border border-gray-200 bg-gray-50 p-3.5">
                     <span className="text-primary text-xs font-bold leading-6">0{index + 1}</span>
                     <div>
-                      <h4 className="text-sm font-bold text-white">{step.title}</h4>
-                      <p className="mt-0.5 text-sm leading-6 text-gray-400">{step.text}</p>
+                      <h4 className="text-sm font-bold text-gray-950">{step.title}</h4>
+                      <p className="mt-0.5 text-sm leading-6 text-gray-600">{step.text}</p>
                     </div>
                   </div>
                 ))}
