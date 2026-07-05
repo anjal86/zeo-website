@@ -75,7 +75,10 @@ const Navigation: React.FC = () => {
     return false;
   };
 
-
+  const destinationHref = (destination: any) => `/destinations/${destination.slug || destination.name.toLowerCase().replace(/\s+/g, '-')}`;
+  const nepalDestinations = (destinations?.filter((d: any) => d.type === 'nepal') || []).slice(0, 6);
+  const internationalDestinations = (destinations?.filter((d: any) => d.type === 'international') || []).slice(0, 6);
+  const kailashTours = (allTours?.filter((t: any) => t.category?.toLowerCase().includes('kailash') || t.title?.toLowerCase().includes('kailash')) || []).slice(0, 5);
 
   return (
     <>
@@ -136,124 +139,131 @@ const Navigation: React.FC = () => {
                   <AnimatePresence>
                     {activeDropdown === item.label && item.label === 'Destinations' && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        className="absolute top-full left-0 w-[750px] bg-white shadow-2xl border border-gray-100 flex p-0 z-[100]"
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.18 }}
+                        className="absolute top-full left-0 mt-2 w-[640px] max-w-[calc(100vw-2rem)] bg-white shadow-xl border border-gray-100 p-4 z-[100]"
                       >
-                        {/* Nepal Column */}
-                        <div className="flex-1 p-6 border-r border-gray-50">
-                          <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-4">Nepal</h4>
-                          <div className="space-y-3">
-                            {destinations?.filter(d => d.type === 'nepal').slice(0, 8).map((d, idx) => (
-                              <Link
-                                key={`nepal-${d.id}-${idx}`}
-                                href={`/destinations/${d.name.toLowerCase()}`}
-                                className="block text-sm text-gray-600 hover:text-primary transition-colors font-medium"
-                              >
-                                {d.name}
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="border border-gray-100 bg-white p-4">
+                            <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-3">
+                              <div>
+                                <h4 className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">Nepal</h4>
+                                <p className="mt-1 text-xs text-gray-400">Treks, cities and pilgrimage routes</p>
+                              </div>
+                              <Mountain className="h-4 w-4 text-primary/60" />
+                            </div>
+                            <div className="grid gap-1.5">
+                              {nepalDestinations.map((d: any, idx: number) => (
+                                <Link
+                                  key={`nepal-${d.id}-${idx}`}
+                                  href={destinationHref(d)}
+                                  className="group flex items-center justify-between px-2.5 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-primary"
+                                >
+                                  <span>{d.name}</span>
+                                  <ArrowRight className="h-3.5 w-3.5 text-gray-300 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100 group-hover:text-primary" />
+                                </Link>
+                              ))}
+                              <Link href="/tours" className="mt-2 flex items-center justify-between border-t border-gray-100 px-2.5 pt-3 text-sm font-bold text-primary">
+                                All Nepal tours <ArrowRight className="h-3.5 w-3.5" />
                               </Link>
-                            ))}
-                            <Link href="/tours" className="block text-sm text-primary font-bold pt-2 border-t border-gray-50 mt-2">
-                              All Nepal Tours →
-                            </Link>
+                            </div>
+                          </div>
+
+                          <div className="border border-gray-100 bg-white p-4">
+                            <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-3">
+                              <div>
+                                <h4 className="text-[11px] font-bold uppercase tracking-[0.22em] text-secondary-dark">International</h4>
+                                <p className="mt-1 text-xs text-gray-400">Trips beyond Nepal</p>
+                              </div>
+                              <Globe className="h-4 w-4 text-secondary/70" />
+                            </div>
+                            <div className="grid gap-1.5">
+                              {internationalDestinations.map((d: any, idx: number) => (
+                                <Link
+                                  key={`intl-${d.id}-${idx}`}
+                                  href={destinationHref(d)}
+                                  className="group flex items-center justify-between px-2.5 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-secondary-dark"
+                                >
+                                  <span>{d.name}</span>
+                                  <ArrowRight className="h-3.5 w-3.5 text-gray-300 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100 group-hover:text-secondary-dark" />
+                                </Link>
+                              ))}
+                              <Link href="/destinations" className="mt-2 flex items-center justify-between border-t border-gray-100 px-2.5 pt-3 text-sm font-bold text-secondary-dark">
+                                All destinations <ArrowRight className="h-3.5 w-3.5" />
+                              </Link>
+                            </div>
                           </div>
                         </div>
 
-                        {/* International Column */}
-                        <div className="flex-1 p-6 border-r border-gray-50">
-                          <h4 className="text-xs font-bold uppercase tracking-widest text-secondary-dark mb-4">International</h4>
-                          <div className="space-y-3">
-                            {destinations?.filter(d => d.type === 'international').slice(0, 8).map((d, idx) => (
-                              <Link
-                                key={`intl-${d.id}-${idx}`}
-                                href={`/destinations/${d.name.toLowerCase()}`}
-                                className="block text-sm text-gray-600 hover:text-primary transition-colors font-medium"
-                              >
-                                {d.name}
-                              </Link>
-                            ))}
-                            <Link href="/destinations" className="block text-sm text-secondary-dark font-bold pt-2 border-t border-gray-50 mt-2">
-                              All Destinations →
-                            </Link>
-                          </div>
-                        </div>
-
-                        {/* Travel Guides Column (New Side Panel) */}
-                        <div className="flex-1 bg-gray-50/50 p-6">
-                          <h4 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Travel Resources</h4>
-                          <div className="space-y-4">
-                            <Link href="/everest-base-camp-guide" className="group block border-b border-gray-100 pb-3 last:border-0">
-                              <span className="block text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">Everest Base Camp</span>
-                              <span className="block text-[10px] text-gray-500 italic uppercase">The Ultimate Trek</span>
-                            </Link>
-                            <Link href="/nepal-visa-guide" className="group block border-b border-gray-100 pb-3 last:border-0">
-                              <span className="block text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">Nepal Visa Guide</span>
-                              <span className="block text-[10px] text-gray-500 uppercase tracking-tighter">On-Arrival Rules</span>
-                            </Link>
-                            <Link href="/best-time-to-visit-nepal" className="group block border-b border-gray-100 pb-3 last:border-0">
-                              <span className="block text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">Best Time to Visit</span>
-                              <span className="block text-[10px] text-gray-500 uppercase tracking-tighter">Weather & Seasons</span>
-                            </Link>
-                            <Link href="/kailash-mansarovar-yatra-guide" className="group block border-b border-gray-100 pb-3 last:border-0">
-                              <span className="block text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">Kailash Guide</span>
-                              <span className="block text-[10px] text-gray-500 uppercase tracking-tighter">Spiritual Pilgrimage</span>
-                            </Link>
-                          </div>
+                        <div className="mt-4 grid grid-cols-2 gap-3 border-t border-gray-100 pt-4">
+                          <Link href="/kailash-mansarovar" className="group border border-orange-100 bg-orange-50/60 p-4 transition-colors hover:border-secondary/40 hover:bg-orange-50">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary-dark">Signature yatra</span>
+                            <span className="mt-1 block text-sm font-bold text-gray-950">Kailash Mansarovar</span>
+                            <span className="mt-2 inline-flex items-center text-xs font-bold uppercase tracking-wider text-secondary-dark">
+                              Explore yatra <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                            </span>
+                          </Link>
+                          <Link href="/contact" className="group border border-gray-100 bg-gray-50 p-4 transition-colors hover:border-primary/30 hover:bg-white">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Need help?</span>
+                            <span className="mt-1 block text-sm font-bold text-gray-950">Ask a travel expert</span>
+                            <span className="mt-2 inline-flex items-center text-xs font-bold uppercase tracking-wider text-primary">
+                              Get guidance <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                            </span>
+                          </Link>
                         </div>
                       </motion.div>
                     )}
 
                     {activeDropdown === item.label && item.label === 'Kailash Mansarovar' && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        className="absolute top-full left-0 mt-4 w-[500px] bg-white shadow-2xl overflow-hidden border-t-2 border-secondary flex z-[100]"
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.18 }}
+                        className="absolute top-full left-0 mt-2 w-[500px] bg-white shadow-xl overflow-hidden border border-gray-100 border-t-2 border-secondary z-[100]"
                       >
-                        {/* Main List */}
-                        <div className="w-3/5 p-6 border-r border-gray-50">
-                          <h4 className="text-xs font-bold uppercase tracking-widest text-secondary-dark mb-4">Yatra Packages</h4>
-                          <div className="space-y-3">
-                            {allTours?.filter(t => t.category?.toLowerCase().includes('kailash') || t.title?.toLowerCase().includes('kailash')).slice(0, 6).map(t => (
-                              <Link
-                                key={t.id}
-                                href={`/tours/${t.slug}`}
-                                className="block text-sm text-gray-600 hover:text-primary transition-colors font-medium line-clamp-1"
-                                title={t.title}
-                              >
-                                {t.title}
+                        <div className="grid grid-cols-[1.15fr_0.85fr]">
+                          <div className="p-5 border-r border-gray-100">
+                            <h4 className="text-[11px] font-bold uppercase tracking-[0.22em] text-secondary-dark mb-4">Yatra packages</h4>
+                            <div className="space-y-1.5">
+                              {kailashTours.map((t: any) => (
+                                <Link
+                                  key={t.id}
+                                  href={`/tours/${t.slug}`}
+                                  className="group flex items-center justify-between px-2.5 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-orange-50/70 hover:text-secondary-dark"
+                                  title={t.title}
+                                >
+                                  <span className="line-clamp-1">{t.title}</span>
+                                  <ArrowRight className="h-3.5 w-3.5 text-gray-300 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100 group-hover:text-secondary-dark" />
+                                </Link>
+                              ))}
+                              <Link href="/kailash-mansarovar" className="mt-2 flex items-center justify-between border-t border-gray-100 px-2.5 pt-3 text-xs font-bold uppercase tracking-wider text-primary">
+                                View all packages <ArrowRight className="h-3.5 w-3.5" />
                               </Link>
-                            ))}
-                            <Link href="/kailash-mansarovar" className="block text-[10px] font-bold text-primary uppercase tracking-tighter mt-2">
-                              View All Packages →
-                            </Link>
+                            </div>
                           </div>
-                        </div>
 
-                        {/* Sidebar Resources */}
-                        <div className="w-2/5 bg-gray-50/50 p-6 overflow-y-auto max-h-[450px]">
-                          <h4 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Resources</h4>
-                          <div className="space-y-4">
-                            <Link href="/kailash-yatra-nri-guide" className="group block border-b border-gray-100 pb-3 last:border-0">
-                              <span className="block text-sm font-bold text-gray-900 group-hover:text-secondary transition-colors italic">NRI Special Guide</span>
-                              <span className="block text-[10px] text-gray-500">Global Booking & Permits</span>
-                            </Link>
-                            <Link href="/kailash-packing-list" className="group block border-b border-gray-100 pb-3 last:border-0">
-                              <span className="block text-sm font-bold text-gray-900 group-hover:text-secondary transition-colors">Yatra Packing List</span>
-                              <span className="block text-[10px] text-gray-500">Essential Gear & Meds</span>
-                            </Link>
-                            <Link href="/kailash-fitness-medical-guide" className="group block border-b border-gray-100 pb-3 last:border-0">
-                              <span className="block text-sm font-bold text-gray-900 group-hover:text-secondary transition-colors">Medical & Fitness</span>
-                              <span className="block text-[10px] text-gray-500">AMS & Safety Prep</span>
-                            </Link>
-                            <Link href="/kailash-inner-kora-guide" className="group block border-b border-gray-100 pb-3 last:border-0">
-                              <span className="block text-sm font-bold text-gray-900 group-hover:text-secondary transition-colors">Inner Kora Guide</span>
-                              <span className="block text-[10px] text-gray-500">South Face & Nandi Parvat</span>
-                            </Link>
-                            <Link href="/kailash-mansarovar-yatra-guide" className="group block pt-2">
-                              <span className="block text-sm font-bold text-primary group-hover:text-secondary transition-colors">Main Yatra Guide →</span>
-                            </Link>
+                          <div className="bg-gray-50 p-5">
+                            <h4 className="text-[11px] font-bold uppercase tracking-[0.22em] text-gray-400 mb-4">Plan safely</h4>
+                            <div className="space-y-3">
+                              <Link href="/kailash-yatra-nri-guide" className="group block border-b border-gray-200 pb-3 last:border-0">
+                                <span className="block text-sm font-bold text-gray-900 group-hover:text-secondary-dark transition-colors">NRI guide</span>
+                                <span className="block text-[10px] text-gray-500 uppercase tracking-wider">Booking & permits</span>
+                              </Link>
+                              <Link href="/kailash-packing-list" className="group block border-b border-gray-200 pb-3 last:border-0">
+                                <span className="block text-sm font-bold text-gray-900 group-hover:text-secondary-dark transition-colors">Packing list</span>
+                                <span className="block text-[10px] text-gray-500 uppercase tracking-wider">Gear & medicine</span>
+                              </Link>
+                              <Link href="/kailash-fitness-medical-guide" className="group block border-b border-gray-200 pb-3 last:border-0">
+                                <span className="block text-sm font-bold text-gray-900 group-hover:text-secondary-dark transition-colors">Medical prep</span>
+                                <span className="block text-[10px] text-gray-500 uppercase tracking-wider">Altitude safety</span>
+                              </Link>
+                              <Link href="/kailash-mansarovar-yatra-guide" className="group block pt-1">
+                                <span className="block text-sm font-bold text-primary group-hover:text-secondary-dark transition-colors">Main yatra guide →</span>
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </motion.div>
@@ -408,10 +418,10 @@ const Navigation: React.FC = () => {
                                     <div>
                                       <div className="text-[10px] font-bold uppercase tracking-widest text-primary mb-2 px-2">Nepal</div>
                                       <div className="grid grid-cols-1 gap-1">
-                                        {destinations?.filter(d => d.type === 'nepal').map(d => (
+                                        {destinations?.filter((d: any) => d.type === 'nepal').map((d: any) => (
                                           <Link
                                             key={d.id}
-                                            href={`/destinations/${d.name.toLowerCase()}`}
+                                            href={destinationHref(d)}
                                             onClick={handleNavClick}
                                             className="block py-2 px-2 text-sm text-gray-600 hover:text-primary transition-colors font-medium"
                                           >
@@ -423,10 +433,10 @@ const Navigation: React.FC = () => {
                                     <div className="pt-2 border-t border-gray-100">
                                       <div className="text-[10px] font-bold uppercase tracking-widest text-secondary-dark mb-2 px-2">International</div>
                                       <div className="grid grid-cols-1 gap-1">
-                                        {destinations?.filter(d => d.type === 'international').map(d => (
+                                        {destinations?.filter((d: any) => d.type === 'international').map((d: any) => (
                                           <Link
                                             key={d.id}
-                                            href={`/destinations/${d.name.toLowerCase()}`}
+                                            href={destinationHref(d)}
                                             onClick={handleNavClick}
                                             className="block py-2 px-2 text-sm text-gray-600 hover:text-primary transition-colors font-medium"
                                           >
@@ -442,7 +452,7 @@ const Navigation: React.FC = () => {
                                   <div className="p-4 space-y-4">
                                     <div className="space-y-2">
                                       <div className="text-[10px] font-bold uppercase tracking-widest text-secondary-dark mb-2 opacity-50">Packages</div>
-                                      {allTours?.filter(t => t.category?.toLowerCase().includes('kailash') || t.title?.toLowerCase().includes('kailash')).slice(0, 4).map(t => (
+                                      {kailashTours.slice(0, 4).map((t: any) => (
                                         <Link
                                           key={t.id}
                                           href={`/tours/${t.slug}`}
