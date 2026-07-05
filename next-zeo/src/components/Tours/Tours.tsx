@@ -18,7 +18,7 @@ interface ToursProps {
 const Tours: React.FC<ToursProps> = ({ initialTours }) => {
   // Use API hook to fetch tours if initialTours is not provided
   const { data: apiTours, loading: apiLoading, error } = useTours();
-  
+
   const tours = initialTours || apiTours;
   const loading = !initialTours && apiLoading;
 
@@ -129,14 +129,17 @@ const Tours: React.FC<ToursProps> = ({ initialTours }) => {
                     className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
                   >
                     {/* Image Container */}
-                    <div className="relative h-64 overflow-hidden">
+                    <div className="relative h-64 overflow-hidden bg-gray-200">
                       <img
-                        src={tour.image}
+                        src={tour.image || '/uploads/placeholder.jpg'}
                         alt={tour.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&h=600&fit=crop';
+                        }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                      
+
                       {/* Badges */}
                       <div className="absolute top-4 left-4 flex flex-col gap-2">
                         {tour.featured && (
