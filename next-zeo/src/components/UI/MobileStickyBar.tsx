@@ -1,16 +1,14 @@
-"use client";
-
 import React from 'react';
 import { Phone, Mail, MessageCircle } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { usePathname as useLocation } from 'next/navigation';
 import { useContact } from '../../hooks/useApi';
 
 const MobileStickyBar: React.FC = () => {
   const { data: contactInfo } = useContact();
-  const location = useLocation();
+  const pathname = usePathname();
 
-  const isTourDetailPage = location.startsWith('/tours/') && location !== '/tours';
+  const isTourDetailPage = pathname.startsWith('/tours/') && pathname !== '/tours';
 
   if (isTourDetailPage) {
     return null;
@@ -34,7 +32,7 @@ const MobileStickyBar: React.FC = () => {
     <div className="md:hidden fixed bottom-0 left-0 w-full z-40 bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
       <div className="flex items-stretch h-16">
         {/* Call Button */}
-        <button 
+        <button
           onClick={handleCallClick}
           className="flex-1 flex flex-col items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors border-r border-gray-200"
         >
@@ -43,7 +41,7 @@ const MobileStickyBar: React.FC = () => {
         </button>
 
         {/* WhatsApp Button */}
-        <button 
+        <button
           onClick={handleWhatsAppClick}
           className="flex-1 flex flex-col items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors border-r border-gray-200"
         >
@@ -52,7 +50,7 @@ const MobileStickyBar: React.FC = () => {
         </button>
 
         {/* Enquire Button */}
-        <Link 
+        <Link
           href="/contact"
           className="flex-1 flex flex-col items-center justify-center bg-primary text-white hover:bg-primary-dark transition-colors"
         >

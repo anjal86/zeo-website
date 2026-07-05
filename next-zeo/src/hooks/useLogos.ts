@@ -25,8 +25,8 @@ export const useLogos = () => {
       setError(err instanceof Error ? err.message : 'Failed to fetch logos');
       // Set default logos on error - this ensures the site always works
       setLogos({
-        header: (headerLogo as any).src ?? String(headerLogo),
-        footer: (footerLogo as any).src ?? String(footerLogo),
+        header: headerLogo.src,
+        footer: footerLogo.src,
         lastUpdated: new Date().toISOString()
       });
     } finally {

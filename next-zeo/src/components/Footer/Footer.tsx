@@ -30,11 +30,11 @@ const Footer: React.FC = () => {
   };
 
   const socialLinks = [
-    { icon: FaFacebook, href: contactInfo?.social.facebook || 'https://www.facebook.com/zeotourism', label: 'Facebook' },
-    { icon: FaInstagram, href: contactInfo?.social.instagram || 'https://www.instagram.com/zeotourism', label: 'Instagram' },
-    { icon: FaTwitter, href: contactInfo?.social.twitter || 'https://x.com/zeotourism', label: 'X (Twitter)' },
-    { icon: FaYoutube, href: contactInfo?.social.youtube || 'https://www.youtube.com/@zeotourism', label: 'YouTube' },
-    { icon: FaLinkedin, href: contactInfo?.social.linkedin || 'https://www.linkedin.com/company/zeotourism', label: 'LinkedIn' }
+    { icon: FaFacebook, href: contactInfo?.social?.facebook || 'https://www.facebook.com/zeotourism', label: 'Facebook' },
+    { icon: FaInstagram, href: contactInfo?.social?.instagram || 'https://www.instagram.com/zeotourism', label: 'Instagram' },
+    { icon: FaTwitter, href: contactInfo?.social?.twitter || 'https://x.com/zeotourism', label: 'X (Twitter)' },
+    { icon: FaYoutube, href: contactInfo?.social?.youtube || 'https://www.youtube.com/@zeotourism', label: 'YouTube' },
+    { icon: FaLinkedin, href: contactInfo?.social?.linkedin || 'https://www.linkedin.com/company/zeotourism', label: 'LinkedIn' }
   ];
 
   return (
@@ -61,17 +61,17 @@ const Footer: React.FC = () => {
 
               {/* Contact Info */}
               <div className="space-y-3 mb-7">
-                <a href={`tel:${contactInfo?.contact.phone.primary || '+9779851234567'}`} className="flex items-center text-gray-400 hover:text-primary transition-colors text-sm">
+                <a href={`tel:${contactInfo?.contact?.phone?.primary || '+9779851234567'}`} className="flex items-center text-gray-400 hover:text-primary transition-colors text-sm">
                   <Phone className="w-3.5 h-3.5 mr-3 text-gray-600" />
-                  {contactInfo?.contact.phone.primary || '+977 985 123 4567'}
+                  {contactInfo?.contact?.phone?.primary || '+977 985 123 4567'}
                 </a>
-                <a href={`mailto:${contactInfo?.contact.email.primary || 'info@zeotourism.com'}`} className="flex items-center text-gray-400 hover:text-primary transition-colors text-sm">
+                <a href={`mailto:${contactInfo?.contact?.email?.primary || 'info@zeotourism.com'}`} className="flex items-center text-gray-400 hover:text-primary transition-colors text-sm">
                   <Mail className="w-3.5 h-3.5 mr-3 text-gray-600" />
-                  {contactInfo?.contact.email.primary || 'info@zeotourism.com'}
+                  {contactInfo?.contact?.email?.primary || 'info@zeotourism.com'}
                 </a>
                 <div className="flex items-center text-gray-400 text-sm">
                   <MapPin className="w-3.5 h-3.5 mr-3 text-gray-600 flex-shrink-0" />
-                  {contactInfo?.contact.address.full || 'Thamel, Kathmandu, Nepal'}
+                  {contactInfo?.contact?.address?.full || 'Thamel, Kathmandu, Nepal'}
                 </div>
               </div>
 
@@ -148,7 +148,7 @@ const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-xs">
-            &copy; {new Date().getFullYear()} {contactInfo?.company.name || 'Zeo Tourism'}. All rights reserved.
+            &copy; {new Date().getFullYear()} {contactInfo?.company?.name || 'Zeo Tourism'}. All rights reserved.
             <span className="mx-2 text-gray-700">|</span>
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
           </p>

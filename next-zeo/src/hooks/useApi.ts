@@ -1,4 +1,3 @@
-"use client";
 import { useState, useEffect, useCallback } from 'react';
 import api, { type Tour } from '../services/api';
 
@@ -314,7 +313,7 @@ export function useSlider(id: number) {
 }
 
 // Contact hook
-export function useContact() {
+export function useContact(): any {
   return useApiCall(() => api.contact.get());
 }
 

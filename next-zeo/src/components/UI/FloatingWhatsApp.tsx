@@ -1,7 +1,5 @@
-"use client";
-
 import React from 'react';
-import { usePathname as useLocation } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useContact } from '../../hooks/useApi';
 
@@ -18,11 +16,11 @@ const WhatsAppIcon: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 const FloatingWhatsApp: React.FC = () => {
-  const location = useLocation();
+  const pathname = usePathname();
   const { data: contactInfo } = useContact();
 
   // Don't show on tour detail pages
-  const isTourDetailPage = location.startsWith('/tours/') && location !== '/tours';
+  const isTourDetailPage = pathname.startsWith('/tours/') && pathname !== '/tours';
 
   if (isTourDetailPage) {
     return null;
