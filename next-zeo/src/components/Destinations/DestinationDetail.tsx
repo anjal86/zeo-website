@@ -4,7 +4,7 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Compass, Globe2, MapPin, Mountain, Plane, Route, Shield, Users } from 'lucide-react';
+import { ArrowRight, Calendar, Compass, MapPin, Plane, Shield, Users } from 'lucide-react';
 import PageHeader from '../PageHeader/PageHeader';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import ErrorMessage from '../UI/ErrorMessage';
