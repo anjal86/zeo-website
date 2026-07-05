@@ -4,7 +4,20 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Compass, MapPin, Plane, Route, Shield, Users } from 'lucide-react';
+import {
+  ArrowRight,
+  Calendar,
+  Compass,
+  DollarSign,
+  MapPin,
+  Plane,
+  Route,
+  Search,
+  Shield,
+  SlidersHorizontal,
+  Star,
+  Users,
+} from 'lucide-react';
 import PageHeader from '../PageHeader/PageHeader';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import ErrorMessage from '../UI/ErrorMessage';
@@ -95,6 +108,13 @@ const seoContent: Record<string, DestinationSeoContent> = {
     ],
   },
 };
+
+const travelStyles = [
+  { id: 'all', label: 'All routes' },
+  { id: 'short', label: 'Short trips' },
+  { id: 'family', label: 'Family friendly' },
+  { id: 'private', label: 'Private / premium' },
+];
 
 function defaultContent(title: string): DestinationSeoContent {
   return {
@@ -237,9 +257,58 @@ function isRelatedTour(tour: any, destination: any, slug: string, destinations: 
   return text.includes(slug) || (!!destinationName && text.includes(destinationName)) || (!!destinationCountry && text.includes(destinationCountry));
 }
 
+function getTourText(tour: any) {
+  return [tour.title, tour.location, tour.category, tour.description, tour.difficulty, tour.duration, tour.group_size]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+}
+
+function matchesTravelStyle(tour: any, style: string) {
+  if (style === 'all') return true;
+
+  const text = getTourText(tour);
+  const duration = String(tour.duration || '').toLowerCase();
+  const dayMatch = duration.match(/(\d+)\s*(d|day)/);
+  const days = dayMatch ? Number(dayMatch[1]) : null;
+
+  if (style === 'short') {
+    return (!!days && days <= 5) || ['short', 'city', 'escape', 'weekend'].some((keyword) => text.includes(keyword));
+  }
+
+  if (style === 'family') {
+    return ['family', 'easy', 'comfort', 'private', '2-8', 'group'].some((keyword) => text.includes(keyword));
+  }
+
+  if (style === 'private') {
+    return ['private', 'luxury', 'premium', 'helicopter', 'aerial', 'custom'].some((keyword) => text.includes(keyword));
+  }
+
+  return true;
+}
+
+function getPriceLabel(tour: any) {
+  const price = Number(tour.price || tour.price_usd || tour.starting_price || 0);
+  const currency = tour.currency || 'USD';
+
+  if (Number.isFinite(price) && price > 0) {
+    return `From ${currency === 'USD' ? '$' : currency + ' '}${price.toLocaleString()}`;
+  }
+
+  return 'Custom quote';
+}
+
+function getRatingLabel(tour: any) {
+  const rating = tour.rating || tour.ratingValue || tour.rating_value;
+  if (rating) return String(rating);
+  return 'Trusted route';
+}
+
 const DestinationDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const normalizedSlug = normalizeSlug(slug);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [activeStyle, setActiveStyle] = React.useState('all');
   const { data: destinations, loading: destinationsLoading, error: destinationsError } = useDestinations();
   const { data: allTours, loading: toursLoading, error: toursError } = useTours();
 
@@ -275,12 +344,19 @@ const DestinationDetail: React.FC = () => {
   }
 
   const title = destination.title || destination.name || titleCase(normalizedSlug);
+  const displayTitle = destination.name || title;
   const pageCopy = seoContent[normalizedSlug] || defaultContent(title);
   const destinationImage = getDestinationImage(normalizedSlug, destination);
   const destinationCountry = destination.country || title;
   const relatedTours = (allTours || [])
     .filter((tour: any) => isRelatedTour(tour, destination, normalizedSlug, destinations))
-    .slice(0, 6);
+    .slice(0, 12);
+  const filteredTours = relatedTours.filter((tour: any) => {
+    const matchesSearch = searchQuery.trim()
+      ? getTourText(tour).includes(searchQuery.trim().toLowerCase())
+      : true;
+    return matchesSearch && matchesTravelStyle(tour, activeStyle);
+  });
 
   return (
     <div className='destination-detail-page bg-white'>
@@ -291,17 +367,18 @@ const DestinationDetail: React.FC = () => {
         backgroundImage={destinationImage}
       />
 
-      <section className='bg-white py-14 md:py-20'>
+      <section className='overflow-hidden bg-white py-14 md:py-20'>
         <div className='container-xl'>
-          <div className='grid gap-8 lg:grid-cols-[minmax(0,1fr)_390px] lg:items-stretch'>
+          <div className='grid gap-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-stretch'>
             <motion.article
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55 }}
-              className='flex h-full flex-col'
+              className='relative overflow-hidden border border-gray-200 bg-[#fbfcfe] p-6 md:p-8 lg:p-10'
             >
-              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Destination guide</span>
+              <div className='absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-primary via-primary/20 to-secondary' />
+              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Destination planner briefing</span>
               <h2 className='mt-4 max-w-5xl text-3xl md:text-4xl lg:text-5xl font-serif font-bold leading-tight text-gray-950'>
                 {pageCopy.title}
               </h2>
@@ -317,7 +394,7 @@ const DestinationDetail: React.FC = () => {
                 </div>
                 <div className='bg-white p-5'>
                   <Users className='mb-4 h-5 w-5 text-secondary' />
-                  <div className='text-xs font-bold uppercase tracking-[0.16em] text-gray-400'>Best for</div>
+                  <div className='text-xs font-bold uppercase tracking-[0.16em] text-gray-400'>Traveller fit</div>
                   <div className='mt-2 text-sm font-semibold leading-6 text-gray-800'>{pageCopy.bestFor}</div>
                 </div>
                 <div className='bg-white p-5'>
@@ -332,19 +409,19 @@ const DestinationDetail: React.FC = () => {
                 </div>
               </div>
 
-              <div className='mt-6 grid gap-5 lg:grid-cols-[0.54fr_0.46fr]'>
-                <div className='border border-gray-200 bg-gray-50 p-5 md:p-6'>
+              <div className='mt-8 grid gap-6 lg:grid-cols-[0.56fr_0.44fr]'>
+                <div>
                   <h3 className='text-xl font-serif font-bold text-gray-950'>Popular route ideas</h3>
                   <div className='mt-5 flex flex-wrap gap-2'>
                     {pageCopy.routeIdeas.map((idea) => (
-                      <span key={idea} className='inline-flex items-center border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-700'>
+                      <span key={idea} className='inline-flex items-center bg-white px-3 py-2 text-xs font-semibold text-gray-700 ring-1 ring-gray-200'>
                         <Route className='mr-2 h-3.5 w-3.5 text-primary' /> {idea}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className='border border-gray-200 bg-white p-5 md:p-6'>
+                <div className='border-l border-gray-200 pl-6'>
                   <h3 className='text-xl font-serif font-bold text-gray-950'>Best time to plan</h3>
                   <p className='mt-3 text-sm leading-7 text-gray-600'>{pageCopy.bestTime}</p>
                 </div>
@@ -356,28 +433,37 @@ const DestinationDetail: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.05 }}
-              className='flex h-full flex-col border border-gray-200 bg-gray-50 p-6 md:p-7'
+              className='relative flex min-h-[520px] flex-col overflow-hidden bg-gray-950 p-7 text-white shadow-2xl shadow-gray-900/10'
             >
-              <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400'>Planning note</span>
-              <h3 className='mt-4 text-2xl md:text-3xl font-serif font-bold text-gray-950'>Ask before you book.</h3>
-              <p className='mt-4 text-sm leading-7 text-gray-600'>{pageCopy.planningNote}</p>
+              <img
+                src={destinationImage}
+                alt={`${displayTitle} travel planning`}
+                loading='lazy'
+                className='absolute inset-0 h-full w-full object-cover opacity-35'
+              />
+              <div className='absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/75 to-gray-950/35' />
+              <div className='relative z-10'>
+                <span className='text-secondary text-[10px] font-bold uppercase tracking-[0.22em]'>Planning note</span>
+                <h3 className='mt-4 text-3xl font-serif font-bold leading-tight'>Ask before you book.</h3>
+                <p className='mt-4 text-sm leading-7 text-white/75'>{pageCopy.planningNote}</p>
+              </div>
 
-              <div className='mt-6 space-y-4 border-y border-gray-200 py-5'>
+              <div className='relative z-10 mt-7 space-y-4 border-y border-white/15 py-6'>
                 <div className='flex gap-3'>
                   <Compass className='mt-0.5 h-5 w-5 text-primary' />
-                  <p className='text-sm leading-6 text-gray-600'>Compare routes before choosing a package.</p>
+                  <p className='text-sm leading-6 text-white/75'>Compare routes before choosing a package.</p>
                 </div>
                 <div className='flex gap-3'>
                   <Users className='mt-0.5 h-5 w-5 text-secondary' />
-                  <p className='text-sm leading-6 text-gray-600'>Adjust the plan around age group, comfort level and travel purpose.</p>
+                  <p className='text-sm leading-6 text-white/75'>Match the pace to your group, comfort level and travel purpose.</p>
                 </div>
                 <div className='flex gap-3'>
                   <Shield className='mt-0.5 h-5 w-5 text-primary' />
-                  <p className='text-sm leading-6 text-gray-600'>Clarify support, permits, timing and practical risks early.</p>
+                  <p className='text-sm leading-6 text-white/75'>Clarify timing, support, permits and practical risks early.</p>
                 </div>
               </div>
 
-              <Link href='/contact' className='mt-auto inline-flex w-full items-center justify-center bg-primary px-6 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-primary-dark'>
+              <Link href='/contact' className='relative z-10 mt-auto inline-flex w-full items-center justify-center bg-primary px-6 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-primary-dark'>
                 Plan this route <ArrowRight className='ml-2 h-3.5 w-3.5' />
               </Link>
             </motion.aside>
@@ -393,7 +479,7 @@ const DestinationDetail: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: index * 0.05 }}
-                  className='border border-gray-200 bg-white p-6 shadow-sm'
+                  className='group border-t border-gray-200 pt-6 transition-colors hover:border-primary/50'
                 >
                   <Icon className={`mb-5 h-5 w-5 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
                   <h3 className='text-xl font-serif font-bold text-gray-950'>{block.title}</h3>
@@ -403,11 +489,14 @@ const DestinationDetail: React.FC = () => {
             })}
           </div>
 
-          <div className='mt-10 border border-gray-200 bg-gray-50 p-6 md:p-8'>
-            <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Common questions</span>
-            <div className='mt-6 grid gap-5 md:grid-cols-2'>
+          <div className='mt-12 grid gap-6 border-y border-gray-200 py-8 lg:grid-cols-[0.32fr_0.68fr]'>
+            <div>
+              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Common questions</span>
+              <h2 className='mt-4 text-3xl font-serif font-bold text-gray-950'>Planning clarity before payment.</h2>
+            </div>
+            <div className='grid gap-5 md:grid-cols-2'>
               {pageCopy.faqs.map((faq) => (
-                <div key={faq.question} className='border border-gray-200 bg-white p-5'>
+                <div key={faq.question} className='border-l-2 border-primary/30 pl-5'>
                   <h3 className='text-lg font-serif font-bold text-gray-950'>{faq.question}</h3>
                   <p className='mt-3 text-sm leading-7 text-gray-600'>{faq.answer}</p>
                 </div>
@@ -417,85 +506,127 @@ const DestinationDetail: React.FC = () => {
         </div>
       </section>
 
-      <section className='border-y border-gray-100 bg-gray-50 py-14 md:py-20'>
+      <section className='border-y border-gray-100 bg-[#f7f9fc] py-14 md:py-20'>
         <div className='container-xl'>
-          <div className='mb-9 grid gap-5 lg:grid-cols-[0.42fr_0.58fr] lg:items-end'>
+          <div className='mb-9 grid gap-6 lg:grid-cols-[0.42fr_0.58fr] lg:items-end'>
             <div>
-              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Available packages</span>
+              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Browse packages</span>
               <h2 className='mt-4 text-3xl md:text-4xl font-serif font-bold leading-tight text-gray-950'>
-                Routes connected to {title}
+                Find a {displayTitle} route that fits your trip.
               </h2>
             </div>
             <p className='text-sm md:text-base leading-7 text-gray-600 lg:max-w-xl lg:justify-self-end'>
-              Browse relevant packages, or contact us for a custom route if your dates, group size or travel purpose needs a different plan.
+              Search by route, trip style or keyword. Use the filters to narrow short breaks, family-friendly plans and private or premium options.
             </p>
           </div>
 
-          {relatedTours.length > 0 ? (
-            <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
-              {relatedTours.map((tour: any, index: number) => (
-                <motion.article
-                  key={tour.slug || tour.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: index * 0.05 }}
-                  className='group h-full border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-900/5'
+          <div className='mb-8 grid gap-3 border border-gray-200 bg-white p-3 shadow-sm lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center'>
+            <label className='relative block'>
+              <Search className='pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400' />
+              <input
+                type='search'
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder={`Search ${displayTitle} tours, routes, duration or style...`}
+                className='h-12 w-full border border-gray-200 bg-gray-50 pl-11 pr-4 text-sm text-gray-800 outline-none transition-colors placeholder:text-gray-400 focus:border-primary focus:bg-white'
+              />
+            </label>
+            <div className='flex flex-wrap items-center gap-2'>
+              <span className='hidden items-center gap-2 px-2 text-xs font-bold uppercase tracking-wider text-gray-400 sm:inline-flex'>
+                <SlidersHorizontal className='h-3.5 w-3.5' /> Filter
+              </span>
+              {travelStyles.map((style) => (
+                <button
+                  key={style.id}
+                  type='button'
+                  onClick={() => setActiveStyle(style.id)}
+                  className={`h-10 px-4 text-xs font-bold uppercase tracking-wider transition-colors ${
+                    activeStyle === style.id
+                      ? 'bg-primary text-white shadow-sm'
+                      : 'border border-gray-200 bg-white text-gray-600 hover:border-primary/40 hover:text-primary'
+                  }`}
                 >
-                  <Link href={`/tours/${tour.slug}`} className='flex h-full flex-col'>
-                    <div className='relative h-64 overflow-hidden bg-gray-200'>
-                      <img
-                        src={getTourImage(tour, normalizedSlug, destination)}
-                        alt={tour.title}
-                        loading='lazy'
-                        onError={(event) => {
-                          event.currentTarget.onerror = null;
-                          event.currentTarget.src = getDestinationFallback(normalizedSlug, destination);
-                        }}
-                        className='h-full w-full object-cover transition-transform duration-700 group-hover:scale-105'
-                      />
-                      <div className='absolute inset-0 bg-gradient-to-t from-gray-950/70 via-gray-950/20 to-transparent' />
-                      <div className='absolute left-4 top-4 bg-white/90 px-3 py-2 backdrop-blur-sm'>
-                        <span className='inline-flex items-center text-[10px] font-bold uppercase tracking-[0.16em] text-gray-700'>
-                          <Plane className='mr-2 h-3.5 w-3.5 text-secondary' /> {destinationCountry}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className='flex flex-1 flex-col p-5'>
-                      <h3 className='text-xl font-serif font-bold leading-tight text-gray-950 transition-colors group-hover:text-primary'>
-                        {tour.title}
-                      </h3>
-                      <p className='mt-3 line-clamp-2 text-sm leading-6 text-gray-600'>{tour.description}</p>
-
-                      <div className='mt-5 flex flex-wrap gap-3 text-xs font-semibold text-gray-500'>
-                        {tour.duration && (
-                          <span className='inline-flex items-center gap-1.5'>
-                            <Calendar className='h-3.5 w-3.5 text-primary' /> {tour.duration}
-                          </span>
-                        )}
-                        {tour.group_size && (
-                          <span className='inline-flex items-center gap-1.5'>
-                            <Users className='h-3.5 w-3.5 text-primary' /> {tour.group_size}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className='mt-auto flex items-center justify-between border-t border-gray-100 pt-5'>
-                        <span className='text-xs font-bold uppercase tracking-wider text-gray-400'>View details</span>
-                        <ArrowRight className='h-4 w-4 text-primary transition-transform group-hover:translate-x-1' />
-                      </div>
-                    </div>
-                  </Link>
-                </motion.article>
+                  {style.label}
+                </button>
               ))}
+            </div>
+          </div>
+
+          {filteredTours.length > 0 ? (
+            <div className='grid gap-6 lg:grid-cols-2'>
+              {filteredTours.map((tour: any, index: number) => {
+                const priceLabel = getPriceLabel(tour);
+                const ratingLabel = getRatingLabel(tour);
+                return (
+                  <motion.article
+                    key={tour.slug || tour.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.45, delay: index * 0.04 }}
+                    className='group overflow-hidden bg-white shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-gray-900/10'
+                  >
+                    <Link href={`/tours/${tour.slug}`} className='grid h-full md:grid-cols-[250px_1fr]'>
+                      <div className='relative min-h-[260px] overflow-hidden bg-gray-200'>
+                        <img
+                          src={getTourImage(tour, normalizedSlug, destination)}
+                          alt={tour.title}
+                          loading='lazy'
+                          onError={(event) => {
+                            event.currentTarget.onerror = null;
+                            event.currentTarget.src = getDestinationFallback(normalizedSlug, destination);
+                          }}
+                          className='absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105'
+                        />
+                        <div className='absolute inset-0 bg-gradient-to-t from-gray-950/70 via-transparent to-transparent' />
+                        <div className='absolute left-4 top-4 bg-white/90 px-3 py-2 backdrop-blur-sm'>
+                          <span className='inline-flex items-center text-[10px] font-bold uppercase tracking-[0.16em] text-gray-700'>
+                            <MapPin className='mr-2 h-3.5 w-3.5 text-secondary' /> {destinationCountry}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className='flex min-h-[260px] flex-col p-5 md:p-6'>
+                        <div className='mb-4 flex flex-wrap items-center gap-3 text-xs font-semibold text-gray-500'>
+                          <span className='inline-flex items-center gap-1.5'>
+                            <Calendar className='h-3.5 w-3.5 text-primary' /> {tour.duration || 'Custom days'}
+                          </span>
+                          <span className='inline-flex items-center gap-1.5'>
+                            <Shield className='h-3.5 w-3.5 text-secondary' /> {tour.difficulty || tour.level || 'Flexible'}
+                          </span>
+                          <span className='inline-flex items-center gap-1.5'>
+                            <Star className='h-3.5 w-3.5 text-secondary' /> {ratingLabel}
+                          </span>
+                        </div>
+
+                        <h3 className='text-2xl font-serif font-bold leading-tight text-gray-950 transition-colors group-hover:text-primary'>
+                          {tour.title}
+                        </h3>
+                        <p className='mt-3 line-clamp-3 text-sm leading-6 text-gray-600'>{tour.description}</p>
+
+                        <div className='mt-auto flex items-end justify-between gap-4 border-t border-gray-100 pt-5'>
+                          <div>
+                            <div className='inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400'>
+                              <DollarSign className='h-3.5 w-3.5' /> Price
+                            </div>
+                            <div className='mt-1 text-lg font-bold text-gray-950'>{priceLabel}</div>
+                          </div>
+                          <div className='inline-flex items-center bg-primary px-4 py-3 text-xs font-bold uppercase tracking-wider text-white transition-colors group-hover:bg-primary-dark'>
+                            View details <ArrowRight className='ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1' />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.article>
+                );
+              })}
             </div>
           ) : (
             <div className='border border-gray-200 bg-white p-8 text-center'>
               <Compass className='mx-auto h-8 w-8 text-primary' />
-              <h3 className='mt-4 text-2xl font-serif font-bold text-gray-950'>No listed package found yet</h3>
+              <h3 className='mt-4 text-2xl font-serif font-bold text-gray-950'>No matching package found</h3>
               <p className='mx-auto mt-3 max-w-2xl text-sm leading-6 text-gray-600'>
-                This destination can still be planned privately. Share your dates, group size and travel purpose so we can suggest the right route.
+                Try a different keyword or ask the team to shape a private route around your dates, group size and travel purpose.
               </p>
               <Link href='/contact' className='mt-6 inline-flex items-center justify-center bg-primary px-6 py-4 text-xs font-bold uppercase tracking-wider text-white'>
                 Request custom plan <ArrowRight className='ml-2 h-3.5 w-3.5' />
