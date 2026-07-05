@@ -3,16 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  Calendar,
-  Globe,
-  MapPin,
-  MessageCircle,
-  Mountain,
-  Quote,
-  Shield,
-} from 'lucide-react';
+import { ArrowRight, Quote } from 'lucide-react';
 import api, { type DirectorMessage, type TeamMember } from '../../services/api';
 
 const proofStats = [
@@ -355,39 +346,6 @@ const About: React.FC = () => {
           </div>
         </section>
       )}
-
-      <section className="py-16 md:py-20 bg-gray-950 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(5,95,172,0.2),transparent_32%)] pointer-events-none" />
-        <div className="container-xl relative z-10">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div>
-              <span className="text-primary text-xs font-bold uppercase tracking-[0.22em] mb-4 block">
-                Start with clarity
-              </span>
-              <h2 className="max-w-3xl text-3xl md:text-4xl font-serif font-bold leading-tight">
-                Not sure which route is right? Ask before you book.
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm md:text-base leading-7 text-gray-400">
-                Share your dates, group size and travel purpose. We will help you understand the practical next step.
-              </p>
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center bg-primary px-7 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-primary-dark"
-              >
-                Contact team <MessageCircle className="ml-2 h-4 w-4" />
-              </Link>
-              <Link
-                href="/tours"
-                className="inline-flex items-center justify-center border border-white/15 px-7 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:border-white hover:bg-white hover:text-gray-950"
-              >
-                View tours <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
