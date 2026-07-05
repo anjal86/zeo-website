@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Zeo Tourism Migration",
-  description: "Next.js migration shell for Zeo Tourism.",
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: "Zeo Tourism | Nepal Tours, Trekking & Kailash Mansarovar Yatra",
+  description: "Your trusted partner for Nepal tours and spiritual journeys since 2000. Discover trekking, tours and Kailash Mansarovar Yatra packages.",
+  robots: process.env.NODE_ENV === "production"
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
 };
 
 import PublicLayout from "../src/components/Layout/PublicLayout";
