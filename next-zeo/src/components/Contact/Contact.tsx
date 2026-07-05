@@ -2,8 +2,22 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, MessageSquare, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import {
+  Phone,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Send,
+  CheckCircle,
+  AlertCircle,
+  Clock3,
+  Users,
+  CalendarDays,
+  ArrowRight,
+} from 'lucide-react';
 import { useContact } from '../../hooks/useApi';
+
+const inputClass = "w-full border border-gray-200 bg-white px-4 py-4 text-sm text-gray-900 placeholder:text-gray-400 outline-none transition-all duration-300 focus:border-primary focus:ring-4 focus:ring-primary/10";
 
 const Contact: React.FC = () => {
   const { data: contactInfo, loading: contactLoading, error: contactError } = useContact();
@@ -16,13 +30,22 @@ const Contact: React.FC = () => {
     travelers: '',
     date: '',
     message: '',
-    honeypot: '' // Anti-bot field
+    honeypot: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const phone = contactInfo?.contact?.phone?.primary || '+9779813641003';
+  const email = contactInfo?.contact?.email?.primary || 'nepal@zeotourism.com';
+  const address = contactInfo?.contact?.address?.full || 'Baluwatar-4, Kathmandu, Nepal';
+  const cleanPhone = phone.replace(/\s/g, '');
+  const whatsappHref = contactInfo?.social?.whatsapp || `https://wa.me/${cleanPhone.replace(/[^0-9]/g, '')}`;
+  const responseTime = contactInfo?.business?.support?.response_time
+    ? `We usually reply ${contactInfo.business.support.response_time.toLowerCase()}`
+    : "We usually reply within 24 hours";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -34,11 +57,10 @@ const Contact: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Honeypot check: If the hidden field is filled, it's likely a bot.
     if (formData.honeypot) {
-      console.warn("Bot detected via honeypot.");
+      console.warn('Bot detected via honeypot.');
       setIsSubmitting(false);
-      setShowSuccess(true); // Silent fail: show success but don't actually submit
+      setShowSuccess(true);
       return;
     }
 
@@ -61,11 +83,9 @@ const Contact: React.FC = () => {
         throw new Error(result.error || 'Failed to submit enquiry');
       }
 
-      // Success
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 5000);
 
-      // Reset form
       setFormData({
         name: '',
         email: '',
@@ -88,144 +108,184 @@ const Contact: React.FC = () => {
   const contactMethods = [
     {
       icon: Phone,
-      title: 'Call Us',
-      primary: contactInfo?.contact?.phone?.primary || '+9779851234567',
-      color: 'bg-primary',
-      action: () => window.location.href = `tel:${contactInfo?.contact?.phone?.primary || '+9779851234567'}`
+      title: 'Call the office',
+      subtitle: phone,
+      helper: 'Fastest for urgent questions',
+      href: `tel:${cleanPhone}`,
+      tone: 'bg-primary text-white',
     },
     {
       icon: MessageSquare,
-      title: 'WhatsApp',
-      primary: 'Chat with us',
-      color: 'bg-green-500',
-      action: () => window.open(contactInfo?.social?.whatsapp || 'https://wa.me/9779851234567', '_blank')
+      title: 'WhatsApp the team',
+      subtitle: 'Chat with us directly',
+      helper: 'Best for quick trip clarification',
+      href: whatsappHref,
+      tone: 'bg-green-500 text-white',
+      external: true,
     },
     {
       icon: Mail,
-      title: 'Email Us',
-      primary: contactInfo?.contact?.email?.primary || 'info@zeotourism.com',
-      color: 'bg-orange-500',
-      action: () => window.location.href = `mailto:${contactInfo?.contact?.email?.primary || 'info@zeotourism.com'}`
-    }
+      title: 'Email your plan',
+      subtitle: email,
+      helper: 'Best for detailed itineraries',
+      href: `mailto:${email}`,
+      tone: 'bg-secondary text-white',
+    },
+  ];
+
+  const planningSteps = [
+    { icon: CalendarDays, title: 'Share dates', text: 'Tell us your preferred month or exact travel date.' },
+    { icon: Users, title: 'Share group size', text: 'Solo, family, group or private trip — we plan around it.' },
+    { icon: MapPin, title: 'Get route clarity', text: 'We guide timing, route, support and next step before booking.' },
   ];
 
   return (
-    <section id="contact" className="py-16 bg-gradient-to-br from-gray-50 to-white">
-      <div className="container mx-auto px-4">
-        {/* Two Column Layout */}
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+    <section id="contact" className="bg-gradient-to-b from-white to-gray-50 py-14 md:py-18 border-t border-gray-100">
+      <div className="container-xl">
+        <div className="mb-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div>
+            <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em] mb-3 block">
+              Contact Zeo Tourism
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-950 leading-[1.05] tracking-tight max-w-2xl">
+              Tell us what you need. We’ll help shape the route.
+            </h2>
+          </div>
+          <div className="lg:max-w-xl lg:justify-self-end">
+            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+              Use the form for a guided trip request, or contact the Kathmandu team directly if you need quick clarity on Kailash Yatra, Nepal tours, activities or private travel.
+            </p>
+          </div>
+        </div>
 
-          {/* Left Column - Contact Methods */}
+        {contactLoading && (
+          <div className="mb-6 border border-gray-200 bg-white p-4 text-sm text-gray-500">Loading contact information...</div>
+        )}
+        {contactError && (
+          <div className="mb-6 border border-red-200 bg-red-50 p-4 text-sm text-red-600">Error loading contact info: {contactError}</div>
+        )}
+
+        <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
+            transition={{ duration: 0.55 }}
+            className="space-y-5"
           >
-            <div>
-              <div className="inline-flex items-center text-secondary text-xs font-bold uppercase tracking-[0.2em] mb-2">
-                Contact Us
-              </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Let's Plan Your Adventure
-              </h2>
-              <p className="text-lg text-gray-600 mb-8">
-                Ready to explore Nepal? Get in touch with our travel experts.
+            <div className="border border-gray-200 bg-gray-950 p-6 md:p-7 text-white relative overflow-hidden">
+              <div className="absolute -right-10 -top-10 h-36 w-36 border border-white/10" />
+              <span className="text-primary text-[10px] font-bold uppercase tracking-[0.22em]">Best first step</span>
+              <h3 className="mt-4 text-2xl md:text-3xl font-serif font-bold leading-tight">
+                Ask before you book.
+              </h3>
+              <p className="mt-4 text-sm leading-6 text-gray-400">
+                No pressure. Share what you know — destination, date, group size, budget or confusion — and we will point you toward the right next step.
               </p>
-              {contactLoading && (
-                <div className="text-sm text-gray-500 mb-4">Loading contact information...</div>
-              )}
-              {contactError && (
-                <div className="text-sm text-red-500 mb-4">Error loading contact info: {contactError}</div>
-              )}
+
+              <div className="mt-6 grid gap-3">
+                {planningSteps.map((step, index) => {
+                  const Icon = step.icon;
+                  return (
+                    <div key={step.title} className="flex gap-4 border border-white/10 bg-white/[0.04] p-4">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center border border-white/10 bg-black/20 text-primary">
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-primary text-xs font-bold">0{index + 1}</span>
+                          <h4 className="text-sm font-bold text-white">{step.title}</h4>
+                        </div>
+                        <p className="mt-1 text-sm leading-6 text-gray-400">{step.text}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Contact Methods */}
-            <div className="space-y-4">
-              {contactMethods.map((method, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  onClick={method.action}
-                  className="flex items-center p-4 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 cursor-pointer group"
-                >
-                  <div className={`${method.color} text-white p-3 rounded-2xl mr-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <method.icon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-primary transition-colors">
-                      {method.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm">{method.primary}</p>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="grid gap-3">
+              {contactMethods.map((method) => {
+                const Icon = method.icon;
+                return (
+                  <a
+                    key={method.title}
+                    href={method.href}
+                    target={method.external ? '_blank' : undefined}
+                    rel={method.external ? 'nofollow noopener noreferrer' : undefined}
+                    className="group grid grid-cols-[auto_1fr_auto] items-center gap-4 border border-gray-200 bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-lg hover:shadow-gray-900/5"
+                  >
+                    <span className={`flex h-12 w-12 items-center justify-center ${method.tone}`}>
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span>
+                      <span className="block font-bold text-gray-950 group-hover:text-primary transition-colors">{method.title}</span>
+                      <span className="mt-1 block text-sm text-gray-600 break-all">{method.subtitle}</span>
+                      <span className="mt-1 block text-xs text-gray-400">{method.helper}</span>
+                    </span>
+                    <ArrowRight className="h-4 w-4 text-gray-300 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                  </a>
+                );
+              })}
             </div>
 
-            {/* Office Info */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <div className="flex items-start">
-                <div className="bg-primary text-white p-3 rounded-2xl mr-4">
-                  <MapPin className="w-6 h-6" />
+            <div className="border border-gray-200 bg-white p-5">
+              <div className="flex gap-4">
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center bg-gray-950 text-white">
+                  <MapPin className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Visit Our Office</h3>
-                  <p className="text-gray-600 text-sm">
-                    {contactInfo?.contact?.address?.full || 'Baluwatar-4, Kathmandu, Nepal'}
-                  </p>
+                  <h3 className="font-bold text-gray-950">Kathmandu office</h3>
+                  <p className="mt-1 text-sm leading-6 text-gray-600">{address}</p>
+                  <p className="mt-2 text-xs uppercase tracking-[0.18em] text-gray-400">Local planning support</p>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Right Column - Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.55 }}
           >
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                Send us a message
-              </h3>
+            <div className="border border-gray-200 bg-white shadow-xl shadow-gray-900/5">
+              <div className="border-b border-gray-100 p-6 md:p-8">
+                <span className="text-secondary text-[10px] font-bold uppercase tracking-[0.22em]">Trip request form</span>
+                <h3 className="mt-3 text-2xl md:text-3xl font-serif font-bold text-gray-950">
+                  Get a route recommendation
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-gray-600">
+                  A few details help us suggest the right itinerary, timing and support level.
+                </p>
+              </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Success Message */}
+              <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-5">
                 {showSuccess && (
                   <motion.div
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, y: -16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="p-4 bg-green-50 border border-green-200 rounded-2xl flex items-center"
+                    className="border border-green-200 bg-green-50 p-4 flex items-start gap-3"
                   >
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
-                    <p className="text-green-800">
-                      Thank you for your message! We'll contact you soon.
-                    </p>
+                    <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+                    <div>
+                      <p className="font-semibold text-green-900">Your enquiry was sent.</p>
+                      <p className="mt-1 text-sm text-green-700">Our team will contact you with the next step soon.</p>
+                    </div>
                   </motion.div>
                 )}
 
-                {/* Error Message */}
                 {showError && (
                   <motion.div
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, y: -16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center"
+                    className="border border-red-200 bg-red-50 p-4 flex items-start gap-3"
                   >
-                    <AlertCircle className="w-5 h-5 text-red-600 mr-3" />
-                    <p className="text-red-800">
-                      {errorMessage}
-                    </p>
+                    <AlertCircle className="w-5 h-5 text-red-600 mt-0.5" />
+                    <p className="text-red-800 text-sm">{errorMessage}</p>
                   </motion.div>
                 )}
 
-                {/* Honeypot field (hidden from humans) */}
                 <div className="hidden" aria-hidden="true">
                   <input
                     type="text"
@@ -237,108 +297,101 @@ const Contact: React.FC = () => {
                   />
                 </div>
 
-                <div className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      placeholder="Your Name *"
-                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
-                    />
-
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="Email Address *"
-                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
-                    />
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="Phone Number"
-                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
-                    />
-
-                    <select
-                      name="destination"
-                      value={formData.destination}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300 appearance-none bg-white"
-                    >
-                      <option value="">Select Destination *</option>
-                      <option value="everest">Everest Base Camp</option>
-                      <option value="kailash">Kailash Mansarovar</option>
-                      <option value="annapurna">Annapurna Circuit</option>
-                      <option value="kathmandu">Kathmandu Valley</option>
-                      <option value="langtang">Langtang Valley</option>
-                      <option value="pokhara">Pokhara</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <input
-                      type="number"
-                      name="travelers"
-                      value={formData.travelers}
-                      onChange={handleChange}
-                      min="1"
-                      placeholder="No. of Travelers"
-                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
-                    />
-
-                    <input
-                      type="date"
-                      name="date"
-                      value={formData.date}
-                      onChange={handleChange}
-                      placeholder="Preferred Date"
-                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
-                    />
-                  </div>
-
-                  <textarea
-                    name="message"
-                    value={formData.message}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
-                    rows={4}
-                    placeholder="Tell us about your travel plans..."
-                    className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300 resize-none"
+                    required
+                    placeholder="Your name *"
+                    className={inputClass}
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="Email address *"
+                    className={inputClass}
                   />
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
-                  <p className="text-sm text-gray-500">
-                    {contactInfo?.business?.support?.response_time ? `We'll get back to you ${contactInfo.business.support.response_time.toLowerCase()}` : "We'll get back to you within 24 hours"}
-                  </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Phone / WhatsApp"
+                    className={inputClass}
+                  />
+                  <select
+                    name="destination"
+                    value={formData.destination}
+                    onChange={handleChange}
+                    required
+                    className={`${inputClass} appearance-none`}
+                  >
+                    <option value="">Trip interest *</option>
+                    <option value="kailash">Kailash Mansarovar</option>
+                    <option value="nepal-tour">Nepal Tour Packages</option>
+                    <option value="everest">Everest Region</option>
+                    <option value="muktinath">Muktinath / Mustang</option>
+                    <option value="helicopter">Helicopter / Aerial Darshan</option>
+                    <option value="international">International Tours</option>
+                    <option value="custom">Custom / Private Trip</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
 
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="number"
+                    name="travelers"
+                    value={formData.travelers}
+                    onChange={handleChange}
+                    min="1"
+                    placeholder="No. of travelers"
+                    className={inputClass}
+                  />
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className={inputClass}
+                  />
+                </div>
+
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={5}
+                  placeholder="Tell us your plan, confusion, preferred route, budget range or special requirements..."
+                  className={`${inputClass} resize-none`}
+                />
+
+                <div className="grid gap-4 border-t border-gray-100 pt-5 sm:grid-cols-[1fr_auto] sm:items-center">
+                  <p className="text-sm leading-6 text-gray-500">
+                    <span className="font-semibold text-gray-900">No pressure.</span> {responseTime}. We’ll guide the next step clearly.
+                  </p>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-3 rounded-2xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                      }`}
+                    className={`inline-flex items-center justify-center bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-primary-dark hover:shadow-lg ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                   >
                     {isSubmitting ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                        <span className="mr-2 h-4 w-4 animate-spin border-2 border-white/40 border-t-white" />
                         Sending...
                       </>
                     ) : (
                       <>
                         <Send className="w-4 h-4 mr-2" />
-                        Send Message
+                        Send trip request
                       </>
                     )}
                   </button>
@@ -348,22 +401,28 @@ const Contact: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Bottom Section - Map */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16"
+          transition={{ duration: 0.55, delay: 0.15 }}
+          className="mt-10"
         >
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="p-4 border-b border-gray-100">
-              <h3 className="text-xl font-semibold text-gray-900 flex items-center">
-                <MapPin className="w-5 h-5 text-primary mr-2" />
-                Find Us Here
-              </h3>
+          <div className="grid overflow-hidden border border-gray-200 bg-white shadow-sm lg:grid-cols-[0.75fr_1.25fr]">
+            <div className="p-6 md:p-8 border-b border-gray-100 lg:border-b-0 lg:border-r">
+              <span className="text-secondary text-[10px] font-bold uppercase tracking-[0.22em]">Find us here</span>
+              <h3 className="mt-3 text-2xl font-serif font-bold text-gray-950">Zeo Tourism office</h3>
+              <p className="mt-3 text-sm leading-6 text-gray-600">{address}</p>
+              <a
+                href={(contactInfo?.contact?.location as any)?.maps_url || 'https://maps.app.goo.gl/6ee4i6HGNKX9qdar8'}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                className="mt-5 inline-flex items-center text-sm font-bold uppercase tracking-wider text-primary hover:text-primary-dark"
+              >
+                Open in Google Maps <ArrowRight className="ml-2 h-3.5 w-3.5" />
+              </a>
             </div>
-            <div className="h-[500px] relative">
+            <div className="h-[320px] md:h-[420px] relative">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2738.8293499738834!2d85.33145348661431!3d27.72530994398019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19f625c6408f%3A0xa14006f9fceeea6a!2sZeo%20Tourism%20Pvt.Ltd!5e0!3m2!1sen!2snp!4v1758183095926!5m2!1sen!2snp"
                 width="100%"
@@ -375,21 +434,6 @@ const Contact: React.FC = () => {
                 title="Zeo Tourism Office Location"
                 className="w-full h-full"
               />
-            </div>
-            <div className="p-4 bg-gray-50">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600">
-                  <strong>{contactInfo?.company?.name || 'Zeo Tourism'}</strong> - {contactInfo?.contact?.address?.full || 'Baluwatar-4, Kathmandu, Nepal'}
-                </div>
-                <a
-                  href={(contactInfo?.contact?.location as any)?.maps_url || "https://maps.app.goo.gl/6ee4i6HGNKX9qdar8"}
-                  target="_blank"
-                  rel="nofollow noopener noreferrer"
-                  className="text-primary hover:text-primary-dark font-medium text-sm transition-colors"
-                >
-                  Open in Google Maps →
-                </a>
-              </div>
             </div>
           </div>
         </motion.div>
