@@ -19,7 +19,13 @@ type HeroProps = {
   initialSlides?: any[];
 };
 
-const trustItems = ['Kathmandu-based team', 'Private & group trips', '24/7 travel support'];
+const trustItems = [
+  'Clear route & cost before booking',
+  'Kathmandu-based human guidance',
+  'Private and group options explained',
+];
+
+const reassuranceItems = ['No pressure', 'Clear next steps', 'Local ground support'];
 
 const Hero: React.FC<HeroProps> = ({ initialSlides = [] }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -67,16 +73,16 @@ const Hero: React.FC<HeroProps> = ({ initialSlides = [] }) => {
 
   const { scrollY } = useScroll();
   const backgroundY = useTransform(scrollY, [0, 800], [0, 160]);
-  const contentY = useTransform(scrollY, [0, 600], [0, -70]);
-  const overlayOpacity = useTransform(scrollY, [0, 400], [0.72, 0.95]);
+  const contentY = useTransform(scrollY, [0, 600], [0, -54]);
+  const overlayOpacity = useTransform(scrollY, [0, 400], [0.74, 0.95]);
   const cloud1Y = useTransform(scrollY, [0, 800], [0, -150]);
   const cloud2Y = useTransform(scrollY, [0, 700], [0, -120]);
   const cloud3Y = useTransform(scrollY, [0, 600], [0, -90]);
   const cloud4Y = useTransform(scrollY, [0, 500], [0, -60]);
-  const titleY = useTransform(scrollY, [0, 400], [0, -60]);
-  const subtitleY = useTransform(scrollY, [0, 400], [0, -44]);
-  const buttonY = useTransform(scrollY, [0, 400], [0, -30]);
-  const locationY = useTransform(scrollY, [0, 400], [0, -48]);
+  const titleY = useTransform(scrollY, [0, 400], [0, -50]);
+  const subtitleY = useTransform(scrollY, [0, 400], [0, -38]);
+  const buttonY = useTransform(scrollY, [0, 400], [0, -26]);
+  const locationY = useTransform(scrollY, [0, 400], [0, -42]);
   const indicatorsY = useTransform(scrollY, [0, 300], [0, -24]);
   const scrollIndicatorY = useTransform(scrollY, [0, 200], [0, -20]);
   const patternOpacity = useTransform(scrollY, [0, 300], [0.16, 0.04]);
@@ -182,20 +188,20 @@ const Hero: React.FC<HeroProps> = ({ initialSlides = [] }) => {
   }, [isMuted]);
 
   const textVariants = {
-    hidden: { opacity: 0, y: 34 },
+    hidden: { opacity: 0, y: 28 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.75,
+        duration: 0.68,
         ease: 'easeOut' as const,
       },
     },
     exit: {
       opacity: 0,
-      y: -34,
+      y: -28,
       transition: {
-        duration: 0.4,
+        duration: 0.35,
       },
     },
   };
@@ -203,7 +209,7 @@ const Hero: React.FC<HeroProps> = ({ initialSlides = [] }) => {
   const staggerChildren = {
     visible: {
       transition: {
-        staggerChildren: 0.14,
+        staggerChildren: 0.11,
       },
     },
   };
@@ -212,10 +218,10 @@ const Hero: React.FC<HeroProps> = ({ initialSlides = [] }) => {
     return (
       <section id="home" className="relative min-h-[92vh] w-full overflow-hidden flex items-center justify-center pt-24 bg-black">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_35%),linear-gradient(180deg,rgba(0,0,0,0.15),rgba(0,0,0,0.9))]" />
-        <div className="relative z-10 text-center text-white px-6 max-w-3xl">
+        <div className="relative z-10 text-center text-white px-6 max-w-3xl translate-y-8 md:translate-y-12">
           <p className="text-primary text-xs font-bold tracking-[0.28em] uppercase mb-5">Nepal • Tibet • Himalaya</p>
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif font-bold mb-5 leading-tight">Kailash Mansarovar Yatra & Nepal Tours</h1>
-          <p className="text-base sm:text-lg text-white/70 leading-relaxed">Plan sacred journeys and Himalayan adventures with a Kathmandu-based team.</p>
+          <p className="text-base sm:text-lg text-white/70 leading-relaxed">Know the route, timing, permits and support before you commit.</p>
         </div>
       </section>
     );
@@ -225,6 +231,7 @@ const Hero: React.FC<HeroProps> = ({ initialSlides = [] }) => {
   const activeVideo = activeSlide.video ? normalizeHeroMediaUrl(activeSlide.video) : null;
   const activeImage = normalizeHeroMediaUrl(activeSlide.image || activeSlide.image_url);
   const primaryHref = activeSlide.button_url || '/tours';
+  const primaryLabel = activeSlide.button_text || 'Explore Packages';
 
   return (
     <section
@@ -277,8 +284,8 @@ const Hero: React.FC<HeroProps> = ({ initialSlides = [] }) => {
                 }}
               />
             )}
-            <motion.div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20" style={{ opacity: overlayOpacity }} />
-            <motion.div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/35" style={{ opacity: overlayOpacity }} />
+            <motion.div className="absolute inset-0 bg-gradient-to-r from-black/88 via-black/58 to-black/20" style={{ opacity: overlayOpacity }} />
+            <motion.div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/10 to-black/35" style={{ opacity: overlayOpacity }} />
             <motion.div className="absolute inset-0 pattern-overlay" style={{ opacity: patternOpacity }} />
           </motion.div>
         </motion.div>
@@ -293,36 +300,45 @@ const Hero: React.FC<HeroProps> = ({ initialSlides = [] }) => {
         </div>
       )}
 
-      <motion.div className="absolute inset-0 z-10 flex items-end md:items-center justify-center pb-24 md:pb-0" style={{ y: contentY }}>
+      <motion.div className="absolute inset-0 z-10 flex items-end md:items-center justify-center pb-24 md:pb-0 md:pt-24 lg:pt-32" style={{ y: contentY }}>
         <div className="w-full px-5 sm:px-8 lg:px-16">
           <AnimatePresence mode="wait">
             <motion.div key={currentSlide} variants={staggerChildren} initial="hidden" animate="visible" exit="exit" className="max-w-4xl mx-auto text-center md:text-left md:mx-0">
-              <motion.div variants={textVariants} className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase text-white/80 backdrop-blur-md mb-5" style={{ y: locationY }}>
+              <motion.div variants={textVariants} className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase text-white/85 backdrop-blur-md mb-5" style={{ y: locationY }}>
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                {activeSlide.location || 'Nepal'}
+                Guided from Kathmandu • {activeSlide.location || 'Nepal'}
               </motion.div>
 
               <motion.h1 variants={textVariants} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-5 leading-[0.95] tracking-[-0.04em] max-w-4xl" style={{ y: titleY }}>
                 {activeSlide.title}
               </motion.h1>
 
-              <motion.p variants={textVariants} className="text-sm sm:text-base md:text-lg text-white/75 mb-8 max-w-2xl md:max-w-xl mx-auto md:mx-0 leading-relaxed" style={{ y: subtitleY }}>
-                {activeSlide.subtitle || 'Curated Himalayan journeys, pilgrimage tours and Nepal experiences planned by local experts.'}
+              <motion.p variants={textVariants} className="text-sm sm:text-base md:text-lg text-white/78 mb-8 max-w-2xl md:max-w-xl mx-auto md:mx-0 leading-relaxed" style={{ y: subtitleY }}>
+                {activeSlide.subtitle || 'Know the route, timing, permits, budget and support before you commit — planned by local experts who understand the journey on the ground.'}
               </motion.p>
 
               <motion.div variants={textVariants} className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start" style={{ y: buttonY }}>
                 <Link href={primaryHref} className="bg-primary text-white px-7 py-4 text-xs font-bold tracking-wider uppercase hover:bg-white hover:text-gray-950 transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-2xl shadow-black/20">
-                  {activeSlide.button_text || 'Explore Packages'}
+                  {primaryLabel}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link href="/contact" className="border border-white/25 bg-white/10 text-white px-7 py-4 text-xs font-bold tracking-wider uppercase hover:bg-white hover:text-gray-950 hover:border-white transition-all duration-300 inline-flex items-center justify-center gap-2 backdrop-blur-md">
-                  <MessageCircle className="w-3.5 h-3.5" /> Talk to Expert
+                  <MessageCircle className="w-3.5 h-3.5" /> Get Clear Advice
                 </Link>
               </motion.div>
 
-              <motion.div variants={textVariants} className="mt-7 flex flex-wrap items-center justify-center md:justify-start gap-2.5">
+              <motion.div variants={textVariants} className="mt-3 flex flex-wrap items-center justify-center md:justify-start gap-x-3 gap-y-1.5 text-[11px] text-white/55">
+                {reassuranceItems.map((item, index) => (
+                  <React.Fragment key={item}>
+                    <span>{item}</span>
+                    {index < reassuranceItems.length - 1 && <span className="text-white/25">•</span>}
+                  </React.Fragment>
+                ))}
+              </motion.div>
+
+              <motion.div variants={textVariants} className="mt-7 grid max-w-2xl grid-cols-1 gap-2.5 sm:grid-cols-3 md:justify-start">
                 {trustItems.map((item) => (
-                  <span key={item} className="rounded-full border border-white/10 bg-black/20 px-3.5 py-2 text-[11px] font-medium text-white/70 backdrop-blur-md">
+                  <span key={item} className="rounded-2xl border border-white/10 bg-black/25 px-3.5 py-3 text-[11px] font-medium text-white/72 backdrop-blur-md">
                     {item}
                   </span>
                 ))}
