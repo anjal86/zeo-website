@@ -198,6 +198,57 @@ function getTourImage(tour: any, slug: string, destination: any) {
   return image;
 }
 
+function getRouteStyleMeta(idea: string, index: number): { icon: IconType; label: string; description: string } {
+  const lower = idea.toLowerCase();
+
+  if (lower.includes('muktinath') || lower.includes('pilgrimage') || lower.includes('kailash')) {
+    return {
+      icon: Shield,
+      label: 'Pilgrimage route',
+      description: 'Best for sacred travel where timing, permits, road access and support matter before booking.',
+    };
+  }
+
+  if (lower.includes('everest') || lower.includes('annapurna') || lower.includes('himalayan') || lower.includes('trek')) {
+    return {
+      icon: Route,
+      label: 'Himalayan route',
+      description: 'Useful for travellers comparing altitude, walking days, region, difficulty and support level.',
+    };
+  }
+
+  if (lower.includes('kathmandu') || lower.includes('heritage') || lower.includes('culture')) {
+    return {
+      icon: MapPin,
+      label: 'Culture route',
+      description: 'Ideal for shorter city, temple, heritage and soft cultural days with easier pacing.',
+    };
+  }
+
+  if (lower.includes('family') || lower.includes('private') || lower.includes('helicopter')) {
+    return {
+      icon: Users,
+      label: 'Private comfort',
+      description: 'Good for families, senior travellers, private groups or travellers needing flexible support.',
+    };
+  }
+
+  if (lower.includes('pattaya') || lower.includes('phuket') || lower.includes('bangkok') || lower.includes('island')) {
+    return {
+      icon: Plane,
+      label: 'Holiday route',
+      description: 'A lighter travel style for city breaks, beaches, family holidays and easy international planning.',
+    };
+  }
+
+  const fallbackIcons: IconType[] = [Compass, Route, Users, MapPin, Plane];
+  return {
+    icon: fallbackIcons[index % fallbackIcons.length],
+    label: 'Custom route',
+    description: 'A flexible planning path shaped around your dates, purpose, group size and comfort level.',
+  };
+}
+
 function findDestination(destinations: any[] | undefined, slug: string) {
   if (slug === 'nepal') {
     return {
@@ -411,20 +462,47 @@ const DestinationDetail: React.FC = () => {
                 </div>
               </div>
 
-              <div className='mt-8 grid gap-8 lg:grid-cols-[0.58fr_0.42fr]'>
+              <div className='mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]'>
                 <div>
-                  <h3 className='text-xl font-serif font-bold text-gray-950'>Route styles people usually compare</h3>
-                  <div className='mt-5 flex flex-wrap gap-2'>
-                    {pageCopy.routeIdeas.map((idea) => (
-                      <span key={idea} className='inline-flex items-center bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-700 ring-1 ring-gray-200'>
-                        <Route className='mr-2 h-3.5 w-3.5 text-primary' /> {idea}
-                      </span>
-                    ))}
+                  <div className='mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between'>
+                    <div>
+                      <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400'>Choose by intent</span>
+                      <h3 className='mt-2 text-2xl font-serif font-bold text-gray-950'>Compare route styles before choosing a package.</h3>
+                    </div>
+                    <a href='#destination-packages' className='inline-flex items-center text-xs font-bold uppercase tracking-wider text-primary hover:text-primary-dark'>
+                      Browse packages <ArrowRight className='ml-2 h-3.5 w-3.5' />
+                    </a>
+                  </div>
+
+                  <div className='border-y border-gray-200'>
+                    {pageCopy.routeIdeas.map((idea, index) => {
+                      const routeMeta = getRouteStyleMeta(idea, index);
+                      const Icon = routeMeta.icon;
+
+                      return (
+                        <a
+                          key={idea}
+                          href='#destination-packages'
+                          className='group grid gap-4 border-b border-gray-200 py-5 last:border-b-0 transition-colors hover:bg-gray-50 md:grid-cols-[56px_0.36fr_1fr_auto] md:items-center md:px-4'
+                        >
+                          <span className='flex h-11 w-11 items-center justify-center border border-gray-200 bg-white transition-colors group-hover:border-primary/40'>
+                            <Icon className={`h-5 w-5 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
+                          </span>
+                          <div>
+                            <span className='text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400'>{routeMeta.label}</span>
+                            <h4 className='mt-1 font-serif text-xl font-bold text-gray-950 group-hover:text-primary'>{idea}</h4>
+                          </div>
+                          <p className='text-sm leading-6 text-gray-600'>{routeMeta.description}</p>
+                          <ArrowRight className='h-4 w-4 text-gray-300 transition-all group-hover:translate-x-1 group-hover:text-primary' />
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
 
                 <div className='border-l border-gray-200 pl-6'>
-                  <h3 className='text-xl font-serif font-bold text-gray-950'>Best time to plan</h3>
+                  <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400'>Season note</span>
+                  <h3 className='mt-2 text-xl font-serif font-bold text-gray-950'>Best time to plan</h3>
                   <p className='mt-3 text-sm leading-7 text-gray-600'>{pageCopy.bestTime}</p>
                 </div>
               </div>
@@ -476,7 +554,7 @@ const DestinationDetail: React.FC = () => {
         </div>
       </section>
 
-      <section className='border-y border-gray-100 bg-[#f7f9fc] py-14 md:py-20'>
+      <section id='destination-packages' className='border-y border-gray-100 bg-[#f7f9fc] py-14 md:py-20 scroll-mt-28'>
         <div className='container-xl'>
           <div className='mb-9 grid gap-6 lg:grid-cols-[0.42fr_0.58fr] lg:items-end'>
             <div>
