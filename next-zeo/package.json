@@ -1,0 +1,41 @@
+{
+  "name": "next-zeo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "db:test": "tsx src/server/scripts/test-connection.ts",
+    "db:migrate": "tsx src/server/db/migrate.ts",
+    "db:import": "tsx src/server/scripts/import-json.ts",
+    "admin:create": "tsx src/server/scripts/create-admin.ts"
+  },
+  "dependencies": {
+    "bcryptjs": "latest",
+    "dotenv": "latest",
+    "mysql2": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "latest",
+    "@tailwindcss/postcss": "^4.3.2",
+    "@tailwindcss/typography": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "autoprefixer": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "postcss": "latest",
+    "tailwindcss": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}

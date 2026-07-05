@@ -1,0 +1,362 @@
+CREATE TABLE IF NOT EXISTS admin_users (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('admin','editor') NOT NULL DEFAULT 'admin',
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  last_login_at DATETIME NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_admin_users_email (email),
+  KEY idx_admin_users_active (is_active)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS destinations (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  slug VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  title VARCHAR(255) NULL,
+  country VARCHAR(100) NULL,
+  region VARCHAR(100) NULL,
+  type VARCHAR(80) NULL,
+  image_url VARCHAR(1024) NULL,
+  description LONGTEXT NULL,
+  highlights JSON NULL,
+  best_time VARCHAR(255) NULL,
+  altitude VARCHAR(100) NULL,
+  difficulty VARCHAR(100) NULL,
+  href VARCHAR(512) NULL,
+  tour_count INT NOT NULL DEFAULT 0,
+  related_tours JSON NULL,
+  related_activities JSON NULL,
+  gallery JSON NULL,
+  seo JSON NULL,
+  metadata JSON NULL,
+  featured BOOLEAN NOT NULL DEFAULT FALSE,
+  listed BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_destinations_slug (slug),
+  KEY idx_destinations_legacy_id (legacy_id),
+  KEY idx_destinations_country (country),
+  KEY idx_destinations_type (type),
+  KEY idx_destinations_featured (featured),
+  KEY idx_destinations_listed (listed),
+  KEY idx_destinations_created_at (created_at),
+  FULLTEXT KEY ft_destinations_search (name, title, description)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS activities (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  slug VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  type VARCHAR(80) NULL,
+  image_url VARCHAR(1024) NULL,
+  description LONGTEXT NULL,
+  highlights JSON NULL,
+  difficulty VARCHAR(100) NULL,
+  best_time VARCHAR(255) NULL,
+  duration VARCHAR(100) NULL,
+  popular_destinations JSON NULL,
+  related_tours JSON NULL,
+  related_destinations JSON NULL,
+  metadata JSON NULL,
+  featured BOOLEAN NOT NULL DEFAULT FALSE,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_activities_slug (slug),
+  KEY idx_activities_legacy_id (legacy_id),
+  KEY idx_activities_type (type),
+  KEY idx_activities_featured (featured),
+  KEY idx_activities_active (is_active),
+  KEY idx_activities_created_at (created_at),
+  FULLTEXT KEY ft_activities_search (name, description)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS tours (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  slug VARCHAR(255) NOT NULL,
+  title VARCHAR(500) NOT NULL,
+  category VARCHAR(120) NULL,
+  location VARCHAR(255) NULL,
+  description LONGTEXT NULL,
+  price DECIMAL(12,2) NOT NULL DEFAULT 0,
+  original_price DECIMAL(12,2) NULL,
+  price_available BOOLEAN NOT NULL DEFAULT TRUE,
+  has_discount BOOLEAN NOT NULL DEFAULT FALSE,
+  discount_percentage DECIMAL(5,2) NULL,
+  duration VARCHAR(120) NULL,
+  duration_days INT NULL,
+  group_size VARCHAR(120) NULL,
+  difficulty VARCHAR(100) NULL,
+  rating DECIMAL(3,2) NOT NULL DEFAULT 0,
+  reviews INT NOT NULL DEFAULT 0,
+  best_time VARCHAR(255) NULL,
+  image_url VARCHAR(1024) NULL,
+  gallery JSON NULL,
+  highlights JSON NULL,
+  inclusions JSON NULL,
+  exclusions JSON NULL,
+  activities_text JSON NULL,
+  itinerary JSON NULL,
+  fitness_requirements JSON NULL,
+  related_destinations JSON NULL,
+  related_activities JSON NULL,
+  tags JSON NULL,
+  seo JSON NULL,
+  metadata JSON NULL,
+  featured BOOLEAN NOT NULL DEFAULT FALSE,
+  listed BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_tours_slug (slug),
+  KEY idx_tours_legacy_id (legacy_id),
+  KEY idx_tours_category (category),
+  KEY idx_tours_location (location),
+  KEY idx_tours_featured (featured),
+  KEY idx_tours_listed (listed),
+  KEY idx_tours_created_at (created_at),
+  FULLTEXT KEY ft_tours_search (title, description, location)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS tour_destinations (
+  tour_id BIGINT UNSIGNED NOT NULL,
+  destination_id BIGINT UNSIGNED NOT NULL,
+  relation_type ENUM('primary','secondary') NOT NULL DEFAULT 'secondary',
+  sort_order INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (tour_id, destination_id),
+  KEY idx_tour_destinations_destination (destination_id),
+  CONSTRAINT fk_tour_destinations_tour FOREIGN KEY (tour_id) REFERENCES tours(id) ON DELETE CASCADE,
+  CONSTRAINT fk_tour_destinations_destination FOREIGN KEY (destination_id) REFERENCES destinations(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS tour_activities (
+  tour_id BIGINT UNSIGNED NOT NULL,
+  activity_id BIGINT UNSIGNED NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (tour_id, activity_id),
+  KEY idx_tour_activities_activity (activity_id),
+  CONSTRAINT fk_tour_activities_tour FOREIGN KEY (tour_id) REFERENCES tours(id) ON DELETE CASCADE,
+  CONSTRAINT fk_tour_activities_activity FOREIGN KEY (activity_id) REFERENCES activities(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS posts (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  slug VARCHAR(255) NOT NULL,
+  title VARCHAR(500) NOT NULL,
+  excerpt TEXT NULL,
+  content LONGTEXT NULL,
+  image_url VARCHAR(1024) NULL,
+  author VARCHAR(255) NULL,
+  category VARCHAR(120) NULL,
+  tags JSON NULL,
+  reading_time VARCHAR(80) NULL,
+  featured BOOLEAN NOT NULL DEFAULT FALSE,
+  status ENUM('draft','published') NOT NULL DEFAULT 'published',
+  seo JSON NULL,
+  published_at DATETIME NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_posts_slug (slug),
+  KEY idx_posts_legacy_id (legacy_id),
+  KEY idx_posts_category (category),
+  KEY idx_posts_featured (featured),
+  KEY idx_posts_status (status),
+  KEY idx_posts_published_at (published_at),
+  FULLTEXT KEY ft_posts_search (title, excerpt, content)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS sliders (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  title VARCHAR(255) NOT NULL,
+  subtitle VARCHAR(500) NULL,
+  location VARCHAR(255) NULL,
+  image_url VARCHAR(1024) NULL,
+  video_url VARCHAR(1024) NULL,
+  video_start_time INT NULL,
+  button_text VARCHAR(120) NULL,
+  button_url VARCHAR(512) NULL,
+  button_style VARCHAR(40) NULL,
+  show_button BOOLEAN NOT NULL DEFAULT FALSE,
+  order_index INT NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  metadata JSON NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_sliders_legacy_id (legacy_id),
+  KEY idx_sliders_active_order (is_active, order_index)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS testimonials (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NULL,
+  country VARCHAR(120) NULL,
+  tour VARCHAR(255) NULL,
+  rating INT NOT NULL DEFAULT 5,
+  title VARCHAR(255) NULL,
+  message TEXT NULL,
+  image_url VARCHAR(1024) NULL,
+  testimonial_date DATE NULL,
+  is_featured BOOLEAN NOT NULL DEFAULT FALSE,
+  is_approved BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_testimonials_legacy_id (legacy_id),
+  KEY idx_testimonials_featured (is_featured),
+  KEY idx_testimonials_approved (is_approved),
+  KEY idx_testimonials_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS contact_settings (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  setting_key VARCHAR(120) NOT NULL,
+  payload JSON NOT NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_contact_settings_key (setting_key)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS enquiries (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(80) NULL,
+  subject VARCHAR(255) NULL,
+  message TEXT NULL,
+  tour_id BIGINT UNSIGNED NULL,
+  tour_name VARCHAR(500) NULL,
+  destination VARCHAR(255) NULL,
+  number_of_people VARCHAR(80) NULL,
+  travel_date DATE NULL,
+  status VARCHAR(80) NOT NULL DEFAULT 'new',
+  assigned_to VARCHAR(255) NULL,
+  notes TEXT NULL,
+  metadata JSON NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_enquiries_legacy_id (legacy_id),
+  KEY idx_enquiries_email (email),
+  KEY idx_enquiries_status (status),
+  KEY idx_enquiries_created_at (created_at),
+  KEY idx_enquiries_tour (tour_id),
+  CONSTRAINT fk_enquiries_tour FOREIGN KEY (tour_id) REFERENCES tours(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS leads (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  type VARCHAR(120) NOT NULL,
+  name VARCHAR(255) NULL,
+  email VARCHAR(255) NULL,
+  phone VARCHAR(80) NULL,
+  meta JSON NULL,
+  status VARCHAR(80) NOT NULL DEFAULT 'new',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_leads_legacy_id (legacy_id),
+  KEY idx_leads_type (type),
+  KEY idx_leads_email (email),
+  KEY idx_leads_status (status),
+  KEY idx_leads_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS team_members (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  name VARCHAR(255) NOT NULL,
+  role VARCHAR(255) NULL,
+  bio TEXT NULL,
+  image_url VARCHAR(1024) NULL,
+  email VARCHAR(255) NULL,
+  phone VARCHAR(80) NULL,
+  social JSON NULL,
+  order_index INT NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_team_legacy_id (legacy_id),
+  KEY idx_team_active_order (is_active, order_index)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS logos (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  type VARCHAR(80) NOT NULL,
+  name VARCHAR(255) NULL,
+  image_url VARCHAR(1024) NOT NULL,
+  website_url VARCHAR(512) NULL,
+  order_index INT NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  metadata JSON NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_logos_type (type),
+  KEY idx_logos_active_order (is_active, order_index)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS director_message (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  title VARCHAR(255) NULL,
+  message LONGTEXT NULL,
+  image_url VARCHAR(1024) NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS kailash_gallery (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  legacy_id BIGINT UNSIGNED NULL,
+  title VARCHAR(255) NULL,
+  image_url VARCHAR(1024) NOT NULL,
+  alt VARCHAR(255) NULL,
+  grid_span VARCHAR(80) NULL,
+  order_index INT NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  uploaded_at DATETIME NULL,
+  metadata JSON NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_kailash_gallery_legacy_id (legacy_id),
+  KEY idx_kailash_gallery_active_order (is_active, order_index)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NULL,
+  status VARCHAR(80) NOT NULL DEFAULT 'active',
+  source VARCHAR(120) NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_newsletter_email (email),
+  KEY idx_newsletter_status (status),
+  KEY idx_newsletter_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS uploaded_files (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  storage_driver ENUM('local','s3') NOT NULL DEFAULT 'local',
+  entity_type VARCHAR(80) NULL,
+  entity_id BIGINT UNSIGNED NULL,
+  original_name VARCHAR(255) NOT NULL,
+  file_name VARCHAR(255) NOT NULL,
+  mime_type VARCHAR(120) NOT NULL,
+  extension VARCHAR(20) NOT NULL,
+  size_bytes BIGINT UNSIGNED NOT NULL,
+  public_url VARCHAR(1024) NOT NULL,
+  storage_path VARCHAR(1024) NOT NULL,
+  alt_text VARCHAR(255) NULL,
+  metadata JSON NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  KEY idx_uploaded_files_entity (entity_type, entity_id),
+  KEY idx_uploaded_files_driver (storage_driver),
+  KEY idx_uploaded_files_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
