@@ -1,0 +1,459 @@
+/* ============================================
+   ZEO TOURISM — GLOBAL DESIGN TOKENS & UTILITIES
+   Change values here to affect the entire site
+   ============================================ */
+
+:root {
+  /* ---- Typography Scale (change these to resize globally) ---- */
+  --text-section-tag: 0.875rem;
+  /* 14px — section tags like "01 — Our Expertise" */
+  --text-section-tag-sm: 0.75rem;
+  /* 12px — smaller tags like "Core Pilgrimage" */
+  --text-body: 1rem;
+  /* 16px — paragraph text */
+  --text-body-lg: 1.125rem;
+  /* 18px — larger body text */
+  --text-card-title: 1.125rem;
+  /* 18px — card heading titles */
+  --text-card-desc: 1rem;
+  /* 16px — card description text */
+
+  /* Section heading sizes */
+  --text-heading-sm: 1.75rem;
+  /* 28px — small headings (mobile) */
+  --text-heading-md: 2.25rem;
+  /* 36px — medium headings (tablet) */
+  --text-heading-lg: 2.75rem;
+  /* 44px — large headings (desktop) */
+
+  /* Section heading sizes for hero */
+  --text-hero-sm: 2.25rem;
+  /* 36px — hero on mobile */
+  --text-hero-md: 3rem;
+  /* 48px — hero on tablet */
+  --text-hero-lg: 4.25rem;
+  /* 68px — hero on desktop */
+
+  /* Stat counter sizes */
+  --text-stat-number: 2rem;
+  /* 32px */
+  --text-stat-label: 0.8125rem;
+  /* 13px */
+
+  /* ---- Navigation ---- */
+  --nav-height: 4rem;
+  /* 64px — overall navbar height */
+  --nav-logo-height: 3.25rem;
+  /* 52px — logo image height */
+  --nav-link-font: 0.9375rem;
+  /* 15px — nav link text size */
+
+  /* ---- Button Sizes ---- */
+  --btn-padding-x: 1.5rem;
+  /* 24px */
+  --btn-padding-y: 0.8125rem;
+  /* 13px */
+  --btn-font: 0.8125rem;
+  /* 13px */
+  --btn-lg-padding-x: 2.5rem;
+  /* 40px */
+  --btn-lg-padding-y: 1rem;
+  /* 16px */
+
+  /* ---- Section Padding ---- */
+  --section-py: 4rem;
+  /* 64px */
+  --section-py-md: 5rem;
+  /* 80px — tablet/desktop */
+}
+
+/* ============================================
+   GLOBAL UTILITY CLASSES
+   Use these in your JSX instead of hardcoding sizes
+   ============================================ */
+
+/* Typography — Section Tags */
+.tag-section {
+  font-size: var(--text-section-tag);
+}
+
+.tag-card {
+  font-size: var(--text-section-tag-sm);
+}
+
+/* Typography — Body Text */
+.body-text {
+  font-size: var(--text-body);
+}
+
+.body-text-lg {
+  font-size: var(--text-body-lg);
+}
+
+/* Typography — Card Titles */
+.card-title {
+  font-size: var(--text-card-title);
+}
+
+/* Typography — Section Headings */
+.heading-section {
+  font-size: var(--text-heading-sm);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .heading-section {
+    font-size: var(--text-heading-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading-section {
+    font-size: var(--text-heading-lg);
+  }
+}
+
+/* Typography — Hero Title */
+.heading-hero {
+  font-size: var(--text-hero-sm);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .heading-hero {
+    font-size: var(--text-hero-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading-hero {
+    font-size: var(--text-hero-lg);
+  }
+}
+
+/* Typography — Stat Counters */
+.stat-number {
+  font-size: var(--text-stat-number);
+}
+
+.stat-label {
+  font-size: var(--text-stat-label);
+}
+
+/* Navigation */
+.nav-bar {
+  height: var(--nav-height);
+}
+
+.nav-logo {
+  height: var(--nav-logo-height);
+  width: auto;
+}
+
+.nav-link {
+  font-size: var(--nav-link-font);
+}
+
+/* Buttons */
+.btn-global {
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  font-size: var(--btn-font);
+}
+
+.btn-lg-global {
+  padding: var(--btn-lg-padding-y) var(--btn-lg-padding-x);
+  font-size: var(--btn-font);
+}
+
+/* Section Padding */
+.section-py-global {
+  padding-top: var(--section-py);
+  padding-bottom: var(--section-py);
+}
+
+@media (min-width: 768px) {
+  .section-py-global {
+    padding-top: var(--section-py-md);
+    padding-bottom: var(--section-py-md);
+  }
+}
+
+/* ============================================
+   LEGACY UTILITIES (keep for backward compat)
+   ============================================ */
+
+/* Container Improvements */
+.section-container {
+  @apply max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.container-xl {
+  @apply max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-12;
+}
+
+.section-padding {
+  @apply py-16 sm:py-20 lg:py-24;
+}
+
+/* Grid Layout Utilities */
+.grid-responsive {
+  @apply grid gap-6 sm:gap-8 lg:gap-12;
+}
+
+.grid-2-cols {
+  @apply grid-cols-1 md:grid-cols-2;
+}
+
+.grid-3-cols {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.grid-4-cols {
+  @apply grid-cols-2 md:grid-cols-4;
+}
+
+/* Card Layout Utilities */
+.card-base {
+  @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300;
+}
+
+.card-padding {
+  @apply p-6 sm:p-8;
+}
+
+/* Button Utilities */
+.btn-primary {
+  @apply shadow-md hover:shadow-xl hover:scale-[1.02];
+  @apply bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-3 sm:px-8 sm:py-4 rounded-2xl font-semibold hover:shadow-lg transition-all duration-300;
+}
+
+.btn-secondary {
+  @apply bg-white/10 backdrop-blur-[10px] border border-white/20 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-2xl font-semibold hover:bg-white/10 transition-all duration-300;
+}
+
+.btn-accent {
+  @apply shadow-md hover:shadow-xl hover:scale-[1.02];
+  @apply bg-gradient-to-r from-secondary to-secondary-light text-white px-6 py-3 sm:px-8 sm:py-4 rounded-2xl font-semibold hover:shadow-lg transition-all duration-300;
+}
+
+/* Spacing Utilities */
+.section-gap {
+  @apply mb-12 sm:mb-16 lg:mb-20;
+}
+
+.content-gap {
+  @apply mb-6 sm:mb-8;
+}
+
+/* Image Utilities */
+.image-responsive {
+  @apply w-full h-auto object-cover;
+}
+
+.image-aspect-video {
+  @apply aspect-video object-cover;
+}
+
+.image-aspect-square {
+  @apply aspect-square object-cover;
+}
+
+/* Flex Utilities */
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.flex-between {
+  @apply flex items-center justify-between;
+}
+
+.flex-responsive {
+  @apply flex flex-col sm:flex-row gap-4 sm:gap-6;
+}
+
+/* Animation Utilities */
+.hover-lift {
+  @apply hover:-translate-y-2 transition-transform duration-300;
+}
+
+.hover-scale {
+  @apply hover:scale-105 transition-transform duration-300;
+}
+
+/* Mobile Menu Improvements */
+@media (max-width: 1023px) {
+  .mobile-menu-item {
+    @apply block py-3 px-4 text-white font-medium transition-all duration-300;
+  }
+
+  .mobile-menu-container {
+    @apply fixed inset-x-0 top-20 bg-black/95 backdrop-blur-lg border-t border-white/10 z-40;
+  }
+}
+
+/* Scroll Improvements */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Focus States */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary;
+}
+
+/* Loading States */
+.loading-skeleton {
+  @apply animate-pulse bg-gray-200 rounded-2xl;
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .glass {
+    @apply bg-white/20 border-2 border-white/40;
+  }
+
+  .glass-dark {
+    @apply bg-black/60 border-2 border-white/40;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark Mode Preparation */
+@media (prefers-color-scheme: dark) {
+  .auto-dark {
+    @apply bg-gray-900 text-white;
+  }
+}
+
+/* Mobile-specific responsive improvements */
+@media (max-width: 640px) {
+
+  /* Ensure touch targets are large enough */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Mobile-optimized text sizes */
+  .mobile-text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .mobile-text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .mobile-text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  /* Mobile-optimized spacing */
+  .mobile-padding {
+    padding: 1rem;
+  }
+
+  .mobile-margin {
+    margin: 1rem;
+  }
+
+  /* Mobile-optimized buttons */
+  .mobile-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Mobile-optimized cards */
+  .mobile-card {
+    border-radius: 0;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Mobile navigation improvements */
+  .mobile-nav-item {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Reduce animations on mobile for performance */
+  .reduce-motion * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+}
+
+/* Tablet-specific improvements */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tablet-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .tablet-padding {
+    padding: 1.5rem;
+  }
+}
+
+/* Performance optimizations for smaller screens */
+@media (max-width: 768px) {
+
+  /* Disable complex animations on mobile */
+  .no-mobile-animations * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Optimize images for mobile */
+  .mobile-img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* Mobile-friendly aspect ratios */
+  .mobile-aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .mobile-aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+
+  .mobile-aspect-photo {
+    aspect-ratio: 4 / 3;
+  }
+}
+/* Glassmorphism Utilities */
+.glass-panel {
+  @apply bg-white/80 backdrop-blur-md border border-white/40 shadow-lg rounded-2xl;
+}
+
+.glass-nav {
+  @apply bg-white/90 backdrop-blur-lg border-b border-white/20 shadow-sm transition-all duration-300;
+}
+
+.glass-floating-bar {
+  @apply bg-white/90 backdrop-blur-xl border-t border-white/40 shadow-[0_-4px_20px_rgba(0,0,0,0.05)];
+}

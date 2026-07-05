@@ -8,7 +8,7 @@ interface SkeletonCardProps {
 const SkeletonCard: React.FC<SkeletonCardProps> = ({ type = 'tour' }) => {
   if (type === 'destination') {
     return (
-      <div className="bg-white rounded-none overflow-hidden shadow-sm border border-gray-100 flex flex-col h-full animate-pulse">
+      <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col h-full animate-pulse">
         {/* Image Placeholder */}
         <div className="relative h-[400px] bg-gray-200"></div>
         {/* Content Placeholder */}
@@ -24,7 +24,7 @@ const SkeletonCard: React.FC<SkeletonCardProps> = ({ type = 'tour' }) => {
 
   if (type === 'blog') {
     return (
-      <div className="bg-white rounded-none overflow-hidden shadow-sm border border-gray-100 flex flex-col h-full animate-pulse">
+      <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col h-full animate-pulse">
         <div className="h-48 bg-gray-200"></div>
         <div className="p-6">
           <div className="flex gap-2 mb-4">
@@ -42,7 +42,7 @@ const SkeletonCard: React.FC<SkeletonCardProps> = ({ type = 'tour' }) => {
 
   // Default to Tour
   return (
-    <div className="bg-white rounded-none overflow-hidden shadow-sm border border-gray-100 flex flex-col h-full animate-pulse">
+    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col h-full animate-pulse">
       {/* Image Placeholder */}
       <div className="relative h-64 bg-gray-200"></div>
       

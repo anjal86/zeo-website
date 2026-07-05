@@ -133,7 +133,7 @@ const TourEnquiryModal: React.FC<TourEnquiryModalProps> = ({
       <form onSubmit={handleSubmit} className="p-6 space-y-4">
         {/* Success Message */}
         {showSuccess && (
-          <div className="p-3 bg-green-100 border border-green-300 rounded-none flex items-center">
+          <div className="p-3 bg-green-100 border border-green-300 rounded-2xl flex items-center">
             <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
             <p className="text-green-800 text-sm">Thank you for your enquiry! We'll contact you soon.</p>
           </div>
@@ -141,7 +141,7 @@ const TourEnquiryModal: React.FC<TourEnquiryModalProps> = ({
 
         {/* Error Message */}
         {showError && (
-          <div className="p-3 bg-red-100 border border-red-300 rounded-none flex items-center">
+          <div className="p-3 bg-red-100 border border-red-300 rounded-2xl flex items-center">
             <AlertCircle className="w-4 h-4 text-red-600 mr-2" />
             <p className="text-red-800 text-sm">{errorMessage}</p>
           </div>
@@ -210,7 +210,7 @@ const TourEnquiryModal: React.FC<TourEnquiryModalProps> = ({
             value={formData.message}
             onChange={handleChange}
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-primary resize-none"
+            className="w-full px-3 py-2 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-primary resize-none"
             placeholder="Tell us about your dream trip..."
           />
         </div>

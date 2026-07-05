@@ -90,7 +90,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
             </motion.button>
 
             {type === 'tours' && (
-              <div className="mt-6 p-4 bg-gray-50 rounded-none">
+              <div className="mt-6 p-4 bg-gray-50 rounded-2xl">
                 <h4 className="font-semibold text-gray-900 mb-2">Get in Touch</h4>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-gray-600">
                   <div className="flex items-center">

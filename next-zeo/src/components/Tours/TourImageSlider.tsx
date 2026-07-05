@@ -35,7 +35,7 @@ const TourImageSlider: React.FC<TourImageSliderProps> = ({ images, title }) => {
 
   if (!images || images.length === 0) {
     return (
-      <div className="bg-white rounded-none shadow-sm overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-soft overflow-hidden">
         <div className="relative h-[250px] md:h-[350px] bg-gray-200 flex items-center justify-center">
           <span className="text-gray-500">No images available</span>
         </div>
@@ -44,7 +44,7 @@ const TourImageSlider: React.FC<TourImageSliderProps> = ({ images, title }) => {
   }
 
   return (
-    <div className="bg-white rounded-none shadow-sm overflow-hidden">
+    <div className="bg-white rounded-3xl shadow-soft overflow-hidden">
       <div className="relative h-[400px] bg-gray-100 flex items-center justify-center">
         {/* Simple image display without complex animations */}
         <img

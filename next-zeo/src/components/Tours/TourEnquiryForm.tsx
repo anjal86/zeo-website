@@ -96,7 +96,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-none shadow-lg border border-gray-200 overflow-hidden max-w-md mx-auto">
+    <div className="bg-white rounded-3xl shadow-soft border border-slate-100 overflow-hidden max-w-md mx-auto">
       {/* Header */}
       <div className="bg-gradient-to-r from-primary to-primary-dark text-white p-4 relative">
         <div className="text-center">
@@ -117,7 +117,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
       <form onSubmit={handleSubmit} className="p-6 space-y-4">
         {/* Success Message */}
         {showSuccess && (
-          <div className="p-3 bg-green-100 border border-green-300 rounded-none flex items-center">
+          <div className="p-3 bg-green-100 border border-green-300 rounded-2xl flex items-center">
             <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
             <p className="text-green-800 text-sm">Enquiry sent successfully!</p>
           </div>
@@ -125,7 +125,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
 
         {/* Error Message */}
         {showError && (
-          <div className="p-3 bg-red-100 border border-red-300 rounded-none flex items-center">
+          <div className="p-3 bg-red-100 border border-red-300 rounded-2xl flex items-center">
             <AlertCircle className="w-4 h-4 text-red-600 mr-2" />
             <p className="text-red-800 text-sm">Please fill in required fields.</p>
           </div>
@@ -141,7 +141,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
             type="text"
             value={formData.name}
             onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-primary"
+            className="w-full px-3 py-2 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-primary"
             placeholder="Your name"
             required
           />
@@ -157,7 +157,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
             type="email"
             value={formData.email}
             onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-primary"
+            className="w-full px-3 py-2 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-primary"
             placeholder="your@email.com"
             required
           />
@@ -173,7 +173,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
             type="tel"
             value={formData.phone}
             onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-primary"
+            className="w-full px-3 py-2 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-primary"
             placeholder="Your phone number"
           />
         </div>
@@ -189,7 +189,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
               min="1"
               value={formData.travelers}
               onChange={(e) => setFormData(prev => ({ ...prev, travelers: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-primary"
+              className="w-full px-3 py-2 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-primary"
               placeholder="2"
             />
           </div>
@@ -203,7 +203,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
               type="date"
               value={formData.date}
               onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-primary"
+              className="w-full px-3 py-2 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-primary"
             />
           </div>
         </div>
@@ -217,7 +217,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
             rows={3}
             value={formData.message}
             onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-primary"
+            className="w-full px-3 py-2 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-primary"
             placeholder="Tell us about your travel plans..."
           />
         </div>
@@ -226,7 +226,7 @@ const TourEnquiryForm: React.FC<TourEnquiryFormProps> = ({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-primary to-primary-dark text-white py-3 rounded-none font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          className="w-full bg-gradient-to-r from-primary to-primary-dark text-white py-3 rounded-2xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isSubmitting ? (
             <>

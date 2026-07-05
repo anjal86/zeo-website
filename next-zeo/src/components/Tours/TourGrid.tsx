@@ -102,17 +102,17 @@ const TourGrid: React.FC<TourGridProps> = ({
   return (
     <div className="space-y-6">
       {/* Controls Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 rounded-none shadow-sm border border-gray-100">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium text-gray-700">
             {totalCount} tour{totalCount !== 1 ? 's' : ''} found
           </span>
 
           {/* View Mode Toggle */}
-          <div className="flex items-center bg-gray-100 rounded-none p-1">
+          <div className="flex items-center bg-gray-100 rounded-2xl p-1">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 rounded-none transition-all ${viewMode === 'grid'
+              className={`p-2 rounded-2xl transition-all ${viewMode === 'grid'
                 ? 'bg-white text-primary shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
                 }`}
@@ -121,7 +121,7 @@ const TourGrid: React.FC<TourGridProps> = ({
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-none transition-all ${viewMode === 'list'
+              className={`p-2 rounded-2xl transition-all ${viewMode === 'list'
                 ? 'bg-white text-primary shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
                 }`}
@@ -137,7 +137,7 @@ const TourGrid: React.FC<TourGridProps> = ({
           <select
             value={sortBy}
             onChange={(e) => handleSortChange(e.target.value as SortOption)}
-            className="bg-white border border-gray-300 rounded-none px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            className="bg-white border border-gray-300 rounded-2xl px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
           >
             {sortOptions.map((option) => (
               <option key={option.value} value={option.value}>

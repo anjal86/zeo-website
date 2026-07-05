@@ -133,7 +133,7 @@ const ActivitiesPage: React.FC = () => {
                     className="group cursor-pointer"
                   >
                     <Link href={`/tours?activity=${activity.name}`} className="block">
-                      <div className="relative rounded-none overflow-hidden aspect-[3/2] shadow-lg hover:shadow-2xl transition-all duration-500">
+                      <div className="relative rounded-2xl overflow-hidden aspect-[3/2] shadow-lg hover:shadow-2xl transition-all duration-500">
                         <img
                           src={activity.image}
                           alt={`${activity.name} activity in Nepal`}

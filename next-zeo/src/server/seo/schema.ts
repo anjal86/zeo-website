@@ -62,12 +62,12 @@ const validateAndLogSchema = (schema: any, schemaType: string): any => {
 export const createOrganizationSchema = () => validateAndLogSchema({
   "@context": "https://schema.org",
   "@type": ["TravelAgency", "Organization"],
-  "@id": `${process.env.APP_URL || "https://www.zeotourism.com"}/#organization`,
+  "@id": `https://www.zeotourism.com/#organization`,
   name: "Zeo Tourism",
-  url: `${process.env.APP_URL || "https://www.zeotourism.com"}`,
+  url: `https://www.zeotourism.com`,
   logo: {
     "@type": "ImageObject",
-    url: `${process.env.APP_URL || "https://www.zeotourism.com"}/logo/zeo-logo.png`,
+    url: `https://www.zeotourism.com/logo/zeo-logo.png`,
     width: 280,
     height: 80
   },
@@ -122,19 +122,19 @@ export const createOrganizationSchema = () => validateAndLogSchema({
 export const createWebSiteSchema = () => validateAndLogSchema({
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": `${process.env.APP_URL || "https://www.zeotourism.com"}/#website`,
+  "@id": `https://www.zeotourism.com/#website`,
   name: "Zeo Tourism",
-  url: `${process.env.APP_URL || "https://www.zeotourism.com"}`,
+  url: `https://www.zeotourism.com`,
   description: "Discover Nepal with expert-guided adventures, cultural tours, and spiritual journeys. 25+ years of experience in travel planning.",
   publisher: {
     "@type": "Organization",
-    "@id": `${process.env.APP_URL || "https://www.zeotourism.com"}/#organization`
+    "@id": `https://www.zeotourism.com/#organization`
   },
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: `${process.env.APP_URL || "https://www.zeotourism.com"}/search?q={search_term_string}`
+      urlTemplate: `https://www.zeotourism.com/search?q={search_term_string}`
     },
     "query-input": "required name=search_term_string"
   }
@@ -173,16 +173,16 @@ export const createArticleSchema = (article: {
   },
   author: {
     "@type": "Organization",
-    "@id": `${process.env.APP_URL || "https://www.zeotourism.com"}/#organization`,
+    "@id": `https://www.zeotourism.com/#organization`,
     name: "Zeo Tourism"
   },
   publisher: {
     "@type": "Organization",
-    "@id": `${process.env.APP_URL || "https://www.zeotourism.com"}/#organization`,
+    "@id": `https://www.zeotourism.com/#organization`,
     name: "Zeo Tourism",
     logo: {
       "@type": "ImageObject",
-      url: `${process.env.APP_URL || "https://www.zeotourism.com"}/logo/zeo-logo.png`
+      url: `https://www.zeotourism.com/logo/zeo-logo.png`
     }
   },
   datePublished: article.publishDate,
@@ -248,14 +248,14 @@ export const createTouristTripSchema = (tour: {
       url: tour.url,
       seller: {
         "@type": "TravelAgency",
-        "@id": `${process.env.APP_URL || "https://www.zeotourism.com"}/#organization`,
+        "@id": `https://www.zeotourism.com/#organization`,
         name: "Zeo Tourism"
       }
     }
   }),
   provider: {
     "@type": "TravelAgency",
-    "@id": `${process.env.APP_URL || "https://www.zeotourism.com"}/#organization`,
+    "@id": `https://www.zeotourism.com/#organization`,
     name: "Zeo Tourism"
   },
   ...(tour.highlights && tour.highlights.length > 0 && {
@@ -331,13 +331,13 @@ export const createAggregateRatingSchema = (ratings: number[]) => validateAndLog
 export const createTravelAgencySchema = (liveRating?: { ratingValue: number; reviewCount: number }) => validateAndLogSchema({
   "@context": "https://schema.org",
   "@type": "TravelAgency",
-  "@id": `${process.env.APP_URL || "https://www.zeotourism.com"}/#organization`,
+  "@id": `https://www.zeotourism.com/#organization`,
   name: "Zeo Tourism",
   image: [
-    `${process.env.APP_URL || "https://www.zeotourism.com"}/images/office-exterior.jpg`,
-    `${process.env.APP_URL || "https://www.zeotourism.com"}/logo/zeo-logo.png`
+    `https://www.zeotourism.com/images/office-exterior.jpg`,
+    `https://www.zeotourism.com/logo/zeo-logo.png`
   ],
-  url: `${process.env.APP_URL || "https://www.zeotourism.com"}`,
+  url: `https://www.zeotourism.com`,
   telephone: "+977-985-123-4567",
   email: "info@zeotourism.com",
   address: {

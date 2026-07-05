@@ -89,23 +89,23 @@ const Contact: React.FC = () => {
     {
       icon: Phone,
       title: 'Call Us',
-      primary: contactInfo?.contact.phone.primary || '+9779851234567',
+      primary: contactInfo?.contact?.phone?.primary || '+9779851234567',
       color: 'bg-primary',
-      action: () => window.location.href = `tel:${contactInfo?.contact.phone.primary || '+9779851234567'}`
+      action: () => window.location.href = `tel:${contactInfo?.contact?.phone?.primary || '+9779851234567'}`
     },
     {
       icon: MessageSquare,
       title: 'WhatsApp',
       primary: 'Chat with us',
       color: 'bg-green-500',
-      action: () => window.open(contactInfo?.social.whatsapp || 'https://wa.me/9779851234567', '_blank')
+      action: () => window.open(contactInfo?.social?.whatsapp || 'https://wa.me/9779851234567', '_blank')
     },
     {
       icon: Mail,
       title: 'Email Us',
-      primary: contactInfo?.contact.email.primary || 'info@zeotourism.com',
+      primary: contactInfo?.contact?.email?.primary || 'info@zeotourism.com',
       color: 'bg-orange-500',
-      action: () => window.location.href = `mailto:${contactInfo?.contact.email.primary || 'info@zeotourism.com'}`
+      action: () => window.location.href = `mailto:${contactInfo?.contact?.email?.primary || 'info@zeotourism.com'}`
     }
   ];
 
@@ -151,9 +151,9 @@ const Contact: React.FC = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   onClick={method.action}
-                  className="flex items-center p-4 bg-white rounded-none shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 cursor-pointer group"
+                  className="flex items-center p-4 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 cursor-pointer group"
                 >
-                  <div className={`${method.color} text-white p-3 rounded-none mr-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`${method.color} text-white p-3 rounded-2xl mr-4 group-hover:scale-110 transition-transform duration-300`}>
                     <method.icon className="w-6 h-6" />
                   </div>
                   <div>
@@ -167,15 +167,15 @@ const Contact: React.FC = () => {
             </div>
 
             {/* Office Info */}
-            <div className="bg-white rounded-none p-6 shadow-sm border border-gray-100">
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <div className="flex items-start">
-                <div className="bg-primary text-white p-3 rounded-none mr-4">
+                <div className="bg-primary text-white p-3 rounded-2xl mr-4">
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Visit Our Office</h3>
                   <p className="text-gray-600 text-sm">
-                    {contactInfo?.contact.address.full || 'Baluwatar-4, Kathmandu, Nepal'}
+                    {contactInfo?.contact?.address?.full || 'Baluwatar-4, Kathmandu, Nepal'}
                   </p>
                 </div>
               </div>
@@ -189,7 +189,7 @@ const Contact: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="bg-white rounded-none shadow-lg border border-gray-100 p-8">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
                 Send us a message
               </h3>
@@ -201,7 +201,7 @@ const Contact: React.FC = () => {
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="p-4 bg-green-50 border border-green-200 rounded-none flex items-center"
+                    className="p-4 bg-green-50 border border-green-200 rounded-2xl flex items-center"
                   >
                     <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
                     <p className="text-green-800">
@@ -216,7 +216,7 @@ const Contact: React.FC = () => {
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="p-4 bg-red-50 border border-red-200 rounded-none flex items-center"
+                    className="p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center"
                   >
                     <AlertCircle className="w-5 h-5 text-red-600 mr-3" />
                     <p className="text-red-800">
@@ -246,7 +246,7 @@ const Contact: React.FC = () => {
                       onChange={handleChange}
                       required
                       placeholder="Your Name *"
-                      className="w-full px-4 py-3 rounded-none border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                     />
 
                     <input
@@ -256,7 +256,7 @@ const Contact: React.FC = () => {
                       onChange={handleChange}
                       required
                       placeholder="Email Address *"
-                      className="w-full px-4 py-3 rounded-none border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                     />
                   </div>
 
@@ -267,7 +267,7 @@ const Contact: React.FC = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="Phone Number"
-                      className="w-full px-4 py-3 rounded-none border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                     />
 
                     <select
@@ -275,7 +275,7 @@ const Contact: React.FC = () => {
                       value={formData.destination}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-none border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300 appearance-none bg-white"
+                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300 appearance-none bg-white"
                     >
                       <option value="">Select Destination *</option>
                       <option value="everest">Everest Base Camp</option>
@@ -296,7 +296,7 @@ const Contact: React.FC = () => {
                       onChange={handleChange}
                       min="1"
                       placeholder="No. of Travelers"
-                      className="w-full px-4 py-3 rounded-none border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                     />
 
                     <input
@@ -305,7 +305,7 @@ const Contact: React.FC = () => {
                       value={formData.date}
                       onChange={handleChange}
                       placeholder="Preferred Date"
-                      className="w-full px-4 py-3 rounded-none border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                      className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                     />
                   </div>
 
@@ -315,19 +315,19 @@ const Contact: React.FC = () => {
                     onChange={handleChange}
                     rows={4}
                     placeholder="Tell us about your travel plans..."
-                    className="w-full px-4 py-3 rounded-none border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300 resize-none"
+                    className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300 resize-none"
                   />
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
                   <p className="text-sm text-gray-500">
-                    {contactInfo?.business.support.response_time ? `We'll get back to you ${contactInfo.business.support.response_time.toLowerCase()}` : "We'll get back to you within 24 hours"}
+                    {contactInfo?.business?.support?.response_time ? `We'll get back to you ${contactInfo.business.support.response_time.toLowerCase()}` : "We'll get back to you within 24 hours"}
                   </p>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-3 rounded-none font-semibold hover:shadow-lg transition-all duration-300 flex items-center ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                    className={`bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-3 rounded-2xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                       }`}
                   >
                     {isSubmitting ? (
@@ -356,7 +356,7 @@ const Contact: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-16"
         >
-          <div className="bg-white rounded-none shadow-sm border border-gray-100 overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="p-4 border-b border-gray-100">
               <h3 className="text-xl font-semibold text-gray-900 flex items-center">
                 <MapPin className="w-5 h-5 text-primary mr-2" />
@@ -379,10 +379,10 @@ const Contact: React.FC = () => {
             <div className="p-4 bg-gray-50">
               <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-600">
-                  <strong>{contactInfo?.company.name || 'Zeo Tourism'}</strong> - {contactInfo?.contact.address.full || 'Baluwatar-4, Kathmandu, Nepal'}
+                  <strong>{contactInfo?.company?.name || 'Zeo Tourism'}</strong> - {contactInfo?.contact?.address?.full || 'Baluwatar-4, Kathmandu, Nepal'}
                 </div>
                 <a
-                  href={(contactInfo?.contact.location as any)?.maps_url || "https://maps.app.goo.gl/6ee4i6HGNKX9qdar8"}
+                  href={(contactInfo?.contact?.location as any)?.maps_url || "https://maps.app.goo.gl/6ee4i6HGNKX9qdar8"}
                   target="_blank"
                   rel="nofollow noopener noreferrer"
                   className="text-primary hover:text-primary-dark font-medium text-sm transition-colors"

@@ -1,4 +1,8 @@
-import type { Config } from "tailwindcss";
+with open('tailwind.config.ts', 'r') as f:
+    content = f.read()
+
+# Update fonts and colors
+new_tailwind = """import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
 
 const config: Config = {
@@ -38,3 +42,7 @@ const config: Config = {
 };
 
 export default config;
+"""
+
+with open('tailwind.config.ts', 'w') as f:
+    f.write(new_tailwind)

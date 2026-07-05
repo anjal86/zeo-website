@@ -84,7 +84,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ contentHtml }) => {
   };
 
   return (
-    <nav aria-label="Table of contents" className="bg-slate-50 rounded-none border border-slate-100 p-6">
+    <nav aria-label="Table of contents" className="bg-slate-50 rounded-2xl border border-slate-100 p-6">
       <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-4 flex items-center gap-2">
         <List className="w-4 h-4 text-primary" />
         In this article

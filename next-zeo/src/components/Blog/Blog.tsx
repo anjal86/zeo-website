@@ -87,11 +87,11 @@ const Blog: React.FC = () => {
               <motion.article
                 key={post.id}
                 whileHover={{ scale: 1.02 }}
-                className="bg-white rounded-none overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
+                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
               >
                 <div className="relative h-96 overflow-hidden">
                   <img
-                    src={post.image}
+                    src={post.image || undefined}
                     alt={post.title}
                     loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -166,12 +166,12 @@ const Blog: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ x: 10 }}
-                className="bg-white rounded-none overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group"
+                className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group"
               >
                 <div className="flex">
                   <div className="w-1/3 relative overflow-hidden">
                     <img
-                      src={post.image}
+                      src={post.image || undefined}
                       alt={post.title}
                       loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -215,7 +215,7 @@ const Blog: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-20 bg-gradient-to-r from-primary to-primary-light rounded-none p-12 text-white text-center"
+          className="mt-20 bg-gradient-to-r from-primary to-primary-light rounded-2xl p-12 text-white text-center"
         >
           <h3 className="text-3xl font-serif font-bold mb-4">
             Get Travel Inspiration Delivered

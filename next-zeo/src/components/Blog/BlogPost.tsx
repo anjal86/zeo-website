@@ -273,7 +273,7 @@ const BlogPostPage: React.FC = () => {
                                 transition={{ delay: 0.3 }}
                                 className="max-w-4xl"
                             >
-                                <span className="inline-block bg-secondary text-white px-4 py-1.5 rounded-none text-sm font-bold tracking-widest uppercase mb-6 shadow-xl">
+                                <span className="inline-block bg-secondary text-white px-4 py-1.5 rounded-2xl text-sm font-bold tracking-widest uppercase mb-6 shadow-xl">
                                     {post.category}
                                 </span>
                                 <h1 className="text-4xl md:text-7xl font-serif font-bold text-white mb-8 leading-[1.1]">
@@ -305,9 +305,9 @@ const BlogPostPage: React.FC = () => {
                     <div className="flex flex-col lg:flex-row gap-12">
                         {/* Main Content */}
                         <div className="lg:w-2/3">
-                            <div className="bg-white rounded-none p-8 md:p-16 shadow-2xl shadow-slate-200/50 border border-gray-100">
+                            <div className="bg-white rounded-2xl p-8 md:p-16 shadow-2xl shadow-slate-200/50 border border-gray-100">
                                 <div
-                                    className="prose prose-base md:prose-lg prose-slate max-w-none prose-headings:font-serif prose-headings:text-slate-950 prose-a:text-primary prose-img:rounded-none break-words scroll-mt-24 blog-post-content"
+                                    className="prose prose-base md:prose-lg prose-slate max-w-none prose-headings:font-serif prose-headings:text-slate-950 prose-a:text-primary prose-img:rounded-2xl break-words scroll-mt-24 blog-post-content"
                                     dangerouslySetInnerHTML={{
                                         __html: (post.content || '').replace(/&nbsp;/g, ' ')
                                     }}
@@ -316,7 +316,7 @@ const BlogPostPage: React.FC = () => {
                                 {/* Tags Section */}
                                 <div className="mt-16 pt-10 border-t border-gray-100 flex flex-wrap items-center gap-3">
                                     <Tag className="w-5 h-5 text-primary mr-2" />
-                                    <span className="bg-slate-50 text-slate-600 px-4 py-1.5 rounded-none text-sm font-semibold border border-slate-100">
+                                    <span className="bg-slate-50 text-slate-600 px-4 py-1.5 rounded-2xl text-sm font-semibold border border-slate-100">
                                         {post.category}
                                     </span>
                                 </div>
@@ -356,7 +356,7 @@ const BlogPostPage: React.FC = () => {
                                 <TableOfContents contentHtml={post.content || ''} />
 
                                 {/* Sharing Widget */}
-                                <div className="bg-slate-50 rounded-none p-8 border border-slate-100">
+                                <div className="bg-slate-50 rounded-2xl p-8 border border-slate-100">
                                     <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                                         <Share2 className="w-5 h-5 text-primary" /> Share this Story
                                     </h3>
@@ -364,18 +364,18 @@ const BlogPostPage: React.FC = () => {
                                 </div>
 
                                 {/* Newsletter / CTA */}
-                                <div className="bg-gradient-to-br from-primary to-primary-dark rounded-none p-8 text-white relative overflow-hidden shadow-xl">
+                                <div className="bg-gradient-to-br from-primary to-primary-dark rounded-2xl p-8 text-white relative overflow-hidden shadow-xl">
                                     <div className="relative z-10">
                                         <h3 className="text-2xl font-bold mb-4">Plan your Nepal Trip?</h3>
                                         <p className="text-white/80 mb-6">Expert travel consultation for your customized itinerary. Join 10k+ happy travelers.</p>
                                         <Link
                                             href="/contact"
-                                            className="block w-full text-center bg-secondary hover:bg-secondary-dark text-white py-4 rounded-none font-bold transition-all transform hover:scale-105"
+                                            className="block w-full text-center bg-secondary hover:bg-secondary-dark text-white py-4 rounded-2xl font-bold transition-all transform hover:scale-105"
                                         >
                                             Talk to an Expert
                                         </Link>
                                     </div>
-                                    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-none blur-3xl" />
+                                    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-2xl blur-3xl" />
                                 </div>
                             </div>
                         </aside>
@@ -425,7 +425,7 @@ const BlogPostPage: React.FC = () => {
                                 <Link
                                     key={rPost.id}
                                     href={`/blog/${rPost.slug}`}
-                                    className="group block bg-white rounded-none overflow-hidden border border-gray-100 hover:shadow-xl transition-all h-full flex flex-col"
+                                    className="group block bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all h-full flex flex-col"
                                 >
                                     <div className="h-56 overflow-hidden">
                                         <img

@@ -58,7 +58,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-none shadow-xl max-w-md w-full mx-4 transform transition-all">
+      <div className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 transform transition-all">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
@@ -85,14 +85,14 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
           </p>
           
           {itemName && (
-            <div className="bg-gray-50 rounded-none p-3 mb-4 border-l-4 border-gray-300">
+            <div className="bg-gray-50 rounded-2xl p-3 mb-4 border-l-4 border-gray-300">
               <p className="text-sm text-gray-700 font-medium">
                 "{itemName}"
               </p>
             </div>
           )}
 
-          <div className="bg-yellow-50 border border-yellow-200 rounded-none p-3">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-3">
             <div className="flex items-start gap-2">
               <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5 flex-shrink-0" />
               <p className="text-sm text-yellow-800">
@@ -103,18 +103,18 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50 rounded-none-b-lg">
+        <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50 rounded-2xl-b-lg">
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-none hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-2xl hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {cancelText}
           </button>
           <button
             onClick={handleConfirm}
             disabled={isLoading}
-            className={`px-4 py-2 text-sm font-medium text-white rounded-none focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${styles.button}`}
+            className={`px-4 py-2 text-sm font-medium text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${styles.button}`}
           >
             {isLoading ? (
               <div className="flex items-center gap-2">

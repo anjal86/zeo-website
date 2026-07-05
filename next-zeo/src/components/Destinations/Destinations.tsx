@@ -98,7 +98,7 @@ const Destinations: React.FC = () => {
                 className="group cursor-pointer"
               >
                 <Link href={destination.href || `/destinations/${destination.name.toLowerCase()}`} className="block">
-                  <div className="relative rounded-none sm:rounded-none overflow-hidden aspect-[4/3] sm:aspect-[3/2] shadow-lg hover:shadow-2xl transition-all duration-500">
+                  <div className="relative rounded-2xl sm:rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[3/2] shadow-lg hover:shadow-2xl transition-all duration-500">
                     <img
                       src={destination.image}
                       alt={`${destination.name} - ${destination.country} travel destination`}

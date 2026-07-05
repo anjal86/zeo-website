@@ -118,7 +118,7 @@ const TourEnquiryButton: React.FC<TourEnquiryButtonProps> = ({
 
 ${customerInfo}${emailInfo}${phoneInfo}${travelersInfo}${dateInfo}${messageInfo}
 Could you please provide more details?`;
-    const whatsappNumber = contactInfo?.contact.phone.whatsapp?.replace('+', '') || '9779851234567';
+    const whatsappNumber = contactInfo?.contact?.phone?.whatsapp?.replace('+', '') || '9779851234567';
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -144,13 +144,13 @@ ${customerInfo}${phoneInfo}${travelersInfo}${dateInfo}${messageInfo}
 Could you please provide more details?
 
 Thank you!`;
-    const emailUrl = `mailto:${contactInfo?.contact.email.primary || 'info@zeotourism.com'}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const emailUrl = `mailto:${contactInfo?.contact?.email?.primary || 'info@zeotourism.com'}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = emailUrl;
   };
 
   return (
     <div className="sticky top-24">
-      <div className="bg-white rounded-none shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-soft overflow-hidden border border-slate-100">
         {/* Price Header */}
         <div className="bg-gradient-to-r from-primary to-primary-dark text-white p-4 text-center">
           {priceAvailable ? (
@@ -185,7 +185,7 @@ Thank you!`;
           <form onSubmit={handleSubmit} className="space-y-3">
             {/* Success Message */}
             {showSuccess && (
-              <div className="p-3 bg-green-50 border border-green-200 rounded-none flex items-center">
+              <div className="p-3 bg-green-50 border border-green-200 rounded-2xl flex items-center">
                 <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
                 <p className="text-green-700 text-sm">Thank you! We'll contact you soon.</p>
               </div>
@@ -193,7 +193,7 @@ Thank you!`;
 
             {/* Error Message */}
             {showError && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-none flex items-center">
+              <div className="p-3 bg-red-50 border border-red-200 rounded-2xl flex items-center">
                 <AlertCircle className="w-4 h-4 text-red-600 mr-2" />
                 <p className="text-red-700 text-sm">{errorMessage}</p>
               </div>
@@ -204,7 +204,7 @@ Thank you!`;
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-200 rounded-none focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+              className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
               placeholder="Your Name *"
               required
             />
@@ -214,7 +214,7 @@ Thank you!`;
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-200 rounded-none focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+              className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
               placeholder="Email Address *"
               required
             />
@@ -224,7 +224,7 @@ Thank you!`;
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-200 rounded-none focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+              className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
               placeholder="Phone Number"
             />
 
@@ -235,7 +235,7 @@ Thank you!`;
                 value={formData.travelers}
                 onChange={handleChange}
                 min="1"
-                className="w-full px-4 py-3 border border-gray-200 rounded-none focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                 placeholder="No. of Travelers"
               />
 
@@ -244,7 +244,7 @@ Thank you!`;
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-none focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
               />
             </div>
 
@@ -253,14 +253,14 @@ Thank you!`;
               value={formData.message}
               onChange={handleChange}
               rows={3}
-              className="w-full px-4 py-3 border border-gray-200 rounded-none focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300 resize-none"
+              className="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300 resize-none"
               placeholder="Tell us about your travel plans..."
             />
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-primary to-primary-dark text-white py-3 rounded-none font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="w-full bg-gradient-to-r from-primary to-primary-dark text-white py-3 rounded-2xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>
@@ -280,7 +280,7 @@ Thank you!`;
           <div className="grid grid-cols-2 gap-3 mt-4">
             <button
               onClick={handleWhatsAppClick}
-              className="bg-green-500 text-white py-3 rounded-none font-medium hover:bg-green-600 transition-colors flex items-center justify-center"
+              className="bg-green-500 text-white py-3 rounded-2xl font-medium hover:bg-green-600 transition-colors flex items-center justify-center"
             >
               <MessageCircle className="w-4 h-4 mr-2" />
               WhatsApp
@@ -288,7 +288,7 @@ Thank you!`;
 
             <button
               onClick={handleEmailClick}
-              className="bg-gray-600 text-white py-3 rounded-none font-medium hover:bg-gray-700 transition-colors flex items-center justify-center"
+              className="bg-gray-600 text-white py-3 rounded-2xl font-medium hover:bg-gray-700 transition-colors flex items-center justify-center"
             >
               <Mail className="w-4 h-4 mr-2" />
               Email

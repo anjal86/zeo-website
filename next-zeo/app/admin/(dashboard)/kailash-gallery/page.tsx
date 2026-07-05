@@ -17,7 +17,7 @@ const GalleryManager: React.FC = () => {
     const [saving, setSaving] = useState(false);
 
     const fetch = useCallback(async () => {
-        try { const d = await adminFetch<GalleryItem[]>(`${api}/kailash-gallery`); setItems(d || []); } catch (err: any) { setError(err.message); } finally { setLoading(false); }
+        try { const d = await adminFetch<any>(`${api}/kailash-gallery`); setItems(d?.gallery || (Array.isArray(d) ? d : [])); } catch (err: any) { setError(err.message); } finally { setLoading(false); }
     }, []);
     useEffect(() => { fetch(); }, [fetch]);
 

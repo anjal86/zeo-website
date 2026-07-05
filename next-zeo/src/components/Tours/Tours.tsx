@@ -126,7 +126,7 @@ const Tours: React.FC<ToursProps> = ({ initialTours }) => {
                 <SwiperSlide key={tour.id}>
                   <motion.div
                     whileHover={{ y: -10 }}
-                    className="bg-white rounded-none overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
+                    className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
                   >
                     {/* Image Container */}
                     <div className="relative h-64 overflow-hidden">
@@ -194,7 +194,7 @@ const Tours: React.FC<ToursProps> = ({ initialTours }) => {
                         {tour.highlights.slice(0, 2).map((highlight: string, index: number) => (
                           <span
                             key={index}
-                            className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-none"
+                            className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-2xl"
                           >
                             {highlight}
                           </span>

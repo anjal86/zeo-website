@@ -60,7 +60,7 @@ const TourCard: React.FC<TourCardProps> = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         whileHover={{ y: -4 }}
-        className="bg-white rounded-none overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group w-full border border-gray-100"
+        className="bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-glow transition-all duration-500 cursor-pointer group w-full"
         onClick={handleViewDetails}
       >
         <div className="flex flex-col md:flex-row md:items-stretch">
@@ -111,7 +111,7 @@ const TourCard: React.FC<TourCardProps> = ({
           <div className="flex-1 p-6 md:p-8 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-2">
-                <div className="flex items-center text-sky-600 font-medium text-sm tracking-wide uppercase">
+                <div className="flex items-center text-primary font-medium text-sm tracking-wide uppercase">
                   <MapPin className="w-4 h-4 mr-1.5" />
                   {destinationName}
                 </div>
@@ -128,7 +128,7 @@ const TourCard: React.FC<TourCardProps> = ({
               </div>
 
               {/* Title */}
-              <h3 className="text-2xl font-bold text-gray-900 mb-3 line-clamp-1 group-hover:text-sky-600 transition-colors">
+              <h3 className="font-heading text-2xl font-semibold text-brand-dark mb-3 line-clamp-1 group-hover:text-primary transition-colors">
                 {tour.title}
               </h3>
 
@@ -147,7 +147,7 @@ const TourCard: React.FC<TourCardProps> = ({
                     <div className="flex items-baseline">
                       {tour.hasDiscount && tour.discountPercentage ? (
                         <>
-                          <span className="text-2xl font-bold text-gray-900">
+                          <span className="font-heading text-2xl font-semibold text-brand-dark">
                             ${Math.round(tour.price * (1 - tour.discountPercentage / 100))}
                           </span>
                           <span className="ml-2 text-sm text-gray-400 line-through">
@@ -155,7 +155,7 @@ const TourCard: React.FC<TourCardProps> = ({
                           </span>
                         </>
                       ) : (
-                        <span className="text-2xl font-bold text-gray-900">
+                        <span className="font-heading text-2xl font-semibold text-brand-dark">
                           ${tour.price}
                         </span>
                       )}
@@ -175,7 +175,7 @@ const TourCard: React.FC<TourCardProps> = ({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleViewDetails}
-                className="w-12 h-12 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-600 hover:text-white transition-colors shadow-sm"
+                className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-sky-600 hover:text-white transition-colors shadow-sm"
               >
                 <ArrowRight className="w-5 h-5" />
               </motion.button>
@@ -192,7 +192,7 @@ const TourCard: React.FC<TourCardProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -8 }}
-      className="bg-white rounded-none overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer group w-full h-full flex flex-col border border-gray-100"
+      className="bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-glow transition-all duration-500 cursor-pointer group w-full h-full flex flex-col"
       onClick={handleViewDetails}
     >
       {/* Large Image Container */}
@@ -238,25 +238,25 @@ const TourCard: React.FC<TourCardProps> = ({
       {/* Content Area */}
       <div className="p-6 flex flex-col flex-1 relative">
         {/* Floating Category/Location Badge */}
-        <div className="absolute -top-5 right-6 bg-white shadow-lg rounded-none px-4 py-2 flex items-center gap-1.5 text-xs font-bold text-gray-800 uppercase tracking-wide border border-gray-50">
-          <MapPin className="w-3.5 h-3.5 text-sky-500" />
+        <div className="absolute -top-5 right-6 bg-white shadow-lg rounded-2xl px-4 py-2 flex items-center gap-1.5 text-xs font-bold text-gray-800 uppercase tracking-wide border border-gray-50">
+          <MapPin className="w-3.5 h-3.5 text-primary" />
           {destinationName}
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-bold text-gray-900 mt-2 mb-3 line-clamp-2 leading-tight group-hover:text-sky-600 transition-colors">
+        <h3 className="font-heading text-xl font-semibold text-brand-dark mt-2 mb-3 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
           {tour.title}
         </h3>
 
         {/* Minimal Meta */}
         <div className="flex items-center gap-4 mb-6 text-sm text-gray-500 font-medium">
           <div className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-sky-500" />
+            <Clock className="w-4 h-4 text-primary" />
             {formatDuration(tour.duration)}
           </div>
           <div className="w-1 h-1 rounded-full bg-gray-300"></div>
           <div className="flex items-center gap-1.5">
-            <Users className="w-4 h-4 text-sky-500" />
+            <Users className="w-4 h-4 text-primary" />
             {tour.group_size}
           </div>
         </div>
@@ -273,7 +273,7 @@ const TourCard: React.FC<TourCardProps> = ({
                 <div className="flex items-baseline gap-2">
                   {tour.hasDiscount && tour.discountPercentage ? (
                     <>
-                      <span className="text-2xl font-bold text-gray-900">
+                      <span className="font-heading text-2xl font-semibold text-brand-dark">
                         ${Math.round(tour.price * (1 - tour.discountPercentage / 100))}
                       </span>
                       <span className="text-sm text-gray-400 line-through">
@@ -281,7 +281,7 @@ const TourCard: React.FC<TourCardProps> = ({
                       </span>
                     </>
                   ) : (
-                    <span className="text-2xl font-bold text-gray-900">
+                    <span className="font-heading text-2xl font-semibold text-brand-dark">
                       ${tour.price}
                     </span>
                   )}
@@ -299,7 +299,7 @@ const TourCard: React.FC<TourCardProps> = ({
 
           <motion.button
             whileHover={{ x: 5 }}
-            className="group/btn flex items-center gap-2 text-sm font-bold text-sky-600 bg-sky-50 px-4 py-2.5 rounded-none hover:bg-sky-600 hover:text-white transition-all"
+            className="group/btn flex items-center gap-2 text-sm font-bold text-primary bg-primary/10 px-4 py-2.5 rounded-2xl hover:bg-sky-600 hover:text-white transition-all"
           >
             <span>View Details</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />

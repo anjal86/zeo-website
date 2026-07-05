@@ -29,7 +29,7 @@ const TourHeader: React.FC<TourHeaderProps> = ({
 
 
         {/* Tour Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{title}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-brand-dark mb-4">{title}</h1>
 
         {/* Location and Activity Info */}
         <div className="flex flex-wrap items-center gap-6 mb-6">
@@ -50,20 +50,20 @@ const TourHeader: React.FC<TourHeaderProps> = ({
 
         {/* Quick Info Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-gray-50 p-4 rounded-none text-center">
+          <div className="bg-primary/5 p-4 rounded-2xl text-center shadow-sm">
             <Clock className="w-6 h-6 text-green-600 mx-auto mb-2" />
             <div className="text-sm text-gray-600">Duration</div>
-            <div className="font-semibold text-gray-900">{formatDuration(duration)}</div>
+            <div className="font-semibold text-brand-dark">{formatDuration(duration)}</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-none text-center">
+          <div className="bg-primary/5 p-4 rounded-2xl text-center shadow-sm">
             <Users className="w-6 h-6 text-green-600 mx-auto mb-2" />
             <div className="text-sm text-gray-600">Group Size</div>
-            <div className="font-semibold text-gray-900">{groupSize}</div>
+            <div className="font-semibold text-brand-dark">{groupSize}</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-none text-center">
+          <div className="bg-primary/5 p-4 rounded-2xl text-center shadow-sm">
             <Calendar className="w-6 h-6 text-green-600 mx-auto mb-2" />
             <div className="text-sm text-gray-600">Best Time</div>
-            <div className="font-semibold text-gray-900">{bestTime}</div>
+            <div className="font-semibold text-brand-dark">{bestTime}</div>
           </div>
         </div>
       </div>

@@ -246,7 +246,7 @@ const About: React.FC = () => {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="text-center group"
                 >
-                  <div className="bg-white/10 backdrop-blur-sm rounded-none p-8 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-105">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-105">
                     <IconComponent className="w-10 h-10 text-white/80 mx-auto mb-4" />
                     <div className="text-4xl sm:text-5xl font-bold text-white mb-2">
                       {stat.number}
@@ -293,14 +293,14 @@ const About: React.FC = () => {
               </div>
 
               <div className="mt-8 grid grid-cols-2 gap-4">
-                <div className="flex items-start space-x-3 bg-gray-50 p-4 rounded-none">
+                <div className="flex items-start space-x-3 bg-gray-50 p-4 rounded-2xl">
                   <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <div className="font-bold text-gray-900">Nepal Office</div>
                     <div className="text-sm text-gray-600">Kathmandu</div>
                   </div>
                 </div>
-                <div className="flex items-start space-x-3 bg-gray-50 p-4 rounded-none">
+                <div className="flex items-start space-x-3 bg-gray-50 p-4 rounded-2xl">
                   <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <div className="font-bold text-gray-900">Dubai Office</div>
@@ -321,12 +321,12 @@ const About: React.FC = () => {
                 <img
                   src="https://images.unsplash.com/photo-1571401835393-8c5f35328320?q=80&w=800&auto=format&fit=crop"
                   alt="Mountain landscape"
-                  className="rounded-none shadow-xl w-full h-64 object-cover"
+                  className="rounded-2xl shadow-xl w-full h-64 object-cover"
                 />
                 <img
                   src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=800&auto=format&fit=crop"
                   alt="Dubai skyline"
-                  className="rounded-none shadow-xl w-full h-64 object-cover mt-8"
+                  className="rounded-2xl shadow-xl w-full h-64 object-cover mt-8"
                 />
               </div>
 
@@ -334,7 +334,7 @@ const About: React.FC = () => {
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
-                className="absolute -bottom-6 -left-6 bg-white rounded-none shadow-2xl p-6 border-4 border-primary/20"
+                className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-2xl p-6 border-4 border-primary/20"
               >
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center">
@@ -362,7 +362,7 @@ const About: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-white rounded-none shadow-xl overflow-hidden border border-gray-100"
+              className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100"
             >
               <div className="grid md:grid-cols-12 gap-0">
                 <div className="md:col-span-5 relative min-h-[400px]">
@@ -426,7 +426,7 @@ const About: React.FC = () => {
                     }`}
                 >
                   <div className={`flex-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                    <div className="bg-white rounded-none p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                    <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
                       <div className="text-3xl font-bold text-primary mb-2">{item.year}</div>
                       <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
                       <p className="text-gray-600">{item.description}</p>
@@ -478,7 +478,7 @@ const About: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`group relative px-6 py-4 rounded-none font-semibold transition-all duration-300 ${activeCategory === index
+                  className={`group relative px-6 py-4 rounded-2xl font-semibold transition-all duration-300 ${activeCategory === index
                     ? 'bg-gradient-to-br from-primary to-primary-dark text-white shadow-lg scale-105'
                     : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg'
                     }`}
@@ -494,7 +494,7 @@ const About: React.FC = () => {
                   {activeCategory === index && (
                     <motion.div
                       layoutId="activeTab"
-                      className="absolute inset-0 bg-gradient-to-br from-primary to-primary-dark rounded-none -z-10"
+                      className="absolute inset-0 bg-gradient-to-br from-primary to-primary-dark rounded-2xl -z-10"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
@@ -524,14 +524,14 @@ const About: React.FC = () => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4, delay: serviceIndex * 0.1 }}
-                    className="group relative bg-white/80 backdrop-blur-sm rounded-none p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-white/50 overflow-hidden"
+                    className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-white/50 overflow-hidden"
                   >
                     {/* Gradient Background on Hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary-dark/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-none"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary-dark/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
 
                     {/* Content */}
                     <div className="relative z-10">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-dark rounded-none flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                         <ServiceIcon className="w-8 h-8 text-white" />
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors duration-300">
@@ -580,9 +580,9 @@ const About: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="bg-white rounded-none p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
+                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-dark rounded-none flex items-center justify-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center mb-6">
                   <value.icon className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">{value.title}</h3>
@@ -623,7 +623,7 @@ const About: React.FC = () => {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="group"
                 >
-                  <div className="relative overflow-hidden rounded-none mb-4 shadow-lg aspect-[3/4]">
+                  <div className="relative overflow-hidden rounded-2xl mb-4 shadow-lg aspect-[3/4]">
                     <img
                       src={member.image || 'https://via.placeholder.com/400x500'}
                       alt={member.name}

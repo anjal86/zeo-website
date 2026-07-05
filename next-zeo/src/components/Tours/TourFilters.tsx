@@ -58,7 +58,7 @@ const TourFilters: React.FC<TourFiltersProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-white rounded-none shadow-lg border border-gray-100 p-6 mb-8"
+      className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -81,7 +81,7 @@ const TourFilters: React.FC<TourFiltersProps> = ({
             value={filters.search}
             onChange={(e) => handleFilterChange('search', e.target.value)}
             placeholder="Search tours..."
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
           />
         </div>
 
@@ -89,7 +89,7 @@ const TourFilters: React.FC<TourFiltersProps> = ({
         <select
           value={filters.destination}
           onChange={(e) => handleFilterChange('destination', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+          className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
         >
           {destinations.map((dest) => (
             <option key={dest.value} value={dest.value}>
@@ -102,7 +102,7 @@ const TourFilters: React.FC<TourFiltersProps> = ({
         <select
           value={filters.activity}
           onChange={(e) => handleFilterChange('activity', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+          className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
         >
           {activities.map((activity) => (
             <option key={activity.value} value={activity.value}>

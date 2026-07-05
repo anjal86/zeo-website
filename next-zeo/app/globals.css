@@ -1,14 +1,814 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@source "../src";
+@import "./styles/layout-utilities.css";
+@theme {
+  --breakpoint-xs: 475px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
 
-:root {
-  color-scheme: light;
+  --color-primary: #055fac;
+  --color-primary-dark: #044a8a;
+  --color-primary-light: #1a6bb8;
+  --color-secondary: #f47721;
+  --color-secondary-dark: #d6651c;
+  --color-secondary-light: #f68b42;
+  --color-sky-blue: #055fac;
+  --color-sky-blue-dark: #044a8a;
+  --color-earth-green: #228B22;
+  --color-earth-green-light: #32CD32;
+  --color-sunrise-orange: #f47721;
+  --color-sunrise-orange-light: #f68b42;
+  --color-snow-white: #FFFAFA;
+  --color-snow-white-light: #F8F8FF;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Playfair Display", "Georgia", serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-slide-up: slideUp 0.5s ease-out;
+  --animate-fade-in: fadeIn 1s ease-out;
+  --animate-zoom-in: zoomIn 20s ease-out infinite alternate;
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes slideUp {
+    0% {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes zoomIn {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(1.1);
+    }
+  }
+
+  --blur-xs: 2px;
+
+  --radius-none: 0;
+  --radius-sm: 0;
+  --radius: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-full: 9999px;
 }
 
-body {
-  margin: 0;
-  background: #ffffff;
-  color: #111827;
-  font-family: Inter, system-ui, sans-serif;
+/* Custom scrollbar - Made smaller and more subtle */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8f9fa;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #055fac, #044a8a);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #044a8a, #055fac);
+}
+
+::-webkit-scrollbar-corner {
+  background: #f8f9fa;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Text gradient utility */
+.text-gradient {
+  background: linear-gradient(135deg, #055fac, #f47721);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.skewed-bg {
+  transform: skewX(-15deg);
+  transform-origin: top right;
+}
+
+/* Custom animations */
+@keyframes parallax {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50px);
+  }
+}
+
+.parallax {
+  animation: parallax linear;
+  animation-timeline: scroll();
+}
+
+/* Minimal Loading Animation */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+}
+
+.loader {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(5, 95, 172, 0.1);
+  border-top-color: #055fac;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Nepali pattern overlay */
+.pattern-overlay {
+  position: relative;
+}
+
+.pattern-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    repeating-linear-gradient(45deg,
+      transparent,
+      transparent 35px,
+      rgba(255, 255, 255, 0.05) 35px,
+      rgba(255, 255, 255, 0.05) 70px);
+  pointer-events: none;
+}
+
+/* Mountain divider */
+.mountain-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.mountain-divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 150px;
+}
+
+/* Wave divider */
+.wave-divider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.wave-divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 100px;
+}
+
+/* Kailash Mansarovar Page Specific Styles */
+.kailash-mansarovar-page {
+  font-family: 'Inter', sans-serif;
+}
+
+.kailash-mansarovar-page h1,
+.kailash-mansarovar-page h2,
+.kailash-mansarovar-page h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Sacred gradient for Kailash page */
+.text-gradient-sacred {
+  background: linear-gradient(135deg, #f47721, #055fac, #f47721);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sacred glow effect */
+.sacred-glow {
+  box-shadow: 0 0 30px rgba(244, 119, 33, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.sacred-glow:hover {
+  box-shadow: 0 0 50px rgba(244, 119, 33, 0.5);
+}
+
+/* Floating animation for sacred symbols */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Sacred pulse animation */
+@keyframes sacred-pulse {
+
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.sacred-pulse {
+  animation: sacred-pulse 3s ease-in-out infinite;
+}
+
+/* Divine shimmer effect */
+@keyframes divine-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.divine-shimmer {
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent);
+  background-size: 200% 100%;
+  animation: divine-shimmer 3s infinite;
+}
+
+/* Sacred border gradient */
+.sacred-border {
+  position: relative;
+  background: linear-gradient(45deg, #f47721, #055fac, #f47721, #055fac);
+  background-size: 400% 400%;
+  animation: gradient-shift 4s ease infinite;
+  padding: 2px;
+  border-radius: 0;
+}
+
+.sacred-border::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: white;
+  border-radius: 0;
+  z-index: -1;
+}
+
+@keyframes gradient-shift {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Emotional testimonial styling */
+.testimonial-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(244, 119, 33, 0.1),
+      transparent);
+  transition: left 0.5s ease;
+}
+
+.testimonial-card:hover::before {
+  left: 100%;
+}
+
+/* Sacred statistics counter animation */
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-counter {
+  animation: count-up 0.8s ease-out;
+}
+
+/* Divine call-to-action button */
+.divine-cta {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(45deg, #f47721, #055fac);
+  transition: all 0.3s ease;
+}
+
+.divine-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
+  transition: left 0.5s ease;
+}
+
+.divine-cta:hover::before {
+  left: 100%;
+}
+
+/* Sacred package card hover effects */
+.package-card {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.package-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.package-card.popular {
+  transform: scale(1.05);
+}
+
+.package-card.popular:hover {
+  transform: scale(1.08) translateY(-5px);
+}
+
+/* Spiritual journey section background */
+.spiritual-bg {
+  background:
+    radial-gradient(circle at 20% 80%, rgba(244, 119, 33, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(5, 95, 172, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(244, 119, 33, 0.05) 0%, transparent 50%);
+}
+
+/* Sacred scroll indicator */
+.scroll-indicator {
+  position: relative;
+}
+
+.scroll-indicator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 12px;
+  background: white;
+  border-radius: 0;
+  animation: scroll-bounce 2s infinite;
+}
+
+@keyframes scroll-bounce {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+
+  40% {
+    transform: translate(-50%, -50%) translateY(5px);
+  }
+
+  60% {
+    transform: translate(-50%, -50%) translateY(3px);
+  }
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .kailash-mansarovar-page h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+
+  .kailash-mansarovar-page .hero-content {
+    padding: 1rem;
+  }
+
+  .package-card.popular {
+    transform: none;
+  }
+
+  .package-card:hover {
+    transform: translateY(-5px);
+  }
+}
+
+/* Custom Timeline Slider Styles */
+.slider-timeline {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 12px;
+  border-radius: 0;
+  outline: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.slider-timeline::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-timeline::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+.slider-timeline::-webkit-slider-thumb:active {
+  transform: scale(1.3);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.8);
+}
+
+.slider-timeline::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-timeline::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+.slider-timeline::-moz-range-track {
+  height: 12px;
+  border-radius: 0;
+  background: #e5e7eb;
+}
+
+.slider-timeline:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Timeline hover effect */
+.slider-timeline:hover {
+  transform: scaleY(1.1);
+}
+
+/* Enhanced tab styling for better UX */
+.tour-tabs {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tour-tab-button {
+  position: relative;
+  padding: 12px 16px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.tour-tab-button:hover {
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+.tour-tab-button.active {
+  color: #055fac;
+  border-bottom-color: #055fac;
+  background-color: #f0f9ff;
+}
+
+.tour-tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #055fac, transparent);
+  border-radius: 0;
+}
+
+/* Smooth tab content transitions */
+.tab-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll indicator animation */
+@keyframes scroll-hint {
+
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translateX(3px);
+    opacity: 1;
+  }
+}
+
+.scroll-indicator {
+  animation: scroll-hint 2s ease-in-out infinite;
+}
+
+/* Better mobile scrollbar for horizontal tabs */
+@media (max-width: 768px) {
+  .tour-tabs::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .tour-tabs::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .tour-tabs::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 0;
+  }
+}
+
+/* Quill alignment support */
+.ql-align-center {
+  text-align: center;
+}
+
+.ql-align-right {
+  text-align: right;
+}
+
+.ql-align-justify {
+  text-align: justify;
+}
+
+/* Standard Paragraph Spacing for Blog Content to match Editor experience */
+.prose {
+  color: #334155;
+  /* slate-700 */
+}
+
+.prose p {
+  margin-bottom: 1.5em !important;
+  line-height: 1.8;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  margin-top: 2em !important;
+  margin-bottom: 1em !important;
+  font-weight: 700 !important;
+  color: #1e293b;
+  /* slate-800 */
+}
+
+.prose h1:first-child,
+.prose h2:first-child,
+.prose h3:first-child,
+.prose h4:first-child {
+  margin-top: 0 !important;
+}
+
+.prose ul,
+.prose ol {
+  margin-bottom: 1.5em !important;
+}
+
+/* Sync Quill Editor with Prose Styles */
+.ql-editor {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  /* Equivalent to prose-lg */
+  line-height: 1.8;
+  color: #334155;
+  padding: 2rem !important;
+}
+
+.ql-editor p {
+  margin-bottom: 1.5em !important;
+}
+
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3 {
+  font-family: 'Playfair Display', serif !important;
+  margin-top: 2em !important;
+  margin-bottom: 1em !important;
+  font-weight: 700 !important;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.ql-editor h1:first-child,
+.ql-editor h2:first-child,
+.ql-editor h3:first-child {
+  margin-top: 0 !important;
+}
+
+.ql-editor h1 {
+  font-size: 2.5em;
+}
+
+.ql-editor h2 {
+  font-size: 2em;
+}
+
+.ql-editor h3 {
+  font-size: 1.5em;
+}
+
+.ql-toolbar.ql-snow {
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.ql-container.ql-snow {
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  border-color: #e2e8f0;
+  font-family: inherit;
+}
+
+/* Table styles for Prose and Quill */
+.prose table,
+.ql-editor table {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.prose th,
+.prose td,
+.ql-editor th,
+.ql-editor td {
+  border: 1px solid #e2e8f0;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.prose th,
+.ql-editor th {
+  background-color: #f8fafc;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.prose tr:nth-child(even),
+.ql-editor tr:nth-child(even) {
+  background-color: #f1f5f9/30;
+}
+
+/* Responsive table wrapper */
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  -webkit-overflow-scrolling: touch;
 }

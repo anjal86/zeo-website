@@ -64,17 +64,6 @@ const Navigation: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrolled = window.scrollY > 50;
-      if (scrolled !== isScrolled) {
-        setIsScrolled(scrolled);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isScrolled]);
 
   const handleNavClick = () => {
     setIsMobileMenuOpen(false);
@@ -95,10 +84,7 @@ const Navigation: React.FC = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out border-b ${isScrolled
-          ? 'bg-white border-gray-200'
-          : 'bg-white border-gray-100'
-          }`}
+        className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200"
       >
         <div className={`transition-all duration-300 ease-out ${isScrolled ? 'px-4 lg:px-8' : 'px-4 lg:px-6'
           }`}>
@@ -129,7 +115,7 @@ const Navigation: React.FC = () => {
                   <Link
                     href={item.href}
                     onClick={handleNavClick}
-                    className={`font-semibold transition-all duration-300 relative py-1.5 xl:px-2.5 rounded-none nav-link group whitespace-nowrap flex items-center gap-1 ${isActiveRoute(item.href)
+                    className={`font-semibold transition-all duration-300 relative py-1.5 xl:px-2.5 rounded-2xl nav-link group whitespace-nowrap flex items-center gap-1 ${isActiveRoute(item.href)
                       ? 'text-primary bg-primary/5'
                       : 'text-gray-600 hover:text-primary hover:bg-gray-50/80'
                       } ${item.label === 'Kailash Mansarovar' ? 'text-secondary-dark !bg-secondary/10 hover:!bg-secondary/20' : ''}`}
@@ -141,7 +127,7 @@ const Navigation: React.FC = () => {
                     {isActiveRoute(item.href) && !(item.label === 'Kailash Mansarovar') && (
                       <motion.div
                         layoutId="activeSection"
-                        className="absolute -bottom-0.5 left-4 right-4 h-0.5 bg-primary rounded-none"
+                        className="absolute -bottom-0.5 left-4 right-4 h-0.5 bg-primary rounded-2xl"
                       />
                     )}
                   </Link>
@@ -321,7 +307,7 @@ const Navigation: React.FC = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setShowSearchModal(true)}
-                className="flex p-2 rounded-none transition-all duration-300 text-gray-900 hover:bg-gray-100 flex-shrink-0"
+                className="flex p-2 rounded-2xl transition-all duration-300 text-gray-900 hover:bg-gray-100 flex-shrink-0"
               >
                 <SearchIcon size={20} />
               </motion.button>
@@ -329,7 +315,7 @@ const Navigation: React.FC = () => {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="flex p-2 rounded-none transition-all duration-300 text-gray-900 hover:bg-gray-100 flex-shrink-0"
+                className="flex p-2 rounded-2xl transition-all duration-300 text-gray-900 hover:bg-gray-100 flex-shrink-0"
               >
                 {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
               </motion.button>
@@ -389,7 +375,7 @@ const Navigation: React.FC = () => {
                         >
                           <div
                             onClick={() => hasDropdown ? setActiveMobileAccordion(isAccordionOpen ? null : item.label) : handleNavClick()}
-                            className={`flex items-center justify-between py-4 px-4 font-bold text-lg transition-all rounded-none cursor-pointer ${isActiveRoute(item.href)
+                            className={`flex items-center justify-between py-4 px-4 font-bold text-lg transition-all rounded-2xl cursor-pointer ${isActiveRoute(item.href)
                               ? 'text-primary bg-primary/5'
                               : 'text-gray-800 hover:text-primary hover:bg-gray-50'
                               } ${item.label === 'Kailash Mansarovar' ? 'text-secondary-dark !bg-secondary/10' : ''}`}
@@ -525,7 +511,7 @@ const Navigation: React.FC = () => {
                     <motion.a
                       href={`tel:${contactInfo?.contact?.phone?.primary?.replace(/[^0-9+]/g, '') || '+9779851234567'}`}
                       whileTap={{ scale: 0.95 }}
-                      className="flex flex-col items-center justify-center gap-1 py-4 rounded-none bg-white text-gray-700 shadow-sm border border-gray-100"
+                      className="flex flex-col items-center justify-center gap-1 py-4 rounded-2xl bg-white text-gray-700 shadow-sm border border-gray-100"
                     >
                       <Phone className="w-5 h-5 text-primary" />
                       <span className="text-[10px] font-bold uppercase tracking-widest">Call</span>
@@ -536,7 +522,7 @@ const Navigation: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       whileTap={{ scale: 0.95 }}
-                      className="flex flex-col items-center justify-center gap-1 py-4 rounded-none bg-white text-green-700 shadow-sm border border-green-100"
+                      className="flex flex-col items-center justify-center gap-1 py-4 rounded-2xl bg-white text-green-700 shadow-sm border border-green-100"
                     >
                       <FaWhatsapp className="w-5 h-5 text-green-600" />
                       <span className="text-[10px] font-bold uppercase tracking-widest">WhatsApp</span>

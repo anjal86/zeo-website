@@ -62,7 +62,7 @@ const ProgressModal: React.FC<ProgressModalProps> = ({
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className="bg-white rounded-none shadow-2xl max-w-md w-full p-8"
+        className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8"
       >
         {/* Status Icon */}
         <div className="flex justify-center mb-6">
@@ -134,7 +134,7 @@ const ProgressModal: React.FC<ProgressModalProps> = ({
               <button
                 key={index}
                 onClick={button.onClick}
-                className={`px-6 py-2 rounded-none transition-colors ${button.variant === 'primary'
+                className={`px-6 py-2 rounded-2xl transition-colors ${button.variant === 'primary'
                   ? 'bg-green-600 text-white hover:bg-green-700'
                   : 'bg-gray-600 text-white hover:bg-gray-700'
                   }`}
@@ -145,7 +145,7 @@ const ProgressModal: React.FC<ProgressModalProps> = ({
             {showCloseButton && onClose && (
               <button
                 onClick={onClose}
-                className="bg-gray-600 text-white px-6 py-2 rounded-none hover:bg-gray-700 transition-colors"
+                className="bg-gray-600 text-white px-6 py-2 rounded-2xl hover:bg-gray-700 transition-colors"
               >
                 Close
               </button>

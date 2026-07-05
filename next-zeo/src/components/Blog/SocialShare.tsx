@@ -111,7 +111,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ url, title, layout = 'grid' }
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center justify-center gap-2 bg-white py-3 rounded-none border border-slate-200 transition-all font-bold text-sm ${link.color}`}
+            className={`flex items-center justify-center gap-2 bg-white py-3 rounded-2xl border border-slate-200 transition-all font-bold text-sm ${link.color}`}
             aria-label={`Share on ${link.name}`}
           >
             <link.icon className="w-4 h-4" />
@@ -121,7 +121,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ url, title, layout = 'grid' }
       </div>
       <button
         onClick={handleCopyLink}
-        className={`w-full flex items-center justify-center gap-2 py-3 border rounded-none font-bold text-sm transition-all duration-200 ${
+        className={`w-full flex items-center justify-center gap-2 py-3 border rounded-2xl font-bold text-sm transition-all duration-200 ${
           copied
             ? 'bg-green-500 text-white border-green-500'
             : 'bg-white border-slate-200 text-gray-600 hover:bg-gray-700 hover:text-white'

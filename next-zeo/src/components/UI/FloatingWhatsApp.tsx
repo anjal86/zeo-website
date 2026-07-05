@@ -28,7 +28,7 @@ const FloatingWhatsApp: React.FC = () => {
 
   const handleWhatsAppClick = () => {
     const message = `Hi! I'm interested in your tours and services. Could you please provide more information?`;
-    const whatsappNumber = contactInfo?.contact.phone.whatsapp?.replace('+', '') || '9779705246799';
+    const whatsappNumber = contactInfo?.contact?.phone?.whatsapp?.replace('+', '') || '9779705246799';
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };

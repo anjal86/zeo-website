@@ -1,4 +1,7 @@
-import type { Metadata } from "next";
+with open('app/layout.tsx', 'r') as f:
+    content = f.read()
+
+new_layout = """import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -30,3 +33,7 @@ export default function RootLayout({
     </html>
   );
 }
+"""
+
+with open('app/layout.tsx', 'w') as f:
+    f.write(new_layout)
