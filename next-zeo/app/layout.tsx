@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   },
 };
 
+import PublicLayout from "../src/components/Layout/PublicLayout";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -17,7 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <PublicLayout>
+          {children}
+        </PublicLayout>
+      </body>
     </html>
   );
 }
