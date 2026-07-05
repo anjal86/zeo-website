@@ -3,7 +3,6 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Mountain, ArrowRight, MapPin } from 'lucide-react';
-import LoadingSpinner from '../UI/LoadingSpinner';
 
 export interface FeaturedDestination {
   id: number;
@@ -19,6 +18,10 @@ interface Props {
 }
 
 const FeaturedDestinations: React.FC<Props> = ({ featuredDestinations }) => {
+  if (!featuredDestinations || featuredDestinations.length === 0) {
+    return null;
+  }
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -71,13 +74,17 @@ const FeaturedDestinations: React.FC<Props> = ({ featuredDestinations }) => {
               variants={itemVariants}
               className="group"
             >
-              <Link href={destination.href || `/destinations/${destination.name.toLowerCase()}`} className="block">
+              <Link href={destination.href || `/destinations/${destination.name.toLowerCase().replace(/\s+/g, '-')}`} className="block">
                 <div className="relative overflow-hidden aspect-[4/3] border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-xl">
                   <img
                     src={destination.image}
                     alt={`${destination.name} - ${destination.country} travel destination`}
                     loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    onError={(event) => {
+                      const img = event.target as HTMLImageElement;
+                      img.src = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&h=900&fit=crop';
+                    }}
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
@@ -103,23 +110,15 @@ const FeaturedDestinations: React.FC<Props> = ({ featuredDestinations }) => {
           ))}
         </motion.div>
 
-        {featuredDestinations.length > 0 && (
-          <div className="mt-10 sm:mt-14">
-            <Link
-              href="/destinations"
-              className="inline-flex items-center border border-gray-300 text-gray-950 px-8 py-4 text-sm font-bold uppercase tracking-wider hover:bg-gray-950 hover:text-white hover:border-gray-950 transition-colors duration-300"
-            >
-              View All Destinations
-              <ArrowRight className="w-4 h-4 ml-3" />
-            </Link>
-          </div>
-        )}
-
-        {featuredDestinations.length === 0 && (
-          <div className="text-center text-gray-500 mt-8">
-            No destinations with tours available at the moment.
-          </div>
-        )}
+        <div className="mt-10 sm:mt-14">
+          <Link
+            href="/destinations"
+            className="inline-flex items-center border border-gray-300 text-gray-950 px-8 py-4 text-sm font-bold uppercase tracking-wider hover:bg-gray-950 hover:text-white hover:border-gray-950 transition-colors duration-300"
+          >
+            View All Destinations
+            <ArrowRight className="w-4 h-4 ml-3" />
+          </Link>
+        </div>
       </div>
     </section>
   );
