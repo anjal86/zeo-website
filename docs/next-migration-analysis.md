@@ -552,13 +552,12 @@ Route compatibility notes:
 
 Deferred endpoints:
 
-- Full admin create/update/delete CMS writes.
-- Uploads, image compression, video handling, and uploaded-file registry wiring.
-- Public enquiry/contact form writes beyond newsletter subscribe.
-- Public leads capture.
-- Admin testimonial, slider, team, logo, director, gallery mutation endpoints.
 - SEO metadata/sitemap/robots native Next implementation.
 - Public UI and admin CMS UI migration.
+- Some rich upload/media workflows from old Express remain deferred:
+  - ffmpeg video processing
+  - physical file deletion for every DB delete
+  - full admin UX parity testing with browser UI
 
 Schema/data mismatch discovered:
 
@@ -567,6 +566,133 @@ Schema/data mismatch discovered:
   - `muktinath-yatra-6n-7d`
   - `nepal-heritage-tour-5n-6d`
 - No schema change was made for this; source data should be corrected or a missing destination restored before final import.
+
+#### Phase 3B Mutation + Storage Foundation Implemented
+
+Implemented in `next-zeo/` after commit `3f38bfc`:
+
+- Durable storage service:
+  - `src/server/storage/storage-service.ts`
+  - `STORAGE_DRIVER=local` primary path for VPS.
+  - `STORAGE_DRIVER=s3` S3-compatible upload support via:
+    - `S3_ENDPOINT`
+    - `S3_REGION`
+    - `S3_BUCKET`
+    - `S3_ACCESS_KEY_ID`
+    - `S3_SECRET_ACCESS_KEY`
+    - `S3_PUBLIC_BASE_URL`
+  - Local storage uses `UPLOAD_DIR`.
+  - Production requires `UPLOAD_DIR` when `STORAGE_DRIVER=local`.
+  - Development can default to `./uploads`.
+  - Files are stored under structured folders:
+    - `tours/[slug]/`
+    - `destinations/[slug]/`
+    - `blog/`
+    - `sliders/`
+    - `gallery/`
+    - `logos/`
+    - `general/`
+  - Images are validated and converted/compressed to WebP with Sharp.
+  - Videos are only validated/stored conservatively; no ffmpeg processing.
+  - Path traversal is blocked by path normalization and root checks.
+
+- Uploaded-file registry:
+  - Added migration `002_uploaded_files_registry_fields.sql`.
+  - Added fields to `uploaded_files`:
+    - `field_name`
+    - `stored_name`
+    - `width`
+    - `height`
+    - `updated_at`
+  - Added `src/server/repositories/uploads.ts`.
+  - Upload APIs write registry rows with storage driver, entity info, MIME, size, dimensions, storage key/path, and public URL.
+
+Public write routes implemented:
+
+- `POST /api/contact/enquiry`
+- `POST /api/leads`
+- `POST /api/testimonials`
+
+Admin upload routes implemented:
+
+- `POST /api/admin/upload`
+- `POST /api/admin/uploads/destinations`
+- `POST /api/admin/uploads/tours`
+- `POST /api/admin/logos/upload`
+
+Admin CMS mutation routes implemented:
+
+- Tours:
+  - `POST /api/admin/tours`
+  - `PUT /api/admin/tours/[id]`
+  - `DELETE /api/admin/tours/[id]`
+  - `PATCH /api/admin/tours/[id]/listing`
+  - `GET /api/admin/tours/[id]/export`
+  - `GET /api/admin/tours/export`
+  - `GET /api/admin/tours/slug/[slug]`
+  - `DELETE /api/admin/tours/[id]/gallery/[filename]`
+- Destinations:
+  - `POST /api/admin/destinations`
+  - `GET /api/admin/destinations/[identifier]`
+  - `PUT /api/admin/destinations/[identifier]`
+  - `DELETE /api/admin/destinations/[identifier]`
+- Activities:
+  - `POST /api/admin/activities`
+  - `PUT /api/admin/activities/[id]`
+  - `DELETE /api/admin/activities/[id]`
+- Posts:
+  - `GET /api/admin/posts/[id]`
+  - `POST /api/admin/posts`
+  - `PUT /api/admin/posts/[id]`
+  - `DELETE /api/admin/posts/[id]`
+- Sliders:
+  - `GET /api/admin/sliders`
+  - `POST /api/admin/sliders`
+  - `PUT /api/admin/sliders/[id]`
+  - `DELETE /api/admin/sliders/[id]`
+- Testimonials:
+  - `GET /api/admin/testimonials`
+  - `PUT /api/admin/testimonials/[id]`
+  - `DELETE /api/admin/testimonials/[id]`
+  - `PATCH /api/admin/testimonials/[id]/approve`
+  - `PATCH /api/admin/testimonials/[id]/featured`
+- Company/content:
+  - `PUT /api/admin/contact`
+  - `PUT /api/admin/director-message`
+  - `GET /api/admin/team`
+  - `POST /api/admin/team`
+  - `PUT /api/admin/team/[id]`
+  - `DELETE /api/admin/team/[id]`
+  - `PUT /api/admin/team/order`
+  - `GET /api/admin/logos`
+  - `PUT /api/admin/logos`
+  - `DELETE /api/admin/logos/[type]`
+- Leads/enquiries:
+  - `PUT /api/admin/leads/[id]`
+  - `DELETE /api/admin/leads/[id]`
+  - `GET /api/admin/enquiries/[id]`
+  - `PUT /api/admin/enquiries/[id]`
+  - `DELETE /api/admin/enquiries/[id]`
+- Kailash gallery:
+  - `GET /api/admin/kailash-gallery`
+  - `POST /api/admin/kailash-gallery`
+  - `DELETE /api/admin/kailash-gallery/[id]`
+
+Route compatibility notes:
+
+- Admin destination identifiers support slug or numeric id where practical.
+- Tour legacy numeric lookup remains separate from slug lookup on public routes.
+- Tour gallery delete route uses `[id]` as the dynamic segment name to avoid Next.js route conflicts with other `/api/admin/tours/[id]` routes.
+- Upload responses include old-compatible `success`, `url`, `path`, and `filename` fields plus storage metadata.
+
+Known warnings:
+
+- JSON import still warns about missing destination legacy id `29` for:
+  - `muktinath-yatra-6n-7d`
+  - `nepal-heritage-tour-5n-6d`
+- `npm audit --audit-level=moderate` still reports the Next/PostCSS advisory:
+  - `postcss <8.5.10`
+  - forced fix would install `next@9.3.3`, a breaking downgrade, so it was not applied.
 
 ### Phase 4 - Public UI Migration
 

@@ -14,7 +14,7 @@ const envSchema = z
     JWT_SECRET: z.string().min(32),
     ADMIN_EMAIL: z.string().email(),
     ADMIN_PASSWORD: z.string().min(8),
-    UPLOAD_DIR: z.string().min(1),
+    UPLOAD_DIR: z.string().optional(),
     STORAGE_DRIVER: z.enum(["local", "s3"]).default("local"),
     S3_ENDPOINT: z.string().optional(),
     S3_REGION: z.string().optional(),
@@ -34,6 +34,13 @@ const envSchema = z
             message: `${key} must be production-safe`,
           });
         }
+      }
+      if (!env.UPLOAD_DIR && env.STORAGE_DRIVER === "local") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["UPLOAD_DIR"],
+          message: "UPLOAD_DIR is required in production when STORAGE_DRIVER=local",
+        });
       }
     }
 
@@ -77,4 +84,13 @@ export function loadEnv(): AppEnv {
 
 export function loadDbEnv(): DbEnv {
   return dbEnvSchema.parse(process.env);
+}
+
+export function getUploadDir() {
+  const dir = process.env.UPLOAD_DIR;
+  if (dir) return dir;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("UPLOAD_DIR is required in production");
+  }
+  return "./uploads";
 }
