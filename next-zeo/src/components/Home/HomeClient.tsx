@@ -116,6 +116,12 @@ const whyFeatures = [
   },
 ];
 
+const finalPlanningSteps = [
+  "Share your dates, group size and travel purpose.",
+  "Get route, timing and support clarity from our team.",
+  "Confirm the journey only when the plan feels right.",
+];
+
 const AnimatedCounter: React.FC<{
   end: number;
   suffix?: string;
@@ -141,6 +147,10 @@ const AnimatedCounter: React.FC<{
 };
 
 export default function HomeClient({ sliders, featuredDestinations, testimonials, contactInfo }: HomeData) {
+  const phone = contactInfo?.contact?.phone?.primary || "+9779813641003";
+  const email = contactInfo?.contact?.email?.primary || "nepal@zeotourism.com";
+  const support = contactInfo?.business?.support?.availability || "24/7 Support Available";
+
   return (
     <div className="home-page">
       <Hero initialSlides={sliders} />
@@ -386,53 +396,98 @@ export default function HomeClient({ sliders, featuredDestinations, testimonials
       <TestimonialsSlider testimonials={testimonials} />
 
       <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="py-16 md:py-20 bg-gray-950 relative overflow-hidden"
+        className="py-14 md:py-16 bg-gray-950 relative overflow-hidden border-t border-white/10"
       >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(0,119,204,0.14),transparent_30%),radial-gradient(circle_at_85%_0%,rgba(255,255,255,0.08),transparent_26%)] pointer-events-none" />
         <div className="container-xl relative z-10">
-          <div className="text-center max-w-3xl mx-auto">
-            <span className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-4 block">
-              03 — Start Your Journey
-            </span>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-white leading-[1.1] mb-6">
-              Ready for your next <span className="text-primary italic font-light">great adventure?</span>
-            </h2>
-            <p className="text-sm md:text-base text-gray-400 max-w-lg mx-auto mb-8 leading-relaxed">
-              Let our Kathmandu-based team craft a personalized itinerary that turns your travel dreams into reality.
-            </p>
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
+            <div className="flex flex-col justify-between border border-white/10 bg-white/[0.035] p-6 md:p-8 lg:p-10">
+              <div>
+                <span className="text-primary text-xs font-bold uppercase tracking-[0.22em] mb-4 block">
+                  03 — Trip planning
+                </span>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white leading-[1.05] tracking-tight max-w-3xl">
+                  Get a clear route plan before you book.
+                </h2>
+                <p className="mt-5 text-sm md:text-base text-gray-400 leading-relaxed max-w-2xl">
+                  Tell us your destination, dates and group size. We will help you understand the route, timing, support and practical next step.
+                </p>
+              </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-              <Link
-                href="/destinations"
-                className="bg-primary text-white px-8 py-3 font-bold text-xs tracking-wider uppercase hover:bg-white hover:text-gray-950 transition-colors duration-300 inline-flex items-center gap-2 group"
-              >
-                Start Planning <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link
-                href="/contact"
-                className="border border-gray-700 text-gray-300 px-8 py-3 font-bold text-xs tracking-wider uppercase hover:border-white hover:text-white transition-colors duration-300"
-              >
-                Get Consultation
-              </Link>
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                {finalPlanningSteps.map((step, index) => (
+                  <div key={step} className="border border-white/10 bg-black/20 p-4">
+                    <span className="text-primary text-xs font-bold tracking-wider">0{index + 1}</span>
+                    <p className="mt-3 text-sm leading-6 text-gray-300">{step}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center bg-primary px-7 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-gray-950"
+                >
+                  Start planning <ArrowRight className="ml-3 h-3.5 w-3.5" />
+                </Link>
+                <Link
+                  href="/tours"
+                  className="inline-flex items-center justify-center border border-white/15 px-7 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:border-white hover:bg-white hover:text-gray-950"
+                >
+                  Browse packages
+                </Link>
+              </div>
             </div>
-          </div>
 
-          <div className="mt-10 pt-8 border-t border-gray-800">
-            <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
-              <div className="flex items-center gap-2 text-xs">
-                <Phone className="w-3.5 h-3.5 text-gray-500" />
-                <span className="text-gray-400">{contactInfo?.contact?.phone?.primary || "+977-1-4123456"}</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs">
-                <Mail className="w-3.5 h-3.5 text-gray-500" />
-                <span className="text-gray-400">{contactInfo?.contact?.email?.primary || "info@zeotourism.com"}</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs">
-                <Clock3 className="w-3.5 h-3.5 text-gray-500" />
-                <span className="text-gray-400">{contactInfo?.business?.support?.availability || "24/7 Support Available"}</span>
+            <div className="border border-white/10 bg-black/20 p-6 md:p-8 lg:p-10">
+              <span className="text-primary text-[10px] font-bold uppercase tracking-[0.22em]">Direct support</span>
+              <h3 className="mt-4 text-2xl md:text-3xl font-serif font-bold text-white leading-tight">
+                Prefer to ask first?
+              </h3>
+              <p className="mt-4 text-sm leading-6 text-gray-400">
+                Reach the Kathmandu team directly for route advice, pilgrimage planning, helicopter options and custom itineraries.
+              </p>
+
+              <div className="mt-8 grid gap-3">
+                <a
+                  href={`tel:${phone.replace(/\s/g, "")}`}
+                  className="group flex items-center gap-4 border border-white/10 bg-white/[0.035] p-4 transition-colors hover:border-primary/40 hover:bg-white/[0.055]"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center border border-white/10 bg-black/20 text-primary">
+                    <Phone className="h-4 w-4" />
+                  </span>
+                  <span>
+                    <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Call</span>
+                    <span className="mt-1 block text-sm font-semibold text-white">{phone}</span>
+                  </span>
+                </a>
+
+                <a
+                  href={`mailto:${email}`}
+                  className="group flex items-center gap-4 border border-white/10 bg-white/[0.035] p-4 transition-colors hover:border-primary/40 hover:bg-white/[0.055]"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center border border-white/10 bg-black/20 text-primary">
+                    <Mail className="h-4 w-4" />
+                  </span>
+                  <span>
+                    <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Email</span>
+                    <span className="mt-1 block text-sm font-semibold text-white">{email}</span>
+                  </span>
+                </a>
+
+                <div className="flex items-center gap-4 border border-white/10 bg-white/[0.035] p-4">
+                  <span className="flex h-11 w-11 items-center justify-center border border-white/10 bg-black/20 text-primary">
+                    <Clock3 className="h-4 w-4" />
+                  </span>
+                  <span>
+                    <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Support</span>
+                    <span className="mt-1 block text-sm font-semibold text-white">{support}</span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
