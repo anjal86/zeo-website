@@ -477,6 +477,97 @@ Route groups are optional, but keep public/admin layouts separate.
 - Add `/api/admin/me`.
 - Add API helpers for errors, validation, pagination.
 
+#### Phase 3 Foundation Implemented
+
+Implemented in `next-zeo/` after commit `906d729`:
+
+- HTTP helpers:
+  - `src/server/http/api-response.ts`
+  - `src/server/http/pagination.ts`
+  - `src/server/http/route-utils.ts`
+- Safe JSON parsing:
+  - `src/server/db/json.ts`
+- Auth/session helpers:
+  - `src/server/auth/session.ts`
+  - `src/server/auth/require-admin.ts`
+  - `src/server/auth/rate-limit.ts`
+- DB repositories:
+  - `src/server/repositories/tours.ts`
+  - `src/server/repositories/catalog.ts`
+  - `src/server/repositories/content.ts`
+  - `src/server/repositories/company.ts`
+  - `src/server/repositories/admin.ts`
+
+Public API routes implemented:
+
+- `GET /api/health`
+- `GET /api/tours`
+- `GET /api/tours/[slug]`
+- `GET /api/tours/slug/[slug]` for legacy Express slug compatibility
+- `GET /api/tours/id/[id]` for explicit legacy-ID lookup without conflicting with slug route
+- `GET /api/destinations`
+- `GET /api/destinations/[slug]`
+- `GET /api/activities`
+- `GET /api/activities/[slug]`
+- `GET /api/posts`
+- `GET /api/posts/[slug]`
+- `GET /api/sliders`
+- `GET /api/testimonials`
+- `GET /api/contact`
+- `GET /api/director-message`
+- `GET /api/team`
+- `GET /api/logos`
+- `GET /api/kailash-gallery`
+- `POST /api/newsletter/subscribe`
+
+Admin/auth routes implemented:
+
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `GET /api/admin/me`
+- `GET /api/admin/tours`
+- `GET /api/admin/destinations`
+- `GET /api/admin/activities`
+- `GET /api/admin/posts`
+- `GET /api/admin/enquiries`
+- `GET /api/admin/leads`
+- `GET /api/admin/newsletter`
+
+Auth/session decision:
+
+- Admin auth uses signed HTTP-only cookie session.
+- Cookie is `secure` in production and `sameSite=lax`.
+- Password verification uses bcrypt against `admin_users.password_hash`.
+- No fallback admin credentials are allowed.
+- Login has in-memory IP rate limiting. This is enough for this phase; production can later move it to DB/Redis if horizontal scaling is needed.
+- `/api/admin/*` route handlers call `requireAdmin()`.
+
+Route compatibility notes:
+
+- Public list endpoints preserve old array responses by default.
+- When `page` or `limit` is supplied, list endpoints return an object with `items`, entity key, and pagination metadata.
+- Old Express supported `GET /api/tours/:id`; the new canonical detail route is slug-first, so legacy ID lookup is exposed as `GET /api/tours/id/[id]` to avoid slug/number ambiguity.
+- Old Express also supported `GET /api/tours/slug/:slug`; the new app keeps that alias.
+- `GET /api/activities/[slug]` is slug-first. Old numeric activity lookup is deferred unless frontend audit proves it is still used.
+
+Deferred endpoints:
+
+- Full admin create/update/delete CMS writes.
+- Uploads, image compression, video handling, and uploaded-file registry wiring.
+- Public enquiry/contact form writes beyond newsletter subscribe.
+- Public leads capture.
+- Admin testimonial, slider, team, logo, director, gallery mutation endpoints.
+- SEO metadata/sitemap/robots native Next implementation.
+- Public UI and admin CMS UI migration.
+
+Schema/data mismatch discovered:
+
+- JSON import still warns about two tour relationships referencing missing destination legacy id `29`.
+- Affected tours:
+  - `muktinath-yatra-6n-7d`
+  - `nepal-heritage-tour-5n-6d`
+- No schema change was made for this; source data should be corrected or a missing destination restored before final import.
+
 ### Phase 4 - Public UI Migration
 
 - Port static public pages first as Server Components.
@@ -582,4 +673,3 @@ Start implementation with Phase 1 + Phase 2 only:
 3. Do not port all UI yet.
 4. Verify import against local MySQL.
 5. Then port public pages by SEO priority.
-

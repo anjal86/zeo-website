@@ -20,6 +20,13 @@ async function ensureMigrationTable() {
   `);
 }
 
+async function migrationTableExists() {
+  const rows = await getAll<RowDataPacket & { table_name: string }>(
+    "SELECT TABLE_NAME AS table_name FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'schema_migrations'",
+  );
+  return rows.length > 0;
+}
+
 function checksum(content: string) {
   let hash = 0;
   for (let i = 0; i < content.length; i += 1) {
@@ -36,8 +43,11 @@ function splitSql(sql: string) {
 }
 
 async function main() {
-  await ensureMigrationTable();
-  const applied = await getAll<RowDataPacket & { filename: string }>("SELECT filename FROM schema_migrations");
+  const dryRun = process.argv.includes("--dry-run");
+  if (!dryRun) await ensureMigrationTable();
+  const applied = dryRun && !(await migrationTableExists())
+    ? []
+    : await getAll<RowDataPacket & { filename: string }>("SELECT filename FROM schema_migrations");
   const appliedNames = new Set(applied.map((row) => row.filename));
   const files = (await fs.readdir(migrationsDir))
     .filter((file) => file.endsWith(".sql"))
@@ -52,6 +62,11 @@ async function main() {
 
     const content = await fs.readFile(path.join(migrationsDir, file), "utf8");
     const statements = splitSql(content);
+    if (dryRun) {
+      console.log(`pending ${file} (${statements.length} statements)`);
+      appliedCount += 1;
+      continue;
+    }
     for (const statement of statements) {
       await execute(statement);
     }
@@ -63,7 +78,7 @@ async function main() {
     console.log(`applied ${file}`);
   }
 
-  console.log(`migrations applied: ${appliedCount}`);
+  console.log(dryRun ? `migrations pending: ${appliedCount}` : `migrations applied: ${appliedCount}`);
 }
 
 main()

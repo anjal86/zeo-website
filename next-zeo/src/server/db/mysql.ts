@@ -7,39 +7,54 @@ import mysql, {
 } from "mysql2/promise";
 import { loadDbEnv } from "@/env";
 
-const env = loadDbEnv();
+let poolInstance: Pool | null = null;
 
-export const pool: Pool = mysql.createPool({
-  host: env.MYSQL_HOST,
-  port: env.MYSQL_PORT,
-  user: env.MYSQL_USER,
-  password: env.MYSQL_PASSWORD,
-  database: env.MYSQL_DATABASE,
-  waitForConnections: true,
-  connectionLimit: env.MYSQL_CONNECTION_LIMIT,
-  queueLimit: 0,
-  enableKeepAlive: true,
+function createPool() {
+  const env = loadDbEnv();
+  return mysql.createPool({
+    host: env.MYSQL_HOST,
+    port: env.MYSQL_PORT,
+    user: env.MYSQL_USER,
+    password: env.MYSQL_PASSWORD,
+    database: env.MYSQL_DATABASE,
+    waitForConnections: true,
+    connectionLimit: env.MYSQL_CONNECTION_LIMIT,
+    queueLimit: 0,
+    enableKeepAlive: true,
+  });
+}
+
+function getPool() {
+  poolInstance ??= createPool();
+  return poolInstance;
+}
+
+export const pool: Pool = new Proxy({} as Pool, {
+  get(_target, property, receiver) {
+    const value = Reflect.get(getPool(), property, receiver);
+    return typeof value === "function" ? value.bind(getPool()) : value;
+  },
 });
 
 export async function query<T extends RowDataPacket[] | ResultSetHeader>(
   sql: string,
-  params: ExecuteValues[] = [],
+  params: unknown[] = [],
 ): Promise<T> {
-  const [rows] = await pool.query<T>(sql, params);
+  const [rows] = await pool.query<T>(sql, params as ExecuteValues[]);
   return rows;
 }
 
 export async function execute<T extends RowDataPacket[] | ResultSetHeader>(
   sql: string,
-  params: ExecuteValues[] = [],
+  params: unknown[] = [],
 ): Promise<T> {
-  const [rows] = await pool.execute<T>(sql, params);
+  const [rows] = await pool.execute<T>(sql, params as ExecuteValues[]);
   return rows;
 }
 
 export async function getOne<T extends RowDataPacket>(
   sql: string,
-  params: ExecuteValues[] = [],
+  params: unknown[] = [],
 ): Promise<T | null> {
   const rows = await execute<T[]>(sql, params);
   return rows[0] ?? null;
@@ -47,9 +62,9 @@ export async function getOne<T extends RowDataPacket>(
 
 export async function getAll<T extends RowDataPacket>(
   sql: string,
-  params: ExecuteValues[] = [],
+  params: unknown[] = [],
 ): Promise<T[]> {
-  return execute<T[]>(sql, params);
+  return query<T[]>(sql, params);
 }
 
 export async function transaction<T>(
