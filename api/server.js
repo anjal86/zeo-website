@@ -35,8 +35,67 @@ const multer = require('multer');
 const sharp = require('sharp');
 const ffmpeg = require('fluent-ffmpeg');
 
+// =============================================================================
+// DATABASE CONNECTION (MySQL) - Using mysql2/promise connection pool
+// =============================================================================
+let db;
+try {
+  db = require('./database');
+  console.log('✅ Database module loaded');
+} catch (err) {
+  console.warn('⚠️  Database module not found, using JSON fallback mode');
+  db = null;
+}
+
+// =============================================================================
+// EXPRESS APP SETUP
+// =============================================================================
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// =============================================================================
+// VERCEL BLOB PROXY MIDDLEWARE
+// Redirect private blob URLs through the API proxy
+// =============================================================================
+const BLOB_PROXY_DOMAINS = [
+  'private.blob.vercel-storage.com',
+  'blob.vercel-storage.com'
+];
+
+app.use((req, res, next) => {
+  const origin = req.get('origin') || req.get('referer') || '';
+
+  // Check if this is a request to Vercel Blob that needs proxying
+  if (origin.includes('private.blob.vercel-storage.com') || origin.includes('blob.vercel-storage.com')) {
+    const urlObj = new URL(origin);
+    if (BLOB_PROXY_DOMAINS.some(domain => urlObj.hostname.includes(domain))) {
+      // This is a private blob URL - redirect through proxy
+      const pathname = urlObj.pathname + urlObj.search;
+      return res.redirect(`/api/blob?pathname=${encodeURIComponent(origin)}`);
+    }
+  }
+
+  next();
+});
+
+// =============================================================================
+// BLOB URL REDIRECT MIDDLEWARE
+// Redirect blob.vercel-storage.com URLs to local /uploads/
+// =============================================================================
+app.use((req, res, next) => {
+  const referer = req.get('referer') || '';
+
+  // If request is to blob vercel storage, redirect to local uploads
+  if (req.hostname && req.hostname.includes('blob.vercel-storage.com')) {
+    const pathname = req.path;
+    // Convert blob URL path to local uploads path
+    // e.g., /destinations/everest/image.jpg -> /uploads/destinations/everest/image.jpg
+    const localPath = pathname.replace(/^\/destinations\/|\/tours\/|\/activities\//, '/uploads/');
+    return res.redirect(301, localPath);
+  }
+
+  next();
+});
 
 if (process.env.NODE_ENV === 'production') {
   if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'zeo-tourism-admin-secret-key-2024') {
@@ -112,6 +171,39 @@ app.use(cors({
 }));
 app.use(morgan('combined'));
 app.use(express.json());
+
+// =============================================================================
+// ASYNC HANDLER & DATABASE ERROR HANDLING MIDDLEWARE
+// =============================================================================
+
+// Async handler wrapper to catch errors from async route handlers
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+// Middleware to handle database connection errors
+app.use((err, req, res, next) => {
+  // Handle MySQL connection errors
+  if (err.code === 'ECONNREFUSED' || err.code === 'PROTOCOL_CONNECTION_LOST') {
+    console.error('❌ Database connection error:', err.message);
+    return res.status(503).json({
+      error: 'Database temporarily unavailable. Please try again later.',
+      code: 'DB_CONNECTION_ERROR'
+    });
+  }
+
+  // Handle query errors
+  if (err.code === 'ER_PARSE_ERROR' || err.code === 'ER_BAD_FIELD_ERROR') {
+    console.error('❌ Database query error:', err.message);
+    return res.status(500).json({
+      error: 'Database query failed.',
+      code: 'DB_QUERY_ERROR'
+    });
+  }
+
+  // Pass to other error handlers
+  next(err);
+});
 
 const PUBLIC_CACHE_CONTROL = 'public, s-maxage=300, stale-while-revalidate=86400';
 const MEDIA_CACHE_CONTROL = 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400';
@@ -1232,7 +1324,519 @@ app.put('/api/admin/team/order', authenticateToken, (req, res) => {
 });
 
 
-// ==================== TOURS API ====================
+// =============================================================================
+// MYSQL DATABASE-POWERED ENDPOINTS (when db module is available)
+// =============================================================================
+
+// Helper to check if database is available
+const isDbAvailable = () => db && typeof db.query === 'function';
+
+// Admin middleware wrapper for database routes
+const requireAdmin = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: 'Access token required' });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err || !user.isAdmin) {
+      return res.status(403).json({ error: 'Admin access required' });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+// =============================================================================
+// MYSQL-powered TOURS endpoints
+// =============================================================================
+
+// GET /api/db/tours - Tours from MySQL database
+app.get('/api/db/tours', asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({
+      error: 'Database not available',
+      message: 'MySQL database is not connected. Use /api/tours for JSON fallback.'
+    });
+  }
+
+  const { category, destination, featured, search } = req.query;
+
+  try {
+    let query = `
+      SELECT t.*, d.name as destination_name, d.slug as destination_slug 
+      FROM tours t 
+      LEFT JOIN destinations d ON t.destination_id = d.id 
+      WHERE t.listed = 1
+    `;
+    const params = [];
+
+    if (category) {
+      query += ' AND t.category = ?';
+      params.push(category);
+    }
+
+    if (featured === 'true') {
+      query += ' AND t.featured = 1';
+    }
+
+    if (search) {
+      query += ' AND (t.title LIKE ? OR t.description LIKE ? OR t.location LIKE ?)';
+      const searchTerm = `%${search}%`;
+      params.push(searchTerm, searchTerm, searchTerm);
+    }
+
+    query += ' ORDER BY t.id DESC';
+
+    const tours = await db.query(query, params);
+
+    // Parse itinerary_json string back to JSON array
+    const processedTours = tours.map(tour => ({
+      ...tour,
+      itinerary: tour.itinerary_json ? JSON.parse(tour.itinerary_json) : [],
+      gallery: tour.gallery ? JSON.parse(tour.gallery) : [],
+      highlights: tour.highlights ? JSON.parse(tour.highlights) : [],
+      inclusions: tour.inclusions ? JSON.parse(tour.inclusions) : [],
+      exclusions: tour.exclusions ? JSON.parse(tour.exclusions) : []
+    }));
+
+    res.json(processedTours);
+  } catch (error) {
+    console.error('Error fetching tours from database:', error);
+    res.status(500).json({ error: 'Failed to fetch tours from database' });
+  }
+}));
+
+// GET /api/db/tours/:slug - Single tour from MySQL
+app.get('/api/db/tours/:slug', asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({ error: 'Database not available' });
+  }
+
+  const { slug } = req.params;
+
+  try {
+    const tours = await db.query(
+      'SELECT t.*, d.name as destination_name, d.slug as destination_slug FROM tours t LEFT JOIN destinations d ON t.destination_id = d.id WHERE t.slug = ? AND t.listed = 1',
+      [slug]
+    );
+
+    if (tours.length === 0) {
+      return res.status(404).json({ error: 'Tour not found' });
+    }
+
+    const tour = tours[0];
+
+    // Parse all JSON fields
+    const processedTour = {
+      ...tour,
+      itinerary: tour.itinerary_json ? JSON.parse(tour.itinerary_json) : [],
+      gallery: tour.gallery ? JSON.parse(tour.gallery) : [],
+      highlights: tour.highlights ? JSON.parse(tour.highlights) : [],
+      inclusions: tour.inclusions ? JSON.parse(tour.inclusions) : [],
+      exclusions: tour.exclusions ? JSON.parse(tour.exclusions) : [],
+      activities: tour.activities ? JSON.parse(tour.activities) : []
+    };
+
+    res.json(processedTour);
+  } catch (error) {
+    console.error('Error fetching tour from database:', error);
+    res.status(500).json({ error: 'Failed to fetch tour' });
+  }
+}));
+
+// =============================================================================
+// MYSQL-powered DESTINATIONS endpoints  
+// =============================================================================
+
+// GET /api/db/destinations - Destinations from MySQL database
+app.get('/api/db/destinations', asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({
+      error: 'Database not available',
+      message: 'MySQL database is not connected. Use /api/destinations for JSON fallback.'
+    });
+  }
+
+  const { country } = req.query;
+
+  try {
+    let query = 'SELECT * FROM destinations WHERE listed = 1';
+    const params = [];
+
+    if (country) {
+      query += ' AND country = ?';
+      params.push(country);
+    }
+
+    query += ' ORDER BY id DESC';
+
+    const destinations = await db.query(query, params);
+
+    res.json(destinations);
+  } catch (error) {
+    console.error('Error fetching destinations from database:', error);
+    res.status(500).json({ error: 'Failed to fetch destinations from database' });
+  }
+}));
+
+// GET /api/db/destinations/:slug - Single destination from MySQL
+app.get('/api/db/destinations/:slug', asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({ error: 'Database not available' });
+  }
+
+  const { slug } = req.params;
+
+  try {
+    const destinations = await db.query(
+      'SELECT * FROM destinations WHERE slug = ? AND listed = 1',
+      [slug]
+    );
+
+    if (destinations.length === 0) {
+      return res.status(404).json({ error: 'Destination not found' });
+    }
+
+    res.json(destinations[0]);
+  } catch (error) {
+    console.error('Error fetching destination from database:', error);
+    res.status(500).json({ error: 'Failed to fetch destination' });
+  }
+}));
+
+// =============================================================================
+// MYSQL-powered ENQUIRIES endpoints
+// =============================================================================
+
+// POST /api/db/enquiries - Submit enquiry to MySQL
+app.post('/api/db/enquiries', asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({
+      error: 'Database not available',
+      message: 'MySQL database is not connected. Use /api/contact/enquiry for JSON fallback.'
+    });
+  }
+
+  const { name, email, phone, subject, message, tour_id, tour_name, destination, number_of_people, travel_date } = req.body;
+
+  // Validation
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'Name, email, and message are required' });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email format' });
+  }
+
+  try {
+    const result = await db.query(
+      `INSERT INTO enquiries (name, email, phone, subject, message, tour_id, tour_name, destination, number_of_people, travel_date, status, created_at) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', NOW())`,
+      [
+        name.trim(),
+        email.trim().toLowerCase(),
+        phone?.trim() || null,
+        subject?.trim() || 'General Inquiry',
+        message.trim(),
+        tour_id || null,
+        tour_name?.trim() || null,
+        destination?.trim() || null,
+        number_of_people?.trim() || null,
+        travel_date || null
+      ]
+    );
+
+    console.log(`✅ New enquiry saved to database: ID ${result.insertId} from ${email}`);
+
+    res.status(201).json({
+      success: true,
+      message: 'Thank you for your enquiry! We will get back to you soon.',
+      id: result.insertId
+    });
+  } catch (error) {
+    console.error('Error saving enquiry to database:', error);
+    res.status(500).json({ error: 'Failed to submit enquiry' });
+  }
+}));
+
+// =============================================================================
+// MYSQL-powered ADMIN CRUD endpoints
+// =============================================================================
+
+// GET /api/db/admin/tours - List all tours (admin)
+app.get('/api/db/admin/tours', requireAdmin, asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({ error: 'Database not available' });
+  }
+
+  try {
+    const tours = await db.query(
+      'SELECT t.*, d.name as destination_name FROM tours t LEFT JOIN destinations d ON t.destination_id = d.id ORDER BY t.id DESC'
+    );
+
+    // Parse JSON fields
+    const processedTours = tours.map(tour => ({
+      ...tour,
+      itinerary: tour.itinerary_json ? JSON.parse(tour.itinerary_json) : []
+    }));
+
+    res.json(processedTours);
+  } catch (error) {
+    console.error('Error fetching admin tours:', error);
+    res.status(500).json({ error: 'Failed to fetch tours' });
+  }
+}));
+
+// POST /api/db/admin/tours - Create new tour (admin)
+app.post('/api/db/admin/tours', requireAdmin, asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({ error: 'Database not available' });
+  }
+
+  const {
+    slug, title, category, description, location, price, duration, duration_days,
+    group_size, difficulty, rating, reviews, best_time, featured, listed,
+    image_url, gallery, highlights, inclusions, exclusions, activities,
+    itinerary, destination_id
+  } = req.body;
+
+  if (!title || !slug) {
+    return res.status(400).json({ error: 'Title and slug are required' });
+  }
+
+  try {
+    // Stringify JSON fields
+    const itineraryJson = itinerary ? JSON.stringify(itinerary) : '[]';
+    const galleryJson = gallery ? JSON.stringify(gallery) : '[]';
+    const highlightsJson = highlights ? JSON.stringify(highlights) : '[]';
+    const inclusionsJson = inclusions ? JSON.stringify(inclusions) : '[]';
+    const exclusionsJson = exclusions ? JSON.stringify(exclusions) : '[]';
+    const activitiesJson = activities ? JSON.stringify(activities) : '[]';
+
+    const result = await db.query(
+      `INSERT INTO tours (slug, title, category, description, location, price, duration, duration_days, 
+        group_size, difficulty, rating, reviews, best_time, featured, listed, image_url, 
+        gallery, highlights, inclusions, exclusions, activities, itinerary_json, destination_id, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+      [
+        slug.trim().toLowerCase(),
+        title.trim(),
+        category?.trim() || '',
+        description || '',
+        location?.trim() || '',
+        parseFloat(price) || 0,
+        duration?.trim() || '',
+        parseInt(duration_days) || null,
+        group_size?.trim() || '',
+        difficulty?.trim() || '',
+        parseFloat(rating) || 0,
+        parseInt(reviews) || 0,
+        best_time?.trim() || '',
+        featured === true || featured === 'true',
+        listed !== false && listed !== 'false',
+        image_url?.trim() || '',
+        galleryJson,
+        highlightsJson,
+        inclusionsJson,
+        exclusionsJson,
+        activitiesJson,
+        itineraryJson,
+        parseInt(destination_id) || null
+      ]
+    );
+
+    console.log(`✅ New tour created in database: ID ${result.insertId}`);
+
+    res.status(201).json({
+      success: true,
+      message: 'Tour created successfully',
+      id: result.insertId
+    });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ error: 'A tour with this slug already exists' });
+    }
+    console.error('Error creating tour in database:', error);
+    res.status(500).json({ error: 'Failed to create tour' });
+  }
+}));
+
+// PUT /api/db/admin/tours/:id - Update tour (admin)
+app.put('/api/db/admin/tours/:id', requireAdmin, asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({ error: 'Database not available' });
+  }
+
+  const { id } = req.params;
+  const {
+    slug, title, category, description, location, price, duration, duration_days,
+    group_size, difficulty, rating, reviews, best_time, featured, listed,
+    image_url, gallery, highlights, inclusions, exclusions, activities,
+    itinerary, destination_id
+  } = req.body;
+
+  try {
+    // Build dynamic update query
+    const updates = [];
+    const params = [];
+
+    if (slug !== undefined) { updates.push('slug = ?'); params.push(slug.trim().toLowerCase()); }
+    if (title !== undefined) { updates.push('title = ?'); params.push(title.trim()); }
+    if (category !== undefined) { updates.push('category = ?'); params.push(category?.trim() || ''); }
+    if (description !== undefined) { updates.push('description = ?'); params.push(description); }
+    if (location !== undefined) { updates.push('location = ?'); params.push(location?.trim() || ''); }
+    if (price !== undefined) { updates.push('price = ?'); params.push(parseFloat(price) || 0); }
+    if (duration !== undefined) { updates.push('duration = ?'); params.push(duration?.trim() || ''); }
+    if (duration_days !== undefined) { updates.push('duration_days = ?'); params.push(parseInt(duration_days) || null); }
+    if (group_size !== undefined) { updates.push('group_size = ?'); params.push(group_size?.trim() || ''); }
+    if (difficulty !== undefined) { updates.push('difficulty = ?'); params.push(difficulty?.trim() || ''); }
+    if (rating !== undefined) { updates.push('rating = ?'); params.push(parseFloat(rating) || 0); }
+    if (reviews !== undefined) { updates.push('reviews = ?'); params.push(parseInt(reviews) || 0); }
+    if (best_time !== undefined) { updates.push('best_time = ?'); params.push(best_time?.trim() || ''); }
+    if (featured !== undefined) { updates.push('featured = ?'); params.push(featured === true); }
+    if (listed !== undefined) { updates.push('listed = ?'); params.push(listed !== false); }
+    if (image_url !== undefined) { updates.push('image_url = ?'); params.push(image_url?.trim() || ''); }
+    if (gallery !== undefined) { updates.push('gallery = ?'); params.push(JSON.stringify(gallery)); }
+    if (highlights !== undefined) { updates.push('highlights = ?'); params.push(JSON.stringify(highlights)); }
+    if (inclusions !== undefined) { updates.push('inclusions = ?'); params.push(JSON.stringify(inclusions)); }
+    if (exclusions !== undefined) { updates.push('exclusions = ?'); params.push(JSON.stringify(exclusions)); }
+    if (activities !== undefined) { updates.push('activities = ?'); params.push(JSON.stringify(activities)); }
+    if (itinerary !== undefined) { updates.push('itinerary_json = ?'); params.push(JSON.stringify(itinerary)); }
+    if (destination_id !== undefined) { updates.push('destination_id = ?'); params.push(parseInt(destination_id) || null); }
+
+    updates.push('updated_at = NOW()');
+    params.push(parseInt(id));
+
+    const result = await db.query(
+      `UPDATE tours SET ${updates.join(', ')} WHERE id = ?`,
+      params
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Tour not found' });
+    }
+
+    console.log(`✅ Tour updated in database: ID ${id}`);
+
+    res.json({ success: true, message: 'Tour updated successfully' });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ error: 'A tour with this slug already exists' });
+    }
+    console.error('Error updating tour in database:', error);
+    res.status(500).json({ error: 'Failed to update tour' });
+  }
+}));
+
+// DELETE /api/db/admin/tours/:id - Delete tour (admin)
+app.delete('/api/db/admin/tours/:id', requireAdmin, asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({ error: 'Database not available' });
+  }
+
+  const { id } = req.params;
+
+  try {
+    const result = await db.query('DELETE FROM tours WHERE id = ?', [parseInt(id)]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Tour not found' });
+    }
+
+    console.log(`✅ Tour deleted from database: ID ${id}`);
+
+    res.json({ success: true, message: 'Tour deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting tour from database:', error);
+    res.status(500).json({ error: 'Failed to delete tour' });
+  }
+}));
+
+// =============================================================================
+// MYSQL-powered ADMIN ENQUIRIES endpoints
+// =============================================================================
+
+// GET /api/db/admin/enquiries - List enquiries (admin)
+app.get('/api/db/admin/enquiries', requireAdmin, asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({ error: 'Database not available' });
+  }
+
+  const { status } = req.query;
+
+  try {
+    let query = 'SELECT * FROM enquiries';
+    const params = [];
+
+    if (status) {
+      query += ' WHERE status = ?';
+      params.push(status);
+    }
+
+    query += ' ORDER BY created_at DESC';
+
+    const enquiries = await db.query(query, params);
+    res.json(enquiries);
+  } catch (error) {
+    console.error('Error fetching enquiries from database:', error);
+    res.status(500).json({ error: 'Failed to fetch enquiries' });
+  }
+}));
+
+// PUT /api/db/admin/enquiries/:id - Update enquiry status (admin)
+app.put('/api/db/admin/enquiries/:id', requireAdmin, asyncHandler(async (req, res) => {
+  if (!isDbAvailable()) {
+    return res.status(503).json({ error: 'Database not available' });
+  }
+
+  const { id } = req.params;
+  const { status, notes, assigned_to } = req.body;
+
+  const validStatuses = ['new', 'contacted', 'converted', 'lost'];
+  if (status && !validStatuses.includes(status)) {
+    return res.status(400).json({ error: 'Invalid status value' });
+  }
+
+  try {
+    const updates = [];
+    const params = [];
+
+    if (status) { updates.push('status = ?'); params.push(status); }
+    if (notes !== undefined) { updates.push('notes = ?'); params.push(notes); }
+    if (assigned_to !== undefined) { updates.push('assigned_to = ?'); params.push(assigned_to); }
+
+    if (updates.length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
+
+    updates.push('updated_at = NOW()');
+    params.push(parseInt(id));
+
+    const result = await db.query(
+      `UPDATE enquiries SET ${updates.join(', ')} WHERE id = ?`,
+      params
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Enquiry not found' });
+    }
+
+    res.json({ success: true, message: 'Enquiry updated successfully' });
+  } catch (error) {
+    console.error('Error updating enquiry in database:', error);
+    res.status(500).json({ error: 'Failed to update enquiry' });
+  }
+}));
+
+// =============================================================================
+// END OF MYSQL DATABASE-POWERED ENDPOINTS
+// =============================================================================
+
+// ==================== TOURS API (JSON Fallback) ====================
 
 const getTourExcerpt = (description = '') => {
   if (!description) return '';
@@ -1259,10 +1863,67 @@ const serializeTourListItem = (tour) => ({
 });
 
 // Get all tours (merge basic tours with detailed tours)
-app.get('/api/tours', async (req, res) => {
-
+app.get('/api/tours', asyncHandler(async (req, res) => {
   const { category, location, search, featured, view } = req.query;
 
+  // Use MySQL if database is available
+  if (db && typeof db.query === 'function') {
+    try {
+      let query = `
+        SELECT t.*, d.name as destination_name, d.slug as destination_slug 
+        FROM tours t 
+        LEFT JOIN destinations d ON t.destination_id = d.id 
+        WHERE t.listed = 1
+      `;
+      const params = [];
+
+      if (category) {
+        query += ' AND t.category = ?';
+        params.push(category);
+      }
+
+      if (featured === 'true') {
+        query += ' AND t.featured = 1';
+      }
+
+      if (search) {
+        query += ' AND (t.title LIKE ? OR t.description LIKE ? OR t.location LIKE ?)';
+        const searchTerm = `%${search}%`;
+        params.push(searchTerm, searchTerm, searchTerm);
+      }
+
+      if (location) {
+        query += ' AND (t.location LIKE ? OR d.name LIKE ?)';
+        const locationTerm = `%${location}%`;
+        params.push(locationTerm, locationTerm);
+      }
+
+      query += ' ORDER BY t.id DESC';
+
+      const tours = await db.query(query, params);
+
+      // Parse JSON fields
+      const processedTours = tours.map(tour => ({
+        ...tour,
+        itinerary: tour.itinerary_json ? JSON.parse(tour.itinerary_json) : [],
+        gallery: tour.gallery ? JSON.parse(tour.gallery) : [],
+        highlights: tour.highlights ? JSON.parse(tour.highlights) : [],
+        inclusions: tour.inclusions ? JSON.parse(tour.inclusions) : [],
+        exclusions: tour.exclusions ? JSON.parse(tour.exclusions) : []
+      }));
+
+      if (view === 'list') {
+        return res.json(processedTours.map(serializeTourListItem));
+      }
+
+      return res.json(processedTours);
+    } catch (dbError) {
+      console.error('MySQL query error, falling back to JSON:', dbError.message);
+      // Fall through to JSON fallback
+    }
+  }
+
+  // JSON fallback mode
   // Merge basic tours with detailed tours, prioritizing detailed tours
   const allTours = [...tourDetails];
 
@@ -1342,7 +2003,7 @@ app.get('/api/tours', async (req, res) => {
   }
 
   res.json(filteredTours);
-});
+}));
 
 // Admin: Export all tour data
 app.get('/api/admin/tours/export', authenticateToken, async (req, res) => {

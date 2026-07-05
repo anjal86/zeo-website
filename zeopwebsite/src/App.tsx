@@ -66,6 +66,7 @@ function ScrollToTop() {
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isHomePage = location.pathname === '/';
 
   return (
     <div className="App">
@@ -87,8 +88,8 @@ function Layout({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      {/* Mobile Sticky Bar - Only show on non-admin routes on mobile */}
-      {!isAdminRoute && <MobileStickyBar />}
+      {/* Mobile Sticky Bar - Only show on non-admin routes, hide on home page */}
+      {!isAdminRoute && !isHomePage && <MobileStickyBar />}
 
       {/* Exit Intent Popup - only on non-admin routes */}
       {!isAdminRoute && <ExitIntentModal />}

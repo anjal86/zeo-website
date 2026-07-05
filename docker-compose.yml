@@ -12,13 +12,14 @@ services:
     image: mysql:8.0
     container_name: zeo-mysql
     restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: zeo_website
       MYSQL_USER: zeo_user
       MYSQL_PASSWORD: zeopassword
     ports:
-      - "3306:3306"
+      - "3308:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
@@ -34,6 +35,7 @@ services:
     image: phpmyadmin/phpmyadmin:latest
     container_name: zeo-phpmyadmin
     restart: unless-stopped
+    platform: linux/amd64
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
