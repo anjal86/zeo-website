@@ -192,8 +192,9 @@ export default function HomeClient({ sliders, featuredDestinations, testimonials
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8 }}
-        className="py-16 md:py-20 bg-white relative overflow-hidden border-t border-gray-100"
+        className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50/80 relative overflow-hidden border-t border-gray-100"
       >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,96,20,0.06),transparent_30%)] pointer-events-none" />
         <div className="container-xl relative z-10">
           <div className="mb-10 grid gap-6 xl:grid-cols-[0.9fr_1.1fr] xl:items-end">
             <div>
@@ -221,25 +222,25 @@ export default function HomeClient({ sliders, featuredDestinations, testimonials
                   href={item.href}
                   className={`group relative flex min-h-[210px] flex-col overflow-hidden border p-6 transition-all duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 ${featured
                     ? "border-gray-950 bg-gray-950 text-white hover:shadow-2xl hover:shadow-gray-950/20 lg:row-span-2 lg:min-h-[445px]"
-                    : "border-gray-200 bg-white text-gray-950 hover:border-secondary hover:shadow-xl hover:shadow-gray-900/5"
+                    : "border-gray-200 bg-gradient-to-br from-white via-white to-gray-50/70 text-gray-950 shadow-sm hover:border-secondary hover:shadow-xl hover:shadow-gray-900/5"
                     }`}
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <span className={`text-[10px] font-bold uppercase tracking-[0.22em] ${featured ? "text-primary" : "text-secondary"}`}>
-                        {item.tag}
-                      </span>
-                      <div className={`mt-3 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] ${featured ? "border-white/15 bg-white/10 text-white/75" : "border-gray-200 bg-gray-50 text-gray-500"}`}>
-                        <Icon className="w-3.5 h-3.5" />
-                        {item.bestFor}
-                      </div>
-                    </div>
+                  <span className={`absolute inset-x-0 top-0 h-1 ${featured ? "bg-primary" : "bg-secondary/70"}`} />
+                  <Icon className={`absolute bottom-5 right-5 h-20 w-20 transition-all duration-300 ${featured ? "text-white/[0.06] group-hover:text-primary/10" : "text-gray-100 group-hover:text-secondary/10"}`} />
+
+                  <div className="relative z-10 flex items-start justify-between gap-4">
+                    <span className={`text-[10px] font-bold uppercase tracking-[0.22em] ${featured ? "text-primary" : "text-secondary"}`}>
+                      {item.tag}
+                    </span>
                     <span className={`h-9 w-9 flex items-center justify-center rounded-full border transition-all duration-300 ${featured ? "border-white/20 bg-white/10 text-white group-hover:bg-primary group-hover:border-primary" : "border-gray-200 bg-white text-gray-400 group-hover:bg-secondary group-hover:border-secondary group-hover:text-white"}`}>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                     </span>
                   </div>
 
-                  <div className="mt-auto pt-8">
+                  <div className="relative z-10 mt-auto pt-10">
+                    <p className={`mb-4 text-xs font-semibold uppercase tracking-[0.16em] ${featured ? "text-white/45" : "text-gray-400"}`}>
+                      Best for {item.bestFor}
+                    </p>
                     <h3 className={`font-serif font-bold leading-tight ${featured ? "text-3xl md:text-4xl" : "text-xl"}`}>
                       {item.label}
                     </h3>
