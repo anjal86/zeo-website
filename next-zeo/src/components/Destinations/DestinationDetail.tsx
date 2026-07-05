@@ -369,16 +369,14 @@ const DestinationDetail: React.FC = () => {
 
       <section className='overflow-hidden bg-white py-14 md:py-20'>
         <div className='container-xl'>
-          <div className='grid gap-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-stretch'>
+          <div className='grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start'>
             <motion.article
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55 }}
-              className='relative overflow-hidden border border-gray-200 bg-[#fbfcfe] p-6 md:p-8 lg:p-10'
             >
-              <div className='absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-primary via-primary/20 to-secondary' />
-              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Destination planner briefing</span>
+              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Destination guide</span>
               <h2 className='mt-4 max-w-5xl text-3xl md:text-4xl lg:text-5xl font-serif font-bold leading-tight text-gray-950'>
                 {pageCopy.title}
               </h2>
@@ -386,35 +384,39 @@ const DestinationDetail: React.FC = () => {
                 {pageCopy.intro}
               </p>
 
-              <div className='mt-8 grid gap-px overflow-hidden border border-gray-200 bg-gray-200 sm:grid-cols-2 lg:grid-cols-4'>
-                <div className='bg-white p-5'>
-                  <MapPin className='mb-4 h-5 w-5 text-primary' />
-                  <div className='text-xs font-bold uppercase tracking-[0.16em] text-gray-400'>Region</div>
-                  <div className='mt-2 text-sm font-semibold leading-6 text-gray-800'>{destinationCountry}</div>
+              <div className='mt-8 flex flex-wrap gap-x-6 gap-y-4 border-y border-gray-200 py-5'>
+                <div className='min-w-[150px]'>
+                  <div className='flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400'>
+                    <MapPin className='h-4 w-4 text-primary' /> Region
+                  </div>
+                  <p className='mt-2 text-sm font-semibold text-gray-900'>{destinationCountry}</p>
                 </div>
-                <div className='bg-white p-5'>
-                  <Users className='mb-4 h-5 w-5 text-secondary' />
-                  <div className='text-xs font-bold uppercase tracking-[0.16em] text-gray-400'>Traveller fit</div>
-                  <div className='mt-2 text-sm font-semibold leading-6 text-gray-800'>{pageCopy.bestFor}</div>
+                <div className='min-w-[190px]'>
+                  <div className='flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400'>
+                    <Users className='h-4 w-4 text-secondary' /> Traveller fit
+                  </div>
+                  <p className='mt-2 text-sm font-semibold leading-6 text-gray-900'>{pageCopy.bestFor}</p>
                 </div>
-                <div className='bg-white p-5'>
-                  <Calendar className='mb-4 h-5 w-5 text-primary' />
-                  <div className='text-xs font-bold uppercase tracking-[0.16em] text-gray-400'>Ideal duration</div>
-                  <div className='mt-2 text-sm font-semibold leading-6 text-gray-800'>{pageCopy.typicalLength}</div>
+                <div className='min-w-[150px]'>
+                  <div className='flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400'>
+                    <Calendar className='h-4 w-4 text-primary' /> Duration
+                  </div>
+                  <p className='mt-2 text-sm font-semibold text-gray-900'>{pageCopy.typicalLength}</p>
                 </div>
-                <div className='bg-white p-5'>
-                  <Shield className='mb-4 h-5 w-5 text-secondary' />
-                  <div className='text-xs font-bold uppercase tracking-[0.16em] text-gray-400'>Planning focus</div>
-                  <div className='mt-2 text-sm font-semibold leading-6 text-gray-800'>{pageCopy.planningFocus}</div>
+                <div className='min-w-[220px] flex-1'>
+                  <div className='flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400'>
+                    <Shield className='h-4 w-4 text-secondary' /> Planning focus
+                  </div>
+                  <p className='mt-2 text-sm font-semibold leading-6 text-gray-900'>{pageCopy.planningFocus}</p>
                 </div>
               </div>
 
-              <div className='mt-8 grid gap-6 lg:grid-cols-[0.56fr_0.44fr]'>
+              <div className='mt-8 grid gap-8 lg:grid-cols-[0.58fr_0.42fr]'>
                 <div>
-                  <h3 className='text-xl font-serif font-bold text-gray-950'>Popular route ideas</h3>
+                  <h3 className='text-xl font-serif font-bold text-gray-950'>Route styles people usually compare</h3>
                   <div className='mt-5 flex flex-wrap gap-2'>
                     {pageCopy.routeIdeas.map((idea) => (
-                      <span key={idea} className='inline-flex items-center bg-white px-3 py-2 text-xs font-semibold text-gray-700 ring-1 ring-gray-200'>
+                      <span key={idea} className='inline-flex items-center bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-700 ring-1 ring-gray-200'>
                         <Route className='mr-2 h-3.5 w-3.5 text-primary' /> {idea}
                       </span>
                     ))}
@@ -433,43 +435,26 @@ const DestinationDetail: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.05 }}
-              className='relative flex min-h-[520px] flex-col overflow-hidden bg-gray-950 p-7 text-white shadow-2xl shadow-gray-900/10'
+              className='border border-gray-200 bg-[#fbfcfe] p-6 shadow-sm lg:sticky lg:top-28'
             >
-              <img
-                src={destinationImage}
-                alt={`${displayTitle} travel planning`}
-                loading='lazy'
-                className='absolute inset-0 h-full w-full object-cover opacity-35'
-              />
-              <div className='absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/75 to-gray-950/35' />
-              <div className='relative z-10'>
-                <span className='text-secondary text-[10px] font-bold uppercase tracking-[0.22em]'>Planning note</span>
-                <h3 className='mt-4 text-3xl font-serif font-bold leading-tight'>Ask before you book.</h3>
-                <p className='mt-4 text-sm leading-7 text-white/75'>{pageCopy.planningNote}</p>
-              </div>
-
-              <div className='relative z-10 mt-7 space-y-4 border-y border-white/15 py-6'>
-                <div className='flex gap-3'>
-                  <Compass className='mt-0.5 h-5 w-5 text-primary' />
-                  <p className='text-sm leading-6 text-white/75'>Compare routes before choosing a package.</p>
+              <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400'>Need clarity?</span>
+              <h3 className='mt-4 text-2xl font-serif font-bold text-gray-950'>Ask before you book.</h3>
+              <p className='mt-4 text-sm leading-7 text-gray-600'>{pageCopy.planningNote}</p>
+              <div className='mt-5 space-y-3 border-y border-gray-200 py-5'>
+                <div className='flex gap-3 text-sm leading-6 text-gray-600'>
+                  <Compass className='mt-0.5 h-4 w-4 shrink-0 text-primary' /> Compare route options first.
                 </div>
-                <div className='flex gap-3'>
-                  <Users className='mt-0.5 h-5 w-5 text-secondary' />
-                  <p className='text-sm leading-6 text-white/75'>Match the pace to your group, comfort level and travel purpose.</p>
-                </div>
-                <div className='flex gap-3'>
-                  <Shield className='mt-0.5 h-5 w-5 text-primary' />
-                  <p className='text-sm leading-6 text-white/75'>Clarify timing, support, permits and practical risks early.</p>
+                <div className='flex gap-3 text-sm leading-6 text-gray-600'>
+                  <Shield className='mt-0.5 h-4 w-4 shrink-0 text-secondary' /> Clarify support and timing early.
                 </div>
               </div>
-
-              <Link href='/contact' className='relative z-10 mt-auto inline-flex w-full items-center justify-center bg-primary px-6 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-primary-dark'>
+              <Link href='/contact' className='mt-5 inline-flex w-full items-center justify-center bg-primary px-6 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-primary-dark'>
                 Plan this route <ArrowRight className='ml-2 h-3.5 w-3.5' />
               </Link>
             </motion.aside>
           </div>
 
-          <div className='mt-10 grid gap-5 md:grid-cols-3'>
+          <div className='mt-14 grid gap-5 md:grid-cols-3'>
             {pageCopy.guideBlocks.map((block, index) => {
               const Icon = block.icon;
               return (
@@ -487,21 +472,6 @@ const DestinationDetail: React.FC = () => {
                 </motion.article>
               );
             })}
-          </div>
-
-          <div className='mt-12 grid gap-6 border-y border-gray-200 py-8 lg:grid-cols-[0.32fr_0.68fr]'>
-            <div>
-              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Common questions</span>
-              <h2 className='mt-4 text-3xl font-serif font-bold text-gray-950'>Planning clarity before payment.</h2>
-            </div>
-            <div className='grid gap-5 md:grid-cols-2'>
-              {pageCopy.faqs.map((faq) => (
-                <div key={faq.question} className='border-l-2 border-primary/30 pl-5'>
-                  <h3 className='text-lg font-serif font-bold text-gray-950'>{faq.question}</h3>
-                  <p className='mt-3 text-sm leading-7 text-gray-600'>{faq.answer}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -633,6 +603,25 @@ const DestinationDetail: React.FC = () => {
               </Link>
             </div>
           )}
+        </div>
+      </section>
+
+      <section className='bg-white py-14 md:py-20'>
+        <div className='container-xl'>
+          <div className='grid gap-8 border-y border-gray-200 py-8 lg:grid-cols-[0.32fr_0.68fr]'>
+            <div>
+              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Common questions</span>
+              <h2 className='mt-4 text-3xl font-serif font-bold text-gray-950'>Planning clarity before payment.</h2>
+            </div>
+            <div className='grid gap-5 md:grid-cols-2'>
+              {pageCopy.faqs.map((faq) => (
+                <div key={faq.question} className='border-l-2 border-primary/30 pl-5'>
+                  <h3 className='text-lg font-serif font-bold text-gray-950'>{faq.question}</h3>
+                  <p className='mt-3 text-sm leading-7 text-gray-600'>{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </div>
