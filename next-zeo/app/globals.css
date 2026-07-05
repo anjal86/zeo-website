@@ -9,27 +9,20 @@
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
 
-  /* Color psychology system:
-     primary = saffron/orange action and pilgrimage energy
-     secondary = calm trust blue for structure and informational accents */
-  --color-primary: #c2410c;
-  --color-primary-dark: #9a3412;
-  --color-primary-light: #fbbf24;
-  --color-secondary: #0b6fb3;
-  --color-secondary-dark: #075985;
-  --color-secondary-light: #38bdf8;
-  --color-sky-blue: #0b6fb3;
-  --color-sky-blue-dark: #075985;
+  --color-primary: #055fac;
+  --color-primary-dark: #044a8a;
+  --color-primary-light: #1a6bb8;
+  --color-secondary: #f47721;
+  --color-secondary-dark: #d6651c;
+  --color-secondary-light: #f68b42;
+  --color-sky-blue: #055fac;
+  --color-sky-blue-dark: #044a8a;
   --color-earth-green: #228B22;
   --color-earth-green-light: #32CD32;
-  --color-sunrise-orange: #c2410c;
-  --color-sunrise-orange-light: #fbbf24;
+  --color-sunrise-orange: #f47721;
+  --color-sunrise-orange-light: #f68b42;
   --color-snow-white: #FFFAFA;
   --color-snow-white-light: #F8F8FF;
-  --color-brand-dark: #0b1120;
-  --color-brand-light: #f8fafc;
-  --color-brand-sand: #fff7ed;
-  --color-brand-gold: #f59e0b;
 
   --font-sans: "Inter", system-ui, sans-serif;
   --font-serif: "Playfair Display", "Georgia", serif;
@@ -108,12 +101,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #c2410c, #f59e0b);
+  background: linear-gradient(135deg, #055fac, #044a8a);
   border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #9a3412, #c2410c);
+  background: linear-gradient(135deg, #044a8a, #055fac);
 }
 
 ::-webkit-scrollbar-corner {
@@ -142,7 +135,7 @@ html {
 
 /* Text gradient utility */
 .text-gradient {
-  background: linear-gradient(135deg, #0b6fb3, #f59e0b 52%, #c2410c);
+  background: linear-gradient(135deg, #055fac, #f47721);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -182,8 +175,8 @@ html {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2px solid rgba(194, 65, 12, 0.12);
-  border-top-color: #c2410c;
+  border: 2px solid rgba(5, 95, 172, 0.1);
+  border-top-color: #055fac;
   animation: spin 0.8s linear infinite;
 }
 
