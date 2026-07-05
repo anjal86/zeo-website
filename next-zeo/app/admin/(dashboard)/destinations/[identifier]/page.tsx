@@ -106,9 +106,7 @@ const DestinationEditor: React.FC = () => {
             const res = await adminFetchRaw(`${getApiBaseUrl()}/admin/uploads/destinations`, {
                 method: 'POST',
                 body: fd,
-                headers: {} as any,
             });
-            // Because we used FormData, remove Content-Type from the fetch helper
             const result = await res.json();
             setForm(prev => ({ ...prev, image_url: result.url }));
         } catch (err: any) {
