@@ -132,29 +132,58 @@ const About: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.65 }}
-            className="grid gap-8 border-b border-gray-200 pb-10 lg:grid-cols-[0.34fr_0.66fr] lg:items-start"
+            className="overflow-hidden border border-gray-200 bg-white shadow-sm"
           >
-            <div>
-              <div className="flex items-center gap-3">
-                <SectionIcon />
-                <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em]">Who we are</span>
-              </div>
-              <p className="mt-5 max-w-sm text-sm leading-7 text-gray-500">
-                A Kathmandu-based planning team for travellers who want a clear route before making a commitment.
-              </p>
-            </div>
+            <div className="h-1 w-full bg-gradient-to-r from-primary via-primary/20 to-secondary" />
+            <div className="grid gap-px bg-gray-200 lg:grid-cols-[0.64fr_0.36fr]">
+              <div className="bg-white p-6 md:p-8 lg:p-10">
+                <div className="mb-7 inline-flex items-center gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center bg-primary/5 text-primary">
+                    <Route className="h-4 w-4" />
+                  </span>
+                  <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em]">Who we are</span>
+                </div>
 
-            <div>
-              <h2 className="max-w-5xl text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-[1.02] tracking-tight text-gray-950">
-                We turn travel ideas into routes people can understand.
-              </h2>
-              <div className="mt-8 grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
-                <p className="text-lg leading-8 text-gray-700">
-                  Zeo Tourism helps travellers plan sacred journeys, Nepal tours, international travel and private itineraries from Kathmandu.
-                </p>
-                <p className="text-sm md:text-base leading-7 text-gray-600">
-                  We do not start by pushing packages. We listen first, then explain timing, permit logic, route options, support level and the practical decisions that matter before booking.
-                </p>
+                <h2 className="max-w-4xl text-4xl md:text-5xl lg:text-[56px] font-serif font-bold leading-[1.04] tracking-tight text-gray-950">
+                  We turn travel ideas into clear, workable routes.
+                </h2>
+
+                <div className="mt-8 max-w-3xl space-y-4">
+                  <p className="text-lg leading-8 text-gray-700">
+                    Zeo Tourism helps travellers plan sacred journeys, Nepal tours, international travel and private itineraries from Kathmandu.
+                  </p>
+                  <p className="text-sm md:text-base leading-7 text-gray-600">
+                    We listen first, then explain timing, permit logic, route options, support level and the practical decisions that matter before booking.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 p-6 md:p-8 lg:p-10">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Before a package</span>
+                <h3 className="mt-4 text-2xl font-serif font-bold leading-tight text-gray-950">
+                  We clarify the journey first.
+                </h3>
+
+                <div className="mt-7 space-y-5">
+                  {[
+                    { icon: Users, title: 'Understand purpose', text: 'Pilgrimage, family, trekking, culture or private travel.' },
+                    { icon: Route, title: 'Map the route', text: 'Timing, permits, transport, altitude and support level.' },
+                    { icon: Shield, title: 'Reduce uncertainty', text: 'Practical next steps before you commit to a booking.' },
+                  ].map((item, index) => {
+                    const Icon = item.icon;
+                    return (
+                      <div key={item.title} className="grid grid-cols-[auto_1fr] gap-4">
+                        <span className="inline-flex h-10 w-10 items-center justify-center border border-gray-200 bg-white">
+                          <Icon className={`h-4 w-4 ${index === 1 ? 'text-secondary' : 'text-primary'}`} />
+                        </span>
+                        <div>
+                          <h4 className="text-sm font-bold text-gray-950">{item.title}</h4>
+                          <p className="mt-1 text-sm leading-6 text-gray-600">{item.text}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </motion.div>
