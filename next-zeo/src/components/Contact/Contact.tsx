@@ -10,9 +10,6 @@ import {
   Send,
   CheckCircle,
   AlertCircle,
-  Clock3,
-  Users,
-  CalendarDays,
   ArrowRight,
 } from 'lucide-react';
 import { useContact } from '../../hooks/useApi';
@@ -110,7 +107,7 @@ const Contact: React.FC = () => {
       icon: Phone,
       title: 'Call the office',
       subtitle: phone,
-      helper: 'Fastest for urgent questions',
+      helper: 'For urgent route questions',
       href: `tel:${cleanPhone}`,
       tone: 'bg-primary text-white',
     },
@@ -118,42 +115,43 @@ const Contact: React.FC = () => {
       icon: MessageSquare,
       title: 'WhatsApp the team',
       subtitle: 'Chat with us directly',
-      helper: 'Best for quick trip clarification',
+      helper: 'Fastest for quick clarification',
       href: whatsappHref,
       tone: 'bg-green-500 text-white',
       external: true,
+      recommended: true,
     },
     {
       icon: Mail,
       title: 'Email your plan',
       subtitle: email,
-      helper: 'Best for detailed itineraries',
+      helper: 'For detailed itineraries',
       href: `mailto:${email}`,
       tone: 'bg-secondary text-white',
     },
   ];
 
   const planningSteps = [
-    { icon: CalendarDays, title: 'Share dates', text: 'Tell us your preferred month or exact travel date.' },
-    { icon: Users, title: 'Share group size', text: 'Solo, family, group or private trip — we plan around it.' },
-    { icon: MapPin, title: 'Get route clarity', text: 'We guide timing, route, support and next step before booking.' },
+    { title: 'Share dates', text: 'Preferred month or exact travel date.' },
+    { title: 'Share group size', text: 'Solo, family, group or private trip.' },
+    { title: 'Get route clarity', text: 'Timing, route, support and next step.' },
   ];
 
   return (
-    <section id="contact" className="bg-gradient-to-b from-white to-gray-50 py-14 md:py-20 border-t border-gray-100">
+    <section id="contact" className="bg-gradient-to-b from-white to-gray-50 py-12 md:py-16 border-t border-gray-100">
       <div className="container-xl">
-        <div className="mb-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <div className="mb-8 grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
           <div>
             <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em] mb-3 block">
               Contact Zeo Tourism
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-950 leading-[1.05] tracking-tight max-w-2xl">
-              Tell us what you need. We’ll help shape the route.
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-950 leading-[1.08] tracking-tight max-w-xl">
+              Tell us what you need. We’ll shape the route.
             </h2>
           </div>
           <div className="lg:max-w-xl lg:justify-self-end">
             <p className="text-sm md:text-base leading-relaxed text-gray-600">
-              Use the form for a guided trip request, or contact the Kathmandu team directly if you need quick clarity on Kailash Yatra, Nepal tours, activities or private travel.
+              Not sure where to start? That’s okay. Send what you know, and our Kathmandu team will guide the route, timing and next step.
             </p>
           </div>
         </div>
@@ -165,46 +163,38 @@ const Contact: React.FC = () => {
           <div className="mb-6 border border-red-200 bg-red-50 p-4 text-sm text-red-600">Error loading contact info: {contactError}</div>
         )}
 
-        <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <motion.div
             initial={{ opacity: 0, x: -28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
-            className="space-y-5"
+            className="space-y-4"
           >
-            <div className="border border-gray-200 bg-gray-950 p-6 md:p-7 text-white relative overflow-hidden">
-              <div className="absolute -right-10 -top-10 h-36 w-36 border border-white/10" />
+            <div className="border border-gray-200 bg-gray-950 p-5 md:p-6 text-white relative overflow-hidden">
+              <div className="absolute -right-12 -top-12 h-32 w-32 border border-white/10" />
               <span className="text-primary text-[10px] font-bold uppercase tracking-[0.22em]">Best first step</span>
-              <h3 className="mt-4 text-2xl md:text-3xl font-serif font-bold leading-tight">
+              <h3 className="mt-3 text-xl md:text-2xl font-serif font-bold leading-tight">
                 Ask before you book.
               </h3>
-              <p className="mt-4 text-sm leading-6 text-gray-400">
-                No pressure. Share what you know — destination, date, group size, budget or confusion — and we will point you toward the right next step.
+              <p className="mt-3 text-sm leading-6 text-gray-400">
+                No pressure. We help you understand the practical next step before you commit.
               </p>
 
-              <div className="mt-6 grid gap-3">
-                {planningSteps.map((step, index) => {
-                  const Icon = step.icon;
-                  return (
-                    <div key={step.title} className="flex gap-4 border border-white/10 bg-white/[0.04] p-4">
-                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center border border-white/10 bg-black/20 text-primary">
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-primary text-xs font-bold">0{index + 1}</span>
-                          <h4 className="text-sm font-bold text-white">{step.title}</h4>
-                        </div>
-                        <p className="mt-1 text-sm leading-6 text-gray-400">{step.text}</p>
-                      </div>
+              <div className="mt-5 grid gap-2.5">
+                {planningSteps.map((step, index) => (
+                  <div key={step.title} className="grid grid-cols-[auto_1fr] gap-3 border border-white/10 bg-white/[0.04] p-3.5">
+                    <span className="text-primary text-xs font-bold leading-6">0{index + 1}</span>
+                    <div>
+                      <h4 className="text-sm font-bold text-white">{step.title}</h4>
+                      <p className="mt-0.5 text-sm leading-6 text-gray-400">{step.text}</p>
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="grid gap-3">
+            <div className="grid gap-2.5">
               {contactMethods.map((method) => {
                 const Icon = method.icon;
                 return (
@@ -213,31 +203,38 @@ const Contact: React.FC = () => {
                     href={method.href}
                     target={method.external ? '_blank' : undefined}
                     rel={method.external ? 'nofollow noopener noreferrer' : undefined}
-                    className="group grid grid-cols-[auto_1fr_auto] items-center gap-4 border border-gray-200 bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:shadow-lg hover:shadow-gray-900/5"
+                    className={`group grid grid-cols-[auto_1fr_auto] items-center gap-3 border bg-white p-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gray-900/5 ${method.recommended ? 'border-green-200 hover:border-green-400' : 'border-gray-200 hover:border-gray-300'}`}
                   >
-                    <span className={`flex h-12 w-12 items-center justify-center ${method.tone}`}>
-                      <Icon className="h-5 w-5" />
+                    <span className={`flex h-10 w-10 items-center justify-center ${method.tone}`}>
+                      <Icon className="h-4 w-4" />
                     </span>
                     <span>
-                      <span className="block font-bold text-gray-950 group-hover:text-primary transition-colors">{method.title}</span>
-                      <span className="mt-1 block text-sm text-gray-600 break-all">{method.subtitle}</span>
-                      <span className="mt-1 block text-xs text-gray-400">{method.helper}</span>
+                      <span className="flex flex-wrap items-center gap-2 font-bold text-gray-950 transition-colors group-hover:text-primary">
+                        {method.title}
+                        {method.recommended && (
+                          <span className="bg-green-50 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-green-700">
+                            Fastest
+                          </span>
+                        )}
+                      </span>
+                      <span className="mt-0.5 block text-sm text-gray-600 break-all">{method.subtitle}</span>
+                      <span className="mt-0.5 block text-xs text-gray-400">{method.helper}</span>
                     </span>
-                    <ArrowRight className="h-4 w-4 text-gray-300 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                    <ArrowRight className="h-4 w-4 text-gray-300 transition-transform group-hover:translate-x-1 group-hover:text-gray-600" />
                   </a>
                 );
               })}
             </div>
 
-            <div className="border border-gray-200 bg-white p-5">
-              <div className="flex gap-4">
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center bg-gray-950 text-white">
-                  <MapPin className="h-5 w-5" />
+            <div className="border border-gray-200 bg-white p-4">
+              <div className="flex gap-3">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center bg-gray-950 text-white">
+                  <MapPin className="h-4 w-4" />
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-950">Kathmandu office</h3>
                   <p className="mt-1 text-sm leading-6 text-gray-600">{address}</p>
-                  <p className="mt-2 text-xs uppercase tracking-[0.18em] text-gray-400">Local planning support</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-gray-400">Local planning support</p>
                 </div>
               </div>
             </div>
@@ -249,14 +246,14 @@ const Contact: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
           >
-            <div className="border border-gray-200 bg-white shadow-xl shadow-gray-900/5">
-              <div className="border-b border-gray-100 p-6 md:p-8">
+            <div className="border border-gray-200 bg-white shadow-2xl shadow-gray-900/8">
+              <div className="border-b border-gray-100 p-6 md:p-8 bg-white">
                 <span className="text-secondary text-[10px] font-bold uppercase tracking-[0.22em]">Trip request form</span>
                 <h3 className="mt-3 text-2xl md:text-3xl font-serif font-bold text-gray-950">
                   Get a route recommendation
                 </h3>
                 <p className="mt-3 text-sm leading-6 text-gray-600">
-                  A few details help us suggest the right itinerary, timing and support level.
+                  You do not need a perfect plan. A few details help us suggest the right itinerary, timing and support level.
                 </p>
               </div>
 
@@ -297,53 +294,63 @@ const Contact: React.FC = () => {
                   />
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    placeholder="Your name *"
-                    className={inputClass}
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    placeholder="Email address *"
-                    className={inputClass}
-                  />
+                <div className="border border-gray-100 bg-gray-50 p-4 text-sm leading-6 text-gray-600">
+                  <span className="font-semibold text-gray-950">Quick guide:</span> Share your contact details, travel interest, approximate date and anything you are unsure about.
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="Phone / WhatsApp"
-                    className={inputClass}
-                  />
-                  <select
-                    name="destination"
-                    value={formData.destination}
-                    onChange={handleChange}
-                    required
-                    className={`${inputClass} appearance-none`}
-                  >
-                    <option value="">Trip interest *</option>
-                    <option value="kailash">Kailash Mansarovar</option>
-                    <option value="nepal-tour">Nepal Tour Packages</option>
-                    <option value="everest">Everest Region</option>
-                    <option value="muktinath">Muktinath / Mustang</option>
-                    <option value="helicopter">Helicopter / Aerial Darshan</option>
-                    <option value="international">International Tours</option>
-                    <option value="custom">Custom / Private Trip</option>
-                    <option value="other">Other</option>
-                  </select>
+                <div>
+                  <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Your details</p>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="Your name *"
+                      className={inputClass}
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="Email address *"
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Trip basics</p>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="Phone / WhatsApp"
+                      className={inputClass}
+                    />
+                    <select
+                      name="destination"
+                      value={formData.destination}
+                      onChange={handleChange}
+                      required
+                      className={`${inputClass} appearance-none`}
+                    >
+                      <option value="">Trip interest *</option>
+                      <option value="kailash">Kailash Mansarovar</option>
+                      <option value="nepal-tour">Nepal Tour Packages</option>
+                      <option value="everest">Everest Region</option>
+                      <option value="muktinath">Muktinath / Mustang</option>
+                      <option value="helicopter">Helicopter / Aerial Darshan</option>
+                      <option value="international">International Tours</option>
+                      <option value="custom">Custom / Private Trip</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
@@ -365,14 +372,17 @@ const Contact: React.FC = () => {
                   />
                 </div>
 
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={5}
-                  placeholder="Tell us your plan, confusion, preferred route, budget range or special requirements..."
-                  className={`${inputClass} resize-none`}
-                />
+                <div>
+                  <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Travel note</p>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={5}
+                    placeholder="Tell us your plan, confusion, preferred route, budget range or special requirements..."
+                    className={`${inputClass} resize-none`}
+                  />
+                </div>
 
                 <div className="grid gap-4 border-t border-gray-100 pt-5 sm:grid-cols-[1fr_auto] sm:items-center">
                   <p className="text-sm leading-6 text-gray-500">
