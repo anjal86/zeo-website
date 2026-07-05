@@ -45,7 +45,7 @@ const getImage = (destination: any) => {
   return image;
 };
 
-const DestinationCard = ({ destination, index, featured = false }: { destination: any; index: number; featured?: boolean }) => {
+const DestinationCard = ({ destination, featured = false }: { destination: any; featured?: boolean }) => {
   const href = getSlug(destination);
   const isInternational = destination.country !== 'Nepal' && destination.name !== 'Nepal';
 
@@ -123,7 +123,7 @@ const Destinations: React.FC = () => {
   };
 
   return (
-    <section className="bg-white py-14 md:py-18">
+    <section className="bg-white py-14 md:py-20">
       <div className="container-xl">
         <div className="mb-10 grid gap-6 lg:grid-cols-[0.42fr_0.58fr] lg:items-end">
           <div>
@@ -170,9 +170,9 @@ const Destinations: React.FC = () => {
             viewport={{ once: true, amount: 0.15 }}
             className="grid grid-cols-1 gap-6 lg:grid-cols-3"
           >
-            <DestinationCard destination={featuredDestination} index={0} featured />
-            {remainingDestinations.map((destination, index) => (
-              <DestinationCard key={destination.id || destination.name} destination={destination} index={index + 1} />
+            <DestinationCard destination={featuredDestination} featured />
+            {remainingDestinations.map((destination) => (
+              <DestinationCard key={destination.id || destination.name} destination={destination} />
             ))}
           </motion.div>
         )}
