@@ -64,6 +64,7 @@ const TourManager: React.FC = () => {
   const fetchTours = useCallback(async () => {
     try {
       setLoading(true);
+      const token = localStorage.getItem('adminToken');
       const params = new URLSearchParams({
         page: currentPage.toString(),
         limit: itemsPerPage.toString(),
@@ -75,7 +76,7 @@ const TourManager: React.FC = () => {
 
       const response = await fetch(`${getApiBaseUrl()}/admin/tours?${params}`, {
         headers: {
-          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
@@ -129,10 +130,11 @@ const TourManager: React.FC = () => {
   }, []);
 
   const deleteTour = async (tour: Tour) => {
+    const token = localStorage.getItem('adminToken');
     const response = await fetch(`${getApiBaseUrl()}/admin/tours/${tour.id}`, {
       method: 'DELETE',
       headers: {
-        'X-Requested-With': 'XMLHttpRequest',
+        'Authorization': `Bearer ${token}`,
       },
     });
 
@@ -147,9 +149,10 @@ const TourManager: React.FC = () => {
   const handleExportSingleTour = async (tour: Tour) => {
     try {
       setExportingId(tour.id);
+      const token = localStorage.getItem('adminToken');
       const response = await fetch(`${getApiBaseUrl()}/admin/tours/${tour.id}/export`, {
         headers: {
-          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization': `Bearer ${token}`,
         },
       });
 

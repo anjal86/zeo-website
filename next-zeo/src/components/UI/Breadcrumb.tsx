@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
 
 export interface BreadcrumbItem {
@@ -16,7 +16,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className = '' }) => {
   return (
     <nav aria-label="Breadcrumb" className={`flex items-center flex-wrap gap-1 text-sm ${className}`}>
       <Link
-        to="/"
+        href="/"
         className="flex items-center text-gray-400 hover:text-primary transition-colors"
         aria-label="Home"
       >
@@ -37,7 +37,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className = '' }) => {
               </span>
             ) : (
               <Link
-                to={item.href}
+                href={item.href}
                 className="text-gray-400 hover:text-primary transition-colors truncate max-w-[150px]"
               >
                 {item.name}

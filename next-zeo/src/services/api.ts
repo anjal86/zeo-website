@@ -530,11 +530,10 @@ export const toursApi = {
 
   // Update tour listing status
   async updateListingStatus(id: number, listed: boolean): Promise<Tour> {
-    const token = localStorage.getItem('adminToken');
     return apiCall<Tour>(`/admin/tours/${id}/listing`, {
       method: 'PATCH',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ listed })
@@ -921,13 +920,12 @@ export const directorMessageApi = {
   },
 
   async update(data: Partial<DirectorMessage> | FormData): Promise<DirectorMessage> {
-    const token = localStorage.getItem('adminToken');
     const isFormData = data instanceof FormData;
 
     return apiCall<DirectorMessage>('/admin/director-message', {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'X-Requested-With': 'XMLHttpRequest',
         ...(isFormData ? {} : { 'Content-Type': 'application/json' })
       },
       body: isFormData ? (data as FormData) : JSON.stringify(data)
@@ -967,11 +965,10 @@ export const teamApi = {
   },
 
   async create(data: Omit<TeamMember, 'id' | 'created_at' | 'updated_at'>): Promise<TeamMember> {
-    const token = localStorage.getItem('adminToken');
     return apiCall<TeamMember>('/admin/team', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
@@ -979,11 +976,10 @@ export const teamApi = {
   },
 
   async update(id: number, data: Partial<TeamMember>): Promise<TeamMember> {
-    const token = localStorage.getItem('adminToken');
     return apiCall<TeamMember>(`/admin/team/${id}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
@@ -991,21 +987,19 @@ export const teamApi = {
   },
 
   async delete(id: number): Promise<void> {
-    const token = localStorage.getItem('adminToken');
     await apiCall(`/admin/team/${id}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`
+        'X-Requested-With': 'XMLHttpRequest'
       }
     });
   },
 
   async updateOrder(orders: { id: number; order_index: number }[]): Promise<void> {
-    const token = localStorage.getItem('adminToken');
     await apiCall('/admin/team/order', {
       method: 'PATCH',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ orders })

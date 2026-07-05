@@ -53,10 +53,9 @@ export function useAdminApi<T = any>(url: string) {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem('adminToken');
       const response = await fetch(url, {
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });

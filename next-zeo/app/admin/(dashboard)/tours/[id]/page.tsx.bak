@@ -203,22 +203,23 @@ const TourEditor: React.FC = () => {
 
 
   useEffect(() => {
-    // Check authentication via cookie-based session
-    const checkAuth = async () => {
+    // Check authentication and get user data
+    const userData = localStorage.getItem('adminUser');
+    const token = localStorage.getItem('adminToken');
+
+    if (userData && token) {
       try {
-        const resp = await fetch('/api/admin/me', { credentials: 'include' });
-        if (!resp.ok) { router.push('/admin/login'); return; }
-        const user = await resp.json();
-        setUser(user);
+        setUser(JSON.parse(userData));
 
         if (isEditing && tourId && tourId !== 'new') {
           fetchTourDetails();
         }
-      } catch {
+      } catch (error) {
         router.push('/admin/login');
       }
-    };
-    checkAuth();
+    } else {
+      router.push('/admin/login');
+    }
   }, [tourId, isEditing, router]);
 
   // Disabled auto-detection to prevent automatic selection of all destinations and activities
@@ -329,9 +330,10 @@ const TourEditor: React.FC = () => {
         ? `/api/admin/tours/${tourId}`
         : `/api/admin/tours/slug/${tourId}`;
 
+      const token = localStorage.getItem('adminToken');
       const response = await fetch(endpoint, {
         headers: {
-          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
@@ -465,6 +467,7 @@ const TourEditor: React.FC = () => {
     try {
       // Delete all images from server if editing existing tour
       if (isEditing && tourId && tourId !== 'new' && formData.gallery) {
+        const token = localStorage.getItem('adminToken');
 
         for (const imageUrl of formData.gallery) {
           const filename = imageUrl.split('/').pop();
@@ -473,7 +476,7 @@ const TourEditor: React.FC = () => {
               await fetch(`${getApiBaseUrl()}/admin/tours/${tourId}/gallery/${filename}`, {
                 method: 'DELETE',
                 headers: {
-                  'X-Requested-With': 'XMLHttpRequest',
+                  'Authorization': `Bearer ${token}`,
                 },
               });
             } catch (error) {
@@ -507,10 +510,11 @@ const TourEditor: React.FC = () => {
 
       // Only call API for uploaded files if we're editing an existing tour
       if (isEditing && tourId && tourId !== 'new') {
+        const token = localStorage.getItem('adminToken');
         const response = await fetch(`${getApiBaseUrl()}/admin/tours/${tourId}/gallery/${filename}`, {
           method: 'DELETE',
           headers: {
-            'X-Requested-With': 'XMLHttpRequest',
+            'Authorization': `Bearer ${token}`,
           },
         });
 
@@ -729,6 +733,7 @@ const TourEditor: React.FC = () => {
       setProgressValue(50);
       setProgressMessage('Updating tour information...');
 
+      const token = localStorage.getItem('adminToken');
 
       // For editing, we need to determine if we should use slug or ID endpoint
       // Check if tourId is a number (ID) or string (slug)
@@ -776,7 +781,7 @@ const TourEditor: React.FC = () => {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(tourData),
       });
@@ -817,6 +822,8 @@ const TourEditor: React.FC = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUser');
     router.push('/admin/login');
   };
 
@@ -869,12 +876,13 @@ const TourEditor: React.FC = () => {
       const slugForFolder = formData.slug || (formData.title ? formData.title.toLowerCase().replace(/[^a-z0-9]/g, '-') : 'general');
       uploadData.append('tourSlug', slugForFolder);
 
+      const token = localStorage.getItem('adminToken');
 
       // Use the dedicated tour upload endpoint
       const response = await fetch(`${getApiBaseUrl()}/admin/uploads/tours`, {
         method: 'POST',
         headers: {
-          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization': `Bearer ${token}`,
         },
         body: uploadData,
       });
