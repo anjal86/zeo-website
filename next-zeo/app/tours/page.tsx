@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 import React from 'react';
 import { listTours } from '../../src/server/repositories/tours';
 import Tours from '../../src/components/Tours/Tours';
@@ -13,7 +13,7 @@ export default async function ToursPage() {
   
   return (
     <div className="pt-20">
-      <Tours />
+      <Tours initialTours={result.items as any} />
     </div>
   );
 }

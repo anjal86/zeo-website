@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 import React from 'react';
 import { listDestinations } from '../../src/server/repositories/catalog';
 import Destinations from '../../src/components/Destinations/Destinations';

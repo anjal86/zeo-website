@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getPostBySlug } from '../../../src/server/repositories/content';
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     title: `${post.title} - Zeo Tourism Blog`,
     description: post.excerpt || `Read about ${post.title}`,
     alternates: {
-      canonical: `https://www.zeotourism.com/blog/${slug}`
+      canonical: `${process.env.APP_URL || 'https://www.zeotourism.com'}/blog/${slug}`
     }
   };
 }
@@ -36,14 +36,14 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       author: 'Zeo Tourism',
       publishDate: post.published_at ? new Date(post.published_at).toISOString() : new Date().toISOString(),
       image: post.image || '',
-      url: `https://www.zeotourism.com/blog/${slug}`,
+      url: `${process.env.APP_URL || 'https://www.zeotourism.com'}/blog/${slug}`,
       category: post.category || 'Travel',
       tags: []
     }),
     createBreadcrumbSchema([
-      { name: "Home", url: "https://www.zeotourism.com" },
-      { name: "Blog", url: "https://www.zeotourism.com/blog" },
-      { name: post.title, url: `https://www.zeotourism.com/blog/${slug}` }
+      { name: "Home", url: (process.env.APP_URL || 'https://www.zeotourism.com') },
+      { name: "Blog", url: (process.env.APP_URL || 'https://www.zeotourism.com') + '/blog' },
+      { name: post.title, url: `${process.env.APP_URL || 'https://www.zeotourism.com'}/blog/${slug}` }
     ])
   ];
 

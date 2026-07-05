@@ -11,9 +11,16 @@ import LoadingSpinner from '../UI/LoadingSpinner';
 import ErrorMessage from '../UI/ErrorMessage';
 import { formatDuration } from '../../utils/formatDuration';
 
-const Tours: React.FC = () => {
-  // Use API hook to fetch tours
-  const { data: tours, loading, error } = useTours();
+interface ToursProps {
+  initialTours?: Tour[];
+}
+
+const Tours: React.FC<ToursProps> = ({ initialTours }) => {
+  // Use API hook to fetch tours if initialTours is not provided
+  const { data: apiTours, loading: apiLoading, error } = useTours();
+  
+  const tours = initialTours || apiTours;
+  const loading = !initialTours && apiLoading;
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {

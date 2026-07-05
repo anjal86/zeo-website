@@ -61,13 +61,7 @@ const TourDetail: React.FC<TourDetailProps> = ({ tour }) => {
   const [currentImage, setCurrentImage] = useState(0);
 
   // Fetch full tour details from API
-  useEffect(() => {
-    if (!tour?.slug) return;
-    fetch(`/api/tours/slug/${tour.slug}`)
-      .then(r => r.ok ? r.json() : null)
-      .then(data => { if (data) setDetailedTour({ ...tour, ...data }); })
-      .catch(() => {/* keep initial tour data */});
-  }, [tour?.slug]);
+  
 
   const t = detailedTour;
   const gallery = t.gallery || (t.image ? [t.image] : []);

@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getDestinationBySlug } from '../../../src/server/repositories/catalog';
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     title: `${dest.name} Tours & Travel Guide - Zeo Tourism`,
     description: dest.description || `Explore ${dest.name} with our guided tours.`,
     alternates: {
-      canonical: `https://www.zeotourism.com/destinations/${slug}`
+      canonical: `${process.env.APP_URL || 'https://www.zeotourism.com'}/destinations/${slug}`
     }
   };
 }
@@ -35,13 +35,13 @@ export default async function DestinationDetailPage({ params }: { params: { slug
       description: dest.description || '',
       country: dest.country || 'Nepal',
       image: dest.image || '',
-      url: `https://www.zeotourism.com/destinations/${slug}`,
+      url: `${process.env.APP_URL || 'https://www.zeotourism.com'}/destinations/${slug}`,
       toursCount: 1 // mock or compute
     }),
     createBreadcrumbSchema([
-      { name: "Home", url: "https://www.zeotourism.com" },
-      { name: "Destinations", url: "https://www.zeotourism.com/destinations" },
-      { name: dest.name, url: `https://www.zeotourism.com/destinations/${slug}` }
+      { name: "Home", url: (process.env.APP_URL || 'https://www.zeotourism.com') },
+      { name: "Destinations", url: (process.env.APP_URL || 'https://www.zeotourism.com') + '/destinations' },
+      { name: dest.name, url: `${process.env.APP_URL || 'https://www.zeotourism.com'}/destinations/${slug}` }
     ])
   ];
 

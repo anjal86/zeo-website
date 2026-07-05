@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 import React from 'react';
 import { listPosts } from '../../src/server/repositories/content';
 import BlogComponent from '../../src/components/Blog/Blog';

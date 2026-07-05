@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 export default function HomePage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
