@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Mail, Phone, MapPin, ExternalLink, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, ExternalLink, MessageCircle, ArrowRight } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaLinkedin } from 'react-icons/fa';
 import { useContact } from '../../hooks/useApi';
 import { useLogos } from '../../hooks/useLogos';
@@ -9,23 +9,32 @@ import footerLogo from '../../assets/zeo-logo-white.png';
 const Footer: React.FC = () => {
   const { data: contactInfo } = useContact();
   const { logos } = useLogos();
+
+  const phone = contactInfo?.contact?.phone?.primary || '+977 985 123 4567';
+  const email = contactInfo?.contact?.email?.primary || 'info@zeotourism.com';
+  const address = contactInfo?.contact?.address?.full || 'Thamel, Kathmandu, Nepal';
+  const companyName = contactInfo?.company?.name || 'Zeo Tourism';
+  const supportAvailability = contactInfo?.business?.support?.availability || '24/7 Support Available';
+  const cleanPhone = phone.replace(/\s/g, '');
+
   const footerLinks = {
-    destinations: [
-      { name: 'Kailash Mansarovar Yatra 2026', href: '/kailash-mansarovar' },
-      { name: 'Nepal Tour Packages', href: '/tours' },
-      { name: 'Everest Region Tour', href: '/destinations/everest-region' },
-      { name: 'Annapurna Region Tour', href: '/destinations/annapurna-region' }
+    trips: [
+      { name: 'Kailash Yatra', href: '/kailash-mansarovar' },
+      { name: 'Nepal Tours', href: '/tours' },
+      { name: 'Activities', href: '/activities' },
+      { name: 'Destinations', href: '/destinations' }
     ],
     company: [
-      { name: 'About Us', href: '/about' },
-      { name: 'Tours', href: '/tours' },
-      { name: 'Contact', href: '/contact' }
+      { name: 'About Zeo', href: '/about' },
+      { name: 'Tour Packages', href: '/tours' },
+      { name: 'Contact Team', href: '/contact' },
+      { name: 'Privacy Policy', href: '/privacy-policy' }
     ],
     support: [
-      { name: 'Kathmandu Sightseeing Tour', href: '/destinations/kathmandu' },
-      { name: 'Muktinath Tour Package', href: '/destinations/mustang-region' },
-      { name: 'Nepal Helicopter Tours', href: '/activities/helicopter-tours' },
-      { name: 'Contact Travel Agency', href: '/contact' }
+      { name: 'Call Kathmandu Office', href: `tel:${cleanPhone}` },
+      { name: 'Email Travel Team', href: `mailto:${email}` },
+      { name: 'Plan a Custom Trip', href: '/contact' },
+      { name: 'Ask on WhatsApp', href: `https://wa.me/${cleanPhone.replace(/[^0-9]/g, '')}` }
     ]
   };
 
@@ -37,46 +46,102 @@ const Footer: React.FC = () => {
     { icon: FaLinkedin, href: contactInfo?.social?.linkedin || 'https://www.linkedin.com/company/zeotourism', label: 'LinkedIn' }
   ];
 
+  const renderFooterLink = (link: { name: string; href: string }) => {
+    const isExternal = link.href.startsWith('http');
+    const isAction = link.href.startsWith('tel:') || link.href.startsWith('mailto:');
+    const className = 'text-gray-400 hover:text-white transition-colors duration-300 text-sm inline-flex items-center gap-1.5';
+
+    if (isExternal || isAction) {
+      return (
+        <a
+          href={link.href}
+          target={isExternal ? '_blank' : undefined}
+          rel={isExternal ? 'nofollow noopener noreferrer' : undefined}
+          className={className}
+        >
+          {link.name}
+          {isExternal && <ExternalLink className="w-3 h-3 opacity-60" />}
+        </a>
+      );
+    }
+
+    return (
+      <Link href={link.href} className={className}>
+        {link.name}
+      </Link>
+    );
+  };
+
   return (
-    <footer className="bg-gray-950 text-white border-t border-gray-800">
-      <div className="container-xl">
-        {/* Main Footer Content */}
-        <div className="py-16 md:py-20">
-          <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
-            {/* Brand Section */}
-            <div className="lg:col-span-4">
+    <footer className="bg-gray-950 text-white border-t border-white/10 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(0,119,204,0.12),transparent_28%),radial-gradient(circle_at_90%_20%,rgba(255,255,255,0.05),transparent_26%)] pointer-events-none" />
+      <div className="container-xl relative z-10">
+        <div className="py-8 md:py-10 border-b border-white/10">
+          <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <span className="text-primary text-[10px] font-bold uppercase tracking-[0.24em] block mb-3">
+                Kathmandu-based travel support
+              </span>
+              <h2 className="text-2xl md:text-3xl font-serif font-bold text-white leading-tight max-w-2xl">
+                Need help choosing the right route?
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-gray-400 max-w-2xl">
+                Ask about Kailash Yatra, Nepal tours, helicopter options, private trips, timing, permits and ground support before you book.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center bg-primary px-6 py-3 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-gray-950"
+              >
+                Plan your trip <ArrowRight className="ml-3 h-3.5 w-3.5" />
+              </Link>
+              <a
+                href={`tel:${cleanPhone}`}
+                className="inline-flex items-center justify-center border border-white/15 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:border-white hover:bg-white hover:text-gray-950"
+              >
+                Call office
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="py-10 md:py-12">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+            <div className="lg:col-span-5">
               <Link href="/" className="inline-flex items-center mb-5 hover:opacity-80 transition-opacity">
                 <img
                   src={logos?.footer || (footerLogo as any).src || String(footerLogo)}
                   alt="Zeo Tourism Logo"
-                  className="h-9 w-auto"
+                  className="h-10 w-auto"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = (footerLogo as any).src || String(footerLogo);
                   }}
                 />
               </Link>
-              <p className="text-gray-500 mb-7 text-sm leading-relaxed max-w-sm">
-                Your trusted partner for Nepal tours and spiritual journeys since 2000.
+              <p className="text-gray-400 text-sm leading-7 max-w-md">
+                Trusted Nepal travel planning for sacred journeys, cultural tours, Himalayan routes and custom trips since 2000.
               </p>
 
-              {/* Contact Info */}
-              <div className="space-y-3 mb-7">
-                <a href={`tel:${contactInfo?.contact?.phone?.primary || '+9779851234567'}`} className="flex items-center text-gray-400 hover:text-primary transition-colors text-sm">
-                  <Phone className="w-3.5 h-3.5 mr-3 text-gray-600" />
-                  {contactInfo?.contact?.phone?.primary || '+977 985 123 4567'}
+              <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:max-w-2xl">
+                <a href={`tel:${cleanPhone}`} className="group border border-white/10 bg-white/[0.03] p-4 hover:border-primary/40 hover:bg-white/[0.055] transition-colors">
+                  <Phone className="w-4 h-4 text-primary mb-3" />
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">Call</span>
+                  <span className="mt-1 block text-sm text-gray-300 group-hover:text-white transition-colors">{phone}</span>
                 </a>
-                <a href={`mailto:${contactInfo?.contact?.email?.primary || 'info@zeotourism.com'}`} className="flex items-center text-gray-400 hover:text-primary transition-colors text-sm">
-                  <Mail className="w-3.5 h-3.5 mr-3 text-gray-600" />
-                  {contactInfo?.contact?.email?.primary || 'info@zeotourism.com'}
+                <a href={`mailto:${email}`} className="group border border-white/10 bg-white/[0.03] p-4 hover:border-primary/40 hover:bg-white/[0.055] transition-colors">
+                  <Mail className="w-4 h-4 text-primary mb-3" />
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">Email</span>
+                  <span className="mt-1 block text-sm text-gray-300 group-hover:text-white transition-colors break-all">{email}</span>
                 </a>
-                <div className="flex items-center text-gray-400 text-sm">
-                  <MapPin className="w-3.5 h-3.5 mr-3 text-gray-600 flex-shrink-0" />
-                  {contactInfo?.contact?.address?.full || 'Thamel, Kathmandu, Nepal'}
+                <div className="border border-white/10 bg-white/[0.03] p-4">
+                  <MapPin className="w-4 h-4 text-primary mb-3" />
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">Office</span>
+                  <span className="mt-1 block text-sm text-gray-300">{address}</span>
                 </div>
               </div>
 
-              {/* Social Links */}
-              <div className="flex gap-2">
+              <div className="mt-6 flex flex-wrap items-center gap-2">
                 {socialLinks.map((social, index) => (
                   <a
                     key={index}
@@ -84,71 +149,53 @@ const Footer: React.FC = () => {
                     aria-label={social.label}
                     rel="nofollow noopener noreferrer"
                     target="_blank"
-                    className="w-8 h-8 bg-white/5 flex items-center justify-center hover:bg-primary transition-all duration-300 border border-white/10"
+                    className="w-9 h-9 bg-white/[0.04] flex items-center justify-center hover:bg-primary transition-all duration-300 border border-white/10"
                   >
-                    <social.icon className="w-3.5 h-3.5 text-gray-400" />
+                    <social.icon className="w-3.5 h-3.5 text-gray-300" />
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Popular Destinations */}
-            <div className="lg:col-span-2 lg:col-start-6">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-5">Popular Tours</h4>
-              <ul className="space-y-3">
-                {footerLinks.destinations.map((link, index) => (
-                  <li key={index}>
-                    <Link
-                      href={link.href}
-                      className="text-gray-500 hover:text-white transition-colors duration-300 text-sm flex items-center"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <div className="lg:col-span-7 grid gap-8 sm:grid-cols-3">
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white mb-5">Plan Trips</h4>
+                <ul className="space-y-3">
+                  {footerLinks.trips.map((link, index) => (
+                    <li key={index}>{renderFooterLink(link)}</li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* Company Links */}
-            <div className="lg:col-span-2">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-5">Company</h4>
-              <ul className="space-y-3">
-                {footerLinks.company.map((link, index) => (
-                  <li key={index}>
-                    <Link
-                      href={link.href}
-                      className="text-gray-500 hover:text-white transition-colors duration-300 text-sm"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white mb-5">Company</h4>
+                <ul className="space-y-3">
+                  {footerLinks.company.map((link, index) => (
+                    <li key={index}>{renderFooterLink(link)}</li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* Support Links */}
-            <div className="lg:col-span-2">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-5">Support</h4>
-              <ul className="space-y-3">
-                {footerLinks.support.map((link, index) => (
-                  <li key={index}>
-                    <Link
-                      href={link.href}
-                      className="text-gray-500 hover:text-white transition-colors duration-300 text-sm"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white mb-5">Support</h4>
+                <ul className="space-y-3">
+                  {footerLinks.support.map((link, index) => (
+                    <li key={index}>{renderFooterLink(link)}</li>
+                  ))}
+                </ul>
+                <div className="mt-6 border border-primary/20 bg-primary/10 p-4">
+                  <MessageCircle className="w-4 h-4 text-primary mb-3" />
+                  <p className="text-sm font-semibold text-white">{supportAvailability}</p>
+                  <p className="mt-1 text-xs leading-5 text-gray-400">For urgent trip questions, call or message the team directly.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="py-6 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="py-5 border-t border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <p className="text-gray-500 text-xs">
-            &copy; {new Date().getFullYear()} {contactInfo?.company?.name || 'Zeo Tourism'}. All rights reserved.
+            &copy; {new Date().getFullYear()} {companyName}. All rights reserved.
             <span className="mx-2 text-gray-700">|</span>
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
           </p>
