@@ -14,14 +14,21 @@ const config: Config = {
     },
     extend: {
       colors: {
-        primary: "#0ea5e9", // vibrant sky blue
-        "primary-dark": "#0284c7",
-        "primary-light": "#38bdf8",
-        secondary: "#f97316", // vibrant orange
-        "secondary-dark": "#ea580c",
-        "secondary-light": "#fb923c",
-        "brand-dark": "#0f172a", // deep slate for luxury text
-        "brand-light": "#f8fafc", // off white background
+        // Warm saffron/orange owns action, pilgrimage energy, active states and conversion moments.
+        primary: "#c2410c",
+        "primary-dark": "#9a3412",
+        "primary-light": "#fbbf24",
+
+        // Deep blue is reserved for trust, structure, navigation context and calm informational accents.
+        secondary: "#0b6fb3",
+        "secondary-dark": "#075985",
+        "secondary-light": "#38bdf8",
+
+        // Neutral foundation for premium travel calm and readable long-form sections.
+        "brand-dark": "#0b1120",
+        "brand-light": "#f8fafc",
+        "brand-sand": "#fff7ed",
+        "brand-gold": "#f59e0b",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
@@ -30,7 +37,7 @@ const config: Config = {
       },
       boxShadow: {
         'soft': '0 4px 40px -2px rgba(0, 0, 0, 0.05)',
-        'glow': '0 0 20px rgba(14, 165, 233, 0.15)',
+        'glow': '0 0 22px rgba(194, 65, 12, 0.18)',
       }
     },
   },
