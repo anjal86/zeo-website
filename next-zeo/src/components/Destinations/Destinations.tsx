@@ -55,10 +55,10 @@ const DestinationCard = ({ destination, featured = false }: { destination: any; 
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
       }}
-      className={`group ${featured ? 'lg:col-span-2' : ''}`}
+      className={`group h-full ${featured ? 'lg:col-span-2' : ''}`}
     >
       <Link href={href} className="block h-full">
-        <div className={`relative overflow-hidden bg-gray-950 shadow-lg shadow-gray-900/10 ${featured ? 'min-h-[430px]' : 'min-h-[320px]'}`}>
+        <div className={`relative h-full min-h-[320px] overflow-hidden bg-gray-950 shadow-lg shadow-gray-900/10 ${featured ? 'lg:min-h-[430px]' : ''}`}>
           <img
             src={getImage(destination)}
             alt={`${destination.name} travel destination`}
@@ -168,7 +168,7 @@ const Destinations: React.FC = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="grid grid-cols-1 gap-6 lg:grid-cols-3"
+            className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3"
           >
             <DestinationCard destination={featuredDestination} featured />
             {remainingDestinations.map((destination) => (
