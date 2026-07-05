@@ -3,17 +3,35 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight, Quote } from 'lucide-react';
+import {
+  ArrowRight,
+  Clock,
+  Compass,
+  Globe,
+  MapPin,
+  Mountain,
+  Plane,
+  Quote,
+  Route,
+  Shield,
+  Users,
+} from 'lucide-react';
 import api, { type DirectorMessage, type TeamMember } from '../../services/api';
 
 const proofStats = [
-  { value: '2018', label: 'Founded in Kathmandu' },
-  { value: '24/7', label: 'Support mindset' },
-  { value: 'Nepal', label: 'Local route knowledge' },
-  { value: 'Global', label: 'Travel planning scope' },
+  { value: '2018', label: 'Founded in Kathmandu', icon: MapPin, tone: 'primary' },
+  { value: '24/7', label: 'Support mindset', icon: Clock, tone: 'secondary' },
+  { value: 'Nepal', label: 'Local route knowledge', icon: Route, tone: 'primary' },
+  { value: 'Global', label: 'Travel planning scope', icon: Globe, tone: 'secondary' },
 ];
 
-const routeChips = ['Kathmandu', 'Kailash', 'Muktinath', 'Everest', 'Private trips'];
+const routeChips = [
+  { label: 'Kathmandu', icon: MapPin },
+  { label: 'Kailash', icon: Mountain },
+  { label: 'Muktinath', icon: Compass },
+  { label: 'Everest', icon: Route },
+  { label: 'Private trips', icon: Users },
+];
 
 const journeyLanes = [
   {
@@ -21,24 +39,28 @@ const journeyLanes = [
     title: 'Sacred journeys',
     description: 'Kailash Mansarovar, Muktinath, Gosaikunda and pilgrimage routes planned with permit, timing and support clarity.',
     href: '/kailash-mansarovar',
+    icon: Mountain,
   },
   {
     label: 'Nepal Desk',
     title: 'Nepal tours',
     description: 'Culture, trekking, family holidays and private Nepal itineraries with local ground planning.',
     href: '/tours',
+    icon: MapPin,
   },
   {
     label: 'Beyond Nepal',
     title: 'International travel',
     description: 'Selected outbound and cross-border journeys for travellers starting from Nepal, handled with practical essentials.',
     href: '/destinations',
+    icon: Plane,
   },
   {
     label: 'Custom Desk',
     title: 'Private planning',
     description: 'Custom routes for families, groups and travellers who need advice before choosing a final package.',
     href: '/contact',
+    icon: Compass,
   },
 ];
 
@@ -47,32 +69,33 @@ const processSteps = [
     step: '01',
     title: 'Conversation first',
     description: 'We start with your reason for travelling, dates, group size, comfort level and what feels unclear.',
+    icon: Users,
   },
   {
     step: '02',
     title: 'Route made simple',
     description: 'We translate timing, permits, transport, altitude, hotels and trade-offs into a plan you can understand.',
+    icon: Route,
   },
   {
     step: '03',
     title: 'Support that stays close',
     description: 'Before and during the journey, the focus is fewer surprises, realistic preparation and dependable communication.',
+    icon: Shield,
   },
 ];
 
 const principles = [
-  'No pressure before booking',
-  'Route clarity over generic packages',
-  'Kathmandu-based accountability',
-  'Realistic planning for pilgrimage and Himalayan travel',
+  { text: 'No pressure before booking', icon: Compass },
+  { text: 'Route clarity over generic packages', icon: Route },
+  { text: 'Kathmandu-based accountability', icon: MapPin },
+  { text: 'Realistic planning for pilgrimage and Himalayan travel', icon: Shield },
 ];
 
-const BrandMark = () => (
-  <div className="flex items-center gap-1.5" aria-hidden="true">
-    <span className="h-3 w-3 rotate-45 bg-primary" />
-    <span className="h-5 w-px bg-gray-300" />
-    <span className="h-3 w-3 rotate-45 bg-secondary" />
-  </div>
+const SectionIcon = ({ className = '' }: { className?: string }) => (
+  <span className={`inline-flex h-9 w-9 items-center justify-center border border-gray-200 bg-white text-primary ${className}`} aria-hidden="true">
+    <Route className="h-4 w-4" />
+  </span>
 );
 
 const About: React.FC = () => {
@@ -113,7 +136,7 @@ const About: React.FC = () => {
           >
             <div>
               <div className="flex items-center gap-3">
-                <BrandMark />
+                <SectionIcon />
                 <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em]">Who we are</span>
               </div>
               <p className="mt-5 max-w-sm text-sm leading-7 text-gray-500">
@@ -152,7 +175,7 @@ const About: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent" />
               <div className="absolute left-5 top-5 flex items-center gap-2 bg-white/90 px-4 py-3 backdrop-blur-sm">
-                <BrandMark />
+                <Route className="h-4 w-4 text-primary" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-700">Kathmandu route desk</span>
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
@@ -170,33 +193,36 @@ const About: React.FC = () => {
                   Less guessing before you book.
                 </h3>
                 <p className="mt-4 text-sm leading-7 text-gray-600">
-                  Most travellers arrive with questions: route, cost logic, permits, altitude, timing, hotels, transport and support. This section now turns those concerns into a clearer promise.
+                  Most travellers arrive with questions: route, cost logic, permits, altitude, timing, hotels, transport and support. This section turns those concerns into a clearer promise.
                 </p>
 
                 <div className="mt-6 flex flex-wrap gap-2">
-                  {routeChips.map((item, index) => (
-                    <span
-                      key={item}
-                      className="inline-flex items-center border border-gray-200 bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-700"
-                    >
-                      <span className={`mr-2 inline-block h-1.5 w-1.5 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
-                      {item}
-                    </span>
-                  ))}
+                  {routeChips.map((item, index) => {
+                    const Icon = item.icon;
+                    return (
+                      <span
+                        key={item.label}
+                        className="inline-flex items-center border border-gray-200 bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-700"
+                      >
+                        <Icon className={`mr-2 h-3.5 w-3.5 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
+                        {item.label}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
 
               <div className="grid gap-px border-t border-gray-200 bg-gray-200 sm:grid-cols-2">
-                {proofStats.map((stat, index) => (
-                  <div key={stat.label} className="bg-white p-5 transition-colors hover:bg-gray-50">
-                    <div className="flex items-center justify-between">
-                      <span className={`h-2.5 w-2.5 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
-                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-300">0{index + 1}</span>
+                {proofStats.map((stat) => {
+                  const Icon = stat.icon;
+                  return (
+                    <div key={stat.label} className="bg-white p-5 transition-colors hover:bg-gray-50">
+                      <Icon className={`h-5 w-5 ${stat.tone === 'primary' ? 'text-primary' : 'text-secondary'}`} />
+                      <div className="mt-5 text-3xl font-bold text-gray-950">{stat.value}</div>
+                      <div className="mt-2 text-xs uppercase tracking-[0.16em] text-gray-500">{stat.label}</div>
                     </div>
-                    <div className="mt-5 text-3xl font-bold text-gray-950">{stat.value}</div>
-                    <div className="mt-2 text-xs uppercase tracking-[0.16em] text-gray-500">{stat.label}</div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </motion.div>
@@ -241,33 +267,35 @@ const About: React.FC = () => {
             </div>
 
             <div className="border-y border-gray-200">
-              {journeyLanes.map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: index * 0.05 }}
-                >
-                  <Link
-                    href={item.href}
-                    className="group grid gap-5 border-b border-gray-200 px-1 py-7 last:border-b-0 transition-colors hover:bg-gray-50 md:grid-cols-[90px_0.38fr_1fr_auto] md:items-start md:px-5"
+              {journeyLanes.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.45, delay: index * 0.05 }}
                   >
-                    <span className="flex items-center gap-3 text-xs font-bold tracking-wider text-gray-400">
-                      <span className={`h-2.5 w-2.5 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
-                      0{index + 1}
-                    </span>
-                    <div>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400">{item.label}</span>
-                      <h3 className="mt-2 font-serif text-2xl font-bold text-gray-950 group-hover:text-primary transition-colors">
-                        {item.title}
-                      </h3>
-                    </div>
-                    <p className="text-sm leading-6 text-gray-600">{item.description}</p>
-                    <ArrowRight className="h-4 w-4 text-gray-300 transition-all group-hover:translate-x-1 group-hover:text-primary" />
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={item.href}
+                      className="group grid gap-5 border-b border-gray-200 px-1 py-7 last:border-b-0 transition-colors hover:bg-gray-50 md:grid-cols-[72px_0.38fr_1fr_auto] md:items-start md:px-5"
+                    >
+                      <span className="inline-flex h-11 w-11 items-center justify-center border border-gray-200 bg-white transition-colors group-hover:border-primary/30">
+                        <Icon className={`h-5 w-5 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
+                      </span>
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400">{item.label}</span>
+                        <h3 className="mt-2 font-serif text-2xl font-bold text-gray-950 group-hover:text-primary transition-colors">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <p className="text-sm leading-6 text-gray-600">{item.description}</p>
+                      <ArrowRight className="h-4 w-4 text-gray-300 transition-all group-hover:translate-x-1 group-hover:text-primary" />
+                    </Link>
+                  </motion.div>
+                );
+              })}
 
               <div className="flex flex-col gap-3 border-t border-gray-200 px-1 py-7 sm:flex-row md:px-5">
                 <Link
@@ -299,26 +327,29 @@ const About: React.FC = () => {
             </div>
 
             <div className="relative">
-              <div className="absolute left-3 top-4 bottom-4 hidden w-px bg-gray-200 md:block" />
-              {processSteps.map((step, index) => (
-                <motion.div
-                  key={step.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: index * 0.06 }}
-                  className={`relative grid gap-4 border-b border-gray-200 py-7 transition-colors hover:bg-white/70 md:grid-cols-[96px_0.38fr_1fr] md:items-start md:px-3 ${index === 0 ? 'border-t' : ''}`}
-                >
-                  <span className="flex items-center gap-3 text-xs font-bold tracking-wider text-gray-400">
-                    <span className="relative z-10 flex h-6 w-6 items-center justify-center border border-gray-200 bg-white">
-                      <span className={`h-2 w-2 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
+              <div className="absolute left-5 top-4 bottom-4 hidden w-px bg-gray-200 md:block" />
+              {processSteps.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <motion.div
+                    key={step.title}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.45, delay: index * 0.06 }}
+                    className={`relative grid gap-4 border-b border-gray-200 py-7 transition-colors hover:bg-white/70 md:grid-cols-[96px_0.38fr_1fr] md:items-start md:px-3 ${index === 0 ? 'border-t' : ''}`}
+                  >
+                    <span className="flex items-center gap-3 text-xs font-bold tracking-wider text-gray-400">
+                      <span className="relative z-10 flex h-10 w-10 items-center justify-center border border-gray-200 bg-white">
+                        <Icon className={`h-4 w-4 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
+                      </span>
+                      {step.step}
                     </span>
-                    {step.step}
-                  </span>
-                  <h3 className="text-xl font-serif font-bold text-gray-950">{step.title}</h3>
-                  <p className="text-sm md:text-base leading-7 text-gray-600">{step.description}</p>
-                </motion.div>
-              ))}
+                    <h3 className="text-xl font-serif font-bold text-gray-950">{step.title}</h3>
+                    <p className="text-sm md:text-base leading-7 text-gray-600">{step.description}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -341,8 +372,6 @@ const About: React.FC = () => {
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
-                <span className="absolute bottom-4 left-4 h-2.5 w-2.5 rotate-45 bg-primary" />
-                <span className="absolute bottom-4 left-8 h-2.5 w-2.5 rotate-45 bg-secondary" />
               </div>
 
               <div className="border-l border-gray-200 pl-6 md:pl-10">
@@ -373,19 +402,22 @@ const About: React.FC = () => {
               </h2>
             </div>
             <div className="grid gap-px overflow-hidden border border-gray-200 bg-gray-200 sm:grid-cols-2">
-              {principles.map((value, index) => (
-                <motion.div
-                  key={value}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: index * 0.05 }}
-                  className="bg-white p-6 transition-colors hover:bg-gray-50"
-                >
-                  <span className={`mb-5 block h-2.5 w-2.5 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
-                  <p className="text-base md:text-lg font-medium leading-7 text-gray-800">{value}</p>
-                </motion.div>
-              ))}
+              {principles.map((value, index) => {
+                const Icon = value.icon;
+                return (
+                  <motion.div
+                    key={value.text}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.45, delay: index * 0.05 }}
+                    className="bg-white p-6 transition-colors hover:bg-gray-50"
+                  >
+                    <Icon className={`mb-5 h-5 w-5 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
+                    <p className="text-base md:text-lg font-medium leading-7 text-gray-800">{value.text}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -429,7 +461,6 @@ const About: React.FC = () => {
                         {member.name?.slice(0, 1) || 'Z'}
                       </div>
                     )}
-                    <span className={`absolute bottom-4 left-4 h-2.5 w-2.5 rotate-45 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`} />
                   </div>
                   <div className="border-b border-gray-200 py-5">
                     <h3 className="text-lg font-bold text-gray-950">{member.name}</h3>
