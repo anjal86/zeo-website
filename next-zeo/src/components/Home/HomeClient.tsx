@@ -98,6 +98,24 @@ const packagePaths = [
   },
 ];
 
+const whyFeatures = [
+  {
+    title: "Local planning intelligence",
+    desc: "Routes, timing, weather windows and ground movement handled by people who know Nepal closely.",
+    icon: Mountain,
+  },
+  {
+    title: "Clear support before booking",
+    desc: "Understand permits, transport, altitude, hotel standards and realistic expectations before you commit.",
+    icon: Shield,
+  },
+  {
+    title: "Flexible trip design",
+    desc: "Private, group, pilgrimage, family and premium travel styles shaped around your actual needs.",
+    icon: Target,
+  },
+];
+
 const AnimatedCounter: React.FC<{
   end: number;
   suffix?: string;
@@ -279,60 +297,87 @@ export default function HomeClient({ sliders, featuredDestinations, testimonials
       </motion.section>
 
       <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 1 }}
-        className="py-16 md:py-20 bg-gray-950 relative overflow-hidden"
+        transition={{ duration: 0.8 }}
+        className="py-14 md:py-16 bg-gray-950 relative overflow-hidden border-y border-white/10"
       >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,119,204,0.16),transparent_32%),radial-gradient(circle_at_90%_80%,rgba(255,255,255,0.06),transparent_28%)] pointer-events-none" />
         <div className="container-xl relative z-10">
-          <div className="mb-10">
-            <span className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3 block">
-              02 — Why Zeo
-            </span>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-            <div>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-white mb-6 leading-tight max-w-xl">
-                Born in the <span className="text-primary italic font-light">Mountains</span>
-              </h2>
-              <p className="text-sm md:text-base text-gray-400 mb-8 leading-relaxed max-w-lg">
-                With decades of experience and deep-rooted connections to Nepal&apos;s mountains and culture, we deliver authentic adventures that exceed expectations.
-              </p>
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
+            <div className="flex flex-col justify-between">
+              <div>
+                <span className="text-primary text-xs font-bold uppercase tracking-[0.22em] mb-4 block">
+                  02 — Why Zeo
+                </span>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white leading-[1.05] tracking-tight max-w-2xl">
+                  Local clarity for journeys that cannot afford guesswork.
+                </h2>
+                <p className="mt-5 text-sm md:text-base text-gray-400 leading-relaxed max-w-xl">
+                  We combine Nepal-based ground knowledge with practical planning, so your route, support and expectations are clear before the trip begins.
+                </p>
+              </div>
 
-              <div className="space-y-4 border-t border-gray-800 pt-6">
-                {[
-                  { title: "Local Expertise", desc: "Generations of knowledge and authentic cultural connections.", icon: Mountain },
-                  { title: "Safety First", desc: "Certified guides, 24/7 medical support, and advanced equipment.", icon: Shield },
-                  { title: "Personalized Journeys", desc: "Customized itineraries tailored to your specific dreams.", icon: Target },
-                ].map((feature, idx) => (
-                  <div key={idx} className="flex gap-4 items-start group p-4 -mx-4 hover:bg-white/[0.03] transition-colors duration-300">
-                    <div className="w-10 h-10 bg-white/[0.05] flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-primary/30 group-hover:bg-primary/10 transition-all duration-300">
-                      <feature.icon className="w-4 h-4 text-gray-500 group-hover:text-primary transition-colors duration-300" />
+              <div className="mt-8 grid gap-3">
+                {whyFeatures.map((feature) => {
+                  const Icon = feature.icon;
+                  return (
+                    <div key={feature.title} className="group flex gap-4 border border-white/10 bg-white/[0.035] p-4 transition-all duration-300 hover:border-primary/40 hover:bg-white/[0.055]">
+                      <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center border border-white/10 bg-black/20 transition-colors group-hover:border-primary/40 group-hover:bg-primary/10">
+                        <Icon className="w-4 h-4 text-primary" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white mb-1">{feature.title}</h4>
+                        <p className="text-sm leading-6 text-gray-400">{feature.desc}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-white mb-1">{feature.title}</h4>
-                      <p className="text-gray-500 leading-relaxed text-xs">{feature.desc}</p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              <div className="bg-white/[0.03] p-5 sm:p-6 text-center flex flex-col items-center justify-center border border-white/10 hover:border-primary/20 hover:bg-white/[0.06] transition-all duration-300">
-                <AnimatedCounter end={1500} suffix="+" label="Happy Travelers" duration={3000} dark />
+            <div className="relative overflow-hidden border border-white/10 bg-white/[0.035] p-5 md:p-6 lg:p-8">
+              <Mountain className="absolute -right-8 -top-8 h-44 w-44 text-white/[0.035]" />
+              <div className="relative z-10 flex items-center justify-between gap-4 border-b border-white/10 pb-5">
+                <div>
+                  <span className="text-primary text-[10px] font-bold uppercase tracking-[0.22em]">Proof in numbers</span>
+                  <p className="mt-2 text-sm text-gray-400">Experience, reach and traveller confidence at a glance.</p>
+                </div>
+                <Link
+                  href="/contact"
+                  className="hidden sm:inline-flex items-center border border-white/15 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:border-primary hover:bg-primary"
+                >
+                  Talk to us <ArrowRight className="ml-2 h-3.5 w-3.5" />
+                </Link>
               </div>
-              <div className="bg-primary/10 p-5 sm:p-6 text-center flex flex-col items-center justify-center border border-primary/20 hover:bg-primary/20 transition-all duration-300 group">
-                <div className="text-2xl sm:text-3xl font-bold text-white mb-2 group-hover:scale-110 transition-transform duration-300">14</div>
-                <div className="text-xs uppercase tracking-wider font-semibold text-gray-400 group-hover:text-white/80 transition-colors">Destinations</div>
+
+              <div className="relative z-10 mt-6 grid grid-cols-2 gap-3 md:gap-4">
+                <div className="border border-white/10 bg-black/20 p-5 md:p-6 text-left transition-colors hover:border-primary/30 hover:bg-white/[0.04]">
+                  <AnimatedCounter end={1500} suffix="+" label="Happy travelers" duration={3000} dark />
+                </div>
+                <div className="border border-primary/25 bg-primary/10 p-5 md:p-6 text-left transition-colors hover:bg-primary/15">
+                  <div className="text-2xl sm:text-3xl font-bold text-white mb-1">14</div>
+                  <div className="text-xs uppercase tracking-wider font-semibold text-gray-400">Destinations</div>
+                </div>
+                <div className="border border-white/10 bg-black/20 p-5 md:p-6 text-left transition-colors hover:border-primary/30 hover:bg-white/[0.04]">
+                  <AnimatedCounter end={25} suffix="+" label="Years experience" duration={2500} dark />
+                </div>
+                <div className="border border-white/10 bg-black/20 p-5 md:p-6 text-left transition-colors hover:border-primary/30 hover:bg-white/[0.04]">
+                  <AnimatedCounter end={98} suffix="%" label="Satisfaction rate" duration={2800} dark />
+                </div>
               </div>
-              <div className="bg-white/[0.03] p-5 sm:p-6 text-center flex flex-col items-center justify-center border border-white/10 hover:border-primary/20 hover:bg-white/[0.06] transition-all duration-300">
-                <AnimatedCounter end={25} suffix="+" label="Years Experience" duration={2500} dark />
+
+              <div className="relative z-10 mt-5 border-t border-white/10 pt-5 text-sm leading-6 text-gray-400">
+                <strong className="text-white">Planning promise:</strong> clear route advice, practical support and realistic guidance before you choose a package.
               </div>
-              <div className="bg-white/[0.03] p-5 sm:p-6 text-center flex flex-col items-center justify-center border border-white/10 hover:border-primary/20 hover:bg-white/[0.06] transition-all duration-300">
-                <AnimatedCounter end={98} suffix="%" label="Satisfaction Rate" duration={2800} dark />
-              </div>
+
+              <Link
+                href="/contact"
+                className="mt-5 inline-flex w-full items-center justify-center border border-white/15 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:border-primary hover:bg-primary sm:hidden"
+              >
+                Talk to us <ArrowRight className="ml-2 h-3.5 w-3.5" />
+              </Link>
             </div>
           </div>
         </div>
