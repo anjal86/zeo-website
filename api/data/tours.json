@@ -95,7 +95,8 @@
     "id": 328,
     "created_at": "2026-01-27T09:15:16.983Z",
     "updated_at": "2026-01-27T09:31:38.905Z",
-    "featured": true
+    "featured": true,
+    "listed": true
   },
   {
     "slug": "6-nights-7-days-kathmandu-pokhara-nagarkot",
@@ -215,7 +216,9 @@
     "priceAvailable": false,
     "id": 326,
     "created_at": "2025-12-28T05:41:05.489Z",
-    "updated_at": "2025-12-28T05:41:05.490Z"
+    "updated_at": "2025-12-28T05:41:05.490Z",
+    "listed": true,
+    "featured": false
   },
   {
     "slug": "9-day-ultimate-annapurna-sunrise-trek-ghorepani-poon-hill-beyond",
@@ -325,7 +328,9 @@
     "priceAvailable": false,
     "id": 330,
     "created_at": "2026-01-30T10:32:46.432Z",
-    "updated_at": "2026-01-30T10:41:42.097Z"
+    "updated_at": "2026-01-30T10:41:42.097Z",
+    "listed": true,
+    "featured": false
   },
   {
     "id": 312,
@@ -655,7 +660,9 @@
     "priceAvailable": false,
     "id": 322,
     "created_at": "2025-12-23T04:55:48.883Z",
-    "updated_at": "2025-12-23T04:56:57.296Z"
+    "updated_at": "2025-12-23T04:56:57.296Z",
+    "listed": true,
+    "featured": false
   },
   {
     "id": 201,
@@ -1399,7 +1406,9 @@
     "priceAvailable": false,
     "id": 321,
     "created_at": "2025-12-22T11:42:11.960Z",
-    "updated_at": "2025-12-22T11:44:34.185Z"
+    "updated_at": "2025-12-22T11:44:34.185Z",
+    "listed": true,
+    "featured": false
   },
   {
     "slug": "ghandruk-tour-4n-5d",
@@ -1498,7 +1507,9 @@
     "priceAvailable": false,
     "id": 323,
     "created_at": "2025-12-24T09:22:24.840Z",
-    "updated_at": "2025-12-24T09:23:05.703Z"
+    "updated_at": "2025-12-24T09:23:05.703Z",
+    "listed": true,
+    "featured": false
   },
   {
     "id": 306,
@@ -1734,7 +1745,8 @@
     "created_at": "2025-12-18T14:19:26.720Z",
     "updated_at": "2025-12-28T12:02:58.263Z",
     "listed": true,
-    "priceAvailable": false
+    "priceAvailable": false,
+    "featured": false
   },
   {
     "id": 13,
@@ -2096,7 +2108,8 @@
     "primary_destination_id": 9,
     "hasDiscount": true,
     "discountPercentage": 6,
-    "listed": true
+    "listed": true,
+    "featured": false
   },
   {
     "id": 11,
@@ -2526,7 +2539,8 @@
     "created_at": "2025-12-18T13:55:08.946Z",
     "updated_at": "2025-12-28T12:02:33.859Z",
     "listed": true,
-    "priceAvailable": false
+    "priceAvailable": false,
+    "featured": false
   },
   {
     "slug": "kailash-yatra-inner-kora-detailed",
@@ -2738,7 +2752,9 @@
     "priceAvailable": false,
     "id": 317,
     "created_at": "2025-12-18T20:23:38.706Z",
-    "updated_at": "2025-12-19T10:41:47.274Z"
+    "updated_at": "2025-12-19T10:41:47.274Z",
+    "listed": true,
+    "featured": false
   },
   {
     "id": 7,
@@ -3007,7 +3023,9 @@
     "priceAvailable": false,
     "id": 325,
     "created_at": "2025-12-28T05:30:56.715Z",
-    "updated_at": "2025-12-28T05:30:56.715Z"
+    "updated_at": "2025-12-28T05:30:56.715Z",
+    "listed": true,
+    "featured": false
   },
   {
     "slug": "langtang-gosaikunda-lake-trek-7-days-sacred-himalayan-journey",
@@ -3124,7 +3142,9 @@
     "id": 331,
     "created_at": "2026-02-01T10:58:08.365Z",
     "updated_at": "2026-02-01T11:03:03.460Z",
-    "priceAvailable": false
+    "priceAvailable": false,
+    "listed": true,
+    "featured": false
   },
   {
     "id": 309,
@@ -3529,7 +3549,9 @@
     "priceAvailable": false,
     "id": 324,
     "created_at": "2025-12-24T09:49:19.594Z",
-    "updated_at": "2025-12-24T09:49:19.594Z"
+    "updated_at": "2025-12-24T09:49:19.594Z",
+    "listed": true,
+    "featured": false
   },
   {
     "slug": "nepal-tour-4nights-5days-",
@@ -3602,7 +3624,9 @@
     "priceAvailable": false,
     "id": 327,
     "created_at": "2025-12-28T05:46:09.048Z",
-    "updated_at": "2025-12-28T05:46:09.048Z"
+    "updated_at": "2025-12-28T05:46:09.048Z",
+    "listed": true,
+    "featured": false
   },
   {
     "slug": "thailand-escape-bangkok-temples-pattaya-beaches-",
@@ -3707,7 +3731,8 @@
     "featured": true,
     "id": 319,
     "created_at": "2025-12-22T04:43:39.004Z",
-    "updated_at": "2025-12-22T04:48:48.716Z"
+    "updated_at": "2025-12-22T04:48:48.716Z",
+    "listed": true
   },
   {
     "slug": "thailand-island-city-experience-8-days-of-wonder",
@@ -3839,7 +3864,9 @@
     "priceAvailable": false,
     "id": 320,
     "created_at": "2025-12-22T09:05:20.254Z",
-    "updated_at": "2025-12-22T11:17:18.419Z"
+    "updated_at": "2025-12-22T11:17:18.419Z",
+    "listed": true,
+    "featured": false
   },
   {
     "slug": "ultimate-10-day-east-asia-combo-thailand-malaysia-singapore-expedition",
@@ -3972,6 +3999,8 @@
     "priceAvailable": false,
     "id": 329,
     "created_at": "2026-01-27T10:33:51.479Z",
-    "updated_at": "2026-01-27T10:33:51.479Z"
+    "updated_at": "2026-01-27T10:33:51.479Z",
+    "listed": true,
+    "featured": false
   }
 ]

@@ -154,5 +154,6 @@
   "primary_destination_id": 9,
   "hasDiscount": true,
   "discountPercentage": 6,
-  "featured": true
+  "featured": true,
+  "listed": true
 }
