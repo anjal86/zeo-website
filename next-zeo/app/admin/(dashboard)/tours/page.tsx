@@ -14,17 +14,13 @@ import {
 } from 'lucide-react';
 import DeleteModal from '@/components/UI/DeleteModal';
 import Toggle from '@/components/UI/Toggle';
+import { adminFetch } from '@/lib/adminFetch';
 import { useDeleteModal } from '@/hooks/useDeleteModal';
 import { toursApi, type Tour } from '@/services/api';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
 
 // API base URL helper function
-const getApiBaseUrl = (): string => {
-  if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return `${window.location.protocol}//${window.location.host}/api`;
-  }
-  return '/api';
-};
+const api = '/api';
 
 const TourManager: React.FC = () => {
   const router = useRouter();
@@ -73,7 +69,8 @@ const TourManager: React.FC = () => {
         ...(regionFilter && { region: regionFilter })
       });
 
-      const response = await fetch(`${getApiBaseUrl()}/admin/tours?${params}`, {
+      const response = await fetch(`/api/admin/tours?${params}`, {
+        credentials: 'include',
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
           'Content-Type': 'application/json'
@@ -84,13 +81,12 @@ const TourManager: React.FC = () => {
         throw new Error('Failed to fetch tours');
       }
 
-      const data = await response.json();
-
-      if (data.tours && data.pagination) {
-        setTours(data.tours);
-        setTotalItems(data.pagination.totalItems);
+      const result = await response.json();
+      if (result.tours && result.pagination) {
+        setTours(result.tours);
+        setTotalItems(result.pagination.totalItems);
       } else {
-        const toursArray = Array.isArray(data) ? data : (data.tours || []);
+        const toursArray = Array.isArray(result) ? result : (result.tours || []);
         setTours(toursArray);
         setTotalItems(toursArray.length);
       }
@@ -108,7 +104,7 @@ const TourManager: React.FC = () => {
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
-        const response = await fetch(`${getApiBaseUrl()}/destinations?includeUnlisted=true`);
+        const response = await fetch(`/api/destinations?includeUnlisted=true`);
         if (response.ok) {
           const data = await response.json();
           const uniqueLocations = [...new Set(data.map((dest: any) => dest.name || dest.title).filter(Boolean))] as string[];
@@ -129,7 +125,7 @@ const TourManager: React.FC = () => {
   }, []);
 
   const deleteTour = async (tour: Tour) => {
-    const response = await fetch(`${getApiBaseUrl()}/admin/tours/${tour.id}`, {
+    const response = await fetch(`${api}/admin/tours/${tour.id}`, {
       method: 'DELETE',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -147,7 +143,7 @@ const TourManager: React.FC = () => {
   const handleExportSingleTour = async (tour: Tour) => {
     try {
       setExportingId(tour.id);
-      const response = await fetch(`${getApiBaseUrl()}/admin/tours/${tour.id}/export`, {
+      const response = await fetch(`${api}/admin/tours/${tour.id}/export`, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
         },
