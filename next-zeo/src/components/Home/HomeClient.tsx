@@ -56,53 +56,45 @@ const planningSteps = [
 
 const packagePaths = [
   {
-    label: "Kailash Mansarovar Yatra 2026",
+    label: "Kailash Yatra",
     href: "/kailash-mansarovar",
-    desc: "Overland, helicopter and aerial darshan options from Kathmandu.",
-    tag: "Core Pilgrimage",
-    bestFor: "Devotional groups & families",
+    desc: "Kailash Mansarovar Yatra planning with route, permit, transport and support clarity from Kathmandu.",
+    tag: "Signature Yatra",
+    bestFor: "Pilgrimage & devotion",
     icon: Mountain,
     featured: true,
   },
   {
-    label: "Muktinath tour package",
-    href: "/destinations/mustang-region",
-    desc: "A sacred Mustang journey with flight and road options.",
-    tag: "Pilgrimage",
-    bestFor: "Short sacred travel",
+    label: "Nepal Tours",
+    href: "/tours",
+    desc: "Culture, pilgrimage, trekking, wildlife and family-friendly journeys across Nepal.",
+    tag: "Nepal",
+    bestFor: "Nepal-focused travellers",
     icon: MapPin,
   },
   {
-    label: "Nepal tour packages",
-    href: "/tours",
-    desc: "Culture, wildlife, pilgrimage and soft adventure in one place.",
-    tag: "All Packages",
-    bestFor: "First-time Nepal visitors",
+    label: "International Tours",
+    href: "/destinations",
+    desc: "Cross-border and overseas travel planning for travellers starting from Nepal.",
+    tag: "International",
+    bestFor: "Beyond Nepal",
     icon: Target,
   },
   {
-    label: "Kathmandu sightseeing tour",
-    href: "/destinations/kathmandu",
-    desc: "UNESCO temples, heritage squares and guided cultural day tours.",
-    tag: "Heritage",
-    bestFor: "City & culture days",
-    icon: MapPin,
-  },
-  {
-    label: "Everest region tour",
-    href: "/destinations/everest-region",
-    desc: "Everest Base Camp, Namche, Tengboche and helicopter options.",
-    tag: "Himalaya",
-    bestFor: "Mountain lovers",
-    icon: Mountain,
-  },
-  {
-    label: "Nepal helicopter tours",
-    href: "/activities/helicopter-tours",
-    desc: "Everest, Muktinath, Annapurna and Kailash aerial darshan planning.",
-    tag: "Aerial Darshan",
-    bestFor: "Time-saving premium trips",
+    label: "Activities",
+    href: "/activities",
+    desc: "Helicopter tours, sightseeing, trekking, aerial darshan and add-on experiences.",
+    tag: "Experiences",
+    bestFor: "Short add-ons",
     icon: Clock3,
+  },
+  {
+    label: "Custom / Private Trips",
+    href: "/contact",
+    desc: "Share your dates, group size and travel purpose — we will shape the right route for you.",
+    tag: "Tailor-made",
+    bestFor: "Unsure travellers",
+    icon: MessageCircle,
   },
 ];
 
@@ -206,21 +198,21 @@ export default function HomeClient({ sliders, featuredDestinations, testimonials
           <div className="mb-10 grid gap-6 xl:grid-cols-[0.9fr_1.1fr] xl:items-end">
             <div>
               <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em] mb-3 block">
-                Choose by travel intent
+                Choose by travel style
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-950 max-w-2xl leading-[1.05] tracking-tight">
-                Find the journey that fits your purpose.
+                Start with the type of trip you need.
               </h2>
             </div>
             <div className="xl:max-w-xl xl:justify-self-end">
               <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                Sacred yatra, family pilgrimage, city culture, mountain adventure or aerial darshan — start from the reason you are travelling, then choose the route.
+                From Kailash Yatra to Nepal tours, international planning, activities and private trips — choose the closest path, then we help refine the details.
               </p>
             </div>
           </div>
 
           <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
-            {packagePaths.map((item, index) => {
+            {packagePaths.map((item) => {
               const Icon = item.icon;
               const featured = Boolean(item.featured);
               return (
@@ -276,10 +268,10 @@ export default function HomeClient({ sliders, featuredDestinations, testimonials
               <span><strong className="text-gray-950">24/7</strong> Support</span>
             </div>
             <Link
-              href="/contact"
+              href="/tours"
               className="inline-flex items-center justify-center border border-gray-300 bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-gray-950 transition-colors hover:border-gray-950 hover:bg-gray-950 hover:text-white"
             >
-              Not sure? Custom plan <ArrowRight className="ml-3 w-3.5 h-3.5" />
+              Browse all tours <ArrowRight className="ml-3 w-3.5 h-3.5" />
             </Link>
           </div>
         </div>
