@@ -73,7 +73,7 @@ const Blog: React.FC = () => {
   }
 
   return (
-    <section id="blog" className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden border-t border-gray-100">
+    <section id="blog" className="py-14 md:py-16 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden border-t border-gray-100">
       <div className="absolute top-12 right-0 w-96 h-96 bg-primary/5 blur-3xl" />
       <div className="absolute bottom-20 left-0 w-96 h-96 bg-secondary/5 blur-3xl" />
 
@@ -83,15 +83,15 @@ const Blog: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end"
+          className="mb-8 grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-end"
         >
           <div>
             <div className="inline-flex items-center mb-3 text-secondary text-xs font-bold uppercase tracking-[0.22em]">
               <BookOpen className="w-4 h-4 mr-2" />
-              <span>Travel guides</span>
+              <span>Latest guides</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-950 leading-[1.05] tracking-tight max-w-2xl">
-              Plan better with practical travel insights.
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-950 leading-tight max-w-2xl">
+              Featured travel reading
             </h2>
           </div>
           <div className="lg:max-w-xl lg:justify-self-end">
