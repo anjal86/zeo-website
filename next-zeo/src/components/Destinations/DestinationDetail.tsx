@@ -88,12 +88,12 @@ const destinationSeoContent: Record<string, {
 };
 
 const DestinationDetail: React.FC = () => {
-  const { destinationName } = useParams<{ destinationName: string }>();
-  
+  const { slug: destinationName } = useParams<{ slug: string }>();
+
   // Fetch destination data from regular destinations API (not content destinations)
   const { data: destinations } = useDestinations();
   const { data: allTours } = useTours();
-  
+
 
   const normalizedDestinationName = destinationName?.toLowerCase();
   const destinationAliases: Record<string, string> = {
@@ -107,13 +107,13 @@ const DestinationDetail: React.FC = () => {
   const destination = destinations?.find(dest => {
     const destName = dest.name.toLowerCase();
     const paramName = lookupDestinationName;
-    
+
     return destName === paramName ||
-           dest.href === `/destinations/${destinationName}` ||
-           destName.includes(paramName || '') ||
-           (paramName && destName.replace(/\s+/g, '-') === paramName);
+      dest.href === `/destinations/${destinationName}` ||
+      destName.includes(paramName || '') ||
+      (paramName && destName.replace(/\s+/g, '-') === paramName);
   });
-  
+
   const finalDestination = isNepal ? {
     id: 9999,
     name: 'Nepal',
@@ -134,14 +134,14 @@ const DestinationDetail: React.FC = () => {
   // Get tours that are specifically assigned to this destination through relationships
   const relationshipTours = allTours?.filter(tour => {
     if (!finalDestination) return false;
-    
+
     // Only show listed tours (not unlisted ones)
     if (tour.listed === false) return false;
-    
+
     if (isNepal) {
       const primaryDest = destinations?.find(d => d.id === tour.primary_destination_id);
       const isNepalDest = primaryDest?.country?.toLowerCase() === 'nepal' || primaryDest?.type?.toLowerCase() === 'nepal';
-      
+
       const hasNepalSecondary = tour.secondary_destination_ids?.some(id => {
         const d = destinations?.find(dest => dest.id === id);
         return d?.country?.toLowerCase() === 'nepal' || d?.type?.toLowerCase() === 'nepal';
@@ -151,13 +151,13 @@ const DestinationDetail: React.FC = () => {
 
       return isNepalDest || hasNepalSecondary || locationMatch;
     }
-    
+
     // Check if this destination is the primary destination for the tour
     const isPrimaryDestination = (tour as any).primary_destination_id === finalDestination.id;
-    
+
     // Check if this destination is in the secondary destinations for the tour
     const isSecondaryDestination = (tour as any).secondary_destination_ids?.includes(finalDestination.id);
-    
+
     // Return tours that have this destination as primary or secondary
     return isPrimaryDestination || isSecondaryDestination;
   }) || [];
@@ -166,29 +166,29 @@ const DestinationDetail: React.FC = () => {
   const fallbackTours = allTours?.filter(tour => {
     if (isNepal) return false;
     if (!tour.location || !destinationName) return false;
-    
+
     // Only show listed tours (not unlisted ones)
     if (tour.listed === false) return false;
-    
+
     const tourLocation = tour.location.toLowerCase();
     const destName = lookupDestinationName || destinationName.toLowerCase();
     const destTitle = (finalDestination?.name || '').toLowerCase();
-    
+
     // Match by various location patterns
     return tourLocation.includes(destName) ||
-           tourLocation.includes(destTitle) ||
-           (destName === 'annapurna' && (tourLocation.includes('annapurna') || tourLocation.includes('abc'))) ||
-           (destName === 'everest' && (tourLocation.includes('everest') || tourLocation.includes('ebc'))) ||
-           (destName === 'langtang' && tourLocation.includes('langtang')) ||
-           (destName === 'chitwan' && tourLocation.includes('chitwan')) ||
-           (destName === 'pokhara' && tourLocation.includes('pokhara')) ||
-           (destName === 'kathmandu' && tourLocation.includes('kathmandu')) ||
-           (destName === 'manaslu' && tourLocation.includes('manaslu'));
+      tourLocation.includes(destTitle) ||
+      (destName === 'annapurna' && (tourLocation.includes('annapurna') || tourLocation.includes('abc'))) ||
+      (destName === 'everest' && (tourLocation.includes('everest') || tourLocation.includes('ebc'))) ||
+      (destName === 'langtang' && tourLocation.includes('langtang')) ||
+      (destName === 'chitwan' && tourLocation.includes('chitwan')) ||
+      (destName === 'pokhara' && tourLocation.includes('pokhara')) ||
+      (destName === 'kathmandu' && tourLocation.includes('kathmandu')) ||
+      (destName === 'manaslu' && tourLocation.includes('manaslu'));
   }) || [];
 
   // Combine both relationship-based and location-based tours, removing duplicates
   const allRelatedTours = [...relationshipTours];
-  
+
   // Add fallback tours that aren't already in the relationship tours
   fallbackTours.forEach(fallbackTour => {
     if (!allRelatedTours.find(tour => tour.id === fallbackTour.id)) {
@@ -315,7 +315,7 @@ const DestinationDetail: React.FC = () => {
               Discover our carefully curated tours and experiences in this amazing destination
             </p>
           </div>
-          
+
           {finalTours.length > 0 ? (
             <motion.div
               initial={{ opacity: 0 }}

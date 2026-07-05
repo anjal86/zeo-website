@@ -199,12 +199,16 @@ const TourCard: React.FC<TourCardProps> = ({
       <div className="relative h-64 overflow-hidden flex-shrink-0">
         <div className={`absolute inset-0 bg-gray-200 animate-pulse ${imageLoaded ? 'hidden' : 'block'}`} />
         <img
-          src={tour.image}
+          src={tour.image || 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070'}
           alt={`${tour.title} - ${tour.location || 'Nepal tour'}`}
           loading="lazy"
           className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}
           onLoad={() => setImageLoaded(true)}
+          onError={(e) => {
+            const img = e.target as HTMLImageElement;
+            img.src = 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070';
+          }}
         />
 
         {/* Enhanced gradient overlay */}
