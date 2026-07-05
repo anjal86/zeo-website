@@ -46,7 +46,7 @@ const FeaturedDestinations: React.FC<Props> = ({ featuredDestinations }) => {
   };
 
   return (
-    <section className="py-14 sm:py-18 md:py-24 bg-gray-50 border-t border-gray-100">
+    <section className="py-14 sm:py-16 md:py-24 bg-gray-50 border-t border-gray-100">
       <div className="container-xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
