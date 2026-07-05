@@ -6,6 +6,21 @@ import { Calendar, User, ArrowRight, BookOpen, Clock, CheckCircle, AlertCircle }
 import Link from 'next/link';
 import { useApi } from '../../hooks/useApi';
 
+const formatDate = (value?: string) => {
+  if (!value) return 'Recently updated';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat('en', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(date);
+};
+
+const postHref = (post: any) => `/blog/${post.slug || post.id}`;
+const postDate = (post: any) => formatDate(post.published_at || post.date || post.created_at);
+const postReadTime = (post: any) => post.readTime || post.read_time || '5 min read';
+
 const Blog: React.FC = () => {
   const { data: posts, loading } = useApi<any[]>('/api/posts');
   const [email, setEmail] = useState('');
@@ -38,200 +53,201 @@ const Blog: React.FC = () => {
   };
 
   if (loading || !posts) {
-    return null; // Or a loading skeleton
+    return null;
   }
 
-  // Sort slightly by date later if needed, but API usually returns insertion order. 
-  // Assuming backend returns newest last, or we can reverse.
-  // For now simple display.
-  const featuredPosts = posts.filter(p => p.featured).slice(0, 1);
-  const recentPosts = posts.filter(p => !p.featured).slice(0, 3); // Top 3 recent
+  const sortedPosts = [...posts].sort((a, b) => {
+    const dateA = new Date(a.published_at || a.date || a.created_at || 0).getTime();
+    const dateB = new Date(b.published_at || b.date || b.created_at || 0).getTime();
+    return dateB - dateA;
+  });
+
+  const featuredPost = sortedPosts.find(post => post.featured || post.is_featured) || sortedPosts[0];
+  const recentPosts = sortedPosts
+    .filter(post => post.id !== featuredPost?.id)
+    .slice(0, 4);
+  const articleCount = sortedPosts.length;
+
+  if (!featuredPost) {
+    return null;
+  }
 
   return (
-    <section id="blog" className="py-20 bg-gray-50 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+    <section id="blog" className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden border-t border-gray-100">
+      <div className="absolute top-12 right-0 w-96 h-96 bg-primary/5 blur-3xl" />
+      <div className="absolute bottom-20 left-0 w-96 h-96 bg-secondary/5 blur-3xl" />
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
+      <div className="container-xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end"
         >
-          <div className="inline-flex items-center justify-center mb-4 text-secondary text-xs font-bold uppercase tracking-[0.2em]">
-            <BookOpen className="w-5 h-5 mr-2" />
-            <span>Travel Inspirations</span>
+          <div>
+            <div className="inline-flex items-center mb-3 text-secondary text-xs font-bold uppercase tracking-[0.22em]">
+              <BookOpen className="w-4 h-4 mr-2" />
+              <span>Travel guides</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-950 leading-[1.05] tracking-tight max-w-2xl">
+              Plan better with practical travel insights.
+            </h2>
           </div>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-4">
-            Stories & <span className="text-gradient">Insights</span>
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Dive into travel guides, tips, and inspiring stories from the mountains to help you plan your perfect adventure
-          </p>
+          <div className="lg:max-w-xl lg:justify-self-end">
+            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+              Trekking guides, pilgrimage preparation, Nepal travel tips and seasonal advice — written to help you choose with more confidence.
+            </p>
+          </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Featured Post */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch">
+          <motion.article
+            initial={{ opacity: 0, x: -32 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-2"
+            className="group relative overflow-hidden border border-gray-200 bg-gray-950 shadow-xl shadow-gray-900/10 min-h-[430px]"
           >
-            {featuredPosts.map(post => (
-              <motion.article
-                key={post.id}
-                whileHover={{ scale: 1.02 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
-              >
-                <div className="relative h-96 overflow-hidden">
-                  <img
-                    src={post.image || undefined}
-                    alt={post.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+            <Link href={postHref(featuredPost)} className="absolute inset-0 z-20" aria-label={`Read ${featuredPost.title}`} />
+            <img
+              src={featuredPost.image || undefined}
+              alt={featuredPost.title}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/55 to-gray-950/10" />
+            <div className="relative z-10 flex min-h-[430px] flex-col justify-between p-6 md:p-8 text-white">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-wider text-white">
+                  Featured guide
+                </span>
+                <span className="bg-white/15 backdrop-blur-sm px-3 py-2 text-xs font-bold uppercase tracking-wider text-white">
+                  {featuredPost.category || 'Travel guide'}
+                </span>
+              </div>
 
-                  {/* Featured Badge */}
-                  <div className="absolute top-6 left-6">
-                    <span className="bg-gradient-to-r from-secondary to-secondary-light text-white px-4 py-2 rounded-full text-sm font-semibold">
-                      Featured Article
-                    </span>
-                  </div>
-
-                  {/* Content Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                    <div className="flex items-center space-x-4 mb-4">
-                      <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm">
-                        {post.category}
-                      </span>
-                      <span className="flex items-center text-sm">
-                        <Clock className="w-4 h-4 mr-1" />
-                        {post.readTime}
-                      </span>
-                    </div>
-                    <h3 className="text-3xl font-serif font-bold mb-3">
-                      {post.title}
-                    </h3>
-                    <p className="text-white/90 mb-4 line-clamp-2">
-                      {post.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <span className="flex items-center text-sm">
-                          <User className="w-4 h-4 mr-1" />
-                          {post.author}
-                        </span>
-                        <span className="flex items-center text-sm">
-                          <Calendar className="w-4 h-4 mr-1" />
-                          {post.date}
-                        </span>
-                      </div>
-                      <motion.button
-                        whileHover={{ x: 5 }}
-                        className="flex items-center text-white font-semibold group/btn"
-                      >
-                        Read More
-                        <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover/btn:translate-x-1" />
-                      </motion.button>
-                    </div>
-                  </div>
+              <div>
+                <div className="mb-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/75">
+                  <span className="flex items-center gap-1.5">
+                    <User className="w-4 h-4" />
+                    {featuredPost.author || 'Zeo Tourism'}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-4 h-4" />
+                    {postDate(featuredPost)}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="w-4 h-4" />
+                    {postReadTime(featuredPost)}
+                  </span>
                 </div>
-              </motion.article>
-            ))}
-          </motion.div>
+                <h3 className="max-w-3xl text-3xl md:text-4xl font-serif font-bold leading-tight">
+                  {featuredPost.title}
+                </h3>
+                <p className="mt-4 max-w-2xl text-sm md:text-base leading-7 text-white/82 line-clamp-2">
+                  {featuredPost.excerpt}
+                </p>
+                <div className="mt-6 inline-flex items-center text-sm font-bold uppercase tracking-wider text-white">
+                  Read article
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
+            </div>
+          </motion.article>
 
-          {/* Recent Posts */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 32 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="space-y-6"
+            className="border border-gray-200 bg-white shadow-sm"
           >
-            <h3 className="text-2xl font-serif font-bold text-gray-900 mb-6">
-              Recent Articles
-            </h3>
-            {recentPosts.map((post, index) => (
-              <motion.article
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ x: 10 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group"
-              >
-                <div className="flex">
-                  <div className="w-1/3 relative overflow-hidden">
+            <div className="flex items-center justify-between border-b border-gray-100 p-5 md:p-6">
+              <div>
+                <h3 className="text-2xl font-serif font-bold text-gray-950">Recent articles</h3>
+                <p className="mt-1 text-sm text-gray-500">{articleCount} published travel guides</p>
+              </div>
+              <Link href="/blog" className="hidden sm:inline-flex items-center text-xs font-bold uppercase tracking-wider text-primary hover:text-primary-dark">
+                View all <ArrowRight className="ml-2 h-3.5 w-3.5" />
+              </Link>
+            </div>
+
+            <div className="divide-y divide-gray-100">
+              {recentPosts.length > 0 ? recentPosts.map((post, index) => (
+                <Link
+                  key={post.id}
+                  href={postHref(post)}
+                  className="group grid grid-cols-[96px_1fr] gap-4 p-5 transition-colors hover:bg-gray-50 md:grid-cols-[112px_1fr]"
+                >
+                  <div className="relative h-24 overflow-hidden bg-gray-100">
                     <img
                       src={post.image || undefined}
                       alt={post.title}
                       loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
-                  <div className="flex-1 p-4">
-                    <span className="text-xs text-primary font-semibold">
-                      {post.category}
-                    </span>
-                    <h4 className="text-lg font-semibold text-gray-900 mt-1 mb-2 line-clamp-2">
+                  <div className="min-w-0">
+                    <div className="mb-2 flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-secondary">
+                      <span>{post.category || 'Guide'}</span>
+                      <span className="text-gray-300">•</span>
+                      <span className="text-gray-400">{postReadTime(post)}</span>
+                    </div>
+                    <h4 className="text-base md:text-lg font-bold text-gray-950 line-clamp-2 group-hover:text-primary transition-colors">
                       {post.title}
                     </h4>
-                    <div className="flex items-center text-xs text-gray-500 space-x-3">
-                      <span className="flex items-center">
-                        <User className="w-3 h-3 mr-1" />
-                        {post.author}
-                      </span>
-                      <span className="flex items-center">
-                        <Clock className="w-3 h-3 mr-1" />
-                        {post.readTime}
+                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
+                      <span>{postDate(post)}</span>
+                      <span className="inline-flex items-center font-bold text-gray-900 group-hover:text-primary">
+                        Read <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
                       </span>
                     </div>
                   </div>
+                </Link>
+              )) : (
+                <div className="p-6 text-sm leading-6 text-gray-500">
+                  More travel articles are being prepared. Start with the featured guide, or contact us for route-specific advice.
                 </div>
-              </motion.article>
-            ))}
+              )}
+            </div>
 
-            {/* View All Button */}
-            <Link
-              href="/blog"
-              className="block w-full text-center bg-gradient-to-r from-primary to-primary-light text-white py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300"
-            >
-              View All Articles
-            </Link>
+            <div className="border-t border-gray-100 p-5 md:p-6">
+              <Link
+                href="/contact"
+                className="flex items-center justify-between border border-gray-200 bg-gray-50 px-5 py-4 text-sm font-bold text-gray-950 transition-colors hover:border-primary hover:bg-white hover:text-primary"
+              >
+                Need help choosing a route?
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </motion.div>
         </div>
 
-        {/* Newsletter Subscription */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-20 bg-gradient-to-r from-primary to-primary-light rounded-2xl p-12 text-white text-center"
+          className="mt-12 border border-primary/15 bg-primary text-white p-6 md:p-8"
         >
-          <h3 className="text-3xl font-serif font-bold mb-4">
-            Get Travel Inspiration Delivered
-          </h3>
-          <p className="text-lg mb-8 text-white/90 max-w-2xl mx-auto">
-            Subscribe to our newsletter for exclusive travel tips, destination guides, and special offers
-          </p>
-
-          {newsletterStatus === 'success' ? (
-            <div className="max-w-md mx-auto flex items-center justify-center gap-3 bg-white/20 backdrop-blur-sm rounded-full px-8 py-4">
-              <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
-              <span className="font-semibold">{newsletterMsg}</span>
+          <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <h3 className="text-2xl md:text-3xl font-serif font-bold">
+                Get travel inspiration delivered
+              </h3>
+              <p className="mt-2 text-sm md:text-base text-white/85 max-w-2xl">
+                Practical route advice, destination guides and seasonal planning tips — sent occasionally, not constantly.
+              </p>
             </div>
-          ) : (
-            <>
-              <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex gap-4">
+
+            {newsletterStatus === 'success' ? (
+              <div className="flex items-center gap-3 border border-white/20 bg-white/10 px-5 py-4">
+                <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
+                <span className="font-semibold">{newsletterMsg}</span>
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletterSubmit} className="flex w-full gap-3 sm:w-[420px]">
                 <input
                   type="email"
                   value={email}
@@ -239,25 +255,26 @@ const Blog: React.FC = () => {
                   placeholder="Enter your email"
                   required
                   disabled={newsletterStatus === 'loading'}
-                  className="flex-1 px-6 py-3 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:bg-white/30 transition-all duration-300 disabled:opacity-50"
+                  className="min-w-0 flex-1 border border-white/25 bg-white/15 px-4 py-3 text-sm text-white placeholder-white/70 outline-none transition-all duration-300 focus:bg-white/20 disabled:opacity-50"
                 />
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: newsletterStatus === 'loading' ? 1 : 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: newsletterStatus === 'loading' ? 1 : 1.03 }}
+                  whileTap={{ scale: 0.98 }}
                   disabled={newsletterStatus === 'loading'}
-                  className="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="bg-white px-5 py-3 text-sm font-bold text-primary transition-all duration-300 hover:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {newsletterStatus === 'loading' ? 'Subscribing…' : 'Subscribe'}
+                  {newsletterStatus === 'loading' ? 'Sending…' : 'Subscribe'}
                 </motion.button>
               </form>
-              {newsletterStatus === 'error' && (
-                <div className="max-w-md mx-auto mt-3 flex items-center gap-2 text-white/90 text-sm justify-center">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                  <span>{newsletterMsg}</span>
-                </div>
-              )}
-            </>
+            )}
+          </div>
+
+          {newsletterStatus === 'error' && (
+            <div className="mt-3 flex items-center gap-2 text-white/90 text-sm">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <span>{newsletterMsg}</span>
+            </div>
           )}
         </motion.div>
       </div>
