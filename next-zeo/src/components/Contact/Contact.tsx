@@ -140,7 +140,7 @@ const Contact: React.FC = () => {
   ];
 
   return (
-    <section id="contact" className="bg-gradient-to-b from-white to-gray-50 py-14 md:py-18 border-t border-gray-100">
+    <section id="contact" className="bg-gradient-to-b from-white to-gray-50 py-14 md:py-20 border-t border-gray-100">
       <div className="container-xl">
         <div className="mb-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
