@@ -1,0 +1,121 @@
+{
+  "id": 322,
+  "slug": "discover-chinas-spirit-in-beijing-shanghai",
+  "title": "Discover China’s Spirit in Beijing & Shanghai",
+  "category": "",
+  "description": "Discover the dynamic spirit of China with an unforgettable journey through Beijing, Shanghai, and Chengdu. From Beijing’s majestic imperial landmarks and rich cultural heritage to Shanghai’s dazzling skyline and modern cosmopolitan energy, and finally to Chengdu’s laid-back charm and world-famous giant pandas, this tour blends history, innovation, and natural beauty. Experience the essence of China— past, present, and future—across three of its most captivating cities.",
+  "location": "",
+  "price": 0,
+  "duration": "6 days",
+  "group_size": "2-8",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "",
+  "featured": false,
+  "listed": true,
+  "image": "/uploads/tours/discover-chinas-spirit-in-beijing-shanghai/tour_1766465732623.jpg",
+  "gallery": [
+    "/uploads/tours/discover-chinas-spirit-in-beijing-shanghai/tour_1766465741121.jpg",
+    "/uploads/tours/discover-chinas-spirit-in-beijing-shanghai/tour_1766465741239.webp",
+    "/uploads/tours/discover-chinas-spirit-in-beijing-shanghai/tour_1766465741407.avif"
+  ],
+  "highlights": [
+    "Explore historic Beijing: Tiananmen Square, Forbidden City & Temple of Heaven",
+    "Walk on the Great Wall of China at Juyong Pass",
+    "Photo stop at the Bird’s Nest Stadium",
+    "Travel by high-speed bullet train to Shanghai",
+    "Discover Shanghai’s top sights: Jade Buddha Temple, Yu Garden, The Bund",
+    "Enjoy shopping & nightlife at Xintiandi and Nanjing Road"
+  ],
+  "inclusions": [
+    "Accommodation in well-appointed hotels on a twin/double sharing basis",
+    "Daily breakfast at hotels as mentioned in the itinerary",
+    "Airport transfers on arrival and departure in Beijing and Shanghai",
+    "All inter-city transfers and sightseeing by comfortable air-conditioned vehicle",
+    "High-speed bullet train ticket from Beijing to Shanghai (standard class)",
+    "Guided city tours in Beijing and Shanghai as per itinerary",
+    "Shopping visit to local markets and Yu Garden Bazaar",
+    "Professional English-speaking local guide during sightseeing tours",
+    "All applicable local taxes and service charges",
+    "Round trip International airfare ",
+    "China visa fees"
+  ],
+  "exclusions": [
+    "Travel insurance (strongly recommended)",
+    "Lunches and dinners unless specifically mentioned",
+    "Personal expenses such as laundry, telephone calls, minibar, tips, porterage, etc.",
+    "Optional tours and activities not mentioned in the itinerary",
+    "Camera/video fees at monuments (if applicable)",
+    "Early check-in or late check-out at hotels (subject to availability)",
+    "Any increase in taxes, fuel surcharge, or train fare after booking confirmation",
+    "Expenses due to unforeseen circumstances such as flight delays, natural disasters, strikes, or government restrictions",
+    "Anything not clearly mentioned under the “Tour Inclusions” section"
+  ],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Beijing Airport | Transfer to Hotel",
+      "description": "Upon arrival at Beijing Airport, you will be warmly welcomed and transferred to hotel. After check-in, enjoy some leisure time to rest or explore the nearby surrounding area at your own pace.",
+      "accommodation": "3-Star Hotel",
+      "meals": "N/A"
+    },
+    {
+      "day": 2,
+      "title": "Beijing City Tour (Tiananmen Square, Forbidden City, Temple of Heaven)",
+      "description": "After breakfast, start with a visit to Tiananmen Square, the heart of Beijing and one of the largest public squares in the world. From there, walk into the grand Forbidden City (Palace Museum), the spectacular imperial palace that was home to China’s emperors for over 500 years. Later, visit the Temple of Heaven, a masterpiece of Ming and Qing architecture where emperors once performed solemn rituals to pray for good harvests, offering a tranquil contrast to the bustling city.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 3,
+      "title": "Great wall of China | Outside View of bird nest",
+      "description": "After breakfast, set out to visit one of the world’s greatest wonders; the Great Wall at Juyong Pass. Stroll along the ancient ramparts, capture stunning photos, and admire the breathtaking mountain scenery. On your return journey, make a brief stop for an outside view of the Bird’s Nest (Beijing National Stadium), the architectural marvel of the 2008 Olympics. In the afternoon, browse a local market to enjoy some shopping and local interactions.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 4,
+      "title": "Beijing to Shanghai by High-speed Bullet Train",
+      "description": "After breakfast, check out and transfer to the station to board a high-speed bullet train to Beijing, offering a scenic and comfortable ride through the Chinese countryside. Upon arrival in Beijing, transfer to your hotel. Spend the rest of the day at leisure, settling in and preparing for your exploration of the Capital.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 5,
+      "title": "Shanghai Highlights (Jade Buddha Temple, Yu Market, The Bund, Xintiandi, Nanjing Road) ",
+      "description": "After breakfast, begin your Shanghai city tour with a visit to the peaceful Jade Buddha Temple, famous for its exquisite jade Buddha statues. Continue to the Yu Garden Bazaar, a lively marketplace surrounded by traditional architecture where you can shop for souvenirs and local snacks. Later, stroll along The Bund, Shanghai’s iconic waterfront, renowned for its colonial-era buildings and spectacular skyline views across the Huangpu River. In the evening, explore. Xintiandi, a stylish district blending old Shikumen houses with trendy restaurants and boutiques. Finally, enjoy a walk down the bustling Nanjing Road, Shanghai’s premier shopping avenue, before returning to your hotel.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 6,
+      "title": "Departure",
+      "description": "After breakfast you will be transfer to Airport according to your flight time.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2025-12-23T04:55:48.883Z",
+  "updated_at": "2025-12-23T04:56:57.296Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    10,
+    5,
+    9
+  ],
+  "related_destinations": [
+    "China"
+  ],
+  "related_activities": [
+    "Luxury Experiences",
+    "Cultural Tours",
+    "City Tours"
+  ],
+  "priceAvailable": true
+}

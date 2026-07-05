@@ -1,0 +1,82 @@
+{
+  "id": 327,
+  "slug": "nepal-tour-4nights-5days-",
+  "title": "Nepal Tour 4Nights 5Days ",
+  "category": "",
+  "description": "Discover the cultural heart and scenic beauty of Nepal with this Kathmandu & Nagarkot Tour. Explore Kathmandu’s UNESCO World Heritage Sites, ancient temples, and vibrant local markets that reflect the city’s rich history and spiritual traditions. From sacred shrines to historic palace squares, Kathmandu offers a fascinating blend of culture and heritage.\nEscape to Nagarkot, a peaceful hill station renowned for its breathtaking sunrise and panoramic Himalayan views. Surrounded by lush hills and fresh mountain air, Nagarkot is the perfect retreat for relaxation and photography, offering unforgettable vistas of snow-capped peaks in a serene natural setting.",
+  "location": "",
+  "price": 0,
+  "duration": "5 days",
+  "group_size": "2-8 people",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "",
+  "featured": false,
+  "listed": true,
+  "image": "/uploads/tours/nepal-tour-4nights-5days-/tour_1766900758861.jpg",
+  "gallery": [],
+  "highlights": [],
+  "inclusions": [],
+  "exclusions": [],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrive in Kathmandu",
+      "description": "Arrive at Tribhuvan International Airport and transfer to your hotel. In the evening, visit the famous Pashupatinath temple to attend the beautiful evening aarti on the banks of the Bagmati River. Overnight stay in Kathmandu.",
+      "accommodation": "3-Star Hotel",
+      "meals": "N/A"
+    },
+    {
+      "day": 2,
+      "title": "Kathmandu-Drive to Bhaktapur-Doleshwar-Saga",
+      "description": "After breakfast, drive to Bhaktapur, Known for its medieval charm and Bhaktapur Durbar Square. Continue to Doleshwar Temple, a historic Shiva temple, and then to Sanga, home to Kailashnath Mahadev Statue, one of the tallest Shiva statues in the world. Return to Kathmandu in the evening. Overnight stay in Kathmandu.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 3,
+      "title": "Kathmandu Half day Sightseeing-Drive to Nagarkot",
+      "description": "After breakfast, enjoy half day sightseeing in Kathmandu, visit Swoyambhunath (Monkey Temple), Kathmandu Durbar Square (Living God Kumari). Drive to Nagarkot, a hills station famous for panoramic views of the Himalayans. Enjoy the evening watching the sunset over the mountains. Overnight stay in Nagarkot.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 4,
+      "title": "Nagarkot Explore -Drive back to Kathmandu",
+      "description": "Wake up early to witness the spectacular sunrise over the Himalayas. After breakfast, explore the surrounding of the Nagarkot with short walks or nature trails. Later in the day, drive to Kathmandu. Overnight stay in Kathmandu.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 5,
+      "title": "Kathmandu departure Transfer",
+      "description": "After breakfast, check out and transfer to Tribhuvan International Airport for your departure flight.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2025-12-28T05:46:09.048Z",
+  "updated_at": "2025-12-28T05:46:09.048Z",
+  "secondary_destination_ids": [
+    34
+  ],
+  "activity_ids": [
+    5,
+    9
+  ],
+  "related_destinations": [
+    "Kathmandu",
+    "Nagarkot"
+  ],
+  "related_activities": [
+    "Cultural Tours",
+    "City Tours"
+  ],
+  "priceAvailable": true
+}

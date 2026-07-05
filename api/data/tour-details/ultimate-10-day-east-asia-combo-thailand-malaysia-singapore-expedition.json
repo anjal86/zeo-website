@@ -1,0 +1,142 @@
+{
+  "id": 329,
+  "slug": "ultimate-10-day-east-asia-combo-thailand-malaysia-singapore-expedition",
+  "title": "Ultimate 10-Day East Asia Combo: Thailand, Malaysia & Singapore Expedition",
+  "category": "",
+  "description": "Experience the best of East Asia in one seamless 9-night, 10-day journey. This curated combo package takes you through the dazzling highlights of Thailand, Malaysia, and Singapore, combining modern cityscapes with tropical island escapes. \n\nYour adventure begins in Thailand, where you'll explore the vibrant streets of Bangkok and the sun-drenched beaches of Pattaya. Enjoy a high-speed excursion to Coral Island for water sports and paragliding before diving into Bangkok’s rich history with a tour of its famous Wats (temples). \n\nNext, fly to Singapore, the \"Heart of Asia.\" Discover the iconic Merlion Park, take a cable car to Sentosa Island, and witness the spectacular Wings of Time show. \n\nThe journey concludes in Malaysia, featuring the ultra-modern Petronas Twin Towers in Kuala Lumpur and the breezy heights of Genting Highlands. Experience the cultural depth of the Batu Caves and the ancient Indo-Moorish architecture of the capital city.",
+  "location": "",
+  "price": 0,
+  "duration": "10 days",
+  "group_size": "10",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "January, February, March, November, December",
+  "featured": false,
+  "listed": true,
+  "image": "",
+  "gallery": [
+    "/uploads/tours/ultimate-10-day-east-asia-combo-thailand-malaysia-singapore-expedition/tour_1769509785722.jpg",
+    "/uploads/tours/ultimate-10-day-east-asia-combo-thailand-malaysia-singapore-expedition/tour_1769509912008.jpg",
+    "/uploads/tours/ultimate-10-day-east-asia-combo-thailand-malaysia-singapore-expedition/tour_1769509961354.jpg",
+    "/uploads/tours/ultimate-10-day-east-asia-combo-thailand-malaysia-singapore-expedition/tour_1769510026278.jpg"
+  ],
+  "highlights": [
+    "Thailand: Coral Island speed boat tour, Bangkok city & temple exploration",
+    "Singapore: Sentosa Island, Madame Tussauds, and Marina Bay sights",
+    "Malaysia: Genting Highland cable car ride and Kuala Lumpur landmarks",
+    "Comfort: Stay in handpicked 3-star accommodations throughout the trip"
+  ],
+  "inclusions": [
+    "Flights: Roundtrip airfare is included in this package",
+    "Accommodations: 9 nights of 3-star hotel stays: 2 nights in Bangkok, 2 nights in Pattaya, 2 nights in Singapore, and 3 nights in Kuala Lumpur",
+    "Thailand Sightseeing: Temple and City tour of Bangkok and a full excursion to Coral Island",
+    "Singapore Sightseeing: Comprehensive Singapore city tour and Sentosa Island package including a 1-way cable car ride, Madame Tussauds, Wings of Time, and Images of Singapore",
+    "Malaysia Sightseeing: Kuala Lumpur city tour and a visit to Genting Highlands",
+    "Guide Services: A professional English-speaking guide to escort you throughout the trip",
+    "Transfers: All scheduled tours and ground transfers are covered",
+    "Meals: Meals are provided as specifically mentioned in the daily itinerary",
+    "Visas & Taxes: Includes Singapore visa on arrival, Thailand and Malaysia visa fees, plus government taxes and service charges"
+  ],
+  "exclusions": [
+    "Personal Expenses: Any items of a personal nature such as laundry, shopping, tips, and telephone bills",
+    "Additional Meals: Any meals or food items not explicitly listed in the \"includes\" section",
+    "Unscheduled Transfers: Any personal transfers or charges incurred due to halting",
+    "Surcharges: Potential hotel surcharges during special events, exhibitions, or holiday dates",
+    "Unspecified Items: Any other item or activity not mentioned under the 'Package Includes' heading"
+  ],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival Bangkok – Transfer to Pattaya",
+      "description": "Arrive at Bangkok Airport\n\nDrive to Pattaya (approx. 2 hours)\n\nFree time on arrival",
+      "accommodation": "3 star Hotel",
+      "meals": ""
+    },
+    {
+      "day": 2,
+      "title": "Coral Island Tour",
+      "description": "Half-day Coral Island excursion\n\nWater sports & paragliding (optional)\n\nEvening at leisure in Pattaya",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast & Lunch"
+    },
+    {
+      "day": 3,
+      "title": "Pattaya – Bangkok City & Temple Tour",
+      "description": "Transfer from Pattaya to Bangkok\n\nBangkok city & temple tour (Wat Po, Wat Traimit)\n\nFree time for shopping",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 4,
+      "title": "Bangkok – Free Day",
+      "description": "Day at leisure for shopping or optional tours",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 5,
+      "title": "Bangkok – Singapore",
+      "description": "Transfer to airport & fly to Singapore\n\n\nFree time at Orchard Road",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 6,
+      "title": "Singapore City Tour & Sentosa Island",
+      "description": "Singapore city tour (Merlion Park, Marina Bay, Civic District)\n\nSentosa Island tour with attractions & cable car ride",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 7,
+      "title": "Singapore – Kuala Lumpur (By Coach)",
+      "description": "Coach transfer from Singapore to Kuala Lumpur",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 8,
+      "title": "Kuala Lumpur City Tour",
+      "description": "Half-day KL city tour\n\nVisit Petronas Twin Towers, King’s Palace, National Mosque, Independence Square, Batu Caves (view)",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 9,
+      "title": "Genting Highlands Tour",
+      "description": "Full-day Genting Highlands excursion\n\nCable car ride & Batu Caves visit",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 10,
+      "title": "Departure",
+      "description": "Transfer to Kuala Lumpur Airport\n\nFly back home",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2026-01-27T10:33:51.479Z",
+  "updated_at": "2026-01-27T10:33:51.479Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    5,
+    9,
+    18
+  ],
+  "related_destinations": [
+    "Thailand"
+  ],
+  "related_activities": [
+    "Cultural Tours",
+    "City Tours",
+    "Water Activities"
+  ],
+  "priceAvailable": true
+}

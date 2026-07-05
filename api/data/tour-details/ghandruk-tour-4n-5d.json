@@ -1,0 +1,108 @@
+{
+  "id": 323,
+  "slug": "ghandruk-tour-4n-5d",
+  "title": "Ghandruk Tour 4N 5D",
+  "category": "",
+  "description": "This 5-day Pokhara and Ghandruk tour offers a perfect mix of scenic flights, Himalayan trekking, cultural village life, and spiritual sightseeing. Enjoy the beauty of Phewa Lake in Pokhara, trek through charming mountain villages to Ghandruk with stunning Annapurna views, and explore Nepal’s iconic heritage sites in Kathmandu, including Swayambhunath and Pashupatinath. Ideal for a short yet enriching Himalayan experience.",
+  "location": "",
+  "price": 0,
+  "duration": "5 days",
+  "group_size": "2-8",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "",
+  "featured": false,
+  "listed": true,
+  "image": "/uploads/tours/ghandruk-tour-4n-5d/tour_1766568139456.jpg",
+  "gallery": [
+    "/uploads/tours/ghandruk-tour-4n-5d/tour_1766568100815.jpg",
+    "/uploads/tours/ghandruk-tour-4n-5d/tour_1766568101032.jpg",
+    "/uploads/tours/ghandruk-tour-4n-5d/tour_1766568101288.jpg"
+  ],
+  "highlights": [
+    "Scenic domestic flights between Kathmandu and Pokhara",
+    "Peaceful boating experience on Phewa Lake",
+    "Short and rewarding trek to the beautiful Gurung village of Ghandruk",
+    "Panoramic views of Annapurna South and Machhapuchhre (Fishtail)",
+    "Authentic village life and cultural experience in Ghandruk",
+    "Sunrise views over the Himalayan range",
+    "Sightseeing in Pokhara and Kathmandu UNESCO heritage sites",
+    "Evening aarti at the sacred Pashupatinath Temple"
+  ],
+  "inclusions": [
+    "Airport pick-up and drop-off as per itinerary",
+    "Kathmandu–Pokhara–Kathmandu domestic flights",
+    "All ground transportation",
+    "Hotel accommodation",
+    "Breakfast during the tour",
+    "Experienced trekking guide",
+    "Pokhara sightseeing as mentioned in the itinerary",
+    "Government taxes and service charges",
+    "Teahouse/lodge accommodation in Ghandruk"
+  ],
+  "exclusions": [
+    "International airfare and Nepal visa fees",
+    "Personal expenses (drinks, laundry, tips, phone calls, etc.)",
+    "Entry fees to monuments and sightseeing sites",
+    "Porter service (available on request)",
+    "Any expenses not mentioned under inclusions"
+  ],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival at Airport & Fly to Pokhara",
+      "description": "Journey begins rights at Kathmandu Tribhuvan International Airport, where our representative will assist you. Take a domestic flight from Kathmandu to Pokhara (25-30 minutes). Once you arrive at Pokhara airport you will be taken to comfortable Hotel. In evening enjoy Phewa Lake views. (one hour boat ride). Return to hotel. Overnight at Pokhara Hotel.",
+      "accommodation": "3-Star Hotel ",
+      "meals": "Dinner"
+    },
+    {
+      "day": 2,
+      "title": "Pokhara – Drive to Nayapul – Trek to Ghandruk",
+      "description": "In the morning, drive about 1.5 hours to Nayapul, then begin a 4-5 hours trek to Ghandruk. The routes passes through beautiful villages like Kimche and Syauli Bazaar. Once in Ghandruk, enjoy views of Annapurna South, Machhapuchhre, and visit the Gurung Museum. Stay overnight in a local teahouse or mountain lodge.",
+      "accommodation": "Lodge",
+      "meals": "Breakfast & Dinner"
+    },
+    {
+      "day": 3,
+      "title": "Ghandruk Exploration Day",
+      "description": "Start your morning with a stunning sunrise view over the snow-covered peaks. Today is a relaxed day in Ghandruk, allowing you to explore at your own pace. Walk through terrace fields, or simply spend time with local to understand rural mountain life. Take a short nature walk to nearby ridges or views point for photography. Return to your teahouse for a warm dinner. Overnight in Ghandruk.",
+      "accommodation": "Lodge   ",
+      "meals": "Breakfast & Dinner"
+    },
+    {
+      "day": 4,
+      "title": "Ghandruk – Trek back to Nayapul – Drive back to Pokhara",
+      "description": "After breakfast, begin your 3-4 hours downhill trek back to Nayapul. The return is easier and offers a chance to revisit the beautiful landscapes in a more relaxed way. Once you reach Nayapul, your vehicle will drive you back to Pokhara. Check-in to your hotel spent your afternoon visiting local attractions like Devi’s Falls, Gupteshwor Mahadev Cave, or world Peace Pagoda. Return back to hotel. Overnight stay in Pokhara.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast & Dinner"
+    },
+    {
+      "day": 5,
+      "title": "Pokhara – Fly back to Kathmandu",
+      "description": "Early morning return back to Kathmandu by flight. Visit Swoyambhunath Stupa (Monkey Temple) and Kathmandu Durbar Square (living God Kumari). Attend Pashupatinath temple for aarti. ",
+      "accommodation": "N/A",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2025-12-24T09:22:24.840Z",
+  "updated_at": "2025-12-24T09:23:05.703Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    5,
+    7
+  ],
+  "related_destinations": [
+    "Gandruk"
+  ],
+  "related_activities": [
+    "Cultural Tours",
+    "Meditation & Healing"
+  ],
+  "priceAvailable": true
+}

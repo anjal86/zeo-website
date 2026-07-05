@@ -1,0 +1,141 @@
+{
+  "id": 320,
+  "slug": "thailand-island-city-experience-8-days-of-wonder",
+  "title": "Thailand Island & City Experience – 8 Days of Wonder",
+  "category": "",
+  "description": "Discover the best of Thailand with a perfectly balanced journey through vibrant cities and tropical islands. Begin in Bangkok, exploring its lively atmosphere and iconic attractions before flying to Phuket, Thailand’s famous beach paradise. Enjoy a full-day Phi Phi Island tour with crystal-clear waters, stunning limestone cliffs, and unforgettable island scenery. Continue to Krabi for an exciting Four Island tour, featuring beautiful beaches and snorkeling spots. Return to Bangkok for a memorable evening dinner cruise and a fun-filled visit to Safari World and Marine Park. This tour offers the ideal mix of relaxation, adventure, and cultural experiences.",
+  "location": "",
+  "price": 0,
+  "duration": "8 days",
+  "group_size": "2-8",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "",
+  "featured": false,
+  "listed": true,
+  "image": "/uploads/tours/thailand-island-city-experience-8-days-of-wonder/tour_1766394317694.jpg",
+  "gallery": [
+    "/uploads/tours/thailand-island-city-experience-8-days-of-wonder/tour_1766394297605.jpg",
+    "/uploads/tours/thailand-island-city-experience-8-days-of-wonder/tour_1766394297712.jpg",
+    "/uploads/tours/thailand-island-city-experience-8-days-of-wonder/tour_1766394298069.avif",
+    "/uploads/tours/thailand-island-city-experience-8-days-of-wonder/tour_1766394298104.webp",
+    "/uploads/tours/thailand-island-city-experience-8-days-of-wonder/tour_1766394298782.webp",
+    "/uploads/tours/thailand-island-city-experience-8-days-of-wonder/tour_1766394299751.jpg"
+  ],
+  "highlights": [
+    "Arrival in vibrant Bangkok, Thailand’s cultural and entertainment hub",
+    "Scenic flight to Phuket, the island paradise of beaches and nightlife",
+    "Full-day Phi Phi Island tour with lunch and crystal-clear waters",
+    "Comfortable transfer from Phuket to Krabi",
+    "Four Island tour in Krabi featuring snorkeling and stunning beaches",
+    "Return to Bangkok with a romantic evening dinner cruise",
+    "Fun and exciting visit to Safari World & Marine Park",
+    "Perfect blend of city life, islands, nature, and family-friendly attractions"
+  ],
+  "inclusions": [
+    "Airport pick-up and drop-off as per itinerary",
+    "Domestic flights: Bangkok–Phuket and Krabi–Bangkok",
+    "Hotel accommodation in Bangkok, Phuket, and Krabi with daily breakfast",
+    "Full-day Phi Phi Island tour with lunch on shared basis",
+    "Full-day Four Island tour in Krabi with lunch on shared basis",
+    "Evening dinner cruise in Bangkok",
+    "Safari World & Marine Park entrance tickets",
+    "All intercity transfers by air-conditioned vehicle",
+    "Services of a professional tour coordinator/driver",
+    "All applicable taxes and service charges",
+    "International Fare",
+    "Thailand Visa fee"
+  ],
+  "exclusions": [
+    "Personal expenses such as laundry, phone calls, minibar, and tips",
+    "Meals and beverages not mentioned in the itinerary",
+    "Optional tours, activities, or water sports not specified in inclusions",
+    "Early check-in and late check-out at hotels (subject to availability)",
+    "Camera or video fees at attractions, if applicable",
+    "Any expenses arising due to flight delays, natural calamities, or unforeseen circumstances",
+    "Anything not specifically mentioned under “Tour Inclusions”"
+  ],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Bangkok",
+      "description": "Arrive at Bangkok International Airport, where our representative will warmly welcome you and assist with your transfer to the hotel. After check-in, take time to relax and recover from your journey. You may explore nearby markets, enjoy Thai street food, or simply unwind at the hotel. Bangkok’s vibrant atmosphere, colorful streets, and friendly locals provide a perfect introduction to Thailand. Overnight stay in Bangkok.",
+      "accommodation": "3-Star Hotel             ",
+      "meals": "N/A"
+    },
+    {
+      "day": 2,
+      "title": "Flight to Phuket | Arrival & Transfer",
+      "description": "After breakfast, transfer to the airport for your domestic flight to Phuket. On arrival, meet our local representative and proceed to your hotel. Check in and enjoy the rest of the day at leisure. You can relax on the beach, explore Patong’s lively streets, or enjoy optional activities. Phuket’s tropical charm sets the mood for an island holiday. Overnight stay in Phuket.",
+      "accommodation": "3-Star Hotel          ",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 3,
+      "title": "Full-Day Phi Phi Island Tour with Lunch.",
+      "description": "Today, enjoy a full-day excursion to the world-famous Phi Phi Islands. Cruise through turquoise waters, admire dramatic limestone cliffs, and visit stunning locations such as Maya Bay and Phi Phi Don. Enjoy swimming, snorkeling, and relaxing on pristine beaches. A delicious lunch is included during the tour. Return to Phuket in the evening with unforgettable island memories.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast & Lunch"
+    },
+    {
+      "day": 4,
+      "title": "Transfer from Phuket to Krabi",
+      "description": "After breakfast, check out from the hotel and proceed towards Krabi by comfortable transfer. Enjoy scenic views along the way as you move from one tropical paradise to another. Upon arrival, check in at your hotel and relax. The remainder of the day is free to explore nearby beaches or enjoy Krabi’s calm and scenic surroundings. Overnight stay in Krabi.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 5,
+      "title": "Full-Day Four Island Tour with Lunch (Krabi)",
+      "description": "Set out for a full-day Four Island tour, visiting some of Krabi’s most beautiful islands including Poda Island, Chicken Island, Tup Island, and Phra Nang Cave Beach. Enjoy snorkeling, swimming, and relaxing on white sandy beaches. A tasty lunch is provided during the tour. Return to your hotel by evening for rest and relaxation.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 6,
+      "title": "Flight to Bangkok | Evening Dinner Cruise",
+      "description": "After breakfast, transfer to the airport for your flight back to Bangkok. Upon arrival, check in to your hotel and relax. In the evening, enjoy a memorable dinner cruise along the river, featuring delicious cuisine, live entertainment, and stunning night views of Bangkok’s illuminated landmarks. Overnight stay in Bangkok.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 7,
+      "title": "Safari World & Marine Park",
+      "description": "After breakfast, proceed for a full-day visit to Safari World and Marine Park. Enjoy close encounters with wildlife, exciting safari drives, and entertaining animal shows. This fun-filled experience is ideal for families and nature lovers. After a day of adventure, return to the hotel for a restful evening. Overnight stay in Bangkok.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 8,
+      "title": "Departure",
+      "description": "After breakfast, check out from the hotel and transfer to the airport for your onward journey. Depart Thailand with beautiful memories of its vibrant cities, breathtaking islands, rich culture, and warm hospitality, bringing an unforgettable holiday experience to a perfect conclusion.",
+      "accommodation": "N/A",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2025-12-22T09:05:20.254Z",
+  "updated_at": "2025-12-22T11:17:18.419Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    9,
+    10,
+    5,
+    18
+  ],
+  "related_destinations": [
+    "Thailand"
+  ],
+  "related_activities": [
+    "City Tours",
+    "Luxury Experiences",
+    "Cultural Tours",
+    "Water Activities"
+  ],
+  "priceAvailable": true
+}

@@ -1,0 +1,117 @@
+{
+  "id": 321,
+  "slug": "experience-the-magic-of-bali",
+  "title": "Experience the Magic of Bali",
+  "category": "",
+  "description": "Bali, the Indonesian paradise is notoriously known for its active volcanos, aqua blue sea, sandy beaches, rice fields, greeneries, artistic temples and warm Balinese people. Bali is the only island in Indonesia with highest Hindu population. It is located at the westernmost end of the Lesser Sunda Islands, with Java to the west and Lombok to the east. Its capital, Denpasar, is located in the southern part of the island.",
+  "location": "",
+  "price": 0,
+  "duration": "5 days",
+  "group_size": "2-8",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "",
+  "featured": false,
+  "listed": true,
+  "image": "/uploads/tours/experience-the-magic-of-bali/tour_1766402809242.jpg",
+  "gallery": [
+    "/uploads/tours/experience-the-magic-of-bali/tour_1766403727867.avif",
+    "/uploads/tours/experience-the-magic-of-bali/tour_1766403727876.webp",
+    "/uploads/tours/experience-the-magic-of-bali/tour_1766403727998.jpg",
+    "/uploads/tours/experience-the-magic-of-bali/tour_1766403728031.jpg"
+  ],
+  "highlights": [
+    "Airport transfers",
+    "Hotel stay",
+    "Denpasar City Tour",
+    "Ubud & Ubud Market",
+    "Celuk Silver Village",
+    "Tanah Lot Temple",
+    "Uluwatu Temple",
+    "Sunset views",
+    "Jimbaran seafood dinner"
+  ],
+  "inclusions": [
+    "Private airport transfers ",
+    "Hotel accommodation",
+    "Guided sightseeing tours as per itinerary",
+    "Visits to Denpasar, Ubud & Celuk Village",
+    "Tanah Lot & Uluwatu Temple experiences with sunsets",
+    "Jimbaran Bay seafood dinner",
+    "Entrance fees, local taxes & on-ground assistance",
+    "International Flight",
+    "Indonesia Visa Fee"
+  ],
+  "exclusions": [
+    "Travel insurance, medical insurance, and personal accident coverage",
+    "Early check-in or late check-out at hotels (subject to availability)",
+    "Personal expenses such as laundry, telephone calls, minibar, spa treatments, room service, and shopping",
+    "Meals and beverages not specifically mentioned in the tour inclusions",
+    "Optional tours, activities, adventure sports, or experiences not listed in the itinerary",
+    "Tips, gratuities, and porterage for drivers, guides, and hotel staff",
+    "Any increase in government taxes, fuel surcharges, or entrance fees imposed after booking",
+    "Expenses arising due to unforeseen circumstances such as flight delays, cancellations, natural calamities, strikes, or political disturbances",
+    "Additional sightseeing or transfers not mentioned in the itinerary",
+    "Any services, items, or costs not expressly mentioned under “Tour Inclusions”"
+  ],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival at the Airport & Free Day",
+      "description": "Upon arrival at Bali Airport, you will be warmly welcomed and transferred to your hotel in a private vehicle. After check-in, take time to relax and unwind after your journey. You may explore nearby streets, enjoy the local ambiance, or simply rest in your comfortable hotel. This day is designed to help you acclimatize and prepare for the exciting Bali experiences ahead. Overnight stay at the hotel.",
+      "accommodation": "3-Star Hotel",
+      "meals": "N/A"
+    },
+    {
+      "day": 2,
+      "title": "Denpasar City Tour & Ubud Exploration",
+      "description": "After breakfast, start with Bajra Sandi Monument, honoring Balinese history. Explore the Bali Museum, home to artefacts, paintings, bronze-age weapons, and musical instruments. Visit Celuk Village, renowned for silver and gold handicrafts, and witness artisans at work. Continue to Ubud, the cultural heart of Bali, and explore Ubud Market, filled with local crafts, textiles, and souvenirs. Return to the hotel for an overnight stay.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 3,
+      "title": "Tanah LotTemple, Uluwatu & Jimbaran Bay with Seafood Dinner",
+      "description": "Uluwatu temple: Built on the top of a cliff about 825 feet high facing the vast deep blue Indian Ocean also offers a wonderful view of the sunset. You will also meet lots of monkeys here. The view of ocean from Uluwatu is just enchanting.\nTanah Lot: A spectacular temple built in the 17th century, on top of rock about 200 meters offshore. The whole compound will turn into a wonderful silhouette as the sunset right behind the temple, one of the most photographed temples on the island - for good reason. The perfect combo of rustling of the waves, the sun and the temple leaves you with positive energy. You can also buy souvenirs here, they have varieties of Balinese crafts, linen and arts.\nJimbaran Bay with Sea Food: In the evening, proceed to Jimbaran Bay for a delightful seafood dinner with a beautiful ocean view. Return to your hotel for an overnight stay.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 4,
+      "title": "Free Day for Leisure & Exploration",
+      "description": "Enjoy a full day at your own pace. Explore Bali’s streets, shops, art galleries, or cafés, or relax on its beautiful beaches. Optional activities include water sports, spa treatments, or cultural performances. Capture memories of Bali’s lush landscapes, rice terraces, and vibrant culture. Return to your hotel for an overnight stay.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 5,
+      "title": "Departure",
+      "description": "After breakfast, check out and transfer to Bali Airport for your departure. Take home unforgettable memories of Bali’s temples, culture, scenic beauty, and warm hospitality, concluding your luxurious island getaway.",
+      "accommodation": "N/A",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2025-12-22T11:42:11.960Z",
+  "updated_at": "2025-12-22T11:44:34.185Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    9,
+    18,
+    10
+  ],
+  "related_destinations": [
+    "Bali"
+  ],
+  "related_activities": [
+    "City Tours",
+    "Water Activities",
+    "Luxury Experiences"
+  ],
+  "priceAvailable": true
+}

@@ -1,0 +1,106 @@
+{
+  "id": 328,
+  "slug": "6-days-vietnam-highlights-tour-da-nang-hoi-an-hanoi-halong-bay",
+  "title": "6 Days Vietnam Highlights Tour – Da Nang, Hoi An, Hanoi & Halong Bay",
+  "category": "",
+  "description": "Experience the best of Vietnam with this 6 Days Vietnam Highlights Tour, covering the country’s most iconic destinations including Da Nang, Ba Na Hills, Hoi An, Hanoi, and Halong Bay. This well-crafted itinerary offers a perfect balance of culture, nature, history, and relaxation.\n\nBegin your journey in Da Nang, exploring stunning coastal landscapes, Marble Mountains, and the famous Golden Bridge at Ba Na Hills. Discover the charm of Hoi An Ancient Town, enjoy a lantern boat ride, and experience local life at the Coconut Village. Fly to Hanoi to explore historical landmarks, bustling old quarters, and vibrant street culture.\n\nThe tour concludes with a scenic Halong Bay day cruise, where you’ll sail through dramatic limestone formations and visit breathtaking caves. Designed for couples, families, and first-time visitors, this Vietnam tour package ensures comfort, guided experiences, and unforgettable memories from start to finish.",
+  "location": "",
+  "price": 0,
+  "duration": "6 days",
+  "group_size": "8-12",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "January, February, March, April, November, December",
+  "featured": true,
+  "listed": true,
+  "image": "/uploads/tours/6-days-vietnam-highlights-tour-da-nang-hoi-an-hanoi-halong-bay/tour_1769505116398.jpg",
+  "gallery": [
+    "/uploads/tours/6-days-vietnam-highlights-tour-da-nang-hoi-an-hanoi-halong-bay/tour_1769505222807.jpg",
+    "/uploads/tours/6-days-vietnam-highlights-tour-da-nang-hoi-an-hanoi-halong-bay/tour_1769505309066.jpg"
+  ],
+  "highlights": [],
+  "inclusions": [
+    "Accommodation in twin/double sharing rooms with daily breakfast",
+    "International & domestic airfare (economy class)",
+    "Private air-conditioned transportation",
+    "English-speaking local guides",
+    "Halong Bay 4-hour private cruise with lunch",
+    "Entrance fees as per itinerary",
+    "E-Visa assistance",
+    "2 bottles of mineral water per person per day"
+  ],
+  "exclusions": [
+    "Tips for guides, drivers & cruise staff",
+    "Travel insurance",
+    "Personal expenses",
+    "Meals not mentioned in itinerary",
+    "Peak season surcharges"
+  ],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Da Nang",
+      "description": "Arrive at Da Nang International Airport and transfer to your hotel. After check-in, enjoy free time at leisure to relax or explore the city on your own. Overnight stay in Da Nang.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 2,
+      "title": "Da Nang – Ba Na Hills & Golden Bridge",
+      "description": "After breakfast, travel to Ba Na Hills and enjoy a scenic cable car ride. Visit the iconic Golden Bridge, flower gardens, pagodas, French Village, and Fantasy Park. Return to Da Nang in the evening for overnight stay.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 3,
+      "title": "Da Nang City Tour – Marble Mountains – Hoi An Ancient Town",
+      "description": "Explore Da Nang’s city highlights including Son Tra Peninsula, Lady Buddha, and My Khe Beach. Continue to Marble Mountains and Coconut Village for a bamboo basket boat experience. In the evening, visit Hoi An Ancient Town and enjoy a lantern boat ride. Overnight stay in Da Nang.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 4,
+      "title": "Da Nang – Flight to Hanoi – City Tour",
+      "description": "After breakfast, fly to Hanoi and check in at the hotel. Visit major attractions including the Ho Chi Minh Complex, One Pillar Pagoda, Hoan Kiem Lake, and the Old Quarter. Enjoy free time in the evening. Overnight stay in Hanoi.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 5,
+      "title": "Hanoi – Halong Bay Day Cruise",
+      "description": "Travel to Halong Bay for a scenic day cruise through limestone islands. Visit caves, enjoy a seafood lunch on board, and admire the natural beauty of this UNESCO World Heritage Site before returning to Hanoi for overnight stay.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 6,
+      "title": "Departure from Hanoi",
+      "description": "After breakfast, check out from the hotel and transfer to the airport for departure. End of the tour.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2026-01-27T09:15:16.983Z",
+  "updated_at": "2026-01-27T09:31:38.905Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    5,
+    18,
+    9
+  ],
+  "related_destinations": [
+    "Vietnam"
+  ],
+  "related_activities": [
+    "Cultural Tours",
+    "Water Activities",
+    "City Tours"
+  ],
+  "priceAvailable": true
+}

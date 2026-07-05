@@ -1,0 +1,117 @@
+{
+  "id": 325,
+  "slug": "kathmandupokharachitwan-tour-package-",
+  "title": "Kathmandu–Pokhara–Chitwan Tour Package ",
+  "category": "",
+  "description": "Discover the best of Nepal on this 5 Nights / 6 Days Kathmandu – Pokhara – Chitwan Tour. Explore Kathmandu’s UNESCO heritage sites, enjoy stunning Himalayan views and lakeside serenity in Pokhara, and experience thrilling jungle safaris and rich Tharu culture in Chitwan. A perfect blend of culture, nature, and adventure, ideal for families, couples, and first-time visitors.",
+  "location": "",
+  "price": 0,
+  "duration": "6 days",
+  "group_size": "2-8",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "",
+  "featured": false,
+  "listed": true,
+  "image": "/uploads/tours/kathmandupokharachitwan-tour-package-/tour_1766899835744.jpg",
+  "gallery": [
+    "/uploads/tours/kathmandupokharachitwan-tour-package-/tour_1766899853187.jpg",
+    "/uploads/tours/kathmandupokharachitwan-tour-package-/tour_1766899853409.jpg",
+    "/uploads/tours/kathmandupokharachitwan-tour-package-/tour_1766899853439.jpg"
+  ],
+  "highlights": [],
+  "inclusions": [
+    "Welcome drink at arrival (Non-alcoholic)",
+    "02 Night’s accommodation at Kathmandu Hotel on MAP Board basis [B/fast & dinner]",
+    "02 Night’s accommodation at Pokhara Hotel on MAP Board basis [B/ fast & Dinner]",
+    "01 Night’s accommodation at Chitwan Hotel on AP Board basis [Breakfast/lunch/ Dinner]",
+    "01 Liter mineral water per day",
+    "Arrival and departure transfer with assistance A/C Vehicle",
+    "All sightseeing and excursion as mentioned in the itinerary",
+    "All transfer & sightseeing by private Air condition Vehicle",
+    "Round trip transportation for Kathmandu – Pokhara – Chitwan – Kathmandu",
+    "Vehicle are not to be disposal and are available as per itinerary only (Point to Point basis)",
+    "All current Nepal Government taxes"
+  ],
+  "exclusions": [
+    "International Airfare",
+    "Insurance fee",
+    "Monuments entrance fees as applicable & Payable fee on the spot",
+    "Manakamana Cable Car tickets",
+    "Boat ride fee on Phewa Lake",
+    "Personal expenses, tipping and any other services which are not mentioned in the above inclusion",
+    "Paragliding / Bungee Jump / Zip- line flyer/ Annapurna Base camp Helicopter Tour/ ultra-light Aircraft / Mountain Flight / River Rafting and Kayaking/ Cycling / Mountain Biking / Golf in Pokhara"
+  ],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrive at Kathmandu",
+      "description": "Upon your arrival at Kathmandu Airport, our representative will be there to welcome you and provide assistance after you’ve completed the customs and immigration formalities. You will then be transferred to your hotel for check-in. In your evening, you’ll attend the spiritual Aarti ceremony at the scared Pashupatinath Temple. Overnight stay will be at your hotel Kathmandu.",
+      "accommodation": "3-Star Hotel",
+      "meals": "N/A"
+    },
+    {
+      "day": 2,
+      "title": "Kathmandu Drive to Pokhara via Manakamana Cable Car 8-9Hrs)",
+      "description": "After breakfast, begin your scenic drive to Pokhara, covering a distance of approximately 219 km. En- route enjoy a visit to the sacred Manakama Temple, accessible via an exciting cable car ride offering beautiful views. After the temple visit, continue your journey to Pokhara. Upon arrival, you’ll be transferred to your hotel for check-in. Overnight stay at your hotel in Pokhara.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 3,
+      "title": "Sunrise with Pumdikot Temple & Pokhara Sightseeing",
+      "description": "Early in the morning, drive to Sarangkot hills to witness a breathtaking sunrise and panoramic views of the Himalayan range (weather permitting). Return to the hotel for breakfast. Later, set out for a full day sightseeing tour of Pokhara, including a visit to the Bindavasini temple (dedicated to Goddess Durga), Devi’s waterfall, Gupteshwor Mahadev Cave, and Seti River Gorge. Enjoy a relaxing one-hour boat ride on the serene Phewa Lake, including a visit to the island temple of Tal Barahi. Overnight stay at your hotel in Pokhara.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 4,
+      "title": "Pokhara – drive to Chitwan (about 160 km 5-6Hrs drive)",
+      "description": "After breakfast, depart for Chitwan and enjoy the scenic drive through the countryside. Upon arrival, check in your hotel, where lunch will be served. In the afternoon, explore a traditional Tharu village to learn about the local culture and way of life. In the evening, witness a beautiful sunset followed by a lively Tharu cultural performance featuring the traditional stick dance. Overnight in Chitwan.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 5,
+      "title": "Chitwan safari drive back to Katmandu",
+      "description": "After breakfast, set out for an exciting Jeep Safari in Chitwan National Park, where you’ll have the chance to spot diverse wildlife in their natural habitat. After the safari, return to the hotel and prepare for your drive to Kathmandu. Upon arrival in Kathmandu, enjoy some free time for shopping at the vibrant Thamel Market at your own pace. Later, check in to your hotel. Overnight stay at your hotel in Kathmandu.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 6,
+      "title": "Kathmandu Sightseeing and departure",
+      "description": "After breakfast sightseeing of Kathmandu Valley including Boudhanath Stupa, Jala Temple (Sleeping Vishnu), Swyambhunath Stupa (Monkey temple) and Kathmandu Durbar Square (Living God Kumari). Then you will be transferred to the Airport in time.",
+      "accommodation": "N/A",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2025-12-28T05:30:56.715Z",
+  "updated_at": "2025-12-28T05:30:56.715Z",
+  "secondary_destination_ids": [
+    5,
+    7
+  ],
+  "activity_ids": [
+    9,
+    4,
+    5
+  ],
+  "related_destinations": [
+    "Kathmandu",
+    "Pokhara",
+    "Chitwan"
+  ],
+  "related_activities": [
+    "City Tours",
+    "Jungle Safari",
+    "Cultural Tours"
+  ],
+  "priceAvailable": true
+}

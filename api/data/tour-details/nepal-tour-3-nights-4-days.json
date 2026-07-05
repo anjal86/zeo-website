@@ -1,0 +1,103 @@
+{
+  "id": 324,
+  "slug": "nepal-tour-3-nights-4-days",
+  "title": "Nepal Tour 3 Nights 4 Days",
+  "category": "",
+  "description": "This 4-day journey offers a serene and enriching exploration of Kathmandu’s spiritual heart and cultural treasures. Beginning with a warm welcome in the capital, the tour sets a devotional tone with an evening aarti at the sacred Pashupatinath Temple. Over the next days, travelers uncover the essence of the Kathmandu Valley through visits to revered UNESCO World Heritage Sites, including Swayambhunath Stupa, Boudhanath Stupa, Kathmandu Durbar Square, and the holy Jal Narayan (Sleeping Vishnu) Temple.\n\nThe experience is enhanced by a scenic cable car ride to Chandragiri Hills, where panoramic valley views and a visit to Baleshwar Mahadev Temple provide moments of peace and reflection. A cultural visit to Patan Durbar Square showcases the artistic brilliance of Newari civilization. Designed for those seeking spirituality, heritage, and gentle exploration, this tour delivers a meaningful and memorable Kathmandu escape.\n",
+  "location": "",
+  "price": 0,
+  "duration": "4 days",
+  "group_size": "2-8",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "",
+  "featured": false,
+  "listed": true,
+  "image": "/uploads/tours/nepal-tour-3-nights-4-days/tour_1766568836156.jpg",
+  "gallery": [
+    "/uploads/tours/nepal-tour-3-nights-4-days/tour_1766569750759.webp",
+    "/uploads/tours/nepal-tour-3-nights-4-days/tour_1766569752500.jpg"
+  ],
+  "highlights": [
+    "Evening aarti at Pashupatinath Temple",
+    "Visit Swayambhunath Stupa (Monkey Temple)",
+    "Explore Boudhanath Stupa (UNESCO World Heritage Site)",
+    "Sightseeing at Kathmandu Durbar Square and Jal Narayan Temple",
+    "Scenic cable car ride to Chandragiri Hills",
+    "Visit Baleshwar Mahadev Temple",
+    "Explore Patan Durbar Square and Krishna Mandir",
+    "Panoramic views of the Kathmandu Valley and Himalayas"
+  ],
+  "inclusions": [
+    "Traditional welcome drink on Arrival (Non-alcoholic)",
+    "Assistant Guide in arrival and departure / Hotel",
+    "03 Night’s accommodation on double sharing basis",
+    "English / Hindi speaking tour guide for sightseeing",
+    "01-liter mineral water per day during trip",
+    "Arrival and departure transfer and sightseeing by A/C Vehicle",
+    "All vehicle parking fees at the attractions.",
+    "Vehicles are not to be at disposal and are available as per itinerary only (point to point basis)",
+    "All current Nepal government taxes."
+  ],
+  "exclusions": [
+    "International airfare and Nepal visa fees",
+    "Travel insurance",
+    "Lunch and dinner (unless mentioned)",
+    "Personal expenses (drinks, laundry, tips, phone calls, souvenirs)",
+    "Entrance fees not mentioned in the itinerary",
+    "Any service or activity not included in the inclusions",
+    "Cable car ride at Chandragiri Hills Ticket",
+    "Monuments entrances fees"
+  ],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrive in Kathmandu",
+      "description": "Upon Arrival in Kathmandu Airport, you Will be greeted and assisted by our representative after completing your custom formalities, transfer to the hotel for check-in. In evening attend Aarti at Pashupatinath temple later drive back to hotel. Overnight at Kathmandu hotel.",
+      "accommodation": "3-Star Hotel",
+      "meals": "N/A"
+    },
+    {
+      "day": 2,
+      "title": "Kathmandu city Sightseeing",
+      "description": "After breakfast Kathmandu City sightseeing tour, visit Swoyambhunath Stupa (World heritage site), Jala Narayan Temple (Sleeping Vishnu), Kathmandu Durbar Square (Living God Kumari) & Boudhanath Stupa (world Heritage site) Later drive back to hotel. Overnight is at Hotel in Kathmandu.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast "
+    },
+    {
+      "day": 3,
+      "title": "Kathmandu – drive to Chandragiri Hills via Cable Car",
+      "description": "After breakfast drive to Chandragiri hill continue take cable car ride (2-3 Hours) darshan of Baleshwar Mahadev Temple afternoon drive to Patan Durbar Square (Krishna Mandir) later drive back to hotel. Overnight is at Hotel in Kathmandu.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 4,
+      "title": "Kathmandu Departure transfer",
+      "description": "After breakfast, the morning will be comparatively free and closer to the time of your flight, you will be transferred to the airport to board your flight for onward journey.",
+      "accommodation": "3-Star Hotel",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2025-12-24T09:49:19.594Z",
+  "updated_at": "2025-12-24T09:49:19.594Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    9,
+    5
+  ],
+  "related_destinations": [
+    "Kathmandu"
+  ],
+  "related_activities": [
+    "City Tours",
+    "Cultural Tours"
+  ],
+  "priceAvailable": true
+}

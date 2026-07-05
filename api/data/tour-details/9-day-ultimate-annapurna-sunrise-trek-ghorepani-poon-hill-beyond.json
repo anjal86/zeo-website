@@ -1,0 +1,119 @@
+{
+  "id": 330,
+  "slug": "9-day-ultimate-annapurna-sunrise-trek-ghorepani-poon-hill-beyond",
+  "title": "9-Day Ultimate Annapurna Sunrise Trek: Ghorepani Poon Hill & Beyond",
+  "category": "",
+  "description": "The Essence of Himalayan Trekking Embark on a transformative journey through the heart of the Annapurna region with our signature nine-day Poon Hill expedition. This carefully curated package is designed for those who wish to \"embrace the journey\" by diving deep into the natural and cultural wonders of Nepal. Surpassing even the most thrilling imaginations, this trek offers a seamless blend of physical adventure and spiritual serenity, ensuring that every traveler experiences the true majesty of the Himalayas with the comfort and elegance that defines our service.\n\nA Spectacle of Light and Peak Views The definitive highlight of this adventure is the pre-dawn ascent to the world-famous Poon Hill viewpoint. Standing at an elevation of 3,210 meters, you will witness a breathtaking 360-degree panorama as the morning sun paints the snow-capped summits of the Dhaulagiri and Annapurna massifs in shades of gold and amber. This iconic sunrise experience fulfills every visitor's dream, offering a front-row seat to some of the highest peaks on Earth, including the uniquely shaped Machhapuchhre, also known as the \"Fishtail\" mountain.\n\nCultural Immersion in the Annapurna Heartland As you traverse the winding trails, you will encounter the inquisitive diversity of the local Gurung and Magar communities. The journey leads you through vibrant rhododendron forests that bloom with color and past ancient stone villages where traditional mountain life remains beautifully preserved. Much like the dynamic energy of our city tours, the trekking trails offer a constant shift in scenery—from lush subtropical lowlands to the crisp, thin air of the high-altitude ridges. Each evening, you will find sanctuary in handpicked teahouses, allowing you to relax and recover from your travel blues while enjoying authentic local hospitality .\n\nSeamless Logistics and Expert Guidance Your safety and satisfaction are our primary objectives, which is why this trek is fully escorted by a professional English-speaking guide who shares the history and secrets of the mountains. We handle all necessary government taxes, service charges, and ground transfers so that you can focus entirely on the trail ahead. This nine-day itinerary is specifically paced to allow for optimal acclimatization, making it an ideal choice for first-time trekkers or families looking for a rewarding Himalayan escape.\n\nImportant Booking Information To begin this incredible journey, please ensure your passport has at least seven months of validity. Consistent with our standard booking policy, a fifty percent down payment is required upon confirmation to secure your space, with the remaining balance due ten days prior to your departure date. Join us to conquer the trails and witness the legendary Annapurna sunrise on a trek that promises to be the highlight of your travel history.",
+  "location": "",
+  "price": 0,
+  "duration": "9 days",
+  "group_size": "",
+  "difficulty": "",
+  "rating": 0,
+  "reviews": 0,
+  "best_time": "March, April, May, September, October, November",
+  "featured": false,
+  "listed": true,
+  "image": "/uploads/tours/9-day-ultimate-annapurna-sunrise-trek-ghorepani-poon-hill-beyond/tour_1769768895114.jpeg",
+  "gallery": [
+    "/uploads/tours/9-day-ultimate-annapurna-sunrise-trek-ghorepani-poon-hill-beyond/tour_1769769698504.jpg"
+  ],
+  "highlights": [
+    "Poon Hill Sunrise: Witness a legendary 360-degree sunrise view over the Dhaulagiri and Annapurna mountain ranges.",
+    "Ghandruk Village: Explore one of Nepal’s most famous Gurung cultural landmarks and traditional stone-built settlements.",
+    "Rhododendron Forests: Trek through vibrant, blooming forests within the world-renowned Annapurna Conservation Area.",
+    "Lakeside Pokhara: Enjoy a peaceful retreat in Nepal’s premier lakeside city before and after your trek.",
+    "Mountain Panorama: Capture stunning up-close views of Machhapuchhre (Fishtail), Annapurna South, and Hiunchuli.",
+    "Teahouse Experience: Stay in handpicked traditional mountain lodges to experience authentic Himalayan hospitality.",
+    "Professional Escort: Led by expert English-speaking guides to ensure maximum safety and local insight."
+  ],
+  "inclusions": [],
+  "exclusions": [],
+  "activities": [],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Arrival in Kathmandu",
+      "description": "Welcome to Nepal’s capital at 1,400m. You will be transferred to your hotel for rest and a trek briefing.",
+      "accommodation": "3 star Hotel",
+      "meals": "N/A"
+    },
+    {
+      "day": 2,
+      "title": "Travel to Pokhara",
+      "description": "Enjoy a scenic 7–9 hour drive to the lakeside city of Pokhara. Spend the evening relaxing by Phewa Lake.",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast "
+    },
+    {
+      "day": 3,
+      "title": "Drive to Birethanti & Trek to Ulleri",
+      "description": "Travel to Birethanti and begin your trek with a 4–5 hour climb to the village of Ulleri (2,020m).",
+      "accommodation": "Guest House ",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 4,
+      "title": "Trek to Ghorepani",
+      "description": "Hike for 5–6 hours through dense rhododendron forests to reach the vibrant mountain village of Ghorepani at 2,810m.",
+      "accommodation": "Guest House ",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 5,
+      "title": "Poon Hill Sunrise & Trek to Tadapani",
+      "description": "Hike to Poon Hill (3,210m) for a 360-degree Himalayan sunrise before trekking 6–7 hours to Tadapani.",
+      "accommodation": "Guest House",
+      "meals": "Breakfast "
+    },
+    {
+      "day": 6,
+      "title": "Trek to Ghandruk Village",
+      "description": "Enjoy a 4–5 hour descent to Ghandruk (1,940m), a major cultural hub of the Gurung community with stunning peak views.",
+      "accommodation": "Guest House ",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 7,
+      "title": "Trek to Nayapul & Return to Pokhara",
+      "description": "Complete your trek with a walk to Syauli Bazaar and a drive back to Pokhara for a well-deserved evening of rest.",
+      "accommodation": "3 star Hotel ",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 8,
+      "title": "Pokhara to Kathmandu",
+      "description": "Travel back to Kathmandu via a scenic 7–9 hour drive and check into your hotel for your final night in Nepal.",
+      "accommodation": "3 star Hotel",
+      "meals": "Breakfast"
+    },
+    {
+      "day": 9,
+      "title": "Final Departure",
+      "description": "Transfer to the International Airport for your flight home, carrying unforgettable memories of the Annapurna range.",
+      "accommodation": "N/A",
+      "meals": "Breakfast"
+    }
+  ],
+  "what_to_bring": "",
+  "fitness_requirements": "",
+  "altitude_profile": null,
+  "booking_info": null,
+  "created_at": "2026-01-30T10:32:46.432Z",
+  "updated_at": "2026-01-30T10:41:42.097Z",
+  "secondary_destination_ids": [],
+  "activity_ids": [
+    2,
+    3,
+    5
+  ],
+  "related_destinations": [
+    "9-Day Ultimate Annapurna Sunrise Trek: Ghorepani Poon Hill & Beyond"
+  ],
+  "related_activities": [
+    "Mountaineering",
+    "Adventure Sports",
+    "Cultural Tours"
+  ],
+  "priceAvailable": true
+}
