@@ -4,10 +4,15 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ["latin"], variable: '--font-outfit' });
+const siteUrl = process.env.APP_URL || "https://www.zeotourism.com";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Zeo Tourism | Nepal Tours, Trekking & Kailash Mansarovar Yatra",
   description: "Your trusted partner for Nepal tours and spiritual journeys since 2000. Discover trekking, tours and Kailash Mansarovar Yatra packages.",
+  alternates: {
+    canonical: "/",
+  },
   robots: process.env.NODE_ENV === "production"
     ? { index: true, follow: true }
     : { index: false, follow: false },
