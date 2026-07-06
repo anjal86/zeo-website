@@ -1,5 +1,5 @@
-import { adminTeamCreate, listTeam } from "@/server/http/mutation-handlers";
-import { adminOnly } from "@/server/http/mutation-handlers";
+import { adminTeamCreateValidated } from "@/server/http/admin-extra-handlers";
+import { listTeam, adminOnly } from "@/server/http/mutation-handlers";
 import { ok } from "@/server/http/api-response";
 
 export async function GET() {
@@ -8,4 +8,4 @@ export async function GET() {
   return ok(await listTeam(true));
 }
 
-export const POST = adminTeamCreate;
+export const POST = adminTeamCreateValidated;
