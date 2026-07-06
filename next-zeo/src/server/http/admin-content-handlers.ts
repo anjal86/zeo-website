@@ -66,8 +66,8 @@ const destinationPayloadSchema = z
     featured: optionalBoolean,
     listed: optionalBoolean,
   })
-  .refine((value) => Boolean(value.name || value.title), { message: "Name or title is required", path: ["name"] })
-  .passthrough();
+  .passthrough()
+  .refine((value) => Boolean(value.name || value.title), { message: "Name or title is required", path: ["name"] });
 
 const activityPayloadSchema = z
   .object({
