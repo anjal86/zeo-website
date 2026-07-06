@@ -457,7 +457,6 @@ const DestinationDetail: React.FC = () => {
                 destination: normalizedSlug,
                 activity: activeStyle !== 'all' ? activeStyle : ''
               }}
-              totalCount={filteredTours.length}
               destinations={destinations || undefined}
             />
           ) : (

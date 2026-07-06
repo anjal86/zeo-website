@@ -59,6 +59,7 @@ export interface Tour {
   featured?: boolean;
   discount?: number;
   location: string;
+  country?: string;
   description: string;
   inclusions: string[];
   best_time: string; // SQLite uses best_time instead of bestTime

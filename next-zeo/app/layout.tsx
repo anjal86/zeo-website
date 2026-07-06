@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 import PublicLayout from "../src/components/Layout/PublicLayout";
+import Script from "next/script";
 
 export default function RootLayout({
   children,
@@ -22,6 +23,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
+      <head>
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-9VP6MKBM6R"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-9VP6MKBM6R');
+            `,
+          }}
+        />
+      </head>
       <body className={`${inter.className} bg-slate-50 text-slate-800 antialiased`}>
         <PublicLayout>
           {children}

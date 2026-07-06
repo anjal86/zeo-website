@@ -7,7 +7,8 @@ import {
   MapPin,
   Clock,
   Users,
-  ArrowRight
+  ArrowRight,
+  Sparkles
 } from 'lucide-react';
 import type { Tour } from '../../services/api';
 import { formatDuration } from '../../utils/formatDuration';
@@ -16,7 +17,7 @@ interface TourCardProps {
   tour: Tour;
   onBookNow?: (tour: Tour) => void;
   onViewDetails?: (tour: Tour) => void;
-  variant?: 'grid' | 'list';
+  variant?: 'grid' | 'editorial';
   destinations?: Array<{ id: number; name: string; country?: string }>;
 }
 
@@ -33,12 +34,10 @@ const TourCard: React.FC<TourCardProps> = ({
     if (onViewDetails) {
       onViewDetails(tour);
     } else {
-      // Default navigation to tour detail page using slug with React Router
       navigate.push(`/tours/${tour.slug}`);
     }
   };
 
-  // Get the primary destination name for this tour
   const getDestinationName = () => {
     if (destinations && (tour as any).primary_destination_id) {
       const primaryDestination = destinations.find(dest => dest.id === (tour as any).primary_destination_id);
@@ -47,245 +46,210 @@ const TourCard: React.FC<TourCardProps> = ({
       }
     }
 
-    // Fallback to the location field if no destination relationship exists
-    return tour.location || 'Location not specified';
+    if (tour.category) return tour.category;
+    if (tour.country) return tour.country;
+
+    return tour.location || 'Custom Route';
   };
 
   const destinationName = getDestinationName();
+  const fallbackImage = 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070';
 
-  // List layout design - horizontal layout
-  if (variant === 'list') {
+  if (variant === 'editorial') {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
         whileHover={{ y: -4 }}
-        className="bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-glow transition-all duration-500 cursor-pointer group w-full"
+        className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md border border-gray-200 transition-all duration-500 cursor-pointer group flex flex-col lg:flex-row w-full h-full"
         onClick={handleViewDetails}
       >
-        <div className="flex flex-col md:flex-row md:items-stretch">
-          {/* Image Container - Left Side */}
-          <div className="relative md:w-80 h-56 md:h-auto overflow-hidden flex-shrink-0">
-            <div className={`absolute inset-0 bg-gray-200 animate-pulse ${imageLoaded ? 'hidden' : 'block'}`} />
-            <img
-              src={tour.image || 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070'}
-              alt={`${tour.title} - ${tour.location || 'Nepal tour'}`}
-              loading="lazy"
-              className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'
-                }`}
-              onLoad={() => setImageLoaded(true)}
-              onError={(e) => {
-                const img = e.target as HTMLImageElement;
-                img.src = 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070';
-              }}
-            />
-            {/* Soft Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+        {/* Editorial Image Container (Left on desktop) */}
+        <div className="relative w-full lg:w-[55%] h-72 lg:h-auto overflow-hidden flex-shrink-0">
+          <div className={`absolute inset-0 bg-gray-100 animate-pulse ${imageLoaded ? 'hidden' : 'block'}`} />
+          <img
+            src={tour.image || fallbackImage}
+            alt={tour.title}
+            loading="lazy"
+            className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoad={() => setImageLoaded(true)}
+            onError={(e) => { (e.target as HTMLImageElement).src = fallbackImage; }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-transparent opacity-60" />
+          
+          {tour.featured && (
+            <div className="absolute top-6 left-6 z-10 flex items-center gap-1.5 bg-orange-500/90 backdrop-blur-md text-white px-4 py-1.5 rounded-full shadow-sm font-semibold text-xs uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5" />
+              Featured Journey
+            </div>
+          )}
 
-            {/* Featured Badge - Minimal Floating */}
-            {tour.featured && (
-              <div className="absolute top-3 left-3 z-10">
-                <div className="bg-white/95 backdrop-blur-sm text-yellow-600 px-3 py-1 rounded-full shadow-sm font-bold text-[10px] uppercase tracking-wider border border-white/50">
-                  Featured
-                </div>
+          {/* Floating Destination on Image */}
+          <div className="absolute bottom-6 left-6 z-10 flex items-center gap-2 text-white font-medium drop-shadow-md">
+            <MapPin className="w-5 h-5 text-primary" />
+            <span className="text-sm uppercase tracking-widest">{destinationName}</span>
+          </div>
+        </div>
+
+        {/* Editorial Content (Right on desktop) */}
+        <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center relative bg-white">
+          <div className="mb-6">
+            <h3 className="font-heading text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-primary transition-colors">
+              {tour.title}
+            </h3>
+            <p className="text-gray-600 text-lg line-clamp-3 leading-relaxed">
+              {tour.description}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-6 mb-10 text-gray-700 font-medium border-y border-gray-100 py-6">
+            <div className="flex items-center gap-2">
+              <Clock className="w-5 h-5 text-primary" />
+              <span>{formatDuration(tour.duration)}</span>
+            </div>
+            {tour.difficulty && (
+              <div className="flex items-center gap-2 capitalize">
+                <span className="w-2 h-2 rounded-full bg-orange-400"></span>
+                <span>{tour.difficulty}</span>
               </div>
             )}
-
-            {/* Other Badges */}
-            <div className="absolute top-0 left-0 w-full p-4 flex justify-end items-start pointer-events-none">
-              {/* Right: Discount Badge */}
-              <div>
-                {(tour.hasDiscount && tour.discountPercentage) || tour.discount ? (
-                  <div className="bg-red-500 text-white min-w-[45px] h-[45px] flex items-center justify-center rounded-full shadow-xl border-2 border-white/20 transform rotate-12 hover:rotate-0 transition-transform duration-300">
-                    <div className="text-center leading-none">
-                      <span className="block text-xs font-bold">{tour.discountPercentage || tour.discount}%</span>
-                      <span className="block text-[8px] uppercase font-medium">OFF</span>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
+            <div className="flex items-center gap-2">
+              <Users className="w-5 h-5 text-primary" />
+              <span>{tour.group_size}</span>
             </div>
           </div>
 
-          {/* Content Area - Right Side */}
-          <div className="flex-1 p-6 md:p-8 flex flex-col justify-between">
-            <div>
-              <div className="flex justify-between items-start mb-2">
-                <div className="flex items-center text-primary font-medium text-sm tracking-wide uppercase">
-                  <MapPin className="w-4 h-4 mr-1.5" />
-                  {destinationName}
-                </div>
-                <div className="flex items-center space-x-4 text-gray-500 text-sm">
-                  <div className="flex items-center">
-                    <Clock className="w-4 h-4 mr-1.5" />
-                    {formatDuration(tour.duration)}
-                  </div>
-                  <div className="flex items-center">
-                    <Users className="w-4 h-4 mr-1.5" />
-                    {tour.group_size}
-                  </div>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="font-heading text-2xl font-semibold text-brand-dark mb-3 line-clamp-1 group-hover:text-primary transition-colors">
-                {tour.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-gray-500 text-base line-clamp-2 mb-6 leading-relaxed">
-                {tour.description}
-              </p>
-            </div>
-
-            {/* Price and Action */}
-            <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-              <div>
-                {tour.priceAvailable !== false ? (
-                  <div className="flex flex-col">
-                    <span className="text-sm text-gray-400 font-medium mb-0.5">Starting from</span>
-                    <div className="flex items-baseline">
-                      {tour.hasDiscount && tour.discountPercentage ? (
-                        <>
-                          <span className="font-heading text-2xl font-semibold text-brand-dark">
-                            ${Math.round(tour.price * (1 - tour.discountPercentage / 100))}
-                          </span>
-                          <span className="ml-2 text-sm text-gray-400 line-through">
-                            ${tour.price}
-                          </span>
-                        </>
-                      ) : (
-                        <span className="font-heading text-2xl font-semibold text-brand-dark">
+          <div className="flex items-center justify-between mt-auto">
+            <div className="flex flex-col">
+              {tour.priceAvailable !== false && tour.price > 0 ? (
+                <>
+                  <span className="text-sm text-gray-500 font-medium uppercase tracking-widest mb-1">From</span>
+                  <div className="flex items-baseline gap-3">
+                    {tour.hasDiscount && tour.discountPercentage ? (
+                      <>
+                        <span className="font-heading text-3xl font-bold text-gray-900">
+                          ${Math.round(tour.price * (1 - tour.discountPercentage / 100))}
+                        </span>
+                        <span className="text-lg text-gray-400 line-through">
                           ${tour.price}
                         </span>
-                      )}
-                    </div>
+                      </>
+                    ) : (
+                      <span className="font-heading text-3xl font-bold text-gray-900">
+                        ${tour.price}
+                      </span>
+                    )}
                   </div>
-                ) : (
-                  <div className="flex flex-col">
-                    <span className="text-xl font-bold text-green-600">
-                      Request Price
-                    </span>
-                    <span className="text-xs text-gray-500">Contact for pricing</span>
-                  </div>
-                )}
-              </div>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleViewDetails}
-                className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-sky-600 hover:text-white transition-colors shadow-sm"
-              >
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
+                </>
+              ) : (
+                <>
+                  <span className="text-xl font-bold text-gray-900 mb-1">
+                    Request Price
+                  </span>
+                  <span className="text-sm text-gray-500">Custom quote available</span>
+                </>
+              )}
             </div>
+
+            <motion.button
+              whileHover={{ x: 5 }}
+              className="group/btn flex items-center gap-3 text-base font-bold text-white bg-primary px-8 py-4 rounded-2xl hover:bg-sky-600 transition-all shadow-md hover:shadow-lg"
+            >
+              <span>View Itinerary</span>
+              <ArrowRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1" />
+            </motion.button>
           </div>
         </div>
       </motion.div>
     );
   }
 
-  // Grid layout design - vertical layout (default)
+  // Grid layout design
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -8 }}
-      className="bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-glow transition-all duration-500 cursor-pointer group w-full h-full flex flex-col"
+      whileHover={{ y: -6 }}
+      className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 transition-all duration-300 cursor-pointer group w-full h-full flex flex-col"
       onClick={handleViewDetails}
     >
-      {/* Large Image Container */}
-      <div className="relative h-64 overflow-hidden flex-shrink-0">
-        <div className={`absolute inset-0 bg-gray-200 animate-pulse ${imageLoaded ? 'hidden' : 'block'}`} />
+      {/* 4:3 Aspect Ratio Image Container */}
+      <div className="relative w-full aspect-[4/3] overflow-hidden flex-shrink-0 bg-gray-100">
+        <div className={`absolute inset-0 animate-pulse bg-gray-200 ${imageLoaded ? 'hidden' : 'block'}`} />
         <img
-          src={tour.image || 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070'}
-          alt={`${tour.title} - ${tour.location || 'Nepal tour'}`}
+          src={tour.image || fallbackImage}
+          alt={tour.title}
           loading="lazy"
-          className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${imageLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
+          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setImageLoaded(true)}
-          onError={(e) => {
-            const img = e.target as HTMLImageElement;
-            img.src = 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070';
-          }}
+          onError={(e) => { (e.target as HTMLImageElement).src = fallbackImage; }}
         />
 
-        {/* Enhanced gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
 
-        {/* Featured Badge - Minimal Floating */}
         {tour.featured && (
           <div className="absolute top-4 left-4 z-10">
-            <div className="bg-white/95 backdrop-blur-sm text-yellow-600 px-3 py-1 rounded-full shadow-lg font-bold text-[10px] uppercase tracking-wider border border-white/50">
+            <div className="bg-orange-50/95 backdrop-blur-sm text-orange-700 px-3 py-1 rounded-lg shadow-sm font-bold text-[10px] uppercase tracking-wider border border-orange-100">
               Featured
             </div>
           </div>
         )}
 
-        {/* Other Badges */}
-        <div className="absolute top-0 left-0 w-full p-4 flex justify-end items-start pointer-events-none">
-          {/* Right: Discount Badge */}
-          <div>
-            {(tour.hasDiscount && tour.discountPercentage) || tour.discount ? (
-              <div className="bg-red-500 text-white min-w-[50px] h-[50px] flex items-center justify-center rounded-full shadow-xl border-2 border-white/20 transform rotate-12 hover:rotate-0 transition-transform duration-300">
-                <div className="text-center leading-none">
-                  <span className="block text-sm font-bold">{tour.discountPercentage || tour.discount}%</span>
-                  <span className="block text-[10px] uppercase font-medium">OFF</span>
-                </div>
-              </div>
-            ) : null}
-          </div>
+        {/* Discount Badge */}
+        <div className="absolute top-4 right-4 z-10">
+          {(tour.hasDiscount && tour.discountPercentage) || tour.discount ? (
+            <div className="bg-white/95 backdrop-blur-sm text-gray-900 px-3 py-1 rounded-lg shadow-sm font-bold text-[10px] uppercase tracking-wider">
+              {tour.discountPercentage || tour.discount}% OFF
+            </div>
+          ) : null}
         </div>
       </div>
 
-      {/* Content Area */}
       <div className="p-6 flex flex-col flex-1 relative">
-        {/* Floating Category/Location Badge */}
-        <div className="absolute -top-5 right-6 bg-white shadow-lg rounded-2xl px-4 py-2 flex items-center gap-1.5 text-xs font-bold text-gray-800 uppercase tracking-wide border border-gray-50">
+        <div className="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-3">
           <MapPin className="w-3.5 h-3.5 text-primary" />
           {destinationName}
         </div>
 
-        {/* Title */}
-        <h3 className="font-heading text-xl font-semibold text-brand-dark mt-2 mb-3 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+        <h3 className="font-heading text-xl font-bold text-gray-900 mb-4 line-clamp-2 leading-snug group-hover:text-primary transition-colors">
           {tour.title}
         </h3>
 
-        {/* Minimal Meta */}
-        <div className="flex items-center gap-4 mb-6 text-sm text-gray-500 font-medium">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-6 text-sm text-gray-600 font-medium">
           <div className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-primary" />
+            <Clock className="w-4 h-4 text-gray-400" />
             {formatDuration(tour.duration)}
           </div>
-          <div className="w-1 h-1 rounded-full bg-gray-300"></div>
+          {tour.difficulty && (
+            <>
+              <div className="w-1 h-1 rounded-full bg-gray-200"></div>
+              <div className="flex items-center gap-1.5 capitalize">
+                {tour.difficulty}
+              </div>
+            </>
+          )}
+          <div className="w-1 h-1 rounded-full bg-gray-200"></div>
           <div className="flex items-center gap-1.5">
-            <Users className="w-4 h-4 text-primary" />
+            <Users className="w-4 h-4 text-gray-400" />
             {tour.group_size}
           </div>
         </div>
 
-        {/* Spacer */}
         <div className="flex-1"></div>
 
-        {/* Price and Details Button */}
-        <div className="flex items-center justify-between pt-5 border-t border-gray-100 mt-auto">
+        <div className="flex items-end justify-between pt-5 border-t border-gray-100 mt-auto">
           <div className="flex flex-col">
-            {tour.priceAvailable !== false ? (
+            {tour.priceAvailable !== false && tour.price > 0 ? (
               <>
-                <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">From</span>
+                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">From</span>
                 <div className="flex items-baseline gap-2">
                   {tour.hasDiscount && tour.discountPercentage ? (
                     <>
-                      <span className="font-heading text-2xl font-semibold text-brand-dark">
+                      <span className="font-heading text-xl font-bold text-gray-900">
                         ${Math.round(tour.price * (1 - tour.discountPercentage / 100))}
                       </span>
-                      <span className="text-sm text-gray-400 line-through">
+                      <span className="text-xs text-gray-400 line-through">
                         ${tour.price}
                       </span>
                     </>
                   ) : (
-                    <span className="font-heading text-2xl font-semibold text-brand-dark">
+                    <span className="font-heading text-xl font-bold text-gray-900">
                       ${tour.price}
                     </span>
                   )}
@@ -293,19 +257,19 @@ const TourCard: React.FC<TourCardProps> = ({
               </>
             ) : (
               <>
-                <span className="text-lg font-bold text-green-600">
+                <span className="text-base font-bold text-gray-900">
                   Request Price
                 </span>
-                <span className="text-xs text-gray-500">Contact for pricing</span>
+                <span className="text-[11px] text-gray-500">Custom quote</span>
               </>
             )}
           </div>
 
           <motion.button
-            whileHover={{ x: 5 }}
-            className="group/btn flex items-center gap-2 text-sm font-bold text-primary bg-primary/10 px-4 py-2.5 rounded-2xl hover:bg-sky-600 hover:text-white transition-all"
+            whileHover={{ x: 4 }}
+            className="group/btn flex items-center gap-2 text-sm font-bold text-primary bg-primary/5 px-4 py-2 rounded-xl hover:bg-primary hover:text-white transition-all"
           >
-            <span>View Details</span>
+            <span>View</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
           </motion.button>
         </div>
