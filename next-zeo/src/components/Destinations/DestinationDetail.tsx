@@ -195,7 +195,7 @@ function isRelatedTour(tour: any, destination: any, slug: string, destinations: 
   const destinationName = String(destination?.name || '').toLowerCase();
   const destinationCountry = String(destination?.country || '').toLowerCase();
 
-  return text.includes(slug) || (!!destinationName && text.includes(destinationName)) || (!!destinationCountry && text.includes(destinationCountry));
+  return text.includes(slug) || (!!destinationName && text.includes(destinationName));
 }
 
 function getTourText(tour: any) {

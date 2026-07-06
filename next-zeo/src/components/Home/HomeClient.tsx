@@ -63,6 +63,7 @@ const packagePaths = [
     bestFor: "Pilgrimage & devotion",
     icon: Mountain,
     featured: true,
+    image: "/uploads/kailash-gallery/kailash_1760250707733_1760250707729_Kailash-Mansarovar.jpg"
   },
   {
     label: "Nepal Tours",
@@ -249,12 +250,18 @@ export default function HomeClient({ sliders, featuredDestinations, testimonials
                   key={item.href}
                   href={item.href}
                   className={`group relative flex min-h-[210px] flex-col overflow-hidden border p-6 transition-all duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-4 ${featured
-                    ? "border-gray-950 bg-gray-950 text-white hover:shadow-2xl hover:shadow-gray-950/20 lg:row-span-2 lg:min-h-[445px]"
-                    : "border-gray-200 bg-gradient-to-br from-white via-white to-gray-50/70 text-gray-950 shadow-sm hover:border-secondary hover:shadow-xl hover:shadow-gray-900/5"
+                    ? "border-transparent bg-gray-950 text-white shadow-lg lg:row-span-2 lg:min-h-[445px]"
+                    : "border-gray-100 bg-white text-gray-950 shadow-sm hover:border-gray-200 hover:shadow-md"
                     }`}
                 >
-                  <span className={`absolute inset-x-0 top-0 h-1 ${featured ? "bg-primary" : "bg-secondary/70"}`} />
-                  <Icon className={`absolute bottom-5 right-5 h-20 w-20 transition-all duration-300 ${featured ? "text-white/[0.06] group-hover:text-primary/10" : "text-gray-100 group-hover:text-secondary/10"}`} />
+                  {featured && item.image && (
+                    <div className="absolute inset-0 z-0 overflow-hidden">
+                      <div className="absolute inset-0 bg-gray-950/70 z-10 transition-colors duration-300 group-hover:bg-gray-950/60" />
+                      <img src={item.image} alt={item.label} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    </div>
+                  )}
+                  <span className={`absolute inset-x-0 top-0 h-1 z-10 transition-colors duration-300 ${featured ? "bg-primary" : "bg-transparent group-hover:bg-secondary"}`} />
+                  <Icon className={`absolute bottom-5 right-5 h-20 w-20 transition-all duration-300 z-0 ${featured ? "text-white/[0.06] group-hover:text-white/10" : "text-gray-50 group-hover:text-gray-100"}`} />
 
                   <div className="relative z-10 flex items-start justify-between gap-4">
                     <span className={`text-[10px] font-bold uppercase tracking-[0.22em] ${featured ? "text-primary" : "text-secondary"}`}>

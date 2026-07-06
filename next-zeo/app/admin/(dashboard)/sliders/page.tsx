@@ -23,8 +23,10 @@ const SlidersManager: React.FC = () => {
     const fetch = useCallback(async () => {
         setLoading(true); setError(null);
         try {
-            const data = await adminFetch<{ sliders: Slider[]; pagination?: { totalItems: number } }>(`${api}/admin/sliders?page=${page}&limit=${limit}`);
-            const list = data.sliders || []; setItems(list); setTotal(data.pagination?.totalItems ?? list.length);
+            const data = await adminFetch<any>(`${api}/admin/sliders?page=${page}&limit=${limit}`);
+            const list = Array.isArray(data) ? data : (data.sliders || []);
+            setItems(list);
+            setTotal(Array.isArray(data) ? data.length : (data.pagination?.totalItems ?? list.length));
         } catch (err: any) { setError(err.message); } finally { setLoading(false); }
     }, [page]);
     useEffect(() => { fetch(); }, [fetch]);

@@ -1,7 +1,8 @@
 export const revalidate = 3600;
 import React from 'react';
 import { listTours } from '../../src/server/repositories/tours';
-import Tours from '../../src/components/Tours/Tours';
+import ToursListClient from '../../src/components/Tours/ToursListClient';
+import PageHeader from '../../src/components/PageHeader/PageHeader';
 
 export const metadata = {
   title: "Tours & Packages - Zeo Tourism",
@@ -13,7 +14,13 @@ export default async function ToursPage() {
   
   return (
     <div className="pt-20">
-      <Tours initialTours={result.items as any} />
+      <PageHeader
+        title="Tours & Packages"
+        subtitle="Browse our carefully crafted itineraries covering the Himalayas, spiritual journeys, and cross-border adventures."
+        breadcrumb="Tours"
+        backgroundImage="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070&auto=format&fit=crop"
+      />
+      <ToursListClient initialTours={result.items as any} />
     </div>
   );
 }

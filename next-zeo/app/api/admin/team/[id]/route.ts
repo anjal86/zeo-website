@@ -1,4 +1,15 @@
-import { adminDeleteSimple, adminTeamUpdate } from "@/server/http/mutation-handlers";
+import { adminDeleteSimple, adminTeamUpdate, adminOnly } from "@/server/http/mutation-handlers";
+import { getOne } from "@/server/db/mysql";
+import { notFound, ok } from "@/server/http/api-response";
+
+export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
+  const denied = await adminOnly();
+  if (denied) return denied;
+  const { id } = await context.params;
+  const member = await getOne("SELECT * FROM team_members WHERE id = ?", [Number(id)]);
+  if (!member) return notFound();
+  return ok(member);
+}
 
 export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;

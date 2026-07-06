@@ -10,6 +10,20 @@ const fallbackHeroImage = 'https://images.unsplash.com/photo-1506905925346-21bda
 
 function normalizeHeroMediaUrl(url?: string | null) {
   if (!url) return fallbackHeroImage;
+  
+  // Rewrite Vercel blob URLs to local /uploads/
+  if (url.includes('blob.vercel-storage.com')) {
+    try {
+      const urlObj = new URL(url);
+      // Ensure we don't double /uploads/ if it's already there
+      return urlObj.pathname.startsWith('/uploads/') 
+        ? urlObj.pathname 
+        : `/uploads${urlObj.pathname}`;
+    } catch (e) {
+      // Ignore URL parsing errors
+    }
+  }
+
   if (url.startsWith('blob:') || url.startsWith('http://') || url.startsWith('https://')) return url;
   if (url.startsWith('/')) return url;
   return `/uploads/${url}`;

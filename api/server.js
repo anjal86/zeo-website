@@ -313,7 +313,7 @@ const isVercel = !!process.env.VERCEL;
 
 const uploadsDir = isVercel
   ? path.join(os.tmpdir(), 'zeop-uploads')
-  : path.join(__dirname, 'uploads');
+  : path.join(__dirname, '../next-zeo/public/uploads');
 const slidersDir = path.join(uploadsDir, 'sliders');
 const imagesDir = path.join(slidersDir, 'images');
 const videosDir = path.join(slidersDir, 'videos');

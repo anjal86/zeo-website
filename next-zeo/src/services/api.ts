@@ -309,23 +309,35 @@ const isMobileDevice = (): boolean => {
 const convertImageUrl = (imageUrl: string): string => {
   if (!imageUrl) return '';
 
+  // Rewrite Vercel blob URLs to local /uploads/
+  if (imageUrl.includes('blob.vercel-storage.com')) {
+    try {
+      const urlObj = new URL(imageUrl);
+      return urlObj.pathname.startsWith('/uploads/') 
+        ? urlObj.pathname 
+        : `/uploads${urlObj.pathname}`;
+    } catch (e) {
+      // Ignore URL parsing errors
+    }
+  }
+
   // If it's already a full URL, return as is
   if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
     return imageUrl;
   }
 
-  // If it starts with /uploads/, convert to full URL
+  // If it starts with /uploads/, return as is (Next.js public folder)
   if (imageUrl.startsWith('/uploads/')) {
-    return `${IMAGE_BASE_URL}${imageUrl}`;
+    return imageUrl;
   }
 
-  // If it doesn't start with /, add it
+  // If it doesn't start with /, add /uploads/
   if (!imageUrl.startsWith('/')) {
-    return `${IMAGE_BASE_URL}/uploads/${imageUrl}`;
+    return `/uploads/${imageUrl}`;
   }
 
-  // Default case - prepend IMAGE_BASE_URL
-  return `${IMAGE_BASE_URL}${imageUrl}`;
+  // Default case
+  return imageUrl;
 };
 
 // Helper function to convert tour data with proper image URLs
