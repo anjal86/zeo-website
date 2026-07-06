@@ -125,3 +125,7 @@ deployment_package/
 
 # Database backups
 api/data/backups/
+
+# Large archive files
+next-zeo.zip
+local_backup.sql
