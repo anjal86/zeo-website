@@ -1,3 +1,3 @@
-import { adminUpdateDirector } from "@/server/http/mutation-handlers";
+import { adminUpdateDirectorValidated } from "@/server/http/admin-extra-handlers";
 
-export const PUT = adminUpdateDirector;
+export const PUT = adminUpdateDirectorValidated;
