@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "lint:strict": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "db:test": "tsx src/server/scripts/test-connection.ts",
     "db:migrate": "tsx src/server/db/migrate.ts",
