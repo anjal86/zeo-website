@@ -2,12 +2,17 @@ import { useState, useEffect, useCallback } from 'react';
 import api, { type Tour } from '../services/api';
 
 // Generic hook for API calls with URL endpoint
-export function useApi<T = any>(url: string) {
+export function useApi<T = any>(url: string | null) {
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!url);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!url) {
+      setLoading(false);
+      return;
+    }
+
     let isMounted = true;
 
     const fetchData = async () => {
