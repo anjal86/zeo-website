@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Save, ArrowLeft, Camera, X, Eye, Upload, AlertCircle } from 'lucide-react';
+import { Save, ArrowLeft, Camera, X, Eye, Upload, AlertCircle, Plus, Trash2 } from 'lucide-react';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
 import { adminFetch, adminFetchRaw } from '@/lib/adminFetch';
 
@@ -25,6 +25,11 @@ interface DestinationForm {
     difficulty?: string;
     listed?: boolean;
     featured?: boolean;
+    seo_intro?: string;
+    seo_best_time?: string;
+    seo_planning_note?: string;
+    seo_guide_blocks?: any;
+    seo_faqs?: any;
 }
 
 const DestinationEditor: React.FC = () => {
@@ -56,6 +61,11 @@ const DestinationEditor: React.FC = () => {
                     highlights: data.highlights || [], best_time: data.best_time || '',
                     altitude: data.altitude || '', difficulty: data.difficulty || '',
                     listed: data.listed !== false, featured: !!data.featured,
+                    seo_intro: data.seo_intro || '',
+                    seo_best_time: data.seo_best_time || '',
+                    seo_planning_note: data.seo_planning_note || '',
+                    seo_guide_blocks: data.seo_guide_blocks || [],
+                    seo_faqs: data.seo_faqs || [],
                 });
             } catch (err: any) {
                 setError(err.message || 'Failed to load');
@@ -73,6 +83,31 @@ const DestinationEditor: React.FC = () => {
             const updated = { ...prev, [name]: value };
             if (name === 'name' && !isEditing) updated.slug = generateSlug(value);
             return updated;
+        });
+    };
+
+    const addArrayItem = (fieldName: 'seo_guide_blocks' | 'seo_faqs', defaultItem: any) => {
+        setForm(prev => {
+            const arr = Array.isArray(prev[fieldName]) ? prev[fieldName] : [];
+            return { ...prev, [fieldName]: [...arr, defaultItem] };
+        });
+    };
+
+    const updateArrayItem = (fieldName: 'seo_guide_blocks' | 'seo_faqs', index: number, key: string, value: string) => {
+        setForm(prev => {
+            const arr = Array.isArray(prev[fieldName]) ? [...prev[fieldName]] : [];
+            if (arr[index]) {
+                arr[index] = { ...arr[index], [key]: value };
+            }
+            return { ...prev, [fieldName]: arr };
+        });
+    };
+
+    const removeArrayItem = (fieldName: 'seo_guide_blocks' | 'seo_faqs', index: number) => {
+        setForm(prev => {
+            const arr = Array.isArray(prev[fieldName]) ? [...prev[fieldName]] : [];
+            arr.splice(index, 1);
+            return { ...prev, [fieldName]: arr };
         });
     };
 
@@ -200,6 +235,93 @@ const DestinationEditor: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-2">Best Time to Visit</label>
                     <input type="text" name="best_time" value={form.best_time || ''} onChange={handleChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="e.g., March, April, May" />
+                </div>
+
+                <div className="border-t pt-6 mt-6">
+                    <h3 className="text-lg font-semibold mb-4 text-gray-900">SEO & Page Content</h3>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">SEO Intro</label>
+                    <textarea name="seo_intro" value={form.seo_intro || ''} onChange={handleChange} rows={3}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" />
+                </div>
+                
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Best Time to Plan (Season Note)</label>
+                    <textarea name="seo_best_time" value={form.seo_best_time || ''} onChange={handleChange} rows={2}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Planning Note (Ask before you book)</label>
+                    <textarea name="seo_planning_note" value={form.seo_planning_note || ''} onChange={handleChange} rows={2}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" />
+                </div>
+
+                <div>
+                    <div className="flex justify-between items-center mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Guide Blocks</label>
+                        <button type="button" onClick={() => addArrayItem('seo_guide_blocks', { title: '', body: '', icon: 'Compass' })} className="text-xs flex items-center gap-1 text-green-600 hover:text-green-700">
+                            <Plus className="w-3 h-3" /> Add Block
+                        </button>
+                    </div>
+                    <div className="space-y-4">
+                        {(Array.isArray(form.seo_guide_blocks) ? form.seo_guide_blocks : []).map((block: any, index: number) => (
+                            <div key={index} className="flex gap-4 p-4 border border-gray-200 rounded-lg bg-gray-50 relative group">
+                                <button type="button" onClick={() => removeArrayItem('seo_guide_blocks', index)} className="absolute top-2 right-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                                <div className="flex-1 space-y-3">
+                                    <div className="grid grid-cols-4 gap-3">
+                                        <div className="col-span-3">
+                                            <input type="text" value={block.title || ''} onChange={(e) => updateArrayItem('seo_guide_blocks', index, 'title', e.target.value)} placeholder="Block Title" className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" />
+                                        </div>
+                                        <div className="col-span-1">
+                                            <select value={block.icon || 'Compass'} onChange={(e) => updateArrayItem('seo_guide_blocks', index, 'icon', e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white">
+                                                <option value="Compass">Compass</option>
+                                                <option value="Users">Users</option>
+                                                <option value="Route">Route</option>
+                                                <option value="Shield">Shield</option>
+                                                <option value="Calendar">Calendar</option>
+                                                <option value="MapPin">MapPin</option>
+                                                <option value="Plane">Plane</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <textarea value={block.body || ''} onChange={(e) => updateArrayItem('seo_guide_blocks', index, 'body', e.target.value)} placeholder="Block description..." rows={2} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" />
+                                </div>
+                            </div>
+                        ))}
+                        {(!form.seo_guide_blocks || form.seo_guide_blocks.length === 0) && (
+                            <p className="text-sm text-gray-400 italic">No guide blocks added yet.</p>
+                        )}
+                    </div>
+                </div>
+
+                <div>
+                    <div className="flex justify-between items-center mb-4">
+                        <label className="block text-sm font-medium text-gray-700">FAQs</label>
+                        <button type="button" onClick={() => addArrayItem('seo_faqs', { question: '', answer: '' })} className="text-xs flex items-center gap-1 text-green-600 hover:text-green-700">
+                            <Plus className="w-3 h-3" /> Add FAQ
+                        </button>
+                    </div>
+                    <div className="space-y-4">
+                        {(Array.isArray(form.seo_faqs) ? form.seo_faqs : []).map((faq: any, index: number) => (
+                            <div key={index} className="flex gap-4 p-4 border border-gray-200 rounded-lg bg-gray-50 relative group">
+                                <button type="button" onClick={() => removeArrayItem('seo_faqs', index)} className="absolute top-2 right-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                                <div className="flex-1 space-y-3">
+                                    <input type="text" value={faq.question || ''} onChange={(e) => updateArrayItem('seo_faqs', index, 'question', e.target.value)} placeholder="Question" className="w-full px-3 py-2 font-medium text-sm border border-gray-300 rounded-lg" />
+                                    <textarea value={faq.answer || ''} onChange={(e) => updateArrayItem('seo_faqs', index, 'answer', e.target.value)} placeholder="Answer..." rows={2} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" />
+                                </div>
+                            </div>
+                        ))}
+                        {(!form.seo_faqs || form.seo_faqs.length === 0) && (
+                            <p className="text-sm text-gray-400 italic">No FAQs added yet.</p>
+                        )}
+                    </div>
                 </div>
 
                 {/* Image Upload */}

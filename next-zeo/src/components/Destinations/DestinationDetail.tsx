@@ -22,8 +22,7 @@ import PageHeader from '../PageHeader/PageHeader';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import ErrorMessage from '../UI/ErrorMessage';
 import { useDestinations, useTours } from '../../hooks/useApi';
-
-type IconType = typeof Route;
+import TourGrid from '../Tours/TourGrid';
 
 type DestinationSeoContent = {
   title: string;
@@ -34,7 +33,7 @@ type DestinationSeoContent = {
   bestTime: string;
   planningNote: string;
   routeIdeas: string[];
-  guideBlocks: { title: string; body: string; icon: IconType }[];
+  guideBlocks: { title: string; body: string; icon: string }[];
   faqs: { question: string; answer: string }[];
 };
 
@@ -49,65 +48,7 @@ const destinationFallbacks: Record<string, string> = {
   default: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2070&auto=format&fit=crop',
 };
 
-const seoContent: Record<string, DestinationSeoContent> = {
-  nepal: {
-    title: 'Nepal tours from Kathmandu: pilgrimage, trekking, culture and private routes',
-    intro: 'Explore Nepal pilgrimage, cultural tours, Himalayan routes, helicopter options, family trips and private itineraries planned from Kathmandu with route clarity and local support.',
-    bestFor: 'Pilgrimage guests, families, trekkers, cultural travellers and private groups.',
-    typicalLength: '1 day to 2+ weeks',
-    planningFocus: 'Season, road access, altitude, permits, vehicle choice, hotel standard and local support.',
-    bestTime: 'Spring and autumn are popular for Himalayan routes; cultural and pilgrimage tours can be planned across more months depending on destination.',
-    planningNote: 'Nepal routes depend heavily on season, road condition, altitude, permits and local support planning. The right route changes with age group, travel purpose, walking ability and available days.',
-    routeIdeas: ['Kathmandu heritage tour', 'Muktinath pilgrimage', 'Everest or Annapurna region', 'Pokhara, Chitwan and Lumbini', 'Helicopter and private family tours'],
-    guideBlocks: [
-      { title: 'Match the route to the traveller', body: 'A Nepal tour should not be chosen only by destination name. Pilgrimage groups, families, senior travellers, trekkers and private groups need different pacing, hotel standards, transport choices and support levels.', icon: Users },
-      { title: 'Check timing and access first', body: 'Road condition, flight reliability, altitude, weather and festival demand can change the best route. We help compare what is realistic before the itinerary is finalized.', icon: Calendar },
-      { title: 'Plan permits and ground support', body: 'Some Nepal routes need permits, local coordination, vehicle planning, guide support or altitude preparation. These details are easier to solve before booking than during the journey.', icon: Shield },
-    ],
-    faqs: [
-      { question: 'Which Nepal tour is best for first-time visitors?', answer: 'Kathmandu, Pokhara, Nagarkot, Chitwan, Lumbini and Muktinath are common choices, but the best route depends on travel days, group age, budget and whether the purpose is culture, pilgrimage or nature.' },
-      { question: 'Can Nepal tours be customized for families or senior travellers?', answer: 'Yes. Nepal tours can be customized with slower pacing, easier road sectors, private vehicles, selected hotels and support based on the traveller profile.' },
-    ],
-  },
-  thailand: {
-    title: 'Thailand tour planning from Nepal: Bangkok, beaches and multi-country routes',
-    intro: 'Plan Thailand with clarity around Bangkok city stays, island holidays, family trips, honeymoon-style travel and Thailand–Malaysia–Singapore combinations from Nepal.',
-    bestFor: 'Beach holidays, family trips, city breaks and first-time international travellers.',
-    typicalLength: '4 to 10 days',
-    planningFocus: 'Flights, hotel area, transfers, activity pace and visa or travel document guidance.',
-    bestTime: 'November to March is the most popular period; beach routes can vary by coast and season.',
-    planningNote: 'Thailand works well for short holidays, honeymoon-style travel and add-on routes with Malaysia or Singapore. The biggest planning mistake is choosing hotels and transfers before understanding the travel pace.',
-    routeIdeas: ['Bangkok city break', 'Pattaya and beach escape', 'Phuket or Krabi island stay', 'Thailand–Malaysia–Singapore combo'],
-    guideBlocks: [
-      { title: 'Choose the right base', body: 'Bangkok, Pattaya, Phuket, Krabi and island routes offer different travel experiences. The best choice depends on budget, group type, transfer tolerance and whether the trip is for leisure, family or celebration.', icon: MapPin },
-      { title: 'Balance pace and transfers', body: 'A short Thailand tour should avoid too many hotel changes. We help structure days so sightseeing, airport transfers, beach time and optional activities feel smooth instead of rushed.', icon: Route },
-      { title: 'Plan support before booking', body: 'Travellers from Nepal often need clarity on documents, hotel area, pickup timing, local support and how to combine Thailand with nearby destinations. These details should be solved before payment.', icon: Shield },
-    ],
-    faqs: [
-      { question: 'How many days are enough for Thailand from Nepal?', answer: 'A short Bangkok or Pattaya trip can work in 4–5 days, while beach routes or multi-country combinations usually need 7–10 days for a better pace.' },
-      { question: 'Can Thailand be combined with Malaysia or Singapore?', answer: 'Yes. Thailand, Malaysia and Singapore can be combined, but the route should be planned around flight timing, transfers, hotel locations and total travel days.' },
-    ],
-  },
-  china: {
-    title: 'China and cross-border travel planning from Nepal',
-    intro: 'Plan China, Tibet and connected routes with practical timing, documentation, permit coordination and route clarity for travellers starting from Nepal.',
-    bestFor: 'Cultural travel, cross-border routes, Tibet planning and guided group itineraries.',
-    typicalLength: '5 to 12+ days',
-    planningFocus: 'Documentation, permits, routing, border timing and guided support.',
-    bestTime: 'Spring and autumn are generally preferred for comfortable travel and clearer route planning.',
-    planningNote: 'China-related routes often need stronger document, timing and permit coordination before booking. The route should be confirmed only after checking travel requirements.',
-    routeIdeas: ['China cultural route', 'Tibet route planning', 'Cross-border travel', 'Private guided itinerary'],
-    guideBlocks: [
-      { title: 'Start with documents', body: 'China and Tibet-related travel needs document clarity before hotel or flight commitment. Requirements can affect route, timing and group planning.', icon: Shield },
-      { title: 'Plan route feasibility', body: 'Long-distance sectors, border timing and guided-route rules should be understood early. This prevents unrealistic itinerary promises.', icon: Route },
-      { title: 'Choose support level', body: 'Guided support, transfers and communication matter more on cross-border routes than simple city breaks.', icon: Users },
-    ],
-    faqs: [
-      { question: 'Can China routes be planned from Nepal?', answer: 'Yes, but document requirements, timing and route feasibility should be checked before confirming a package.' },
-      { question: 'Is Tibet planning different from normal China travel?', answer: 'Yes. Tibet-related travel usually requires more careful permit, route and support planning.' },
-    ],
-  },
-};
+// Hardcoded seoContent removed. Now fetched from API.
 
 const travelStyles = [
   { id: 'all', label: 'All routes' },
@@ -127,9 +68,9 @@ function defaultContent(title: string): DestinationSeoContent {
     planningNote: `The right ${title} itinerary depends on dates, group size, pace, budget and preferred travel style.`,
     routeIdeas: ['Private itinerary', 'Family-friendly route', 'Short holiday', 'Custom group plan'],
     guideBlocks: [
-      { title: 'Understand the travel purpose', body: `A good ${title} plan starts with why you are travelling: leisure, family, culture, pilgrimage, adventure or a private celebration.`, icon: Users },
-      { title: 'Shape the route before booking', body: 'Hotel location, transfers, activity pace and travel days should be checked before choosing the final package.', icon: Route },
-      { title: 'Confirm support level', body: 'Clear communication, transfer timing and local assistance make the journey easier, especially for families and groups.', icon: Shield },
+      { title: 'Understand the travel purpose', body: `A good ${title} plan starts with why you are travelling: leisure, family, culture, pilgrimage, adventure or a private celebration.`, icon: 'Users' },
+      { title: 'Shape the route before booking', body: 'Hotel location, transfers, activity pace and travel days should be checked before choosing the final package.', icon: 'Route' },
+      { title: 'Confirm support level', body: 'Clear communication, transfer timing and local assistance make the journey easier, especially for families and groups.', icon: 'Shield' },
     ],
     faqs: [
       { question: `How do I plan a ${title} trip from Nepal?`, answer: `Start with your travel dates, group size, preferred pace and budget. Then compare routes, hotel areas, transfers and required documents before booking.` },
@@ -198,58 +139,7 @@ function getTourImage(tour: any, slug: string, destination: any) {
   return image;
 }
 
-function getRouteStyleMeta(idea: string, index: number): { icon: IconType; label: string; description: string } {
-  const lower = idea.toLowerCase();
-
-  if (lower.includes('muktinath') || lower.includes('pilgrimage') || lower.includes('kailash')) {
-    return {
-      icon: Shield,
-      label: 'Pilgrimage route',
-      description: 'Best for sacred travel where timing, permits, road access and support matter before booking.',
-    };
-  }
-
-  if (lower.includes('everest') || lower.includes('annapurna') || lower.includes('himalayan') || lower.includes('trek')) {
-    return {
-      icon: Route,
-      label: 'Himalayan route',
-      description: 'Useful for travellers comparing altitude, walking days, region, difficulty and support level.',
-    };
-  }
-
-  if (lower.includes('kathmandu') || lower.includes('heritage') || lower.includes('culture')) {
-    return {
-      icon: MapPin,
-      label: 'Culture route',
-      description: 'Ideal for shorter city, temple, heritage and soft cultural days with easier pacing.',
-    };
-  }
-
-  if (lower.includes('family') || lower.includes('private') || lower.includes('helicopter')) {
-    return {
-      icon: Users,
-      label: 'Private comfort',
-      description: 'Good for families, senior travellers, private groups or travellers needing flexible support.',
-    };
-  }
-
-  if (lower.includes('pattaya') || lower.includes('phuket') || lower.includes('bangkok') || lower.includes('island')) {
-    return {
-      icon: Plane,
-      label: 'Holiday route',
-      description: 'A lighter travel style for city breaks, beaches, family holidays and easy international planning.',
-    };
-  }
-
-  const fallbackIcons: IconType[] = [Compass, Route, Users, MapPin, Plane];
-  return {
-    icon: fallbackIcons[index % fallbackIcons.length],
-    label: 'Custom route',
-    description: 'A flexible planning path shaped around your dates, purpose, group size and comfort level.',
-  };
-}
-
-function findDestination(destinations: any[] | undefined, slug: string) {
+function findDestination(destinations: any[] | null | undefined, slug: string) {
   if (slug === 'nepal') {
     return {
       id: 9999,
@@ -258,7 +148,7 @@ function findDestination(destinations: any[] | undefined, slug: string) {
       country: 'Nepal',
       type: 'nepal',
       image: destinationFallbacks.nepal,
-      description: seoContent.nepal.intro,
+      description: defaultContent('Nepal').intro,
       href: '/destinations/nepal',
     };
   }
@@ -271,7 +161,7 @@ function findDestination(destinations: any[] | undefined, slug: string) {
   });
 }
 
-function isRelatedTour(tour: any, destination: any, slug: string, destinations: any[] | undefined) {
+function isRelatedTour(tour: any, destination: any, slug: string, destinations: any[] | null | undefined) {
   if (tour.listed === false) return false;
 
   if (slug === 'nepal') {
@@ -396,7 +286,28 @@ const DestinationDetail: React.FC = () => {
 
   const title = destination.title || destination.name || titleCase(normalizedSlug);
   const displayTitle = destination.name || title;
-  const pageCopy = seoContent[normalizedSlug] || defaultContent(title);
+  const defaultCopy = defaultContent(title);
+  
+  const parseJsonSafe = (data: any, fallback: any) => {
+    if (!data) return fallback;
+    if (typeof data === 'string') {
+      try { return JSON.parse(data); } catch { return fallback; }
+    }
+    return data;
+  };
+
+  const pageCopy: DestinationSeoContent = {
+    title: title,
+    intro: destination.seo_intro || defaultCopy.intro,
+    bestFor: defaultCopy.bestFor,
+    typicalLength: defaultCopy.typicalLength,
+    planningFocus: defaultCopy.planningFocus,
+    routeIdeas: defaultCopy.routeIdeas,
+    bestTime: destination.seo_best_time || defaultCopy.bestTime,
+    planningNote: destination.seo_planning_note || defaultCopy.planningNote,
+    guideBlocks: parseJsonSafe(destination.seo_guide_blocks, defaultCopy.guideBlocks),
+    faqs: parseJsonSafe(destination.seo_faqs, defaultCopy.faqs)
+  };
   const destinationImage = getDestinationImage(normalizedSlug, destination);
   const destinationCountry = destination.country || title;
   const relatedTours = (allTours || [])
@@ -418,93 +329,49 @@ const DestinationDetail: React.FC = () => {
         backgroundImage={destinationImage}
       />
 
-      <section className='overflow-hidden bg-white py-14 md:py-20'>
+      <section className='bg-white py-14 md:py-20'>
         <div className='container-xl'>
-          <div className='grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start'>
+          <div className='grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]'>
             <motion.article
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55 }}
             >
-              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Destination guide</span>
+              <span className='text-[#E37833] text-xs font-bold uppercase tracking-[0.22em]'>Destination guide</span>
               <h2 className='mt-4 max-w-5xl text-3xl md:text-4xl lg:text-5xl font-serif font-bold leading-tight text-gray-950'>
                 {pageCopy.title}
               </h2>
-              <p className='mt-6 max-w-4xl text-base md:text-lg leading-8 text-gray-600'>
+              <p className='mt-6 max-w-4xl text-base md:text-lg leading-8 text-gray-600 mb-8'>
                 {pageCopy.intro}
               </p>
-
-              <div className='mt-8 flex flex-wrap gap-x-6 gap-y-4 border-y border-gray-200 py-5'>
-                <div className='min-w-[150px]'>
-                  <div className='flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400'>
-                    <MapPin className='h-4 w-4 text-primary' /> Region
-                  </div>
-                  <p className='mt-2 text-sm font-semibold text-gray-900'>{destinationCountry}</p>
+              <div className='mt-8 p-6 bg-gray-50 border border-gray-100'>
+                <div className='flex items-center gap-2 mb-3'>
+                  <Calendar className='w-4 h-4 text-[#E37833]' />
+                  <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400'>Season note & Best time to plan</span>
                 </div>
-                <div className='min-w-[190px]'>
-                  <div className='flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400'>
-                    <Users className='h-4 w-4 text-secondary' /> Traveller fit
-                  </div>
-                  <p className='mt-2 text-sm font-semibold leading-6 text-gray-900'>{pageCopy.bestFor}</p>
-                </div>
-                <div className='min-w-[150px]'>
-                  <div className='flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400'>
-                    <Calendar className='h-4 w-4 text-primary' /> Duration
-                  </div>
-                  <p className='mt-2 text-sm font-semibold text-gray-900'>{pageCopy.typicalLength}</p>
-                </div>
-                <div className='min-w-[220px] flex-1'>
-                  <div className='flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400'>
-                    <Shield className='h-4 w-4 text-secondary' /> Planning focus
-                  </div>
-                  <p className='mt-2 text-sm font-semibold leading-6 text-gray-900'>{pageCopy.planningFocus}</p>
-                </div>
+                <p className='text-sm leading-7 text-gray-600'>{pageCopy.bestTime}</p>
               </div>
 
-              <div className='mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]'>
-                <div>
-                  <div className='mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between'>
-                    <div>
-                      <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400'>Choose by intent</span>
-                      <h3 className='mt-2 text-2xl font-serif font-bold text-gray-950'>Compare route styles before choosing a package.</h3>
+              <div className='mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2'>
+                {pageCopy.guideBlocks.map((block, index) => {
+                  let Icon = Compass;
+                  if (block.icon === 'Users') Icon = Users;
+                  if (block.icon === 'Route') Icon = Route;
+                  if (block.icon === 'Shield') Icon = Shield;
+                  if (block.icon === 'Calendar') Icon = Calendar;
+                  if (block.icon === 'MapPin') Icon = MapPin;
+                  return (
+                    <div
+                      key={block.title}
+                      className='group border border-gray-200 p-6 transition-colors hover:border-gray-300 bg-white'
+                    >
+                      <Icon className={`mb-4 h-5 w-5 ${index % 2 === 0 ? 'text-[#2B5C9C]' : 'text-[#E37833]'}`} />
+                      <h3 className='text-lg font-serif font-bold text-gray-950'>{block.title}</h3>
+                      <p className='mt-2 text-sm leading-6 text-gray-600'>{block.body}</p>
                     </div>
-                    <a href='#destination-packages' className='inline-flex items-center text-xs font-bold uppercase tracking-wider text-primary hover:text-primary-dark'>
-                      Browse packages <ArrowRight className='ml-2 h-3.5 w-3.5' />
-                    </a>
-                  </div>
-
-                  <div className='border-y border-gray-200'>
-                    {pageCopy.routeIdeas.map((idea, index) => {
-                      const routeMeta = getRouteStyleMeta(idea, index);
-                      const Icon = routeMeta.icon;
-
-                      return (
-                        <a
-                          key={idea}
-                          href='#destination-packages'
-                          className='group grid gap-4 border-b border-gray-200 py-5 last:border-b-0 transition-colors hover:bg-gray-50 md:grid-cols-[56px_0.36fr_1fr_auto] md:items-center md:px-4'
-                        >
-                          <span className='flex h-11 w-11 items-center justify-center border border-gray-200 bg-white transition-colors group-hover:border-primary/40'>
-                            <Icon className={`h-5 w-5 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
-                          </span>
-                          <div>
-                            <span className='text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400'>{routeMeta.label}</span>
-                            <h4 className='mt-1 font-serif text-xl font-bold text-gray-950 group-hover:text-primary'>{idea}</h4>
-                          </div>
-                          <p className='text-sm leading-6 text-gray-600'>{routeMeta.description}</p>
-                          <ArrowRight className='h-4 w-4 text-gray-300 transition-all group-hover:translate-x-1 group-hover:text-primary' />
-                        </a>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className='border-l border-gray-200 pl-6'>
-                  <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400'>Season note</span>
-                  <h3 className='mt-2 text-xl font-serif font-bold text-gray-950'>Best time to plan</h3>
-                  <p className='mt-3 text-sm leading-7 text-gray-600'>{pageCopy.bestTime}</p>
-                </div>
+                  );
+                })}
               </div>
             </motion.article>
 
@@ -513,43 +380,23 @@ const DestinationDetail: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.05 }}
-              className='border border-gray-200 bg-[#fbfcfe] p-6 shadow-sm lg:sticky lg:top-28'
+              className='border border-[#2B5C9C] bg-[#2B5C9C] p-6 lg:sticky lg:top-28 self-start h-fit'
             >
-              <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400'>Need clarity?</span>
-              <h3 className='mt-4 text-2xl font-serif font-bold text-gray-950'>Ask before you book.</h3>
-              <p className='mt-4 text-sm leading-7 text-gray-600'>{pageCopy.planningNote}</p>
-              <div className='mt-5 space-y-3 border-y border-gray-200 py-5'>
-                <div className='flex gap-3 text-sm leading-6 text-gray-600'>
-                  <Compass className='mt-0.5 h-4 w-4 shrink-0 text-primary' /> Compare route options first.
+              <span className='text-[10px] font-bold uppercase tracking-[0.2em] text-blue-200'>Need clarity?</span>
+              <h3 className='mt-4 text-2xl font-serif font-bold text-white'>Ask before you book.</h3>
+              <p className='mt-4 text-sm leading-7 text-blue-100/90'>{pageCopy.planningNote}</p>
+              <div className='mt-5 space-y-3 border-y border-white/10 py-5'>
+                <div className='flex gap-3 text-sm leading-6 text-blue-100/90'>
+                  <Compass className='mt-0.5 h-4 w-4 shrink-0 text-[#E37833]' /> Compare route options first.
                 </div>
-                <div className='flex gap-3 text-sm leading-6 text-gray-600'>
-                  <Shield className='mt-0.5 h-4 w-4 shrink-0 text-secondary' /> Clarify support and timing early.
+                <div className='flex gap-3 text-sm leading-6 text-blue-100/90'>
+                  <Shield className='mt-0.5 h-4 w-4 shrink-0 text-[#E37833]' /> Clarify support and timing early.
                 </div>
               </div>
-              <Link href='/contact' className='mt-5 inline-flex w-full items-center justify-center bg-primary px-6 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-primary-dark'>
+              <Link href='/contact' className='mt-5 inline-flex w-full items-center justify-center bg-[#E37833] px-6 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#c96a2d]'>
                 Plan this route <ArrowRight className='ml-2 h-3.5 w-3.5' />
               </Link>
             </motion.aside>
-          </div>
-
-          <div className='mt-14 grid gap-5 md:grid-cols-3'>
-            {pageCopy.guideBlocks.map((block, index) => {
-              const Icon = block.icon;
-              return (
-                <motion.article
-                  key={block.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: index * 0.05 }}
-                  className='group border-t border-gray-200 pt-6 transition-colors hover:border-primary/50'
-                >
-                  <Icon className={`mb-5 h-5 w-5 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
-                  <h3 className='text-xl font-serif font-bold text-gray-950'>{block.title}</h3>
-                  <p className='mt-3 text-sm leading-7 text-gray-600'>{block.body}</p>
-                </motion.article>
-              );
-            })}
           </div>
         </div>
       </section>
@@ -558,7 +405,9 @@ const DestinationDetail: React.FC = () => {
         <div className='container-xl'>
           <div className='mb-9 grid gap-6 lg:grid-cols-[0.42fr_0.58fr] lg:items-end'>
             <div>
-              <span className='text-secondary text-xs font-bold uppercase tracking-[0.22em]'>Browse packages</span>
+              <span className='text-[#E37833] text-xs font-bold uppercase tracking-[0.22em] flex items-center justify-start gap-2'>
+                <Route className="w-4 h-4" /> Browse packages
+              </span>
               <h2 className='mt-4 text-3xl md:text-4xl font-serif font-bold leading-tight text-gray-950'>
                 Find a {displayTitle} route that fits your trip.
               </h2>
@@ -568,7 +417,7 @@ const DestinationDetail: React.FC = () => {
             </p>
           </div>
 
-          <div className='mb-8 grid gap-3 border border-gray-200 bg-white p-3 shadow-sm lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center'>
+          <div className='mb-8 grid gap-3 border border-gray-200 bg-white p-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center'>
             <label className='relative block'>
               <Search className='pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400' />
               <input
@@ -576,7 +425,7 @@ const DestinationDetail: React.FC = () => {
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder={`Search ${displayTitle} tours, routes, duration or style...`}
-                className='h-12 w-full border border-gray-200 bg-gray-50 pl-11 pr-4 text-sm text-gray-800 outline-none transition-colors placeholder:text-gray-400 focus:border-primary focus:bg-white'
+                className='h-12 w-full border border-gray-200 bg-white pl-11 pr-4 text-sm text-gray-800 outline-none transition-colors placeholder:text-gray-400 focus:border-[#2B5C9C]'
               />
             </label>
             <div className='flex flex-wrap items-center gap-2'>
@@ -590,8 +439,8 @@ const DestinationDetail: React.FC = () => {
                   onClick={() => setActiveStyle(style.id)}
                   className={`h-10 px-4 text-xs font-bold uppercase tracking-wider transition-colors ${
                     activeStyle === style.id
-                      ? 'bg-primary text-white shadow-sm'
-                      : 'border border-gray-200 bg-white text-gray-600 hover:border-primary/40 hover:text-primary'
+                      ? 'bg-[#2B5C9C] text-white'
+                      : 'border border-gray-200 bg-white text-gray-600 hover:border-[#2B5C9C] hover:text-[#2B5C9C]'
                   }`}
                 >
                   {style.label}
@@ -601,82 +450,24 @@ const DestinationDetail: React.FC = () => {
           </div>
 
           {filteredTours.length > 0 ? (
-            <div className='grid gap-6 lg:grid-cols-2'>
-              {filteredTours.map((tour: any, index: number) => {
-                const priceLabel = getPriceLabel(tour);
-                const ratingLabel = getRatingLabel(tour);
-                return (
-                  <motion.article
-                    key={tour.slug || tour.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.45, delay: index * 0.04 }}
-                    className='group overflow-hidden bg-white shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-gray-900/10'
-                  >
-                    <Link href={`/tours/${tour.slug}`} className='grid h-full md:grid-cols-[250px_1fr]'>
-                      <div className='relative min-h-[260px] overflow-hidden bg-gray-200'>
-                        <img
-                          src={getTourImage(tour, normalizedSlug, destination)}
-                          alt={tour.title}
-                          loading='lazy'
-                          onError={(event) => {
-                            event.currentTarget.onerror = null;
-                            event.currentTarget.src = getDestinationFallback(normalizedSlug, destination);
-                          }}
-                          className='absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105'
-                        />
-                        <div className='absolute inset-0 bg-gradient-to-t from-gray-950/70 via-transparent to-transparent' />
-                        <div className='absolute left-4 top-4 bg-white/90 px-3 py-2 backdrop-blur-sm'>
-                          <span className='inline-flex items-center text-[10px] font-bold uppercase tracking-[0.16em] text-gray-700'>
-                            <MapPin className='mr-2 h-3.5 w-3.5 text-secondary' /> {destinationCountry}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className='flex min-h-[260px] flex-col p-5 md:p-6'>
-                        <div className='mb-4 flex flex-wrap items-center gap-3 text-xs font-semibold text-gray-500'>
-                          <span className='inline-flex items-center gap-1.5'>
-                            <Calendar className='h-3.5 w-3.5 text-primary' /> {tour.duration || 'Custom days'}
-                          </span>
-                          <span className='inline-flex items-center gap-1.5'>
-                            <Shield className='h-3.5 w-3.5 text-secondary' /> {tour.difficulty || tour.level || 'Flexible'}
-                          </span>
-                          <span className='inline-flex items-center gap-1.5'>
-                            <Star className='h-3.5 w-3.5 text-secondary' /> {ratingLabel}
-                          </span>
-                        </div>
-
-                        <h3 className='text-2xl font-serif font-bold leading-tight text-gray-950 transition-colors group-hover:text-primary'>
-                          {tour.title}
-                        </h3>
-                        <p className='mt-3 line-clamp-3 text-sm leading-6 text-gray-600'>{tour.description}</p>
-
-                        <div className='mt-auto flex items-end justify-between gap-4 border-t border-gray-100 pt-5'>
-                          <div>
-                            <div className='inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400'>
-                              <DollarSign className='h-3.5 w-3.5' /> Price
-                            </div>
-                            <div className='mt-1 text-lg font-bold text-gray-950'>{priceLabel}</div>
-                          </div>
-                          <div className='inline-flex items-center bg-primary px-4 py-3 text-xs font-bold uppercase tracking-wider text-white transition-colors group-hover:bg-primary-dark'>
-                            View details <ArrowRight className='ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1' />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.article>
-                );
-              })}
-            </div>
+            <TourGrid
+              tours={filteredTours}
+              filters={{
+                search: searchQuery,
+                destination: normalizedSlug,
+                activity: activeStyle !== 'all' ? activeStyle : ''
+              }}
+              totalCount={filteredTours.length}
+              destinations={destinations || undefined}
+            />
           ) : (
             <div className='border border-gray-200 bg-white p-8 text-center'>
-              <Compass className='mx-auto h-8 w-8 text-primary' />
+              <Compass className='mx-auto h-8 w-8 text-[#2B5C9C]' />
               <h3 className='mt-4 text-2xl font-serif font-bold text-gray-950'>No matching package found</h3>
               <p className='mx-auto mt-3 max-w-2xl text-sm leading-6 text-gray-600'>
                 Try a different keyword or ask the team to shape a private route around your dates, group size and travel purpose.
               </p>
-              <Link href='/contact' className='mt-6 inline-flex items-center justify-center bg-primary px-6 py-4 text-xs font-bold uppercase tracking-wider text-white'>
+              <Link href='/contact' className='mt-6 inline-flex items-center justify-center bg-[#E37833] hover:bg-[#c96a2d] px-6 py-4 text-xs font-bold uppercase tracking-wider text-white transition-colors'>
                 Request custom plan <ArrowRight className='ml-2 h-3.5 w-3.5' />
               </Link>
             </div>

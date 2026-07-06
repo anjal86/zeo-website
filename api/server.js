@@ -2832,7 +2832,7 @@ app.post('/api/admin/destinations', authenticateToken, async (req, res) => {
     console.log('Creating new destination...');
     console.log('Request body:', req.body);
 
-    const { slug, title, country, region, image, featured, listed, description } = req.body;
+    const { slug, title, country, region, image, featured, listed, description, seo_intro, seo_best_time, seo_planning_note, seo_guide_blocks, seo_faqs } = req.body;
 
     // Validate required fields
     if (!slug || !title || !country) {
@@ -2859,6 +2859,11 @@ app.post('/api/admin/destinations', authenticateToken, async (req, res) => {
       href: `/destinations/${slug}`,
       type: country.toLowerCase() === 'nepal' ? 'nepal' : 'international',
       description: description || `Discover the beauty and culture of ${title} in ${country}.`,
+      seo_intro: seo_intro || '',
+      seo_best_time: seo_best_time || '',
+      seo_planning_note: seo_planning_note || '',
+      seo_guide_blocks: seo_guide_blocks || [],
+      seo_faqs: seo_faqs || [],
       highlights: [],
       bestTime: 'Year-round',
       altitude: 'Varies',
@@ -2889,7 +2894,7 @@ app.put('/api/admin/destinations/:identifier', authenticateToken, async (req, re
     console.log('Request body:', req.body);
 
     const { identifier } = req.params;
-    const { title, country, region, image, featured, listed, description } = req.body;
+    const { title, country, region, image, featured, listed, description, seo_intro, seo_best_time, seo_planning_note, seo_guide_blocks, seo_faqs } = req.body;
 
     // Try to find by slug first, then by ID
     let destinationIndex = destinations.findIndex(d => d.slug === identifier);
@@ -2914,7 +2919,12 @@ app.put('/api/admin/destinations/:identifier', authenticateToken, async (req, re
       featured: featured !== undefined ? featured : existingDestination.featured,
       listed: listed !== undefined ? listed : existingDestination.listed,
       type: country ? (country.toLowerCase() === 'nepal' ? 'nepal' : 'international') : existingDestination.type,
-      description: description || (title ? `Discover the beauty and culture of ${title} in ${country || existingDestination.country}.` : existingDestination.description)
+      description: description || (title ? `Discover the beauty and culture of ${title} in ${country || existingDestination.country}.` : existingDestination.description),
+      seo_intro: seo_intro !== undefined ? seo_intro : existingDestination.seo_intro,
+      seo_best_time: seo_best_time !== undefined ? seo_best_time : existingDestination.seo_best_time,
+      seo_planning_note: seo_planning_note !== undefined ? seo_planning_note : existingDestination.seo_planning_note,
+      seo_guide_blocks: seo_guide_blocks !== undefined ? seo_guide_blocks : existingDestination.seo_guide_blocks,
+      seo_faqs: seo_faqs !== undefined ? seo_faqs : existingDestination.seo_faqs
     };
 
     destinations[destinationIndex] = updatedDestination;

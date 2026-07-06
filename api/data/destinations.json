@@ -328,7 +328,37 @@
       320,
       329
     ],
-    "relatedActivities": []
+    "relatedActivities": [],
+    "seo_intro": "Plan Thailand with clarity around Bangkok city stays, island holidays, family trips, honeymoon-style travel and Thailand–Malaysia–Singapore combinations from Nepal.",
+    "seo_best_time": "November to March is the most popular period; beach routes can vary by coast and season.",
+    "seo_planning_note": "Thailand works well for short holidays, honeymoon-style travel and add-on routes with Malaysia or Singapore. The biggest planning mistake is choosing hotels and transfers before understanding the travel pace.",
+    "seo_guide_blocks": [
+      {
+        "title": "Choose the right base",
+        "body": "Bangkok, Pattaya, Phuket, Krabi and island routes offer different travel experiences. The best choice depends on budget, group type, transfer tolerance and whether the trip is for leisure, family or celebration.",
+        "icon": "MapPin"
+      },
+      {
+        "title": "Balance pace and transfers",
+        "body": "A short Thailand tour should avoid too many hotel changes. We help structure days so sightseeing, airport transfers, beach time and optional activities feel smooth instead of rushed.",
+        "icon": "Route"
+      },
+      {
+        "title": "Plan support before booking",
+        "body": "Travellers from Nepal often need clarity on documents, hotel area, pickup timing, local support and how to combine Thailand with nearby destinations. These details should be solved before payment.",
+        "icon": "Shield"
+      }
+    ],
+    "seo_faqs": [
+      {
+        "question": "How many days are enough for Thailand from Nepal?",
+        "answer": "A short Bangkok or Pattaya trip can work in 4–5 days, while beach routes or multi-country combinations usually need 7–10 days for a better pace."
+      },
+      {
+        "question": "Can Thailand be combined with Malaysia or Singapore?",
+        "answer": "Yes. Thailand, Malaysia and Singapore can be combined, but the route should be planned around flight timing, transfers, hotel locations and total travel days."
+      }
+    ]
   },
   {
     "id": 31,
@@ -374,7 +404,37 @@
     "relatedTours": [
       322
     ],
-    "relatedActivities": []
+    "relatedActivities": [],
+    "seo_intro": "Plan China, Tibet and connected routes with practical timing, documentation, permit coordination and route clarity for travellers starting from Nepal.",
+    "seo_best_time": "Spring and autumn are generally preferred for comfortable travel and clearer route planning.",
+    "seo_planning_note": "China-related routes often need stronger document, timing and permit coordination before booking. The route should be confirmed only after checking travel requirements.",
+    "seo_guide_blocks": [
+      {
+        "title": "Start with documents",
+        "body": "China and Tibet-related travel needs document clarity before hotel or flight commitment. Requirements can affect route, timing and group planning.",
+        "icon": "Shield"
+      },
+      {
+        "title": "Plan route feasibility",
+        "body": "Long-distance sectors, border timing and guided-route rules should be understood early. This prevents unrealistic itinerary promises.",
+        "icon": "Route"
+      },
+      {
+        "title": "Choose support level",
+        "body": "Guided support, transfers and communication matter more on cross-border routes than simple city breaks.",
+        "icon": "Users"
+      }
+    ],
+    "seo_faqs": [
+      {
+        "question": "Can China routes be planned from Nepal?",
+        "answer": "Yes, but document requirements, timing and route feasibility should be checked before confirming a package."
+      },
+      {
+        "question": "Is Tibet planning different from normal China travel?",
+        "answer": "Yes. Tibet-related travel usually requires more careful permit, route and support planning."
+      }
+    ]
   },
   {
     "id": 33,

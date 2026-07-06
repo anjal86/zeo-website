@@ -7,7 +7,6 @@ import Footer from '../Footer/Footer';
 import FloatingWhatsApp from '../UI/FloatingWhatsApp';
 import MobileStickyBar from '../UI/MobileStickyBar';
 import ExitIntentModal from '../UI/ExitIntentModal';
-import SocialProofToast from '../UI/SocialProofToast';
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -32,7 +31,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
       {!isAdminRoute && !isHomePage && <MobileStickyBar />}
       {!isAdminRoute && <ExitIntentModal />}
-      {!isAdminRoute && <SocialProofToast />}
     </div>
   );
 }

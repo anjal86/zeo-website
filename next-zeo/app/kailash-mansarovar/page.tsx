@@ -13,7 +13,17 @@ import {
   Mail,
   ChevronLeft,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  MapPin,
+  Calendar,
+  Shield,
+  FileText,
+  Activity,
+  Map,
+  Plane,
+  Mountain,
+  CheckCircle,
+  ArrowRight
 } from 'lucide-react';
 import {
   GiWaterDrop
@@ -233,25 +243,25 @@ const KailashMansarovarPage: React.FC = () => {
     <>
       
       
-      <div className="kailash-mansarovar-page overflow-hidden">
+      <div className="kailash-mansarovar-page bg-brand-light">
         {/* Hero Slider Gallery */}
         <section
-          className="relative w-full overflow-hidden bg-black h-[60vh] md:h-[80vh]"
+          className="relative w-full overflow-hidden bg-brand-dark h-[70vh] md:h-[85vh]"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
           {galleryLoading ? (
             <div className="flex items-center justify-center h-full">
-              <div className="text-white text-xl">Loading sacred gallery...</div>
+              <div className="text-white text-xl font-serif">Loading sacred gallery...</div>
             </div>
           ) : galleryError ? (
             <div className="flex items-center justify-center h-full">
-              <div className="text-red-400 text-xl">Error loading gallery: {galleryError}</div>
+              <div className="text-red-400 text-xl font-serif">Error loading gallery: {galleryError}</div>
             </div>
           ) : galleryPhotos.length === 0 ? (
             <div className="flex items-center justify-center h-full">
-              <div className="text-white text-xl">No gallery photos available</div>
+              <div className="text-white text-xl font-serif">No gallery photos available</div>
             </div>
           ) : (
             <>
@@ -259,10 +269,10 @@ const KailashMansarovarPage: React.FC = () => {
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={currentSlide}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: isMobile ? 0.5 : 1, ease: "easeInOut" }}
+                  transition={{ duration: isMobile ? 0.8 : 1.2, ease: "easeInOut" }}
                   className="absolute inset-0"
                   style={{ y: backgroundY }}
                 >
@@ -274,14 +284,46 @@ const KailashMansarovarPage: React.FC = () => {
                       (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1920&h=1080&fit=crop';
                     }}
                   />
-                  {/* Gradient Overlay */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"
-                    style={{ opacity: overlayOpacity }}
-                  />
+                  {/* Rich Dark Gradient Overlay for Spiritual Atmosphere */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/80 via-brand-dark/40 to-brand-dark/90" />
                 </motion.div>
               </AnimatePresence>
 
+              {/* Hero Content (Overlayed directly on image for better immersion) */}
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 md:px-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                  className="max-w-4xl mx-auto"
+                >
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-orange-400 text-sm font-semibold tracking-[0.2em] uppercase mb-6 shadow-glow">
+                    <Mountain className="w-4 h-4" />
+                    <span>Sacred Pilgrimage 2026</span>
+                  </div>
+                  <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 leading-tight drop-shadow-2xl">
+                    Kailash Mansarovar <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-300">Yatra</span>
+                  </h1>
+                  <p className="text-lg md:text-2xl text-gray-200 max-w-2xl mx-auto leading-relaxed mb-10 font-sans drop-shadow-lg">
+                    A sacred Himalayan journey through devotion, altitude, and extraordinary landscapes.
+                  </p>
+                  
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button onClick={() => {
+                        const toursSection = document.getElementById('yatra-packages');
+                        toursSection?.scrollIntoView({ behavior: 'smooth' });
+                      }} 
+                      className="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-orange-500/30 transition-all duration-300 flex items-center justify-center gap-2 group">
+                      View 2026 Packages
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                    <Link href="/contact" className="w-full sm:w-auto bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2">
+                      <Phone className="w-5 h-5" />
+                      Ask for Cost & Permits
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
 
               {/* Navigation Arrows */}
               {galleryPhotos && galleryPhotos.length > 1 && (
@@ -309,32 +351,19 @@ const KailashMansarovarPage: React.FC = () => {
               )}
 
               {/* Slide Indicators */}
-              <motion.div className="absolute bottom-8 md:bottom-10 w-full z-20">
+              <motion.div className="absolute bottom-8 md:bottom-12 w-full z-20">
                 <div className="w-full flex justify-center items-center">
-                  <div className="flex space-x-3">
+                  <div className="flex space-x-3 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
                     {galleryPhotos.map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
                         className={`transition-all duration-300 ${index === currentSlide
-                          ? 'w-8 md:w-12 h-2 bg-orange-400'
-                          : 'w-2 h-2 bg-white/50 hover:bg-white/70'
+                          ? 'w-8 md:w-10 h-2 bg-orange-400'
+                          : 'w-2 h-2 bg-white/50 hover:bg-white/80'
                           } rounded-full`}
                       />
                     ))}
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Scroll Indicator */}
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="absolute bottom-20 md:bottom-24 w-full z-20"
-              >
-                <div className="w-full flex justify-center items-center">
-                  <div className="text-white">
-                    <ChevronDown className="w-6 h-6 md:w-8 md:h-8" />
                   </div>
                 </div>
               </motion.div>
@@ -342,82 +371,233 @@ const KailashMansarovarPage: React.FC = () => {
           )}
         </section>
 
-        {/* Page Title Section - Overlaid on hero for desktop, separate for mobile */}
-        <div className="relative -mt-16 md:-mt-30 mb-8 z-30">
-          <div className="section-container">
-            <div className="bg-white/95 backdrop-blur-sm rounded-none shadow-xl p-6 md:p-8 text-center md:mx-8 lg:mx-16 xl:mx-24">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              >
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
-                  Kailash Mansarovar <span className="text-gradient bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Yatra</span>
-                </h1>
-                <p className="text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                  Choose from our <a href="https://www.britannica.com/place/Mount-Kailas" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">sacred pilgrimage experiences</a> to the most holy mountain, a peak of deep spiritual significance and <a href="https://earthobservatory.nasa.gov/images/151740/navigating-the-high-peaks-of-the-himalaya" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">extraordinary geography</a>.
-                </p>
-              </motion.div>
-            </div>
-          </div>
-        </div>
+        {/* Route Comparison Section */}
+        <section className="py-24 bg-brand-light relative">
+          <div className="section-container relative z-10">
+            <div className="grid lg:grid-cols-12 gap-12">
+              <div className="lg:col-span-8">
+                <div className="mb-12">
+                  <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-500 mb-3 flex items-center gap-2">
+                    <Map className="w-4 h-4" /> Yatra Options
+                  </p>
+                  <h2 className="text-3xl md:text-5xl font-serif font-bold text-brand-dark mb-6 leading-tight max-w-2xl">
+                    Compare Kailash Yatra Routes <br className="hidden md:block" />
+                    <span className="text-gray-400 font-light">from Kathmandu</span>
+                  </h2>
+                  <div className="prose prose-lg text-gray-600 max-w-none">
+                    <p className="lead">
+                      The sacred journey to Mount Kailash can be undertaken through several distinct routes, each offering a different balance of acclimatization, travel style, and duration.
+                    </p>
+                    <p>
+                      Depending on your fitness level, time constraints, and budget, choose between an overland adventure, a time-saving helicopter route, a cultural journey via Lhasa, or a swift aerial Darshan.
+                    </p>
+                  </div>
+                </div>
 
-        <section className="py-16 bg-white">
-          <div className="section-container">
-            <div className="grid lg:grid-cols-3 gap-10 items-start">
-              <div className="lg:col-span-2">
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-500 mb-3">Quick Answer</p>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                  Kailash Mansarovar Yatra 2026 from Kathmandu
-                </h2>
-                <p className="text-lg text-gray-700 leading-relaxed mb-8">
-                  Kailash Mansarovar Yatra from Nepal usually starts in Kathmandu, then continues by overland, helicopter-assisted, Lhasa or aerial darshan route depending on permits, season, fitness and budget. Zeo Tourism helps pilgrims compare cost, documents, altitude risk, itinerary, inclusions and backup plans before booking.
-                </p>
-                <div className="overflow-x-auto border border-gray-200">
-                  <table className="w-full text-left text-sm">
-                    <thead className="bg-gray-50 text-gray-900">
-                      <tr>
-                        <th className="p-4 font-bold">Route</th>
-                        <th className="p-4 font-bold">Best for</th>
-                        <th className="p-4 font-bold">Key planning factor</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {[
-                        ['Kailash overland tour', 'Pilgrims wanting full route experience', 'Longer road travel, acclimatization and Tibet permit timing'],
-                        ['Kailash helicopter tour', 'Senior pilgrims and shorter journeys', 'Weather windows, payload rules and flexible scheduling'],
-                        ['Kailash Aerial Darshan', 'Short spiritual Himalayan darshan', 'Flight visibility, aircraft availability and backup day'],
-                        ['Kathmandu-Lhasa-Kailash', 'Travelers wanting better acclimatization', 'China visa, Lhasa flight and Tibet permit coordination']
-                      ].map(([route, best, factor]) => (
-                        <tr key={route}>
-                          <td className="p-4 font-semibold text-gray-900">{route}</td>
-                          <td className="p-4 text-gray-600">{best}</td>
-                          <td className="p-4 text-gray-600">{factor}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="space-y-6">
+                  {/* Route Card 1 */}
+                  <div className="bg-white rounded-none p-6 md:p-8 transition-all duration-300 border border-gray-200 hover:border-gray-300 group relative">
+                    <div className="flex flex-col md:flex-row gap-8">
+                      <div className="md:w-1/3 border-b md:border-b-0 md:border-r border-gray-200 pb-4 md:pb-0 md:pr-6 flex flex-col justify-between">
+                        <div>
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-50 text-gray-600 rounded-none text-xs font-bold uppercase tracking-wide mb-4 border border-gray-200">
+                            <Activity className="w-3.5 h-3.5 text-orange-500" /> Overland
+                          </div>
+                          <h3 className="text-xl font-serif font-bold text-brand-dark mb-2">Kailash Overland Tour</h3>
+                          <p className="text-sm text-gray-600 font-medium flex items-center gap-2"><Calendar className="w-4 h-4" /> 13-14 Days</p>
+                          <p className="text-sm text-gray-600 font-medium mt-1">Difficulty: Strenuous</p>
+                        </div>
+                      </div>
+                      <div className="md:w-2/3 flex flex-col">
+                        <p className="text-gray-600 mb-6 leading-relaxed">The classic pilgrim's path. Offers gradual acclimatization and a complete overland experience through the rugged Tibetan plateau.</p>
+                        <div className="bg-gray-50 border border-gray-100 rounded-none p-4 mb-6">
+                          <ul className="space-y-3">
+                            <li className="flex items-start gap-3 text-sm text-gray-700">
+                              <CheckCircle className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" /> 
+                              <span><span className="font-bold text-brand-dark">Best for:</span> Those wanting the full traditional route experience.</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-sm text-gray-700">
+                              <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" /> 
+                              <span><span className="font-bold text-brand-dark">Permits:</span> Requires careful Tibet permit timing.</span>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="mt-auto flex justify-end">
+                          <button onClick={() => {
+                            const toursSection = document.getElementById('yatra-packages');
+                            toursSection?.scrollIntoView({ behavior: 'smooth' });
+                          }} className="text-sm font-bold text-brand-dark hover:text-orange-600 flex items-center gap-2 transition-colors group/btn">
+                            View Itineraries <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform text-orange-500" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Route Card 2 */}
+                  <div className="bg-white rounded-none p-6 md:p-8 transition-all duration-300 border border-gray-200 hover:border-gray-300 group relative">
+                    <div className="flex flex-col md:flex-row gap-8">
+                      <div className="md:w-1/3 border-b md:border-b-0 md:border-r border-gray-200 pb-4 md:pb-0 md:pr-6 flex flex-col justify-between">
+                        <div>
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-50 text-gray-600 rounded-none text-xs font-bold uppercase tracking-wide mb-4 border border-gray-200">
+                            <Plane className="w-3.5 h-3.5 text-orange-500" /> Heli-Assisted
+                          </div>
+                          <h3 className="text-xl font-serif font-bold text-brand-dark mb-2">Kailash Helicopter Tour</h3>
+                          <p className="text-sm text-gray-600 font-medium flex items-center gap-2"><Calendar className="w-4 h-4" /> 9-11 Days</p>
+                          <p className="text-sm text-gray-600 font-medium mt-1">Difficulty: Moderate</p>
+                        </div>
+                      </div>
+                      <div className="md:w-2/3 flex flex-col">
+                        <p className="text-gray-600 mb-6 leading-relaxed">A time-efficient journey skipping long drives using helicopters from Nepalgunj/Simikot to Hilsa, reducing physical strain.</p>
+                        <div className="bg-gray-50 border border-gray-100 rounded-none p-4 mb-6">
+                          <ul className="space-y-3">
+                            <li className="flex items-start gap-3 text-sm text-gray-700">
+                              <CheckCircle className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" /> 
+                              <span><span className="font-bold text-brand-dark">Best for:</span> Senior pilgrims or those short on time.</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-sm text-gray-700">
+                              <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" /> 
+                              <span><span className="font-bold text-brand-dark">Weather:</span> Highly dependent on mountain weather windows.</span>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="mt-auto flex justify-end">
+                           <button onClick={() => {
+                            const toursSection = document.getElementById('yatra-packages');
+                            toursSection?.scrollIntoView({ behavior: 'smooth' });
+                          }} className="text-sm font-bold text-brand-dark hover:text-orange-600 flex items-center gap-2 transition-colors group/btn">
+                            View Itineraries <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform text-orange-500" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Route Card 3 */}
+                  <div className="bg-white rounded-none p-6 md:p-8 transition-all duration-300 border border-gray-200 hover:border-gray-300 group relative">
+                    <div className="flex flex-col md:flex-row gap-8">
+                      <div className="md:w-1/3 border-b md:border-b-0 md:border-r border-gray-200 pb-4 md:pb-0 md:pr-6 flex flex-col justify-between">
+                        <div>
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-50 text-gray-600 rounded-none text-xs font-bold uppercase tracking-wide mb-4 border border-gray-200">
+                            <MapPin className="w-3.5 h-3.5 text-orange-500" /> Via Lhasa
+                          </div>
+                          <h3 className="text-xl font-serif font-bold text-brand-dark mb-2">Kathmandu-Lhasa-Kailash</h3>
+                          <p className="text-sm text-gray-600 font-medium flex items-center gap-2"><Calendar className="w-4 h-4" /> 14-16 Days</p>
+                          <p className="text-sm text-gray-600 font-medium mt-1">Difficulty: Moderate</p>
+                        </div>
+                      </div>
+                      <div className="md:w-2/3 flex flex-col">
+                        <p className="text-gray-600 mb-6 leading-relaxed">Combines the cultural highlights of Lhasa (Potala Palace) with the spiritual journey to Kailash. Excellent acclimatization.</p>
+                        <div className="bg-gray-50 border border-gray-100 rounded-none p-4 mb-6">
+                          <ul className="space-y-3">
+                            <li className="flex items-start gap-3 text-sm text-gray-700">
+                              <CheckCircle className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" /> 
+                              <span><span className="font-bold text-brand-dark">Best for:</span> Cultural immersion and safe altitude gain.</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-sm text-gray-700">
+                              <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" /> 
+                              <span><span className="font-bold text-brand-dark">Logistics:</span> Requires complex China visa & flight coordination.</span>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="mt-auto flex justify-end">
+                           <button onClick={() => {
+                            const toursSection = document.getElementById('yatra-packages');
+                            toursSection?.scrollIntoView({ behavior: 'smooth' });
+                          }} className="text-sm font-bold text-brand-dark hover:text-orange-600 flex items-center gap-2 transition-colors group/btn">
+                            View Itineraries <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform text-orange-500" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <aside className="border border-gray-200 p-6">
-                <h3 className="font-bold text-gray-900 mb-4">Plan with related guides</h3>
-                <div className="space-y-3">
-                  <Link href="/kailash-mansarovar-yatra-guide" className="block text-primary hover:text-primary-dark font-medium">Complete Kailash Mansarovar Yatra guide</Link>
-                  <Link href="/kailash-mansarovar-yatra-cost" className="block text-primary hover:text-primary-dark font-medium">Kailash Mansarovar Yatra cost guide</Link>
-                  <Link href="/kailash-mansarovar-yatra-documents-permits" className="block text-primary hover:text-primary-dark font-medium">Documents and permit checklist</Link>
-                  <Link href="/kailash-packing-list" className="block text-primary hover:text-primary-dark font-medium">Kailash packing list</Link>
-                  <Link href="/kailash-fitness-medical-guide" className="block text-primary hover:text-primary-dark font-medium">Fitness and altitude safety guide</Link>
-                  <Link href="/activities/helicopter-tours" className="block text-primary hover:text-primary-dark font-medium">Kailash helicopter and aerial darshan options</Link>
-                  <Link href="/contact" className="block text-primary hover:text-primary-dark font-medium">Ask for 2026 cost and permits</Link>
+
+              {/* Sidebar: Kailash Planning Toolkit */}
+              <div className="lg:col-span-4 mt-12 lg:mt-0">
+                <div className="bg-[#2B5C9C] rounded-none p-8 sticky top-24 border border-[#2B5C9C]">
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-8">
+                      <div className="w-12 h-12 bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+                        <Phone className="w-5 h-5 text-[#E37833]" />
+                      </div>
+                      <div>
+                        <p className="text-[#E37833] text-xs font-bold uppercase tracking-wider mb-1">Expert Support</p>
+                        <h3 className="text-2xl font-serif font-bold text-white leading-tight">Yatra Planning Assistant</h3>
+                      </div>
+                    </div>
+                    
+                    <p className="text-blue-100 text-sm mb-8 leading-relaxed">
+                      Need help choosing the right route? Get free guidance on altitude safety, Tibet permits, and 2026 pricing.
+                    </p>
+
+                    <Link href="/contact" className="w-full flex items-center justify-between gap-2 bg-[#E37833] text-white px-6 py-4 rounded-none font-bold hover:bg-[#c96a2d] transition-colors group mb-10 shadow-md">
+                      <span>Ask for Cost & Permits</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                    
+                    <div className="pt-8 border-t border-white/10">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-blue-200 mb-6 flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-blue-300" /> Essential Guides
+                      </h4>
+                      <div className="space-y-3">
+                        <Link href="/kailash-mansarovar-yatra-cost" className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-none hover:border-[#E37833]/50 hover:bg-white/10 transition-colors group">
+                          <div className="flex items-center gap-3">
+                            <FileText className="w-4 h-4 text-blue-300 group-hover:text-white transition-colors" />
+                            <span className="text-sm font-bold text-blue-50 group-hover:text-white transition-colors">Yatra Cost Breakdown</span>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-[#E37833] opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                        </Link>
+                        
+                        <Link href="/kailash-mansarovar-yatra-documents-permits" className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-none hover:border-[#E37833]/50 hover:bg-white/10 transition-colors group">
+                          <div className="flex items-center gap-3">
+                            <Shield className="w-4 h-4 text-blue-300 group-hover:text-white transition-colors" />
+                            <span className="text-sm font-bold text-blue-50 group-hover:text-white transition-colors">Permits & Visas</span>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-[#E37833] opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                        </Link>
+
+                        <Link href="/kailash-fitness-medical-guide" className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-none hover:border-[#E37833]/50 hover:bg-white/10 transition-colors group">
+                          <div className="flex items-center gap-3">
+                            <Activity className="w-4 h-4 text-blue-300 group-hover:text-white transition-colors" />
+                            <span className="text-sm font-bold text-blue-50 group-hover:text-white transition-colors">Altitude Safety & Prep</span>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-[#E37833] opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                        </Link>
+                        
+                        <Link href="/kailash-packing-list" className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-none hover:border-[#E37833]/50 hover:bg-white/10 transition-colors group">
+                          <div className="flex items-center gap-3">
+                            <Map className="w-4 h-4 text-blue-300 group-hover:text-white transition-colors" />
+                            <span className="text-sm font-bold text-blue-50 group-hover:text-white transition-colors">Packing Checklist</span>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-[#E37833] opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </aside>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Tours Section */}
-        <section className="pt-8 pb-12 bg-gray-50">
-          <div className="section-container">
+        <section id="yatra-packages" className="py-24 bg-brand-light relative">
+          <div className="absolute top-0 left-0 w-full h-1/3 bg-white z-0 pointer-events-none"></div>
+          <div className="section-container relative z-10">
+            <div className="text-center mb-16">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-500 mb-3 flex items-center justify-center gap-2">
+                <Mountain className="w-4 h-4" /> 2026 Departures
+              </p>
+              <h2 className="text-3xl md:text-5xl font-serif font-bold text-brand-dark mb-6">
+                Featured Yatra Packages
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Carefully crafted itineraries for a safe and spiritually fulfilling journey to Mount Kailash.
+              </p>
+            </div>
+            
             {/* Loading State */}
             {loading && (
               <LoadingSpinner className="py-20" size="lg" />
@@ -445,42 +625,41 @@ const KailashMansarovarPage: React.FC = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="py-20 bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
-          <div className="section-container text-center">
+        {/* Final CTA */}
+        <section className="py-16 bg-[#2B5C9C] relative">
+          <div className="section-container text-center relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <div className="flex justify-center mb-8">
-                <GiWaterDrop className="text-6xl text-orange-400" />
+              <div className="flex justify-center mb-6">
+                <Mountain className="text-5xl text-[#E37833] w-14 h-14" />
               </div>
-              <h2 className="text-4xl md:text-6xl font-bold mb-6">
+              <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-4">
                 Your Sacred Journey Awaits
               </h2>
-              <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-                The sacred mountain awaits. The holy waters are ready to purify your spirit.
+              <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto leading-relaxed font-medium">
+                The sacred mountain awaits. Begin your pilgrimage with expert guidance, reliable support, and deep reverence.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-10 py-5 rounded-full font-bold text-xl shadow-2xl transition-all duration-300"
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link
+                  href="/contact"
+                  className="bg-[#E37833] hover:bg-[#c96a2d] text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto shadow-lg"
                 >
-                  <Phone className="inline mr-3 w-6 h-6" />
-                  Call for Guidance
-                </motion.button>
+                  <Mail className="w-5 h-5" />
+                  Request 2026 Information
+                </Link>
 
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="border-2 border-orange-400 text-orange-400 px-10 py-5 rounded-full font-bold text-xl hover:bg-orange-400 hover:text-white transition-all duration-300"
+                <a
+                  href="tel:+9779851000000"
+                  className="border-2 border-white/40 bg-transparent text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
-                  <Mail className="inline mr-3 w-6 h-6" />
-                  Request Information
-                </motion.button>
+                  <Phone className="w-5 h-5" />
+                  Speak to an Expert
+                </a>
               </div>
             </motion.div>
           </div>
