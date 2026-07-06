@@ -1,12 +1,16 @@
 export const revalidate = 3600;
 import React from 'react';
+import type { Metadata } from 'next';
 import { listTours } from '../../src/server/repositories/tours';
 import ToursListClient from '../../src/components/Tours/ToursListClient';
 import PageHeader from '../../src/components/PageHeader/PageHeader';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Tours & Packages - Zeo Tourism",
   description: "Browse our comprehensive collection of tours, from the Himalayas to cultural heritage sites.",
+  alternates: {
+    canonical: "/tours",
+  },
 };
 
 export default async function ToursPage() {
