@@ -1,4 +1,5 @@
-import { adminDeleteSimple, adminTeamUpdate, adminOnly } from "@/server/http/mutation-handlers";
+import { adminDeleteSimple, adminOnly } from "@/server/http/mutation-handlers";
+import { adminTeamUpdateValidated } from "@/server/http/admin-extra-handlers";
 import { getOne } from "@/server/db/mysql";
 import { notFound, ok } from "@/server/http/api-response";
 
@@ -13,7 +14,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
 
 export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
-  return adminTeamUpdate(request, id);
+  return adminTeamUpdateValidated(request, id);
 }
 
 export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
