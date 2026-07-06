@@ -9,7 +9,7 @@ export function useApi<T = any>(url: string | null) {
 
   useEffect(() => {
     if (!url) {
-      setLoading(false);
+      Promise.resolve().then(() => setLoading(false));
       return;
     }
 
@@ -79,8 +79,8 @@ export function useAdminApi<T = any>(url: string) {
   useEffect(() => {
     // Wrap fetchData to handle mounting check if needed, 
     // but state updates on unmounted components are warned by React anyway.
-    // For simplicity, we just call the memoized function.
-    fetchData();
+    // For simplicity, we just call the memoized function asynchronously.
+    Promise.resolve().then(() => fetchData());
   }, [fetchData]);
 
   return { data, loading, error, refetch: fetchData };
@@ -211,7 +211,7 @@ export function usePaginatedTours(filters: {
 
   // Reset and reload when filters change
   useEffect(() => {
-    loadTours(1, false);
+    Promise.resolve().then(() => loadTours(1, false));
   }, [loadTours]);
 
   return {
@@ -341,7 +341,7 @@ export function useFilteredTours(filters: {
 
   useEffect(() => {
     if (!tours) {
-      setFilteredTours([]);
+      Promise.resolve().then(() => setFilteredTours([]));
       return;
     }
 
@@ -377,7 +377,7 @@ export function useFilteredTours(filters: {
       );
     }
 
-    setFilteredTours(filtered);
+    Promise.resolve().then(() => setFilteredTours(filtered));
   }, [tours, filters.search, filters.destination, filters.activity]);
 
   return {

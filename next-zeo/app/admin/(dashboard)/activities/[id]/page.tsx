@@ -52,8 +52,8 @@ const ActivityEditor: React.FC = () => {
                     duration: data.duration || '', best_time: data.best_time || '',
                     featured: !!data.featured, is_active: data.is_active !== false,
                 });
-            } catch (err: any) {
-                setError(err.message || 'Failed to load');
+            } catch (err: unknown) {
+                setError(err instanceof Error ? err.message : 'Failed to load');
             } finally { setLoading(false); }
         })();
     }, [id, isEditing]);
@@ -80,8 +80,8 @@ const ActivityEditor: React.FC = () => {
                 body: JSON.stringify(form),
             });
             router.push('/admin/activities');
-        } catch (err: any) {
-            setError(err.message || 'Failed to save');
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Failed to save');
         } finally { setSaving(false); }
     };
 

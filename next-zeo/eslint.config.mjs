@@ -2,8 +2,40 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTypescript from "eslint-config-next/typescript";
 
 const eslintConfig = [
-  ...nextVitals,
-  ...nextTypescript,
+  ...nextVitals.map(config => {
+    if (config.plugins && config.plugins["react-hooks"]) {
+      return {
+        ...config,
+        rules: {
+          ...config.rules,
+          "react-hooks/exhaustive-deps": "warn",
+          "@next/next/no-img-element": "warn",
+          "react/no-unescaped-entities": "warn",
+        }
+      };
+    }
+    return config;
+  }),
+  ...nextTypescript.map(config => {
+    if (config.plugins && config.plugins["@typescript-eslint"]) {
+      return {
+        ...config,
+        rules: {
+          ...config.rules,
+          "@typescript-eslint/no-explicit-any": "warn",
+          "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+              argsIgnorePattern: "^_",
+              varsIgnorePattern: "^_",
+              caughtErrorsIgnorePattern: "^_",
+            },
+          ],
+        }
+      };
+    }
+    return config;
+  }),
   {
     ignores: [
       ".next/**",
@@ -11,24 +43,6 @@ const eslintConfig = [
       "next-env.d.ts",
       "public/**",
     ],
-  },
-  {
-    rules: {
-      // Keep lint useful without blocking production over inherited legacy cleanup debt.
-      // These should be moved back to errors gradually after the codebase is cleaned file-by-file.
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_",
-        },
-      ],
-      "react-hooks/exhaustive-deps": "warn",
-      "@next/next/no-img-element": "warn",
-      "react/no-unescaped-entities": "warn",
-    },
   },
 ];
 

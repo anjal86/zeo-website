@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { auditMutation } from "./audit-helper";
 import { execute, getOne } from "@/server/db/mysql";
 import { requireAdmin } from "@/server/auth/require-admin";
 import { badRequest, created, notFound, ok, serverError } from "@/server/http/api-response";
@@ -37,6 +38,12 @@ import { adminList, searchParams } from "./route-utils";
 const publicText = z.string().trim().min(1).max(5000);
 const email = z.string().email().max(255);
 
+export async function requireAdminSession() {
+  const admin = await requireAdmin();
+  if (!admin.ok) return admin.response;
+  return admin.user;
+}
+
 export async function adminOnly() {
   const admin = await requireAdmin();
   if (!admin.ok) return admin.response;
@@ -52,8 +59,8 @@ export async function requireJson(request: Request) {
 }
 
 export async function uploadHandler(request: Request, options: { folder: StorageFolder; slugField?: string; entityType?: string }) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   try {
     const form = await request.formData();
     const file = form.get("file") ?? form.get("image") ?? form.get("mediaFile");
@@ -172,70 +179,78 @@ export async function publicTestimonial(request: Request) {
 }
 
 export async function adminToursExport(request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const result = await listTours(searchParams(request), true);
   return ok(result.items);
 }
 
 export async function adminTourExport(id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const parsed = Number.parseInt(id, 10);
   const tour = Number.isFinite(parsed) ? await getTourByLegacyId(parsed, true) : null;
   return tour ? ok(tour) : notFound("Tour not found");
 }
 
 export async function adminTourBySlug(slug: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const tour = await getTourBySlug(slug, true);
   return tour ? ok(tour) : notFound("Tour not found");
 }
 
 export async function adminCreateTour(request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   try {
     const body = await requireJson(request);
     if (!body.title) return badRequest("Title is required");
-    return created(await createTour(body));
+    const createdData = await createTour(body);
+    if (createdData) await auditMutation(request, admin, "CREATE", "TOUR", createdData.id, undefined, createdData);
+    return createdData ? created(createdData) : serverError("Failed to create tour");
   } catch (error) {
     return serverError(error);
   }
 }
 
 export async function adminUpdateTour(request: Request, id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   try {
     const parsed = Number.parseInt(id, 10);
-    const tour = await updateTour(parsed, await requireJson(request));
+    const body = await requireJson(request);
+    const tour = await updateTour(parsed, body);
+    if (tour) await auditMutation(request, admin, "UPDATE", "TOUR", parsed, undefined, tour);
     return tour ? ok(tour) : notFound("Tour not found");
   } catch (error) {
     return serverError(error);
   }
 }
 
-export async function adminDeleteTour(id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
-  const okDelete = await deleteTour(Number.parseInt(id, 10));
+export async function adminDeleteTour(request: Request, id: string) {
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
+  const parsed = Number.parseInt(id, 10);
+  const okDelete = await deleteTour(parsed);
+  if (okDelete) await auditMutation(request, admin, "DELETE", "TOUR", parsed);
   return okDelete ? ok({ message: "Tour deleted successfully" }) : notFound("Tour not found");
 }
 
 export async function adminPatchTourListing(request: Request, id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await requireJson(request);
   if (typeof body.listed !== "boolean") return badRequest("Listed status must be a boolean value");
-  const tour = await setTourListing(Number.parseInt(id, 10), body.listed);
+  const parsed = Number.parseInt(id, 10);
+  const tour = await setTourListing(parsed, body.listed);
+  if (tour) await auditMutation(request, admin, "UPDATE", "TOUR_LISTING", parsed, undefined, { listed: body.listed });
   return tour ? ok(tour) : notFound("Tour not found");
 }
 
 export async function adminGetDestination(identifier: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const destination = await getDestinationBySlug(identifier, true);
   if (destination) return ok(destination);
   const id = await resolveByIdentifier("destinations", identifier);
@@ -243,72 +258,84 @@ export async function adminGetDestination(identifier: string) {
 }
 
 export async function adminUpsertDestination(request: Request, identifier?: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   try {
-    const destination = await upsertDestination(identifier ?? null, await requireJson(request));
-    return identifier ? ok(destination) : created(destination);
+    const body = await requireJson(request);
+    const destination = await upsertDestination(identifier ?? null, body);
+    if (destination) await auditMutation(request, admin, identifier ? "UPDATE" : "CREATE", "DESTINATION", destination.id, undefined, destination);
+    return destination ? (identifier ? ok(destination) : created(destination)) : serverError("Failed to upsert destination");
   } catch (error) {
     return serverError(error);
   }
 }
 
-export async function adminDeleteDestination(identifier: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
-  return (await deleteDestination(identifier)) ? ok({ message: "Destination deleted successfully" }) : notFound("Destination not found");
+export async function adminDeleteDestination(request: Request, identifier: string) {
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
+  const okDelete = await deleteDestination(identifier);
+  if (okDelete) await auditMutation(request, admin, "DELETE", "DESTINATION", identifier);
+  return okDelete ? ok({ message: "Destination deleted successfully" }) : notFound("Destination not found");
 }
 
 export async function adminUpsertActivity(request: Request, identifier?: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   try {
-    const activity = await upsertActivity(identifier ?? null, await requireJson(request));
-    return identifier ? ok(activity) : created(activity);
+    const body = await requireJson(request);
+    const activity = await upsertActivity(identifier ?? null, body);
+    if (activity) await auditMutation(request, admin, identifier ? "UPDATE" : "CREATE", "ACTIVITY", activity.id, undefined, activity);
+    return activity ? (identifier ? ok(activity) : created(activity)) : serverError("Failed to upsert activity");
   } catch (error) {
     return serverError(error);
   }
 }
 
-export async function adminDeleteActivity(identifier: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
-  return (await deleteActivity(identifier)) ? ok({ message: "Activity deleted successfully" }) : notFound("Activity not found");
+export async function adminDeleteActivity(request: Request, identifier: string) {
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
+  const okDelete = await deleteActivity(identifier);
+  if (okDelete) await auditMutation(request, admin, "DELETE", "ACTIVITY", identifier);
+  return okDelete ? ok({ message: "Activity deleted successfully" }) : notFound("Activity not found");
 }
 
 export async function adminGetPost(id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const row = await getOne("SELECT slug FROM posts WHERE id = ? OR legacy_id = ? LIMIT 1", [id, id]) as { slug?: string } | null;
   return row?.slug ? ok(await listPosts({ limit: "1000" }, true).then((r) => r.items.find((p) => p.slug === row.slug))) : notFound("Post not found");
 }
 
 export async function adminUpsertPost(request: Request, id?: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   try {
-    const post = await upsertPost(id ?? null, await requireJson(request));
-    return id ? ok(post) : created(post);
+    const body = await requireJson(request);
+    const post = await upsertPost(id ?? null, body);
+    if (post) await auditMutation(request, admin, id ? "UPDATE" : "CREATE", "POST", post.id, undefined, post);
+    return post ? (id ? ok(post) : created(post)) : serverError("Failed to upsert post");
   } catch (error) {
     return serverError(error);
   }
 }
 
-export async function adminDeletePost(id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
-  return (await deletePost(id)) ? ok({ message: "Post deleted" }) : notFound("Post not found");
+export async function adminDeletePost(request: Request, id: string) {
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
+  const okDelete = await deletePost(id);
+  if (okDelete) await auditMutation(request, admin, "DELETE", "POST", id);
+  return okDelete ? ok({ message: "Post deleted" }) : notFound("Post not found");
 }
 
 export async function adminListSliders() {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   return ok(await listSliders(true));
 }
 
 export async function adminUpsertSlider(request: Request, id?: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await requireJson(request);
   const data = {
     title: body.title ?? "Untitled slider",
@@ -327,30 +354,35 @@ export async function adminUpsertSlider(request: Request, id?: string) {
   };
   if (id) await update("sliders", Number(id), data);
   else await insert("sliders", data);
+  
+  await auditMutation(request, admin, id ? "UPDATE" : "CREATE", "SLIDER", id ? Number(id) : null, undefined, data);
   return id ? ok({ success: true }) : created({ success: true });
 }
 
 export async function adminDeleteSimple(
+  request: Request,
   table: "leads" | "enquiries" | "sliders" | "testimonials" | "team_members" | "kailash_gallery",
   id: string,
   label: string,
 ) {
-  const denied = await adminOnly();
-  if (denied) return denied;
-  return (await deleteById(table, Number(id))) ? ok({ message: `${label} deleted successfully` }) : notFound(`${label} not found`);
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
+  const okDelete = await deleteById(table, Number(id));
+  if (okDelete) await auditMutation(request, admin, "DELETE", table.toUpperCase(), Number(id));
+  return okDelete ? ok({ message: `${label} deleted successfully` }) : notFound(`${label} not found`);
 }
 
 export async function adminListTestimonials() {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   return ok(await listTestimonials(true));
 }
 
 export async function adminUpdateTestimonial(request: Request, id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await requireJson(request);
-  await update("testimonials", Number(id), {
+  const data = {
     name: body.name,
     email: body.email,
     country: body.country,
@@ -361,34 +393,38 @@ export async function adminUpdateTestimonial(request: Request, id: string) {
     image_url: body.image ?? body.image_url,
     is_approved: body.is_approved,
     is_featured: body.is_featured,
-  });
+  };
+  await update("testimonials", Number(id), data);
+  await auditMutation(request, admin, "UPDATE", "TESTIMONIAL", Number(id), undefined, data);
   return ok({ success: true });
 }
 
 export async function adminPatchTestimonial(id: string, field: "is_approved" | "is_featured", request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body: Record<string, unknown> = await requireJson(request).catch(() => ({}));
   const value = field === "is_approved" ? body.approved ?? body.is_approved ?? true : body.featured ?? body.is_featured ?? true;
   await update("testimonials", Number(id), { [field]: bool(value, true) });
+  await auditMutation(request, admin, "UPDATE", "TESTIMONIAL", Number(id), undefined, { [field]: bool(value, true) });
   return ok({ success: true });
 }
 
 export async function adminUpdateContact(request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await requireJson(request);
   await execute(
     `INSERT INTO contact_settings (setting_key, payload) VALUES ('default', ?)
      ON DUPLICATE KEY UPDATE payload = VALUES(payload)`,
     [JSON.stringify(body)],
   );
+  await auditMutation(request, admin, "UPDATE", "CONTACT", "default", undefined, body);
   return ok(await getContactSettings());
 }
 
 export async function adminUpdateDirector(request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await requireJson(request);
   const existing = await getDirectorMessage() as { id?: number };
   const data = {
@@ -399,14 +435,15 @@ export async function adminUpdateDirector(request: Request) {
   };
   if (existing.id) await update("director_message", existing.id, data);
   else await insert("director_message", data);
+  await auditMutation(request, admin, existing.id ? "UPDATE" : "CREATE", "DIRECTOR_MESSAGE", existing.id ?? null, undefined, data);
   return ok(await getDirectorMessage());
 }
 
 export async function adminTeamCreate(request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await requireJson(request);
-  await insert("team_members", {
+  const data = {
     name: body.name ?? "Unnamed",
     role: body.role ?? body.position ?? null,
     bio: body.bio ?? null,
@@ -416,15 +453,17 @@ export async function adminTeamCreate(request: Request) {
     social: json(body.social),
     order_index: num(body.order_index),
     is_active: body.is_active === undefined ? true : bool(body.is_active),
-  });
+  };
+  const id = await insert("team_members", data);
+  await auditMutation(request, admin, "CREATE", "TEAM_MEMBER", id, undefined, data);
   return created({ success: true });
 }
 
 export async function adminTeamUpdate(request: Request, id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await requireJson(request);
-  await update("team_members", Number(id), {
+  const data = {
     name: body.name,
     role: body.role ?? body.position,
     bio: body.bio,
@@ -434,27 +473,30 @@ export async function adminTeamUpdate(request: Request, id: string) {
     social: body.social === undefined ? undefined : json(body.social),
     order_index: body.order_index,
     is_active: body.is_active,
-  });
+  };
+  await update("team_members", Number(id), data);
+  await auditMutation(request, admin, "UPDATE", "TEAM_MEMBER", Number(id), undefined, data);
   return ok({ success: true });
 }
 
 export async function adminTeamOrder(request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await request.json() as Array<{ id: number; order_index: number }>;
   for (const item of body) await update("team_members", item.id, { order_index: item.order_index });
+  await auditMutation(request, admin, "UPDATE_ORDER", "TEAM_MEMBER", null, undefined, body);
   return ok({ success: true });
 }
 
 export async function adminLogosGet() {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   return ok(await listLogos(true));
 }
 
 export async function adminLogosPut(request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await requireJson(request);
   for (const [type, value] of Object.entries(body)) {
     if (typeof value !== "string") continue;
@@ -464,43 +506,49 @@ export async function adminLogosPut(request: Request) {
       [type, `${type} logo`, value],
     );
   }
+  await auditMutation(request, admin, "UPDATE", "LOGOS", null, undefined, body);
   return ok(await listLogos(true));
 }
 
-export async function adminLogoDelete(type: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+export async function adminLogoDelete(request: Request, type: string) {
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   await execute("DELETE FROM logos WHERE type = ?", [type]);
+  await auditMutation(request, admin, "DELETE", "LOGOS", type);
   return ok({ success: true });
 }
 
 export async function adminLeadUpdate(request: Request, id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
-  await updateStatusTable("leads", Number(id), await requireJson(request));
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
+  const body = await requireJson(request);
+  await updateStatusTable("leads", Number(id), body);
+  await auditMutation(request, admin, "UPDATE", "LEAD", Number(id), undefined, body);
   return ok({ success: true });
 }
 
 export async function adminEnquiryGet(id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const result = await listEnquiries({ limit: "1000" });
   const item = result.items.find((enquiry) => enquiry.id === Number(id) || enquiry.db_id === Number(id));
   return item ? ok(item) : notFound("Enquiry not found");
 }
 
 export async function adminEnquiryUpdate(request: Request, id: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
-  await updateStatusTable("enquiries", Number(id), await requireJson(request));
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
+  const body = await requireJson(request);
+  await updateStatusTable("enquiries", Number(id), body);
+  await auditMutation(request, admin, "UPDATE", "ENQUIRY", Number(id), undefined, body);
   return ok({ success: true });
 }
 
 export async function adminGalleryCreate(request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const body = await requireJson(request);
-  await insert("kailash_gallery", {
+  const data = {
     title: body.title ?? null,
     image_url: body.image ?? body.image_url,
     alt: body.alt ?? null,
@@ -508,23 +556,26 @@ export async function adminGalleryCreate(request: Request) {
     order_index: num(body.order ?? body.order_index),
     is_active: body.isActive === undefined ? true : bool(body.isActive ?? body.is_active),
     metadata: json(body.metadata),
-  });
+  };
+  const id = await insert("kailash_gallery", data);
+  await auditMutation(request, admin, "CREATE", "KAILASH_GALLERY", id, undefined, data);
   return created({ success: true });
 }
 
-export async function adminTourGalleryDelete(tourId: string, filename: string) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+export async function adminTourGalleryDelete(request: Request, tourId: string, filename: string) {
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const tour = await getTourByLegacyId(Number(tourId), true);
   if (!tour) return notFound("Tour not found");
   const gallery = (tour.gallery as string[]).filter((url) => !url.endsWith(`/${filename}`) && url !== filename);
   await updateTour(Number(tourId), { ...tour, gallery });
+  await auditMutation(request, admin, "DELETE", "TOUR_GALLERY_IMAGE", Number(tourId), undefined, { filename, gallery });
   return ok({ success: true, gallery });
 }
 
 export async function adminReadList(kind: "tours" | "destinations" | "activities" | "posts" | "enquiries" | "leads", request: Request) {
-  const denied = await adminOnly();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
   const params = searchParams(request);
   if (kind === "tours") {
     const result = await listTours(params, true);

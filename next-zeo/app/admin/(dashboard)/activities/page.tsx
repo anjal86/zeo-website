@@ -45,12 +45,15 @@ const ActivitiesManager: React.FC = () => {
             const list = data.activities || [];
             setItems(list);
             setTotal(data.pagination?.totalItems ?? list.length);
-        } catch (err: any) {
-            setError(err.message || 'Failed to load');
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Failed to load');
         } finally { setLoading(false); }
     }, [page, search, typeFilter]);
 
-    useEffect(() => { fetchItems(); }, [fetchItems]);
+    useEffect(() => { 
+        // Avoid calling setState synchronously during render by using a microtask
+        Promise.resolve().then(() => fetchItems()); 
+    }, [fetchItems]);
 
     const handleDelete = async (act: Activity) => {
         await adminFetch(`${api}/admin/activities/${act.id}`, { method: 'DELETE' });

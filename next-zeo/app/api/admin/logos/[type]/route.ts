@@ -1,6 +1,6 @@
 import { adminLogoDelete } from "@/server/http/mutation-handlers";
 
-export async function DELETE(_request: Request, context: { params: Promise<{ type: string }> }) {
+export async function DELETE(request: Request, context: { params: Promise<{ type: string }> }) {
   const { type } = await context.params;
-  return adminLogoDelete(type);
+  return adminLogoDelete(request, type);
 }

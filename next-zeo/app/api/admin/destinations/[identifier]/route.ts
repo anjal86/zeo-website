@@ -13,5 +13,5 @@ export async function PUT(request: Request, context: { params: Promise<{ identif
 
 export async function DELETE(_request: Request, context: { params: Promise<{ identifier: string }> }) {
   const { identifier } = await context.params;
-  return adminDeleteDestination(identifier);
+  return adminDeleteDestination(_request, identifier);
 }

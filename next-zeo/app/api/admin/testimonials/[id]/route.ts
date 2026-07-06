@@ -3,7 +3,7 @@ import { adminUpdateTestimonialValidated } from "@/server/http/admin-extra-handl
 import { getOne } from "@/server/db/mysql";
 import { notFound, ok } from "@/server/http/api-response";
 
-export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const denied = await adminOnly();
   if (denied) return denied;
   const { id } = await context.params;
@@ -17,7 +17,7 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
   return adminUpdateTestimonialValidated(request, id);
 }
 
-export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
-  return adminDeleteSimple("testimonials", id, "Testimonial");
+  return adminDeleteSimple(request, "testimonials", id, "Testimonial");
 }

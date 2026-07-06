@@ -1,9 +1,10 @@
 import { z } from "zod";
+import { auditMutation } from "./audit-helper";
 import { execute } from "@/server/db/mysql";
 import { requireAdmin } from "@/server/auth/require-admin";
 import { badRequest, created, ok, serverError } from "@/server/http/api-response";
 import { getContactSettings } from "@/server/repositories/content";
-import { getDirectorMessage, listLogos, listTeam } from "@/server/repositories/company";
+import { getDirectorMessage, listLogos } from "@/server/repositories/company";
 import { bool, insert, json, num, update, updateStatusTable } from "@/server/repositories/mutations";
 
 const emptyToUndefined = (value: unknown) => (value === "" || value === null ? undefined : value);
@@ -108,14 +109,15 @@ async function readJson(request: Request) {
   }
 }
 
-async function requireAdminOrResponse() {
+async function requireAdminSession() {
   const admin = await requireAdmin();
-  return admin.ok ? null : admin.response;
+  if (!admin.ok) return admin.response;
+  return admin.user;
 }
 
 export async function adminUpsertSliderValidated(request: Request, id?: string) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -141,6 +143,7 @@ export async function adminUpsertSliderValidated(request: Request, id?: string) 
     };
     if (id) await update("sliders", Number(id), row);
     else await insert("sliders", row);
+    await auditMutation(request, admin, id ? "UPDATE" : "CREATE", "SLIDER", id ? Number(id) : null, undefined, row);
     return id ? ok({ success: true }) : created({ success: true });
   } catch (error) {
     return serverError(error);
@@ -148,8 +151,8 @@ export async function adminUpsertSliderValidated(request: Request, id?: string) 
 }
 
 export async function adminUpdateTestimonialValidated(request: Request, id: string) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -158,7 +161,7 @@ export async function adminUpdateTestimonialValidated(request: Request, id: stri
     if (!parsed.success) return badRequest("Invalid testimonial payload", parsed.error.flatten());
 
     const data = parsed.data;
-    await update("testimonials", Number(id), {
+    const updateData = {
       name: data.name,
       email: data.email ?? null,
       country: data.country ?? null,
@@ -169,7 +172,9 @@ export async function adminUpdateTestimonialValidated(request: Request, id: stri
       image_url: data.image ?? data.image_url ?? null,
       is_approved: data.is_approved === undefined ? undefined : bool(data.is_approved),
       is_featured: data.is_featured === undefined ? undefined : bool(data.is_featured),
-    });
+    };
+    await update("testimonials", Number(id), updateData);
+    await auditMutation(request, admin, "UPDATE", "TESTIMONIAL", Number(id), undefined, updateData);
     return ok({ success: true });
   } catch (error) {
     return serverError(error);
@@ -177,8 +182,8 @@ export async function adminUpdateTestimonialValidated(request: Request, id: stri
 }
 
 export async function adminUpdateContactValidated(request: Request) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -190,6 +195,7 @@ export async function adminUpdateContactValidated(request: Request) {
        ON DUPLICATE KEY UPDATE payload = VALUES(payload)`,
       [JSON.stringify(parsed.data)],
     );
+    await auditMutation(request, admin, "UPDATE", "CONTACT", "default", undefined, parsed.data);
     return ok(await getContactSettings());
   } catch (error) {
     return serverError(error);
@@ -197,8 +203,8 @@ export async function adminUpdateContactValidated(request: Request) {
 }
 
 export async function adminUpdateDirectorValidated(request: Request) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -214,6 +220,7 @@ export async function adminUpdateDirectorValidated(request: Request) {
     };
     if (existing.id) await update("director_message", existing.id, data);
     else await insert("director_message", data);
+    await auditMutation(request, admin, existing.id ? "UPDATE" : "CREATE", "DIRECTOR_MESSAGE", existing.id ?? null, undefined, data);
     return ok(await getDirectorMessage());
   } catch (error) {
     return serverError(error);
@@ -221,8 +228,8 @@ export async function adminUpdateDirectorValidated(request: Request) {
 }
 
 export async function adminTeamCreateValidated(request: Request) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -230,7 +237,7 @@ export async function adminTeamCreateValidated(request: Request) {
     const parsed = teamSchema.safeParse(body);
     if (!parsed.success) return badRequest("Invalid team member payload", parsed.error.flatten());
     const data = parsed.data;
-    await insert("team_members", {
+    const insertData = {
       name: data.name,
       role: data.role ?? data.position ?? null,
       bio: data.bio ?? null,
@@ -240,7 +247,9 @@ export async function adminTeamCreateValidated(request: Request) {
       social: json(data.social),
       order_index: num(data.order_index),
       is_active: data.is_active === undefined ? true : bool(data.is_active),
-    });
+    };
+    const newId = await insert("team_members", insertData);
+    await auditMutation(request, admin, "CREATE", "TEAM_MEMBER", newId, undefined, insertData);
     return created({ success: true });
   } catch (error) {
     return serverError(error);
@@ -248,8 +257,8 @@ export async function adminTeamCreateValidated(request: Request) {
 }
 
 export async function adminTeamUpdateValidated(request: Request, id: string) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -257,7 +266,7 @@ export async function adminTeamUpdateValidated(request: Request, id: string) {
     const parsed = teamSchema.safeParse(body);
     if (!parsed.success) return badRequest("Invalid team member payload", parsed.error.flatten());
     const data = parsed.data;
-    await update("team_members", Number(id), {
+    const updateData = {
       name: data.name,
       role: data.role ?? data.position ?? null,
       bio: data.bio ?? null,
@@ -267,7 +276,9 @@ export async function adminTeamUpdateValidated(request: Request, id: string) {
       social: data.social === undefined ? undefined : json(data.social),
       order_index: data.order_index,
       is_active: data.is_active === undefined ? undefined : bool(data.is_active),
-    });
+    };
+    await update("team_members", Number(id), updateData);
+    await auditMutation(request, admin, "UPDATE", "TEAM_MEMBER", Number(id), undefined, updateData);
     return ok({ success: true });
   } catch (error) {
     return serverError(error);
@@ -275,14 +286,15 @@ export async function adminTeamUpdateValidated(request: Request, id: string) {
 }
 
 export async function adminTeamOrderValidated(request: Request) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await request.json().catch(() => null);
     const parsed = teamOrderSchema.safeParse(body);
     if (!parsed.success) return badRequest("Invalid team order payload", parsed.error.flatten());
     for (const item of parsed.data) await update("team_members", item.id, { order_index: item.order_index });
+    await auditMutation(request, admin, "UPDATE_ORDER", "TEAM_MEMBER", null, undefined, parsed.data);
     return ok({ success: true });
   } catch (error) {
     return serverError(error);
@@ -290,8 +302,8 @@ export async function adminTeamOrderValidated(request: Request) {
 }
 
 export async function adminLogosPutValidated(request: Request) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -306,6 +318,7 @@ export async function adminLogosPutValidated(request: Request) {
         [type, `${type} logo`, value],
       );
     }
+    await auditMutation(request, admin, "UPDATE", "LOGOS", null, undefined, parsed.data);
     return ok(await listLogos(true));
   } catch (error) {
     return serverError(error);
@@ -313,8 +326,8 @@ export async function adminLogosPutValidated(request: Request) {
 }
 
 export async function adminLeadUpdateValidated(request: Request, id: string) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -322,6 +335,7 @@ export async function adminLeadUpdateValidated(request: Request, id: string) {
     const parsed = leadStatusSchema.safeParse(body);
     if (!parsed.success) return badRequest("Invalid lead update payload", parsed.error.flatten());
     await updateStatusTable("leads", Number(id), parsed.data);
+    await auditMutation(request, admin, "UPDATE", "LEAD", Number(id), undefined, parsed.data);
     return ok({ success: true });
   } catch (error) {
     return serverError(error);
@@ -329,8 +343,8 @@ export async function adminLeadUpdateValidated(request: Request, id: string) {
 }
 
 export async function adminEnquiryUpdateValidated(request: Request, id: string) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -338,6 +352,7 @@ export async function adminEnquiryUpdateValidated(request: Request, id: string) 
     const parsed = enquiryStatusSchema.safeParse(body);
     if (!parsed.success) return badRequest("Invalid enquiry update payload", parsed.error.flatten());
     await updateStatusTable("enquiries", Number(id), parsed.data);
+    await auditMutation(request, admin, "UPDATE", "ENQUIRY", Number(id), undefined, parsed.data);
     return ok({ success: true });
   } catch (error) {
     return serverError(error);
@@ -345,8 +360,8 @@ export async function adminEnquiryUpdateValidated(request: Request, id: string) 
 }
 
 export async function adminGalleryCreateValidated(request: Request) {
-  const denied = await requireAdminOrResponse();
-  if (denied) return denied;
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
 
   try {
     const body = await readJson(request);
@@ -354,7 +369,7 @@ export async function adminGalleryCreateValidated(request: Request) {
     const parsed = gallerySchema.safeParse(body);
     if (!parsed.success) return badRequest("Invalid gallery payload", parsed.error.flatten());
     const data = parsed.data;
-    await insert("kailash_gallery", {
+    const insertData = {
       title: data.title ?? null,
       image_url: data.image ?? data.image_url,
       alt: data.alt ?? null,
@@ -362,7 +377,9 @@ export async function adminGalleryCreateValidated(request: Request) {
       order_index: num(data.order ?? data.order_index),
       is_active: data.isActive === undefined && data.is_active === undefined ? true : bool(data.isActive ?? data.is_active),
       metadata: json(data.metadata),
-    });
+    };
+    const newId = await insert("kailash_gallery", insertData);
+    await auditMutation(request, admin, "CREATE", "KAILASH_GALLERY", newId, undefined, insertData);
     return created({ success: true });
   } catch (error) {
     return serverError(error);

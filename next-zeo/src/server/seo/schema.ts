@@ -1,14 +1,28 @@
 // Schema.org structured data utilities for SEO
 
-const validateAndLogSchema = (schema: any, schemaType: string): any => {
-  const isDev = typeof (globalThis as any).process !== 'undefined'
-    ? (globalThis as any).process.env.NODE_ENV !== 'production'
+type SchemaNode = {
+  [key: string]: unknown;
+  "@context"?: unknown;
+  "@type"?: string | string[];
+  name?: unknown;
+  description?: unknown;
+  image?: unknown;
+  offers?: { price?: unknown };
+  itemListElement?: Array<{ name?: unknown; item?: unknown }>;
+};
+
+const validateAndLogSchema = <T extends SchemaNode>(schema: T | null | undefined, schemaType: string): T | null | undefined => {
+  const processEnv = typeof globalThis !== 'undefined' && 'process' in globalThis 
+    ? (globalThis as { process?: { env?: { NODE_ENV?: string } } }).process 
+    : undefined;
+
+  const isDev = processEnv 
+    ? processEnv.env?.NODE_ENV !== 'production'
     : (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'));
 
-  if (isDev) {
+  if (isDev && schema) {
     const warnings: string[] = [];
 
-    if (!schema) return schema;
     if (!schema["@context"]) warnings.push("Missing '@context'");
     
     const actualType = schema["@type"];
@@ -17,7 +31,7 @@ const validateAndLogSchema = (schema: any, schemaType: string): any => {
       : actualType === schemaType;
 
     if (!typeMatches) {
-      warnings.push(`Expected @type '${schemaType}', got '${actualType}'`);
+      warnings.push(`Expected @type '${schemaType}', got '${String(actualType)}'`);
     }
 
     if (schemaType === 'TouristTrip') {
@@ -27,7 +41,7 @@ const validateAndLogSchema = (schema: any, schemaType: string): any => {
       if (schema.offers && schema.offers.price !== undefined) {
         const price = Number(schema.offers.price);
         if (isNaN(price) || price < 0) {
-          warnings.push(`TouristTrip has an invalid price: '${schema.offers.price}'`);
+          warnings.push(`TouristTrip has an invalid price: '${String(schema.offers.price)}'`);
         }
       }
     }
@@ -45,7 +59,7 @@ const validateAndLogSchema = (schema: any, schemaType: string): any => {
       if (!schema.itemListElement || !schema.itemListElement.length) {
         warnings.push("BreadcrumbList has no items");
       } else {
-        schema.itemListElement.forEach((item: any, i: number) => {
+        schema.itemListElement.forEach((item: { name?: unknown; item?: unknown }, i: number) => {
           if (!item.name) warnings.push(`Breadcrumb item at position ${i+1} is missing a name`);
           if (!item.item) warnings.push(`Breadcrumb item at position ${i+1} is missing an item/url`);
         });

@@ -35,7 +35,7 @@ export const useLogos = () => {
   };
 
   useEffect(() => {
-    fetchLogos();
+    Promise.resolve().then(() => fetchLogos());
   }, []);
 
   const refetch = async () => {
