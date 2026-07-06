@@ -169,14 +169,8 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
   // Memoize structured data to prevent unnecessary SEO component updates
 
 
-  if (loading || detailsLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner size="lg" />
-        <span className="ml-3 text-gray-600 font-medium">Loading tour details...</span>
-      </div>
-    );
-  }
+  // Removed loading check so SSR H1 renders immediately
+
 
   if (error || !tour || !tourDetails) {
     return (

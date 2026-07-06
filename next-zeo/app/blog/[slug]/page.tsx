@@ -50,7 +50,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   return (
     <>
       <JsonLd data={structuredData} />
-      <BlogPostComponent />
+      <BlogPostComponent post={post as any} />
     </>
   );
 }

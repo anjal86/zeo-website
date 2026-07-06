@@ -16,13 +16,15 @@ import TourCard from '../Tours/TourCard';
 
 
 
-const BlogPostPage: React.FC = () => {
+const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
     const { slug } = useParams<{ slug: string }>();
-    const { data: post, loading, error } = useApi<any>(`/api/posts/${slug}`);
+    const { data: clientPost, loading: clientLoading, error } = useApi<any>(!initialPost ? `/api/posts/${slug}` : null);
     const { data: allPosts } = useApi<any[]>('/api/posts');
     const { data: allTours } = useApi<any[]>('/api/tours');
     const { data: destinations } = useApi<any[]>('/api/destinations');
 
+    const post = initialPost || clientPost;
+    const loading = !initialPost && clientLoading;
 
 
     // Reading progress bar setup
@@ -33,18 +35,10 @@ const BlogPostPage: React.FC = () => {
         restDelta: 0.001
     });
 
-
-
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <LoadingSpinner size="lg" />
-            </div>
-        );
-    }
+    // Removed blocking loading check to ensure SSR H1 renders immediately
 
     if (error || !post) {
-        if (!loading && !post) return null;
+        if (loading) return null;
         return (
             <div className="min-h-screen flex items-center justify-center text-red-500">
                 Error loading post.
@@ -52,8 +46,8 @@ const BlogPostPage: React.FC = () => {
         );
     }
 
-    const pageUrl = window.location.href;
-    const origin = window.location.origin;
+    const origin = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_APP_URL || 'https://www.zeotourism.com');
+    const pageUrl = typeof window !== 'undefined' ? window.location.href : `${origin}/blog/${slug}`;
     const relatedPosts = allPosts?.filter(p => p.slug !== slug && p.category === post.category).slice(0, 3) || [];
 
     // SEO Structured Data Generation
