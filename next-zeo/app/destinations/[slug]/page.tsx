@@ -131,6 +131,7 @@ export default async function DestinationDetailPage({ params }: { params: Promis
   return (
     <>
       <JsonLd data={structuredData} />
+      <h1 className="sr-only">{dest.name} Tours & Travel Guide</h1>
       <DestinationDetailComponent />
     </>
   );
