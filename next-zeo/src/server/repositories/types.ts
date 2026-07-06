@@ -6,6 +6,8 @@ export type ListOptions = {
   listed?: string | null;
   category?: string | null;
   location?: string | null;
+  destination?: string | null;
+  region?: string | null;
   country?: string | null;
   type?: string | null;
   status?: string | null;
