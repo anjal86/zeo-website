@@ -1,3 +1,3 @@
-import { adminUpdateContact } from "@/server/http/mutation-handlers";
+import { adminUpdateContactValidated } from "@/server/http/admin-extra-handlers";
 
-export const PUT = adminUpdateContact;
+export const PUT = adminUpdateContactValidated;
