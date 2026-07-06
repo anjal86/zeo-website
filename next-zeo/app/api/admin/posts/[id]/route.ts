@@ -1,4 +1,5 @@
-import { adminDeletePost, adminGetPost, adminUpsertPost } from "@/server/http/mutation-handlers";
+import { adminDeletePost, adminGetPost } from "@/server/http/mutation-handlers";
+import { adminUpsertPostValidated } from "@/server/http/admin-content-handlers";
 
 export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
@@ -7,7 +8,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
 
 export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
-  return adminUpsertPost(request, id);
+  return adminUpsertPostValidated(request, id);
 }
 
 export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
