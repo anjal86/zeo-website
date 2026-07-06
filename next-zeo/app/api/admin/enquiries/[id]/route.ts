@@ -1,4 +1,5 @@
-import { adminDeleteSimple, adminEnquiryGet, adminEnquiryUpdate } from "@/server/http/mutation-handlers";
+import { adminDeleteSimple, adminEnquiryGet } from "@/server/http/mutation-handlers";
+import { adminEnquiryUpdateValidated } from "@/server/http/admin-extra-handlers";
 
 export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
@@ -7,7 +8,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
 
 export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
-  return adminEnquiryUpdate(request, id);
+  return adminEnquiryUpdateValidated(request, id);
 }
 
 export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
