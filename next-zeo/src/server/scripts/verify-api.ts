@@ -10,6 +10,8 @@ type Check = {
   detail?: string;
 };
 
+type ListPayload<T> = T[] | { tours?: T[]; destinations?: T[]; items?: T[] };
+
 const checks: Check[] = [];
 
 function record(name: string, ok: boolean, detail?: string) {
@@ -24,6 +26,11 @@ async function json<T>(response: Response) {
   return (await response.json()) as T;
 }
 
+function readList<T>(payload: ListPayload<T>, key: "tours" | "destinations") {
+  if (Array.isArray(payload)) return payload;
+  return payload[key] ?? payload.items ?? [];
+}
+
 async function expectOk(path: string) {
   const response = await request(path);
   record(`GET ${path}`, response.ok, `${response.status}`);
@@ -34,14 +41,14 @@ async function main() {
   await expectOk("/api/health");
 
   const toursResponse = await expectOk("/api/tours?limit=5&page=1");
-  const toursPayload = await json<{ tours?: Array<{ slug?: string }>; items?: Array<{ slug?: string }> }>(toursResponse);
-  const firstTourSlug = (toursPayload.tours ?? toursPayload.items ?? [])[0]?.slug;
+  const toursPayload = await json<ListPayload<{ slug?: string }>>(toursResponse);
+  const firstTourSlug = readList(toursPayload, "tours")[0]?.slug;
   if (firstTourSlug) await expectOk(`/api/tours/${encodeURIComponent(firstTourSlug)}`);
   else record("tour slug detail", false, "no tour slug in list response");
 
   const destinationsResponse = await expectOk("/api/destinations?limit=5&page=1");
-  const destinationsPayload = await json<{ destinations?: Array<{ slug?: string }>; items?: Array<{ slug?: string }> }>(destinationsResponse);
-  const firstDestinationSlug = (destinationsPayload.destinations ?? destinationsPayload.items ?? [])[0]?.slug;
+  const destinationsPayload = await json<ListPayload<{ slug?: string }>>(destinationsResponse);
+  const firstDestinationSlug = readList(destinationsPayload, "destinations")[0]?.slug;
   if (firstDestinationSlug) await expectOk(`/api/destinations/${encodeURIComponent(firstDestinationSlug)}`);
   else record("destination slug detail", false, "no destination slug in list response");
 
