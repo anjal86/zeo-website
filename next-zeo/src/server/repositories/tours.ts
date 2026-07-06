@@ -66,10 +66,21 @@ function tourWhere(options: ListOptions, admin = false) {
     const term = `%${options.search}%`;
     params.push(term, term, term, term);
   }
-  if (options.location) {
+
+  const destinationFilter = options.destination ?? options.location;
+  if (destinationFilter) {
     clauses.push("location LIKE ?");
-    params.push(`%${options.location}%`);
+    params.push(`%${destinationFilter}%`);
   }
+
+  if (options.region === "nepal") {
+    clauses.push("location LIKE ?");
+    params.push("%Nepal%");
+  } else if (options.region === "international") {
+    clauses.push("(location IS NULL OR location NOT LIKE ?)");
+    params.push("%Nepal%");
+  }
+
   return { where: clauses.length ? `WHERE ${clauses.join(" AND ")}` : "", params };
 }
 
