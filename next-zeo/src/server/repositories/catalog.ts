@@ -109,7 +109,7 @@ function serializeActivity(row: ActivityRow) {
 function destinationWhere(options: ListOptions, admin = false) {
   const clauses: string[] = [];
   const params: unknown[] = [];
-  if (!admin && options.includeUnlisted !== "true") clauses.push("listed = 1");
+  if (!admin) clauses.push("listed = 1");
   if (options.country) {
     clauses.push("country = ?");
     params.push(options.country);
