@@ -1,3 +1,3 @@
-import { adminTeamOrder } from "@/server/http/mutation-handlers";
+import { adminTeamOrderValidated } from "@/server/http/admin-extra-handlers";
 
-export const PUT = adminTeamOrder;
+export const PUT = adminTeamOrderValidated;
