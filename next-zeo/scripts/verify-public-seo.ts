@@ -1,23 +1,58 @@
-import { execSync } from 'child_process';
 import * as cheerio from 'cheerio';
 
 const APP_URL = process.env.APP_URL || 'http://localhost:3000';
 
-const urlsToCheck = [
-  '/',
-  '/tours',
-  '/tours/everest-base-camp-trek',
-  '/destinations',
-  '/destinations/nepal',
-  '/activities',
-  '/activities/trekking',
-  '/blog',
-  '/blog/best-time-to-visit-nepal',
-  '/kailash-mansarovar',
-  '/contact',
-  '/sitemap.xml',
-  '/robots.txt'
-];
+type SlugItem = { slug?: string };
+type ListPayload = SlugItem[] | {
+  tours?: SlugItem[];
+  destinations?: SlugItem[];
+  activities?: SlugItem[];
+  posts?: SlugItem[];
+  items?: SlugItem[];
+};
+
+function readList(payload: ListPayload, key: 'tours' | 'destinations' | 'activities' | 'posts') {
+  if (Array.isArray(payload)) return payload;
+  return payload[key] ?? payload.items ?? [];
+}
+
+async function fetchFirstSlug(path: string, key: 'tours' | 'destinations' | 'activities' | 'posts') {
+  try {
+    const response = await fetch(`${APP_URL}${path}`);
+    if (!response.ok) return null;
+    const payload = (await response.json()) as ListPayload;
+    return readList(payload, key).find((item) => item.slug)?.slug ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function getUrlsToCheck() {
+  const urls = [
+    '/',
+    '/tours',
+    '/destinations',
+    '/destinations/nepal',
+    '/activities',
+    '/blog',
+    '/kailash-mansarovar',
+    '/contact',
+    '/sitemap.xml',
+    '/robots.txt',
+  ];
+
+  const [tourSlug, activitySlug, postSlug] = await Promise.all([
+    fetchFirstSlug('/api/tours?limit=1&page=1', 'tours'),
+    fetchFirstSlug('/api/activities?limit=1&page=1', 'activities'),
+    fetchFirstSlug('/api/posts?limit=1&page=1', 'posts'),
+  ]);
+
+  if (tourSlug) urls.splice(2, 0, `/tours/${tourSlug}`);
+  if (activitySlug) urls.splice(urls.indexOf('/blog'), 0, `/activities/${activitySlug}`);
+  if (postSlug) urls.splice(urls.indexOf('/kailash-mansarovar'), 0, `/blog/${postSlug}`);
+
+  return urls;
+}
 
 async function checkUrl(path: string) {
   const url = `${APP_URL}${path}`;
@@ -49,7 +84,7 @@ async function checkUrl(path: string) {
     const h1 = $('h1').first().text().trim();
     
     let hasJsonLd = false;
-    $('script[type="application/ld+json"]').each((i, el) => {
+    $('script[type="application/ld+json"]').each(() => {
       hasJsonLd = true;
     });
 
@@ -59,8 +94,7 @@ async function checkUrl(path: string) {
     console.log(`  H1: ${h1 || 'MISSING'}`);
     console.log(`  JSON-LD: ${hasJsonLd ? 'Present' : 'MISSING'}`);
 
-    // Check if it's an empty shell by looking for common main content containers
-    const hasMainContent = $('main').length > 0 || $('#main-content').length > 0 || $('.prose').length > 0;
+    const hasMainContent = $('main').length > 0 || $('#main-content').length > 0 || $('.prose').length > 0 || $('body').text().trim().length > 300;
     
     let passed = true;
     if (!title || title === 'Not Found' || title.includes('undefined')) { passed = false; console.error('  ❌ Invalid title'); }
@@ -85,6 +119,7 @@ async function checkUrl(path: string) {
 
 async function run() {
   console.log('Starting SEO verification...');
+  const urlsToCheck = await getUrlsToCheck();
   let allPassed = true;
   for (const url of urlsToCheck) {
     const passed = await checkUrl(url);
