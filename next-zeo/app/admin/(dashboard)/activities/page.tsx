@@ -51,7 +51,6 @@ const ActivitiesManager: React.FC = () => {
     }, [page, search, typeFilter]);
 
     useEffect(() => { 
-        // Avoid calling setState synchronously during render by using a microtask
         Promise.resolve().then(() => fetchItems()); 
     }, [fetchItems]);
 
@@ -61,8 +60,8 @@ const ActivitiesManager: React.FC = () => {
     };
 
     const toggleActive = async (act: Activity) => {
-        const updated = await adminFetch<Activity>(`${api}/admin/activities/${act.id}`, {
-            method: 'PUT', body: JSON.stringify({ is_active: !act.is_active }),
+        const updated = await adminFetch<{ is_active: boolean }>(`${api}/admin/activities/${act.id}`, {
+            method: 'PATCH', body: JSON.stringify({ is_active: !act.is_active }),
         });
         setItems(prev => prev.map(a => a.id === act.id ? { ...a, is_active: updated.is_active } : a));
     };
