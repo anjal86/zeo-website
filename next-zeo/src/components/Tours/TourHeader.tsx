@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Clock, Users, Calendar } from 'lucide-react';
+import { MapPin, Clock, Users, Calendar, CheckCircle } from 'lucide-react';
 import { formatDuration } from '../../utils/formatDuration';
 
 interface TourHeaderProps {
@@ -22,48 +22,50 @@ const TourHeader: React.FC<TourHeaderProps> = ({
   primaryDestination,
   secondaryDestinations
 }) => {
+  const locationLabel = primaryDestination?.name
+    ? `${primaryDestination.name}${secondaryDestinations.length > 0 ? ` + ${secondaryDestinations.length} more` : ''}`
+    : destinations.map(destination => destination.name).join(', ');
+
   return (
-    <section className="bg-white shadow-sm">
+    <section className="bg-white border border-gray-100 shadow-sm">
       <div className="container mx-auto px-4 py-8">
-        {/* Activity Badges */}
-
-
-        {/* Tour Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-brand-dark mb-4">{title}</h1>
-
-        {/* Location and Activity Info */}
-        <div className="flex flex-wrap items-center gap-6 mb-6">
-          {/* Destinations */}
-          {destinations.length > 0 && (
-            <div className="flex items-center text-gray-600">
-              <MapPin className="w-5 h-5 mr-2 text-green-600" />
-              <span>
-                {primaryDestination?.name}
-                {secondaryDestinations.length > 0 && (
-                  <span className="text-gray-500"> + {secondaryDestinations.length} more</span>
-                )}
+        <div className="grid gap-6 lg:grid-cols-[1fr_320px] lg:items-start">
+          <div>
+            <div className="mb-3 flex flex-wrap items-center gap-3 text-sm font-semibold text-gray-600">
+              {locationLabel && (
+                <span className="inline-flex items-center gap-2 border border-gray-200 bg-gray-50 px-3 py-1.5">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  {locationLabel}
+                </span>
+              )}
+              <span className="inline-flex items-center gap-2 border border-green-200 bg-green-50 px-3 py-1.5 text-green-700">
+                <CheckCircle className="w-4 h-4" />
+                Customizable trip
               </span>
             </div>
-          )}
 
-        </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-brand-dark leading-tight">{title}</h1>
+            <p className="mt-3 max-w-3xl text-base leading-7 text-gray-600">
+              Review the key trip facts, full day-by-day itinerary, inclusions and practical travel notes before sending an enquiry.
+            </p>
+          </div>
 
-        {/* Quick Info Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-primary/5 p-4 rounded-2xl text-center shadow-sm">
-            <Clock className="w-6 h-6 text-green-600 mx-auto mb-2" />
-            <div className="text-sm text-gray-600">Duration</div>
-            <div className="font-semibold text-brand-dark">{formatDuration(duration)}</div>
-          </div>
-          <div className="bg-primary/5 p-4 rounded-2xl text-center shadow-sm">
-            <Users className="w-6 h-6 text-green-600 mx-auto mb-2" />
-            <div className="text-sm text-gray-600">Group Size</div>
-            <div className="font-semibold text-brand-dark">{groupSize}</div>
-          </div>
-          <div className="bg-primary/5 p-4 rounded-2xl text-center shadow-sm">
-            <Calendar className="w-6 h-6 text-green-600 mx-auto mb-2" />
-            <div className="text-sm text-gray-600">Best Time</div>
-            <div className="font-semibold text-brand-dark">{bestTime}</div>
+          <div className="border border-primary/15 bg-primary/5 p-4">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary mb-3">Quick trip summary</p>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-start gap-3">
+                <Clock className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                <div><div className="text-gray-500">Duration</div><div className="font-bold text-brand-dark">{formatDuration(duration)}</div></div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Users className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                <div><div className="text-gray-500">Group Size</div><div className="font-bold text-brand-dark">{groupSize}</div></div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Calendar className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                <div><div className="text-gray-500">Best Time</div><div className="font-bold text-brand-dark">{bestTime}</div></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
