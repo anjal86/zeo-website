@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { MessageCircle, Link as LinkIcon, Mail, Check } from 'lucide-react';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -11,50 +11,64 @@ interface SocialShareProps {
   layout?: 'row' | 'grid';
 }
 
+const resolveShareUrl = (inputUrl: string) => {
+  if (typeof window === 'undefined') return inputUrl;
+  try {
+    const parsed = new URL(inputUrl, window.location.origin);
+    return `${window.location.origin}${parsed.pathname}${parsed.search}${parsed.hash}`;
+  } catch {
+    return window.location.href;
+  }
+};
+
 const SocialShare: React.FC<SocialShareProps> = ({ url, title, layout = 'grid' }) => {
   const [copied, setCopied] = useState(false);
+  const [shareUrl, setShareUrl] = useState(url);
 
-  const shareLinks = [
+  useEffect(() => {
+    setShareUrl(resolveShareUrl(url));
+  }, [url]);
+
+  const shareLinks = useMemo(() => [
     {
       name: 'Facebook',
       icon: FaFacebook,
-      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
       color: 'hover:bg-[#1877F2] hover:text-white text-[#1877F2]'
     },
     {
       name: 'Twitter',
       icon: FaTwitter,
-      href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+      href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(title)}`,
       color: 'hover:bg-[#1DA1F2] hover:text-white text-[#1DA1F2]'
     },
     {
       name: 'LinkedIn',
       icon: FaLinkedin,
-      href: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
+      href: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(title)}`,
       color: 'hover:bg-[#0A66C2] hover:text-white text-[#0A66C2]'
     },
     {
       name: 'WhatsApp',
       icon: MessageCircle,
-      href: `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`,
+      href: `https://wa.me/?text=${encodeURIComponent(title + ' ' + shareUrl)}`,
       color: 'hover:bg-[#25D366] hover:text-white text-[#25D366]'
     },
     {
       name: 'Email',
       icon: Mail,
-      href: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent('Check this out: ' + url)}`,
+      href: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent('Check this out: ' + shareUrl)}`,
       color: 'hover:bg-gray-700 hover:text-white text-gray-600'
     }
-  ];
+  ], [shareUrl, title]);
 
   const handleCopyLink = async () => {
     try {
       if (navigator.clipboard) {
-        await navigator.clipboard.writeText(url);
+        await navigator.clipboard.writeText(shareUrl);
       } else {
-        // Fallback for older browsers
         const ta = document.createElement('textarea');
-        ta.value = url;
+        ta.value = shareUrl;
         ta.style.position = 'fixed';
         ta.style.opacity = '0';
         document.body.appendChild(ta);
@@ -101,7 +115,6 @@ const SocialShare: React.FC<SocialShareProps> = ({ url, title, layout = 'grid' }
     );
   }
 
-  // Grid layout (sidebar)
   return (
     <div>
       <div className="grid grid-cols-2 gap-3 mb-3">
