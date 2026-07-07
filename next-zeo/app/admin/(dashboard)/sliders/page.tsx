@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Plus, Edit, Trash2, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, Edit, Trash2, AlertCircle } from 'lucide-react';
 import DeleteModal from '@/components/UI/DeleteModal';
 import { useDeleteModal } from '@/hooks/useDeleteModal';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
@@ -27,13 +27,13 @@ const SlidersManager: React.FC = () => {
             const list = Array.isArray(data) ? data : (data.sliders || []);
             setItems(list);
             setTotal(Array.isArray(data) ? data.length : (data.pagination?.totalItems ?? list.length));
-        } catch (err: any) { setError(err.message); } finally { setLoading(false); }
+        } catch (err: unknown) { setError(err instanceof Error ? err.message : 'Failed to load sliders'); } finally { setLoading(false); }
     }, [page]);
     useEffect(() => { fetch(); }, [fetch]);
 
     const handleDelete = async (s: Slider) => { await adminFetch(`${api}/admin/sliders/${s.id}`, { method: 'DELETE' }); await fetch(); };
     const toggleActive = async (s: Slider) => {
-        const u = await adminFetch<Slider>(`${api}/admin/sliders/${s.id}`, { method: 'PUT', body: JSON.stringify({ is_active: !s.is_active }) });
+        const u = await adminFetch<{ is_active: boolean }>(`${api}/admin/sliders/${s.id}`, { method: 'PATCH', body: JSON.stringify({ is_active: !s.is_active }) });
         setItems(prev => prev.map(x => x.id === s.id ? { ...x, is_active: u.is_active } : x));
     };
     const delModal = useDeleteModal<Slider>({ onDelete: handleDelete, getItemName: s => s.title, getItemId: s => s.id });
