@@ -117,7 +117,7 @@ const TourEnquiryButton: React.FC<TourEnquiryButtonProps> = ({
 
   return (
     <div className="bg-white border border-gray-200">
-      <div className="border-b border-gray-200 bg-slate-950 p-5 text-white">
+      <div className="border-b border-gray-200 bg-primary p-5 text-white">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/60">Start planning</p>
         {priceAvailable ? (
           <div className="mt-3">
