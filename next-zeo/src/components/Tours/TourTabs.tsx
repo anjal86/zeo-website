@@ -130,7 +130,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
           <div className="space-y-6">
             <div>
               <h4 className="text-lg font-bold text-brand-dark mb-3">About This Tour</h4>
-              <p className="text-base text-gray-600 leading-relaxed whitespace-pre-wrap">{description}</p>
+              <p className="text-base text-gray-600 leading-relaxed whitespace-pre-wrap break-words">{description}</p>
             </div>
 
             {highlights && highlights.length > 0 && (
@@ -205,7 +205,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
 
                       <div className="px-3 pb-3 sm:px-4 sm:pb-4 border-t border-gray-100 bg-slate-50/50">
                         <div className="pt-2 sm:pt-3">
-                          <p className="text-gray-700 leading-relaxed mb-6 whitespace-pre-wrap">{day.description}</p>
+                          <p className="text-gray-700 leading-relaxed mb-6 whitespace-pre-wrap break-words">{day.description}</p>
 
                           {(day.accommodation || day.meals) && (
                             <div className="flex flex-wrap gap-3">

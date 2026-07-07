@@ -189,14 +189,14 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
         <section className="py-5 sm:py-8 md:py-10">
           <div className="container mx-auto px-4">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-8 lg:items-start">
-              <main className="space-y-6 lg:space-y-8">
+              <main className="space-y-6 lg:space-y-8 min-w-0">
                 <section className="border border-gray-200 bg-white p-4 sm:p-8">
                   <div className="mb-4 flex flex-wrap items-center gap-2 sm:mb-5 sm:gap-3">
                     {tour.category && <span className="border border-primary/20 bg-primary/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-primary sm:text-xs">{tour.category}</span>}
                     {locationLabel && <span className="inline-flex items-center gap-2 border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 sm:text-sm"><MapPin className="h-4 w-4 text-secondary" />{locationLabel}</span>}
                   </div>
 
-                  <h1 className="max-w-5xl text-2xl font-extrabold leading-tight tracking-tight text-gray-950 sm:text-3xl md:text-5xl">{tour.title}</h1>
+                  <h1 className="max-w-5xl text-2xl font-extrabold leading-tight tracking-tight text-gray-950 sm:text-3xl md:text-5xl break-words">{tour.title}</h1>
                   <p className="mt-3 max-w-3xl text-sm leading-7 text-gray-600 sm:mt-4 sm:text-base sm:leading-8">
                     Review the trip route, full itinerary, inclusions and practical details before speaking with a Nepal travel expert.
                   </p>
@@ -262,7 +262,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                               </div>
                               <div>
                                 <h3 className="mb-2 text-lg font-bold text-gray-950">{card.title}</h3>
-                                <p className="whitespace-pre-wrap text-sm leading-7 text-gray-700">{card.text}</p>
+                                <p className="whitespace-pre-wrap break-words text-sm leading-7 text-gray-700">{card.text}</p>
                               </div>
                             </div>
                           </div>
@@ -305,7 +305,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                 )}
               </main>
 
-              <aside ref={desktopEnquiryRef} className="hidden lg:sticky lg:top-24 lg:block">
+              <aside ref={desktopEnquiryRef} className="hidden lg:sticky lg:top-24 lg:block min-w-0">
                 <div className="space-y-4">
                   <TourEnquiryButton
                     price={tour.price}
