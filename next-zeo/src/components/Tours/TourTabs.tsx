@@ -105,13 +105,13 @@ const TourTabs: React.FC<TourTabsProps> = ({
               <button
                 key={tab.id}
                 onClick={() => scrollToSection(tab.id)}
-                className={`flex items-center justify-center gap-1.5 sm:gap-2 border-b-2 px-2 py-4 text-center text-xs sm:text-sm font-bold transition-colors ${isActive
+                className={`flex items-center justify-center gap-1.5 sm:gap-2 border-b-2 px-1 sm:px-2 py-4 text-center text-[11px] sm:text-sm font-bold transition-colors min-w-0 ${isActive
                   ? 'border-primary text-primary'
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-brand-dark'
                   }`}
               >
-                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span>{tab.label}</span>
+                <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 flex-shrink-0" />
+                <span className="truncate">{tab.label}</span>
               </button>
             );
           })}
@@ -172,7 +172,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
           {routeStops.length > 2 && (
             <div className="border border-slate-200 bg-slate-50 p-4">
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-primary">Route overview</p>
-              <div className="flex gap-2 overflow-x-auto pb-1 text-sm font-semibold text-slate-700">
+              <div className="flex gap-2 overflow-x-auto pb-1 text-sm font-semibold text-slate-700 max-w-full">
                 {routeStops.map((stop, index) => (
                   <React.Fragment key={`${stop}-${index}`}>
                     <span className="flex-shrink-0 border border-slate-200 bg-white px-3 py-2">{stop}</span>
