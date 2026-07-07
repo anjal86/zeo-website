@@ -127,7 +127,7 @@ const Blog: React.FC<BlogProps> = ({ initialPosts = [], totalPosts }) => {
 
   const featuredPost = posts.find((post) => post.featured || post.is_featured) || posts[0];
   const recentPosts = posts.filter((post) => String(post.id) !== String(featuredPost?.id)).slice(0, 4);
-  const visibleGridPosts = filteredPosts.filter((post) => String(post.id) !== String(featuredPost?.id));
+  const visibleGridPosts = filteredPosts;
   const articleCount = totalPosts ?? posts.length;
 
   const resetFilters = () => {
