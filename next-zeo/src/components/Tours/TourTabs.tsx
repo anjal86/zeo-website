@@ -30,6 +30,11 @@ interface TourTabsProps {
   }>;
 }
 
+const cleanRouteTitle = (title: string) => title
+  .replace(/^day\s*\d+\s*[:.)-]?\s*/i, '')
+  .split(/[–—|]/)[0]
+  .trim();
+
 const TourTabs: React.FC<TourTabsProps> = ({
   description,
   highlights,
@@ -39,6 +44,11 @@ const TourTabs: React.FC<TourTabsProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const itineraryDays = itinerary?.length || 0;
+  const routeStops = (itinerary || [])
+    .map(day => cleanRouteTitle(day.title))
+    .filter(Boolean)
+    .filter((item, index, array) => index === 0 || item !== array[index - 1])
+    .slice(0, 8);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -81,36 +91,34 @@ const TourTabs: React.FC<TourTabsProps> = ({
   const tabs = [
     { id: 'overview', label: 'Overview', icon: Info },
     { id: 'itinerary', label: 'Itinerary', icon: FileText },
-    { id: 'inclusions', label: 'Inclusions & Exclusions', icon: Check }
+    { id: 'inclusions', label: 'Inclusions', icon: Check }
   ];
 
   return (
     <div className="space-y-8">
-      <div className="sticky top-[64px] z-40 bg-white border-b border-gray-200 shadow-sm -mx-6 sm:-mx-8 px-6 sm:px-8">
-        <div className="p-1.5">
-          <div className="grid grid-cols-3 gap-1 bg-gray-100/50 p-1 rounded-2xl">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => scrollToSection(tab.id)}
-                  className={`relative flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 py-2.5 sm:py-3 px-2 rounded-2xl text-center transition-all duration-300 ${isActive
-                    ? 'bg-primary text-white shadow-md shadow-primary/20 scale-[1.02] font-semibold'
-                    : 'text-gray-500 hover:text-brand-dark hover:bg-white/60 font-medium'
-                    }`}
-                >
-                  <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${isActive ? 'text-white' : 'text-current'}`} />
-                  <span className="text-xs sm:text-sm">{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
+      <div className="sticky top-[64px] z-40 bg-white border-b border-gray-200 -mx-6 sm:-mx-8 px-6 sm:px-8">
+        <div className="grid grid-cols-3">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => scrollToSection(tab.id)}
+                className={`flex items-center justify-center gap-1.5 sm:gap-2 border-b-2 px-2 py-4 text-center text-xs sm:text-sm font-bold transition-colors ${isActive
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-brand-dark'
+                  }`}
+              >
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-soft p-6 sm:p-8 space-y-12">
+      <div className="bg-white border border-gray-200 p-6 sm:p-8 space-y-12">
         <section id="overview" className="scroll-mt-28 space-y-8">
           <div className="border-b border-gray-100 pb-4">
             <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
@@ -130,7 +138,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
                 <h4 className="text-lg font-bold text-brand-dark mb-3">Tour Highlights</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {highlights.map((highlight, index) => (
-                    <div key={index} className="flex items-start p-3 bg-slate-50 rounded-2xl">
+                    <div key={index} className="flex items-start border border-slate-200 bg-slate-50 p-3">
                       <Check className="w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
                       <span className="text-gray-700 font-medium">{highlight}</span>
                     </div>
@@ -161,6 +169,20 @@ const TourTabs: React.FC<TourTabsProps> = ({
             </div>
           </div>
 
+          {routeStops.length > 2 && (
+            <div className="border border-slate-200 bg-slate-50 p-4">
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-primary">Route overview</p>
+              <div className="flex gap-2 overflow-x-auto pb-1 text-sm font-semibold text-slate-700">
+                {routeStops.map((stop, index) => (
+                  <React.Fragment key={`${stop}-${index}`}>
+                    <span className="flex-shrink-0 border border-slate-200 bg-white px-3 py-2">{stop}</span>
+                    {index < routeStops.length - 1 && <span className="flex-shrink-0 py-2 text-slate-400">→</span>}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="relative">
             <div className="absolute left-3.5 sm:left-6 top-8 bottom-8 w-0.5 bg-gray-200 rounded-full"></div>
 
@@ -170,7 +192,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
                   <div key={index} className="relative">
                     <div className="absolute left-3.5 sm:left-6 w-3 h-3 sm:w-4 sm:h-4 bg-white border-2 sm:border-4 border-primary rounded-full z-10 transform -translate-x-1/2 mt-5 sm:mt-5 ring-4 ring-gray-50/50"></div>
 
-                    <div className="ml-8 sm:ml-12 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-primary/30 transition-all duration-300 overflow-hidden">
+                    <div className="ml-8 sm:ml-12 bg-white border border-slate-200 hover:border-primary/40 transition-colors overflow-hidden">
                       <div className="w-full p-3 sm:p-4 flex items-start justify-between gap-3 sm:gap-4 text-left bg-white">
                         <div className="min-w-0">
                           <h4 className="text-base sm:text-lg font-bold text-brand-dark mb-0.5 sm:mb-1 leading-tight">{day.title}</h4>
@@ -188,13 +210,13 @@ const TourTabs: React.FC<TourTabsProps> = ({
                           {(day.accommodation || day.meals) && (
                             <div className="flex flex-wrap gap-3">
                               {day.accommodation && (
-                                <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 text-sm text-gray-700 shadow-sm">
+                                <div className="inline-flex items-center gap-2 bg-white border border-gray-200 px-4 py-1.5 text-sm text-gray-700">
                                   <Bed className="w-4 h-4 text-blue-500" />
                                   <span>{day.accommodation}</span>
                                 </div>
                               )}
                               {day.meals && (
-                                <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 text-sm text-gray-700 shadow-sm">
+                                <div className="inline-flex items-center gap-2 bg-white border border-gray-200 px-4 py-1.5 text-sm text-gray-700">
                                   <Utensils className="w-4 h-4 text-orange-500" />
                                   <span>{day.meals}</span>
                                 </div>
@@ -225,9 +247,9 @@ const TourTabs: React.FC<TourTabsProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {inclusions && inclusions.length > 0 && (
-              <div className="bg-green-50/50 rounded-2xl p-6 border border-green-100">
+              <div className="bg-green-50/50 p-6 border border-green-100">
                 <h4 className="text-lg font-bold text-brand-dark mb-4 flex items-center text-green-700">
-                  <span className="bg-green-100 p-1.5 rounded-full mr-2">
+                  <span className="bg-green-100 p-1.5 mr-2">
                     <Check className="w-4 h-4 text-green-600" />
                   </span>
                   What's Included
@@ -244,9 +266,9 @@ const TourTabs: React.FC<TourTabsProps> = ({
             )}
 
             {exclusions && exclusions.length > 0 && (
-              <div className="bg-red-50/50 rounded-2xl p-6 border border-red-100">
+              <div className="bg-red-50/50 p-6 border border-red-100">
                 <h4 className="text-lg font-bold text-brand-dark mb-4 flex items-center text-red-700">
-                  <span className="bg-red-100 p-1.5 rounded-full mr-2">
+                  <span className="bg-red-100 p-1.5 mr-2">
                     <X className="w-4 h-4 text-red-600" />
                   </span>
                   What's Not Included
