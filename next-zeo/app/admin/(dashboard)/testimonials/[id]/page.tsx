@@ -7,7 +7,7 @@ import { adminFetch } from '@/lib/adminFetch';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
 const api = '/api';
 
-interface TestForm { name: string; email?: string; country?: string; tour?: string; rating: number; title?: string; message?: string; image_url?: string; is_approved?: boolean; is_featured?: boolean; }
+interface TestForm { name: string; email?: string; country?: string; tour?: string; rating: number; title?: string; message: string; image_url?: string; is_approved?: boolean; is_featured?: boolean; }
 
 const TestimonialEditor: React.FC = () => {
     const params = useParams<{ id?: string }>();
@@ -17,17 +17,16 @@ const TestimonialEditor: React.FC = () => {
     const [loading, setLoading] = useState(isEditing);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [form, setForm] = useState<TestForm>({ name: '', rating: 5, is_approved: true, is_featured: false });
+    const [form, setForm] = useState<TestForm>({ name: '', rating: 5, message: '', is_approved: true, is_featured: false });
 
     useEffect(() => {
         if (!isEditing) return;
         (async () => {
             try {
-                const data = await adminFetch<{ testimonials: any[] }>(`${api}/admin/testimonials`);
-                const item = data.testimonials?.find((t: any) => String(t.id) === id);
+                const item = await adminFetch<any>(`${api}/admin/testimonials/${id}`);
                 if (!item) { setError('Testimonial not found'); setLoading(false); return; }
                 setForm({ name: item.name || '', email: item.email || '', country: item.country || '', tour: item.tour || '', rating: item.rating ?? 5, title: item.title || '', message: item.message || '', image_url: item.image_url || '', is_approved: item.is_approved !== false, is_featured: !!item.is_featured });
-            } catch (err: any) { setError(err.message); } finally { setLoading(false); }
+            } catch (err: unknown) { setError(err instanceof Error ? err.message : 'Failed to load testimonial'); } finally { setLoading(false); }
         })();
     }, [id, isEditing]);
 
@@ -39,9 +38,9 @@ const TestimonialEditor: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault(); setSaving(true); setError(null);
         try {
-            await adminFetch(`${api}/admin/testimonials/${id}`, { method: 'PUT', body: JSON.stringify(form) });
+            await adminFetch(`${api}/admin/testimonials${isEditing ? `/${id}` : ''}`, { method: isEditing ? 'PUT' : 'POST', body: JSON.stringify(form) });
             router.push('/admin/testimonials');
-        } catch (err: any) { setError(err.message); } finally { setSaving(false); }
+        } catch (err: unknown) { setError(err instanceof Error ? err.message : 'Failed to save testimonial'); } finally { setSaving(false); }
     };
 
     if (loading) return <div className="py-12 flex justify-center"><LoadingSpinner size="lg" /></div>;
@@ -66,7 +65,7 @@ const TestimonialEditor: React.FC = () => {
                     </div>
                     <div><label className="block text-sm font-medium mb-2">Title</label><input type="text" name="title" value={form.title || ''} onChange={handleChange} className="w-full px-3 py-2 border rounded-lg" /></div>
                 </div>
-                <div><label className="block text-sm font-medium mb-2">Message</label><textarea name="message" value={form.message || ''} onChange={handleChange} rows={5} className="w-full px-3 py-2 border rounded-lg" /></div>
+                <div><label className="block text-sm font-medium mb-2">Message *</label><textarea name="message" value={form.message || ''} onChange={handleChange} rows={5} required className="w-full px-3 py-2 border rounded-lg" /></div>
                 <div className="flex items-center gap-6">
                     <label className="flex items-center gap-2"><input type="checkbox" name="is_approved" checked={!!form.is_approved} onChange={handleChange} className="w-5 h-5 text-green-600 rounded border-gray-300" /><span>Approved</span></label>
                     <label className="flex items-center gap-2"><input type="checkbox" name="is_featured" checked={!!form.is_featured} onChange={handleChange} className="w-5 h-5 text-yellow-600 rounded border-gray-300" /><span>Featured</span></label>
