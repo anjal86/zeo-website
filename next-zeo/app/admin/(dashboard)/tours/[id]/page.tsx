@@ -128,6 +128,26 @@ const defaultTravellerDecision: Required<Pick<TravellerDecisionCopy, TravellerDe
   price_note_request: 'Ask for a written quote with inclusions, exclusions and permit/visa notes.',
 };
 
+const kailashTibetTravellerDecision: typeof defaultTravellerDecision = {
+  document_safety_items: ['China/Tibet visa and permit guidance before departure', 'Do not travel before permits are confirmed', 'Final document checklist shared before booking'],
+  price_factors: ['Permit, visa and document processing costs', 'Hotel level and Tibet route transport', 'Private group or date changes'],
+  date_options: ['Permit timing affects final departure date', 'Private departures available on request', 'Ask for next practical travel window'],
+  customization_options: ['Add extra acclimatization day', 'Upgrade hotel where available', 'Choose private group support'],
+  trust_signals: ['Nepal-based local operation team', 'China/Tibet permit guidance', 'Fast route document response'],
+  price_note_available: 'Final quote can vary by permit timing, visa process, hotel level, transport and group size.',
+  price_note_request: 'Ask for a written quote with permit, visa, hotel, transport and route notes before booking.',
+};
+
+const nepalTrekTravellerDecision: typeof defaultTravellerDecision = {
+  document_safety_items: ['Trekking permit guidance before departure', 'Route preparation checklist shared before booking', 'Guide and local support details confirmed'],
+  price_factors: ['Guide, porter and permit requirements', 'Hotel/teahouse level and transport route', 'Private date or acclimatization changes'],
+  date_options: ['Best trekking season guidance available', 'Private departures available on request', 'Flexible dates depend on route and weather'],
+  customization_options: ['Add extra acclimatization day', 'Adjust walking pace where possible', 'Choose private guide support'],
+  trust_signals: ['Route guidance from Nepal team', 'Permit support before trek', 'Fast preparation response'],
+  price_note_available: 'Final quote can vary by route, guide/porter needs, permits, transport and group size.',
+  price_note_request: 'Ask for a written quote with permit, guide, route and preparation notes before booking.',
+};
+
 const TourEditor: React.FC = () => {
   const params = useParams<{ tourSlug?: string; tourId?: string; id?: string }>();
   const router = useRouter();
@@ -527,6 +547,19 @@ const TourEditor: React.FC = () => {
         },
       };
     });
+  };
+
+  const applyTravellerDecisionTemplate = (template: TravellerDecisionCopy, label: string) => {
+    if (!confirm(`Replace traveller planning copy with ${label}? Existing planning copy will be overwritten.`)) return;
+    setFormData(prev => ({
+      ...prev,
+      metadata: {
+        ...(prev.metadata || {}),
+        traveller_decision: {
+          ...template,
+        },
+      },
+    }));
   };
 
   const handlePasteAsArray = (
@@ -946,7 +979,7 @@ const TourEditor: React.FC = () => {
       errorCount: (!hasRequiredDestinations() ? 1 : 0) + (!hasRequiredActivities() ? 1 : 0)
     },
     { id: 'details', label: 'Details', icon: Star },
-    { id: 'decision', label: 'Decision Page', icon: Activity },
+    { id: 'decision', label: 'Traveller Planning', icon: Activity },
     { id: 'itinerary', label: 'Itinerary', icon: Calendar },
     { id: 'media', label: 'Media', icon: Camera }
   ];
@@ -1103,6 +1136,10 @@ const TourEditor: React.FC = () => {
     ...(formData.metadata?.traveller_decision || {}),
   };
 
+  const previewItems = (field: TravellerDecisionArrayField) => (travellerDecision[field] || [])
+    .filter((item) => item.trim().length > 0)
+    .slice(0, 3);
+
   const renderTravellerDecisionList = (field: TravellerDecisionArrayField, title: string, helper: string) => {
     const items = travellerDecision[field] || [];
     return (
@@ -1112,7 +1149,7 @@ const TourEditor: React.FC = () => {
           <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
           <p className="text-sm text-gray-600 mt-1">{helper}</p>
           <p className="text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2 mt-3">
-            Recommended: 3-8 items. Each item under 80 characters. Avoid long paragraphs.
+            Best: 3 strong items. Optional: up to 8 for schema/backup. Each item under 80 characters.
           </p>
         </div>
         <button
@@ -1151,8 +1188,11 @@ const TourEditor: React.FC = () => {
         {items.length === 0 && (
           <p className="text-gray-500 text-sm">No items yet. Public page will use fallback copy.</p>
         )}
-        {(items.length < 3 || items.length > 8) && items.length > 0 && (
-          <p className="text-xs text-amber-700">Best public layout uses 3-8 items.</p>
+        {items.length > 0 && items.length < 3 && (
+          <p className="text-xs text-amber-700">Add 3 strong items for best public layout.</p>
+        )}
+        {items.length > 3 && (
+          <p className="text-xs text-gray-500">Only first 3 are visible publicly.</p>
         )}
       </div>
     </div>
@@ -2179,7 +2219,7 @@ const TourEditor: React.FC = () => {
                 </motion.div>
               )}
 
-              {/* Decision Page Tab */}
+              {/* Traveller Planning Tab */}
               {activeTab === 'decision' && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -2187,48 +2227,58 @@ const TourEditor: React.FC = () => {
                   className="space-y-6"
                 >
                   <div className="bg-white rounded-lg shadow-sm border p-6">
-                    <h2 className="text-xl font-semibold text-gray-900">Traveller Decision Page Copy</h2>
-                    <p className="text-sm text-gray-600 mt-1">
-                      These fields control trust, permit, price clarity, dates and customization blocks on the public tour detail page. Empty items fall back to safe default copy.
-                    </p>
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                      <div>
+                        <h2 className="text-xl font-semibold text-gray-900">Traveller Planning Copy</h2>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Controls the public Plan With Confidence block and enquiry-card trust copy. Empty items fall back to safe default copy.
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <button type="button" onClick={() => applyTravellerDecisionTemplate(kailashTibetTravellerDecision, 'Kailash/Tibet Template')} className="px-3 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100">
+                          Use Kailash/Tibet Template
+                        </button>
+                        <button type="button" onClick={() => applyTravellerDecisionTemplate(nepalTrekTravellerDecision, 'Nepal Trek Template')} className="px-3 py-2 text-sm font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100">
+                          Use Nepal Trek Template
+                        </button>
+                        <button type="button" onClick={() => applyTravellerDecisionTemplate(defaultTravellerDecision, 'Defaults')} className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                          Reset to Defaults
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="bg-white rounded-lg shadow-sm border p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">How this appears on public page</h3>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                      <div className="border border-primary/20 bg-primary/5 p-4">
-                        <p className="text-xs font-bold uppercase tracking-wider text-primary mb-2">Visa, Permit & Document Safety</p>
-                        <div className="grid grid-cols-1 gap-2">
-                          {(travellerDecision.document_safety_items || []).slice(0, 4).map((item, index) => (
-                            <div key={`preview-doc-${index}`} className="border border-primary/15 bg-white px-3 py-2 text-sm font-medium text-gray-700 truncate">
-                              {item || 'Empty item'}
-                            </div>
-                          ))}
+                    <h3 className="text-lg font-semibold text-gray-900">Plan With Confidence</h3>
+                    <p className="text-sm text-gray-600 mt-1">Public page shows the first 3 items. Extra items are kept for schema and backup copy.</p>
+                    <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                      {[
+                        { title: 'Documents & Permits', field: 'document_safety_items' as TravellerDecisionArrayField },
+                        { title: 'Price Clarity', field: 'price_factors' as TravellerDecisionArrayField },
+                        { title: 'Dates & Departures', field: 'date_options' as TravellerDecisionArrayField },
+                        { title: 'Customize This Trip', field: 'customization_options' as TravellerDecisionArrayField },
+                      ].map((card) => (
+                        <div key={card.field} className="border border-primary/15 bg-primary/5 p-4">
+                          <p className="text-xs font-bold uppercase tracking-wider text-primary mb-3">{card.title}</p>
+                          <div className="space-y-2">
+                            {previewItems(card.field).map((item, index) => (
+                              <div key={`${card.field}-${index}`} className="border border-primary/15 bg-white px-3 py-2 text-sm font-medium text-gray-700 truncate">
+                                {item}
+                              </div>
+                            ))}
+                            {previewItems(card.field).length === 0 && (
+                              <p className="text-sm text-gray-500">Fallback copy shown publicly.</p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                      <div className="border border-gray-200 bg-gray-50 p-4">
-                        <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Trust Signals</p>
-                        <div className="grid grid-cols-1 gap-2">
-                          {(travellerDecision.trust_signals || []).slice(0, 4).map((item, index) => (
-                            <div key={`preview-trust-${index}`} className="border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 truncate">
-                              {item || 'Empty item'}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="border border-secondary/30 bg-secondary/5 p-4 lg:col-span-2">
-                        <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Price note</p>
-                        <p className="text-sm text-gray-700 truncate">
-                          {formData.priceAvailable !== false ? travellerDecision.price_note_available : travellerDecision.price_note_request}
-                        </p>
-                      </div>
+                      ))}
                     </div>
-                    <p className="text-xs text-gray-500 mt-3">Preview truncates long items like the public card layout. Short, specific copy works best.</p>
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="bg-white rounded-lg shadow-sm border p-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Price Notes</h3>
+                      <h3 className="text-lg font-semibold text-gray-900">Booking Price Notes</h3>
+                      <p className="text-sm text-gray-600 mt-1 mb-4">Shown near the enquiry form and used to reduce hidden-cost anxiety.</p>
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">When price is shown</label>
@@ -2253,13 +2303,13 @@ const TourEditor: React.FC = () => {
                       </div>
                     </div>
 
-                    {renderTravellerDecisionList('trust_signals', 'Trust Signals', 'Shown in the traveller confidence section. Do not add fake claims.')}
+                    {renderTravellerDecisionList('trust_signals', 'Booking Sidebar Trust', 'Shown near the enquiry card, not as a separate public section.')}
                   </div>
 
-                  {renderTravellerDecisionList('document_safety_items', 'Visa, Permit & Document Safety', 'Shown before the itinerary. Use route-specific wording for Kailash, Tibet, China, Nepal permits, etc.')}
-                  {renderTravellerDecisionList('price_factors', 'Price Factors', 'Explains what can change the final quote and reduces hidden-cost anxiety.')}
-                  {renderTravellerDecisionList('date_options', 'Date & Departure Options', 'Shown in Available Dates & Private Departures. Use real dates only when confirmed.')}
-                  {renderTravellerDecisionList('customization_options', 'Customization Options', 'Shown in Customize This Trip. Keep claims practical for this route.')}
+                  {renderTravellerDecisionList('document_safety_items', 'Documents & Permits', 'Shown in Plan With Confidence. Use route-specific wording for Kailash, Tibet, China, Nepal permits, etc.')}
+                  {renderTravellerDecisionList('price_factors', 'Price Clarity', 'Shown in Plan With Confidence. Explain what can change the final quote.')}
+                  {renderTravellerDecisionList('date_options', 'Dates & Departures', 'Shown in Plan With Confidence. Use real dates only when confirmed.')}
+                  {renderTravellerDecisionList('customization_options', 'Customize This Trip', 'Shown in Plan With Confidence. Keep claims practical for this route.')}
                 </motion.div>
               )}
 
