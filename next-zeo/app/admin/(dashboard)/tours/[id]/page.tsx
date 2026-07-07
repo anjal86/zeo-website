@@ -148,6 +148,16 @@ const nepalTrekTravellerDecision: typeof defaultTravellerDecision = {
   price_note_request: 'Ask for a written quote with permit, guide, route and preparation notes before booking.',
 };
 
+const internationalTravellerDecision: typeof defaultTravellerDecision = {
+  document_safety_items: ['Passport and visa guidance before booking', 'Entry rules checked by destination and nationality', 'Travel document checklist shared before confirmation'],
+  price_factors: ['Hotel category and room type', 'Flight, transfer and activity choices', 'Private date or group size changes'],
+  date_options: ['Private departures available on request', 'Best travel months vary by destination', 'Ask for next practical travel date'],
+  customization_options: ['Upgrade hotel category', 'Add extra city or activity', 'Choose private group transfers'],
+  trust_signals: ['Destination planning support', 'Hotel and transport coordination', 'Fast international trip response'],
+  price_note_available: 'Final quote can vary by hotel category, flights, transfers, activities, travel date and group size.',
+  price_note_request: 'Ask for a written quote with hotel, transport, activity and entry-document notes before booking.',
+};
+
 const TourEditor: React.FC = () => {
   const params = useParams<{ tourSlug?: string; tourId?: string; id?: string }>();
   const router = useRouter();
@@ -2240,6 +2250,9 @@ const TourEditor: React.FC = () => {
                         </button>
                         <button type="button" onClick={() => applyTravellerDecisionTemplate(nepalTrekTravellerDecision, 'Nepal Trek Template')} className="px-3 py-2 text-sm font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100">
                           Use Nepal Trek Template
+                        </button>
+                        <button type="button" onClick={() => applyTravellerDecisionTemplate(internationalTravellerDecision, 'International Template')} className="px-3 py-2 text-sm font-medium text-purple-700 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100">
+                          Use International Template
                         </button>
                         <button type="button" onClick={() => applyTravellerDecisionTemplate(defaultTravellerDecision, 'Defaults')} className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                           Reset to Defaults
