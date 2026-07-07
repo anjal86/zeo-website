@@ -2,6 +2,7 @@ import { getAll, getOne } from "@/server/db/mysql";
 import { parseJson, parseJsonArray, parseJsonObject } from "@/server/db/json";
 import { getPagination } from "@/server/http/pagination";
 import { sanitizeHtmlContent } from "@/server/security/sanitize-html";
+import { normalizeBlogContent } from "@/lib/blogMarkdown";
 import type { BaseRow, ListOptions, ListResult } from "./types";
 import { bool, iso } from "./types";
 
@@ -50,97 +51,6 @@ type TestimonialRow = BaseRow & {
   is_featured: number | boolean;
   is_approved: number | boolean;
 };
-
-function decodeHtmlEntities(value: string) {
-  return value
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&nbsp;/g, " ");
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function escapeAttribute(value: string) {
-  return escapeHtml(value).replace(/`/g, "&#96;");
-}
-
-function formatInlineMarkdown(value: string) {
-  return escapeHtml(value)
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]+)\)/g, (_match, text, href) => {
-      return `<a href="${escapeAttribute(href)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
-    })
-    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/__([^_]+)__/g, "<strong>$1</strong>")
-    .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-    .replace(/_([^_]+)_/g, "<em>$1</em>");
-}
-
-function isMarkdownTable(lines: string[]) {
-  return lines.length >= 2 &&
-    lines[0].includes("|") &&
-    /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(lines[1]);
-}
-
-function markdownTableToHtml(lines: string[]) {
-  const parseCells = (line: string) => line
-    .trim()
-    .replace(/^\|/, "")
-    .replace(/\|$/, "")
-    .split("|")
-    .map((cell) => cell.trim());
-
-  const headers = parseCells(lines[0]);
-  const rows = lines.slice(2).map(parseCells).filter((cells) => cells.some(Boolean));
-
-  return `<table><thead><tr>${headers.map((cell) => `<th>${formatInlineMarkdown(cell)}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${headers.map((_header, index) => `<td>${formatInlineMarkdown(row[index] || "")}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
-}
-
-function plainTextToHtml(value: string) {
-  return value
-    .split(/\n{2,}/)
-    .map((block) => block.trim())
-    .filter(Boolean)
-    .map((block) => {
-      if (block.startsWith("### ")) return `<h3>${formatInlineMarkdown(block.slice(4).trim())}</h3>`;
-      if (block.startsWith("## ")) return `<h2>${formatInlineMarkdown(block.slice(3).trim())}</h2>`;
-      if (block.startsWith("# ")) return `<h2>${formatInlineMarkdown(block.slice(2).trim())}</h2>`;
-      if (block.startsWith("> ")) return `<blockquote>${formatInlineMarkdown(block.replace(/^>\s*/, ""))}</blockquote>`;
-
-      const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
-      if (isMarkdownTable(lines)) return markdownTableToHtml(lines);
-
-      const isUnorderedList = lines.length >= 1 && lines.every((line) => /^[-•]\s+/.test(line));
-      if (isUnorderedList) {
-        return `<ul>${lines.map((line) => `<li>${formatInlineMarkdown(line.replace(/^[-•]\s+/, ""))}</li>`).join("")}</ul>`;
-      }
-
-      const isOrderedList = lines.length >= 1 && lines.every((line) => /^\d+[.)]\s+/.test(line));
-      if (isOrderedList) {
-        return `<ol>${lines.map((line) => `<li>${formatInlineMarkdown(line.replace(/^\d+[.)]\s+/, ""))}</li>`).join("")}</ol>`;
-      }
-
-      return `<p>${formatInlineMarkdown(block).replace(/\n/g, "<br />")}</p>`;
-    })
-    .join("\n");
-}
-
-function normalizeBlogContent(content: string | null) {
-  if (!content) return content;
-  const decoded = decodeHtmlEntities(content.trim());
-  const hasHtmlTags = /<\/?[a-z][\s\S]*>/i.test(decoded);
-  return hasHtmlTags ? decoded : plainTextToHtml(decoded);
-}
 
 function serializePost(row: PostRow, options: { sanitizeContent?: boolean } = {}) {
   const normalizedContent = normalizeBlogContent(row.content);
