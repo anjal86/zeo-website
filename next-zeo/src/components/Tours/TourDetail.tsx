@@ -70,10 +70,10 @@ const QuickFact: React.FC<QuickFactProps> = ({ icon: Icon, label, value }) => {
   if (!value) return null;
 
   return (
-    <div className="border border-white/10 bg-white/5 p-4">
-      <Icon className="mb-3 h-5 w-5 text-secondary" />
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/50">{label}</p>
-      <p className="mt-1 text-base font-bold text-white">{value}</p>
+    <div className="border border-gray-200 bg-white p-4">
+      <Icon className="mb-3 h-5 w-5 text-primary" />
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400">{label}</p>
+      <p className="mt-1 text-sm font-bold text-gray-950 sm:text-base">{value}</p>
     </div>
   );
 };
@@ -181,39 +181,33 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
           </div>
         </div>
 
-        <section className="bg-slate-950 text-white">
-          <div className="container mx-auto px-4 py-10 md:py-14">
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
-              <div>
-                <div className="mb-5 flex flex-wrap items-center gap-3">
-                  {tour.category && <span className="border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-white/80">{tour.category}</span>}
-                  {locationLabel && <span className="inline-flex items-center gap-2 border border-white/15 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/80"><MapPin className="h-4 w-4 text-secondary" />{locationLabel}</span>}
-                </div>
-
-                <h1 className="max-w-5xl text-4xl font-extrabold leading-tight tracking-tight md:text-6xl">{tour.title}</h1>
-                <p className="mt-5 max-w-3xl text-base leading-8 text-white/70 md:text-lg">
-                  Review the trip route, full itinerary, inclusions and practical details before speaking with a Nepal travel expert.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-1">
-                <QuickFact icon={Clock} label="Duration" value={formattedDuration} />
-                <QuickFact icon={Users} label="Group Size" value={tour.group_size} />
-                <QuickFact icon={Calendar} label="Best Time" value={tour.best_time} />
-                <QuickFact icon={Activity} label="Trip Type" value={tour.category} />
-              </div>
-            </div>
-
-            <div className="mt-10 border border-white/10 bg-white/5 p-2">
-              <TourImageSlider images={images} title={tour.title} />
-            </div>
-          </div>
-        </section>
-
-        <section className="py-10 md:py-14">
+        <section className="py-8 md:py-10">
           <div className="container mx-auto px-4">
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
               <main className="space-y-8">
+                <section className="border border-gray-200 bg-white p-5 sm:p-8">
+                  <div className="mb-5 flex flex-wrap items-center gap-3">
+                    {tour.category && <span className="border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary">{tour.category}</span>}
+                    {locationLabel && <span className="inline-flex items-center gap-2 border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm font-semibold text-gray-700"><MapPin className="h-4 w-4 text-secondary" />{locationLabel}</span>}
+                  </div>
+
+                  <h1 className="max-w-5xl text-3xl font-extrabold leading-tight tracking-tight text-gray-950 md:text-5xl">{tour.title}</h1>
+                  <p className="mt-4 max-w-3xl text-base leading-8 text-gray-600">
+                    Review the trip route, full itinerary, inclusions and practical details before speaking with a Nepal travel expert.
+                  </p>
+
+                  <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                    <QuickFact icon={Clock} label="Duration" value={formattedDuration} />
+                    <QuickFact icon={Users} label="Group Size" value={tour.group_size} />
+                    <QuickFact icon={Calendar} label="Best Time" value={tour.best_time} />
+                    <QuickFact icon={Activity} label="Trip Type" value={tour.category} />
+                  </div>
+
+                  <div className="mt-6">
+                    <TourImageSlider images={images} title={tour.title} />
+                  </div>
+                </section>
+
                 <TourTabs
                   description={tour.description}
                   highlights={tour.highlights}
