@@ -10,7 +10,7 @@ import TableOfContents from '../Blog/TableOfContents';
 import { useApi } from '../../hooks/useApi';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import TourCard from '../Tours/TourCard';
-import { normalizeBlogContent } from '@/lib/blogMarkdown';
+import MarkdownArticle from '@/components/Blog/MarkdownArticle';
 
 const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
     const { slug } = useParams<{ slug: string }>();
@@ -41,7 +41,6 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
     const origin = process.env.NEXT_PUBLIC_APP_URL || 'https://www.zeotourism.com';
     const pageUrl = `${origin}/blog/${slug}`;
     const relatedPosts = allPosts?.filter(p => p.slug !== slug && p.category === post.category).slice(0, 3) || [];
-    const articleContentHtml = (normalizeBlogContent(post.content || '') || '').replace(/&nbsp;/g, ' ');
 
     const articleSchema = {
         "@context": "https://schema.org",
@@ -114,7 +113,7 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
 
         const toursList = Array.isArray(allTours) ? allTours : (allTours as any).tours || [];
         const blogTitle = (post.title || '').toLowerCase();
-        const blogContent = articleContentHtml.toLowerCase().replace(/<[^>]*>?/gm, ' ');
+        const blogContent = (post.content || '').toLowerCase();
         const blogExcerpt = (post.excerpt || '').toLowerCase();
         const blogCategory = (post.category || '').toLowerCase();
         const fullBlogText = `${blogTitle} ${blogExcerpt} ${blogContent}`;
@@ -272,10 +271,7 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                     <div className="flex flex-col lg:flex-row gap-12">
                         <div className="lg:w-2/3">
                             <div className="bg-white p-8 md:p-16 shadow-2xl shadow-slate-200/50 border border-gray-100">
-                                <div
-                                    className="prose prose-base md:prose-lg prose-slate max-w-none prose-headings:font-serif prose-headings:text-slate-950 prose-a:text-primary prose-img:rounded-2xl break-words scroll-mt-24 blog-post-content"
-                                    dangerouslySetInnerHTML={{ __html: articleContentHtml }}
-                                />
+                                <MarkdownArticle content={post.content || ""} />
 
                                 <div className="mt-16 pt-10 border-t border-gray-100 flex flex-wrap items-center gap-3">
                                     <Tag className="w-5 h-5 text-primary mr-2" />
@@ -312,7 +308,7 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
 
                         <aside className="lg:w-1/3">
                             <div className="sticky top-24 space-y-8">
-                                <TableOfContents contentHtml={articleContentHtml} />
+                                <TableOfContents markdownContent={post.content || ""} />
 
                                 <div className="bg-slate-50 p-8 border border-slate-100">
                                     <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">

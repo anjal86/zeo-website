@@ -17,7 +17,8 @@ import {
     X,
 } from 'lucide-react';
 import { adminFetch, adminFetchRaw } from '@/lib/adminFetch';
-import { htmlToPlainText, plainTextToHtml } from '@/lib/blogMarkdown';
+import { htmlToPlainText } from '@/lib/blogMarkdown';
+import MarkdownArticle from '@/components/Blog/MarkdownArticle';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
 
 const api = '/api';
@@ -72,6 +73,7 @@ const PostEditor: React.FC = () => {
     const [uploading, setUploading] = useState(false);
     const [form, setForm] = useState<PostForm>(emptyForm);
     const [tagInput, setTagInput] = useState('');
+    const [activeTab, setActiveTab] = useState<'write' | 'preview'>('write');
 
     const load = useCallback(async () => {
         try {
@@ -168,7 +170,7 @@ const PostEditor: React.FC = () => {
                 title: form.title.trim(),
                 slug: form.slug.trim() || genSlug(form.title),
                 excerpt: form.excerpt.trim(),
-                content: plainTextToHtml(form.content),
+                content: form.content,
                 category: form.category.trim(),
                 tags,
                 status,

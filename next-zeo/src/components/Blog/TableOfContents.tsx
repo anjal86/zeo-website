@@ -10,14 +10,14 @@ interface Heading {
 }
 
 interface TableOfContentsProps {
-  contentHtml: string;
+  markdownContent: string;
 }
 
 /**
  * Parses h2/h3 headings from HTML string, injects stable IDs into the live DOM,
  * and renders a sticky TOC with active-section highlighting.
  */
-const TableOfContents: React.FC<TableOfContentsProps> = ({ contentHtml }) => {
+const TableOfContents: React.FC<TableOfContentsProps> = ({ markdownContent }) => {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [activeId, setActiveId] = useState<string>('');
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -46,7 +46,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ contentHtml }) => {
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [contentHtml]);
+  }, [markdownContent]);
 
   // Highlight active section as user scrolls
   useEffect(() => {
