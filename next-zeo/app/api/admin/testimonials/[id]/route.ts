@@ -5,7 +5,7 @@ import { notFound, ok } from "@/server/http/api-response";
 
 async function resolveTestimonialId(id: string) {
   const parsed = Number(id);
-  const testimonial = await getOne<{ id: number }>("SELECT id FROM testimonials WHERE id = ? OR legacy_id = ? LIMIT 1", [parsed, parsed]);
+  const testimonial = await getOne<any>("SELECT id FROM testimonials WHERE id = ? OR legacy_id = ? LIMIT 1", [parsed, parsed]);
   return testimonial?.id ?? null;
 }
 
