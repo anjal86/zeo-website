@@ -135,9 +135,9 @@ export function plainTextToHtml(value: string) {
       continue;
     }
 
-    if (/^[-•]\s+/.test(line)) {
-      const { collected, next } = collectWhile(lines, index, (item) => /^[-•]\s+/.test(item));
-      html.push(`<ul>${collected.map((item) => `<li>${formatInlineMarkdown(item.replace(/^[-•]\s+/, ""))}</li>`).join("")}</ul>`);
+    if (/^[-•*]\s+/.test(line)) {
+      const { collected, next } = collectWhile(lines, index, (item) => /^[-•*]\s+/.test(item));
+      html.push(`<ul>${collected.map((item) => `<li>${formatInlineMarkdown(item.replace(/^[-•*]\s+/, ""))}</li>`).join("")}</ul>`);
       index = next;
       continue;
     }
@@ -150,6 +150,12 @@ export function plainTextToHtml(value: string) {
         html.push(`<h3>${formatInlineMarkdown(line.replace(/^\d+[.)]\s+/, ""))}</h3>`);
       }
       index = next;
+      continue;
+    }
+
+    if (/^[-*_]{3,}$/.test(line)) {
+      html.push('<hr />');
+      index += 1;
       continue;
     }
 
