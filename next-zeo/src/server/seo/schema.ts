@@ -234,7 +234,7 @@ export const createTouristTripSchema = (tour: {
   "@id": `${tour.url}#trip`,
   name: tour.name,
   description: tour.description,
-  image: tour.image,
+  image: tour.image || `https://www.zeotourism.com/logo/zeo-logo.png`,
   url: tour.url,
   touristType: ["Adventure Traveler", "Cultural Traveler"],
   ...(tour.location && {
