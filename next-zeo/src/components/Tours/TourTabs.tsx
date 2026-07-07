@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Check, Info, FileText, Bed, Utensils, X, CalendarDays, Mountain, SlidersHorizontal, WalletCards } from 'lucide-react';
+import { Check, Info, FileText, Bed, Utensils, X, CalendarDays, Mountain, SlidersHorizontal, WalletCards, ShieldCheck } from 'lucide-react';
 
 interface ItineraryDay {
   day: number;
@@ -38,8 +38,16 @@ interface TourTabsProps {
     acclimatization_days?: number;
     difficulty_level?: string;
   } | null;
+  travellerDecision?: TravellerDecisionCopy;
   onEnquire?: () => void;
 }
+
+type TravellerDecisionCopy = {
+  document_safety_items?: string[];
+  price_factors?: string[];
+  date_options?: string[];
+  customization_options?: string[];
+};
 
 const cleanRouteTitle = (title: string) => title
   .replace(/^day\s*\d+\s*[:.)-]?\s*/i, '')
@@ -52,12 +60,14 @@ const TourTabs: React.FC<TourTabsProps> = ({
   inclusions,
   exclusions,
   itinerary,
+  title,
   price,
   priceAvailable = true,
   bestTime,
   difficulty,
   fitnessRequirements,
   altitudeProfile,
+  travellerDecision,
   onEnquire,
 }) => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -121,6 +131,13 @@ const TourTabs: React.FC<TourTabsProps> = ({
     { label: 'Walking expectation', value: fitnessCopy || 'Ask our team for route-specific preparation guidance' },
     { label: 'Acclimatization', value: altitudeProfile?.acclimatization_days ? `${altitudeProfile.acclimatization_days} day${altitudeProfile.acclimatization_days === 1 ? '' : 's'} planned` : 'Extra acclimatization can be discussed before booking' },
   ];
+  const permitSensitive = /kailash|mansarovar|tibet|china|lhasa|yatra/i.test(`${title} ${description}`);
+  const documentItems = travellerDecision?.document_safety_items?.filter(Boolean) || (permitSensitive
+    ? ['China/Tibet visa and permit guidance before departure', 'Do not start travel until required documents are confirmed', 'Final document checklist shared before confirmation', 'Route-specific permit timing explained by our team']
+    : ['Permit and entry-document guidance before departure', 'Final document checklist shared before confirmation', 'Route-specific safety notes available on request', 'Travel date confirmed only after practical requirements are clear']);
+  const priceFactors = travellerDecision?.price_factors?.filter(Boolean) || ['Hotel level and room type', 'Permit, visa and document costs', 'Private date or transport upgrade', 'Single supplement', 'Group size changes', 'Flight or route changes'];
+  const dateOptions = travellerDecision?.date_options?.filter(Boolean) || ['Private departures available', 'Group departures on request', `Best season: ${bestTime || 'Ask for the best travel window'}`, 'Ask for next available date'];
+  const customizationOptions = travellerDecision?.customization_options?.filter(Boolean) || ['Change travel date', 'Upgrade hotel', 'Add extra acclimatization day', 'Add Kathmandu sightseeing', 'Choose private group'];
 
   return (
     <div className="space-y-8">
@@ -174,6 +191,32 @@ const TourTabs: React.FC<TourTabsProps> = ({
                 </div>
               </div>
             )}
+          </div>
+        </section>
+
+        <hr className="border-gray-100" />
+
+        <section className="space-y-5">
+          <div className="border border-primary/20 bg-primary/5 p-5">
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center bg-primary">
+                <ShieldCheck className="h-5 w-5 text-white" />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-lg font-bold text-brand-dark">Visa, Permit & Document Safety</h3>
+                <p className="mt-2 text-sm leading-6 text-gray-700">
+                  Requirements can change by route, nationality and season. Confirm documents with our team before booking flights or starting travel.
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {documentItems.map((item) => (
+                <div key={item} className="flex items-start gap-3 border border-primary/15 bg-white p-3">
+                  <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
+                  <span className="text-sm font-semibold leading-6 text-gray-800">{item}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -324,6 +367,13 @@ const TourTabs: React.FC<TourTabsProps> = ({
           <div className="border border-secondary/30 bg-secondary/5 p-4 text-sm leading-6 text-gray-700">
             Concerned about hidden costs? Ask for the current written quote and route-specific notes before paying a deposit.
           </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {priceFactors.map((item) => (
+              <div key={item} className="border border-gray-200 bg-white p-3 text-sm font-semibold text-gray-700">
+                {item}
+              </div>
+            ))}
+          </div>
         </section>
 
         <hr className="border-gray-100" />
@@ -356,7 +406,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
             </h3>
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {['Private departures available', 'Group departures on request', `Best season: ${bestTime || 'Ask for the best travel window'}`, 'Ask for next available date'].map((item) => (
+            {dateOptions.map((item) => (
               <div key={item} className="border border-gray-200 bg-white p-4 text-sm font-semibold text-gray-800">
                 {item}
               </div>
@@ -378,7 +428,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
             <p className="mt-2 text-sm leading-6 text-gray-500">Tell us what you want changed and our team will confirm what is practical for this route.</p>
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {['Change travel date', 'Upgrade hotel', 'Add extra acclimatization day', 'Add Kathmandu sightseeing', 'Choose private group'].map((item) => (
+            {customizationOptions.map((item) => (
               <div key={item} className="flex items-start gap-3 border border-gray-200 bg-gray-50 p-4">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
                 <span className="text-sm font-semibold text-gray-800">{item}</span>

@@ -100,8 +100,33 @@ interface TourDetails {
   activity_ids?: number[];
   related_destinations?: string[];
   related_activities?: string[];
+  metadata?: {
+    traveller_decision?: TravellerDecisionCopy;
+  };
   featured?: boolean;
 }
+
+type TravellerDecisionCopy = {
+  document_safety_items?: string[];
+  price_factors?: string[];
+  date_options?: string[];
+  customization_options?: string[];
+  trust_signals?: string[];
+  price_note_available?: string;
+  price_note_request?: string;
+};
+
+type TravellerDecisionArrayField = 'document_safety_items' | 'price_factors' | 'date_options' | 'customization_options' | 'trust_signals';
+
+const defaultTravellerDecision: Required<Pick<TravellerDecisionCopy, TravellerDecisionArrayField>> & Pick<TravellerDecisionCopy, 'price_note_available' | 'price_note_request'> = {
+  document_safety_items: ['Permit and entry-document guidance before departure', 'Final document checklist shared before confirmation'],
+  price_factors: ['Hotel level and room type', 'Permit, visa and document costs', 'Private date or transport upgrade', 'Single supplement'],
+  date_options: ['Private departures available', 'Group departures on request', 'Ask for next available date'],
+  customization_options: ['Change travel date', 'Upgrade hotel', 'Add extra acclimatization day', 'Choose private group'],
+  trust_signals: ['Licensed local operator', 'Route guidance', 'Permit support', 'Fast response'],
+  price_note_available: 'Final quote can vary by date, hotel level, permits/visa, transport and group size.',
+  price_note_request: 'Ask for a written quote with inclusions, exclusions and permit/visa notes.',
+};
 
 const TourEditor: React.FC = () => {
   const params = useParams<{ tourSlug?: string; tourId?: string; id?: string }>();
@@ -198,7 +223,10 @@ const TourEditor: React.FC = () => {
     secondary_destination_ids: [],
     activity_ids: [],
     related_destinations: [],
-    related_activities: []
+    related_activities: [],
+    metadata: {
+      traveller_decision: defaultTravellerDecision
+    }
   });
 
 
@@ -360,7 +388,14 @@ const TourEditor: React.FC = () => {
           inclusions: details.inclusions || [],
           exclusions: details.exclusions || [],
           activities: details.activities || [],
-          itinerary: details.itinerary || []
+          itinerary: details.itinerary || [],
+          metadata: {
+            ...(details.metadata || {}),
+            traveller_decision: {
+              ...defaultTravellerDecision,
+              ...(details.metadata?.traveller_decision || {})
+            }
+          }
         };
 
         setFormData(formattedDetails);
@@ -425,6 +460,72 @@ const TourEditor: React.FC = () => {
       const array = (prev[field] as string[]) || [];
       const newArray = array.filter((_, i) => i !== index);
       return { ...prev, [field]: newArray };
+    });
+  };
+
+  const updateTravellerDecisionArray = (field: TravellerDecisionArrayField, index: number, value: string) => {
+    setFormData(prev => {
+      const current = prev.metadata?.traveller_decision || defaultTravellerDecision;
+      const nextArray = [...(current[field] || [])];
+      nextArray[index] = value;
+      return {
+        ...prev,
+        metadata: {
+          ...(prev.metadata || {}),
+          traveller_decision: {
+            ...current,
+            [field]: nextArray,
+          },
+        },
+      };
+    });
+  };
+
+  const addTravellerDecisionItem = (field: TravellerDecisionArrayField) => {
+    setFormData(prev => {
+      const current = prev.metadata?.traveller_decision || defaultTravellerDecision;
+      return {
+        ...prev,
+        metadata: {
+          ...(prev.metadata || {}),
+          traveller_decision: {
+            ...current,
+            [field]: [...(current[field] || []), ''],
+          },
+        },
+      };
+    });
+  };
+
+  const removeTravellerDecisionItem = (field: TravellerDecisionArrayField, index: number) => {
+    setFormData(prev => {
+      const current = prev.metadata?.traveller_decision || defaultTravellerDecision;
+      return {
+        ...prev,
+        metadata: {
+          ...(prev.metadata || {}),
+          traveller_decision: {
+            ...current,
+            [field]: (current[field] || []).filter((_, i) => i !== index),
+          },
+        },
+      };
+    });
+  };
+
+  const updateTravellerDecisionText = (field: 'price_note_available' | 'price_note_request', value: string) => {
+    setFormData(prev => {
+      const current = prev.metadata?.traveller_decision || defaultTravellerDecision;
+      return {
+        ...prev,
+        metadata: {
+          ...(prev.metadata || {}),
+          traveller_decision: {
+            ...current,
+            [field]: value,
+          },
+        },
+      };
     });
   };
 
@@ -845,6 +946,7 @@ const TourEditor: React.FC = () => {
       errorCount: (!hasRequiredDestinations() ? 1 : 0) + (!hasRequiredActivities() ? 1 : 0)
     },
     { id: 'details', label: 'Details', icon: Star },
+    { id: 'decision', label: 'Decision Page', icon: Activity },
     { id: 'itinerary', label: 'Itinerary', icon: Calendar },
     { id: 'media', label: 'Media', icon: Camera }
   ];
@@ -995,6 +1097,53 @@ const TourEditor: React.FC = () => {
       return { ...prev, itinerary: [...itinerary, dayToDuplicate] };
     });
   };
+
+  const travellerDecision = {
+    ...defaultTravellerDecision,
+    ...(formData.metadata?.traveller_decision || {}),
+  };
+
+  const renderTravellerDecisionList = (field: TravellerDecisionArrayField, title: string, helper: string) => (
+    <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+          <p className="text-sm text-gray-600 mt-1">{helper}</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => addTravellerDecisionItem(field)}
+          className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700 transition-colors flex items-center gap-1"
+        >
+          <Plus className="w-3 h-3" />
+          Add
+        </button>
+      </div>
+      <div className="space-y-3">
+        {(travellerDecision[field] || []).map((item, index) => (
+          <div key={`${field}-${index}`} className="flex items-center gap-3">
+            <input
+              type="text"
+              value={item}
+              onChange={(e) => updateTravellerDecisionArray(field, index, e.target.value)}
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              placeholder={title}
+            />
+            <button
+              type="button"
+              onClick={() => removeTravellerDecisionItem(field, index)}
+              className="text-red-500 hover:text-red-700 p-1"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        ))}
+        {(!travellerDecision[field] || travellerDecision[field]?.length === 0) && (
+          <p className="text-gray-500 text-sm">No items yet. Public page will use fallback copy.</p>
+        )}
+      </div>
+    </div>
+  );
 
   if (!user) {
     return (
@@ -2013,6 +2162,57 @@ const TourEditor: React.FC = () => {
                   </div>
 
 
+                </motion.div>
+              )}
+
+              {/* Decision Page Tab */}
+              {activeTab === 'decision' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-6"
+                >
+                  <div className="bg-white rounded-lg shadow-sm border p-6">
+                    <h2 className="text-xl font-semibold text-gray-900">Traveller Decision Page Copy</h2>
+                    <p className="text-sm text-gray-600 mt-1">
+                      These fields control trust, permit, price clarity, dates and customization blocks on the public tour detail page. Empty items fall back to safe default copy.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="bg-white rounded-lg shadow-sm border p-6">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Price Notes</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">When price is shown</label>
+                          <textarea
+                            value={travellerDecision.price_note_available || ''}
+                            onChange={(e) => updateTravellerDecisionText('price_note_available', e.target.value)}
+                            rows={3}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            placeholder="Final quote can vary by date..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">When price is request-only</label>
+                          <textarea
+                            value={travellerDecision.price_note_request || ''}
+                            onChange={(e) => updateTravellerDecisionText('price_note_request', e.target.value)}
+                            rows={3}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            placeholder="Ask for a written quote..."
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {renderTravellerDecisionList('trust_signals', 'Trust Signals', 'Shown in the traveller confidence section. Do not add fake claims.')}
+                  </div>
+
+                  {renderTravellerDecisionList('document_safety_items', 'Visa, Permit & Document Safety', 'Shown before the itinerary. Use route-specific wording for Kailash, Tibet, China, Nepal permits, etc.')}
+                  {renderTravellerDecisionList('price_factors', 'Price Factors', 'Explains what can change the final quote and reduces hidden-cost anxiety.')}
+                  {renderTravellerDecisionList('date_options', 'Date & Departure Options', 'Shown in Available Dates & Private Departures. Use real dates only when confirmed.')}
+                  {renderTravellerDecisionList('customization_options', 'Customization Options', 'Shown in Customize This Trip. Keep claims practical for this route.')}
                 </motion.div>
               )}
 

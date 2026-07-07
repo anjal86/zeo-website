@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Send, MessageCircle, Mail, AlertCircle, CheckCircle } from 'lucide-react';
+import { Send, MessageCircle, Mail, AlertCircle, CheckCircle, WalletCards } from 'lucide-react';
 import { useContact } from '../../hooks/useApi';
 
 interface TourEnquiryButtonProps {
@@ -11,6 +11,8 @@ interface TourEnquiryButtonProps {
   priceAvailable?: boolean;
   onEnquiryClick?: () => void;
   tourTitle?: string;
+  priceNoteAvailable?: string;
+  priceNoteRequest?: string;
 }
 
 const fieldClass = "w-full border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary";
@@ -20,7 +22,9 @@ const TourEnquiryButton: React.FC<TourEnquiryButtonProps> = ({
   hasDiscount,
   discountPercentage,
   priceAvailable = true,
-  tourTitle
+  tourTitle,
+  priceNoteAvailable,
+  priceNoteRequest,
 }) => {
   const { data: contactInfo } = useContact();
   const [formData, setFormData] = useState({
@@ -114,6 +118,9 @@ const TourEnquiryButton: React.FC<TourEnquiryButtonProps> = ({
   };
 
   const discountedPrice = hasDiscount && discountPercentage ? Math.round(price * (1 - discountPercentage / 100)) : price;
+  const priceNote = priceAvailable
+    ? priceNoteAvailable || 'Final quote can vary by date, hotel level, permits/visa, transport and group size.'
+    : priceNoteRequest || 'Ask for a written quote with inclusions, exclusions and permit/visa notes.';
 
   return (
     <div className="bg-white border border-gray-200">
@@ -130,7 +137,7 @@ const TourEnquiryButton: React.FC<TourEnquiryButtonProps> = ({
               <span className="text-3xl font-extrabold">${discountedPrice}</span>
               {hasDiscount && discountPercentage && <span className="pb-1 text-base text-white/50 line-through">${price}</span>}
             </div>
-            <p className="text-sm text-white/70">per person</p>
+            <p className="text-sm text-white/70">starting price per person</p>
           </div>
         ) : (
           <div className="mt-3">
@@ -138,9 +145,19 @@ const TourEnquiryButton: React.FC<TourEnquiryButtonProps> = ({
             <p className="text-sm text-white/70">Contact for current pricing</p>
           </div>
         )}
+        <div className="mt-4 flex items-start gap-2 border border-white/20 bg-white/10 p-3 text-xs leading-5 text-white/85">
+          <WalletCards className="mt-0.5 h-4 w-4 flex-shrink-0" />
+          <span>{priceNote}</span>
+        </div>
       </div>
 
       <div className="p-5">
+        <button onClick={handleWhatsAppClick} className="mb-3 flex w-full items-center justify-center bg-green-600 py-3 font-bold uppercase tracking-wide text-white transition-colors hover:bg-green-700">
+          <MessageCircle className="mr-2 h-4 w-4" />
+          WhatsApp
+        </button>
+        <p className="mb-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-gray-400">Or send trip details</p>
+
         <form onSubmit={handleSubmit} className="space-y-3">
           {showSuccess && (
             <div className="flex items-center border border-green-200 bg-green-50 p-3">
@@ -186,12 +203,8 @@ const TourEnquiryButton: React.FC<TourEnquiryButtonProps> = ({
           </button>
         </form>
 
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <button onClick={handleWhatsAppClick} className="flex items-center justify-center bg-green-600 py-3 font-semibold text-white transition-colors hover:bg-green-700">
-            <MessageCircle className="mr-2 h-4 w-4" />
-            WhatsApp
-          </button>
-          <button onClick={handleEmailClick} className="flex items-center justify-center border border-gray-300 py-3 font-semibold text-gray-700 transition-colors hover:border-primary hover:text-primary">
+        <div className="mt-4">
+          <button onClick={handleEmailClick} className="flex w-full items-center justify-center border border-gray-300 py-3 font-semibold text-gray-700 transition-colors hover:border-primary hover:text-primary">
             <Mail className="mr-2 h-4 w-4" />
             Email
           </button>

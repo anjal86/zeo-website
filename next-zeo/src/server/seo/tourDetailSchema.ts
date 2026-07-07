@@ -93,6 +93,7 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
   const images = imageList.length ? imageList : [LOGO_URL];
   const price = Number(tour.price || 0);
   const hasPrice = Boolean(tour.priceAvailable !== false && price > 0);
+  const availability = hasPrice ? 'https://schema.org/InStock' : 'https://schema.org/LimitedAvailability';
   const duration = createDuration(tour.durationDays, tour.duration);
   const highlights = cleanList(tour.highlights);
   const inclusions = cleanList(tour.inclusions);
@@ -108,7 +109,7 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
     url,
     priceCurrency: tour.currency || 'USD',
     ...(hasPrice ? { price } : {}),
-    availability: 'https://schema.org/InStock',
+    availability,
     itemCondition: 'https://schema.org/NewCondition',
     seller: {
       '@type': 'TravelAgency',

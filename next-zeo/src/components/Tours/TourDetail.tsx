@@ -51,6 +51,17 @@ interface TourDetails extends Tour {
   activity_ids?: number[];
   related_destinations?: string[];
   related_activities?: string[];
+  metadata?: {
+    traveller_decision?: {
+      document_safety_items?: string[];
+      price_factors?: string[];
+      date_options?: string[];
+      customization_options?: string[];
+      trust_signals?: string[];
+      price_note_available?: string;
+      price_note_request?: string;
+    };
+  };
 }
 
 type GoodToKnowCard = {
@@ -143,6 +154,8 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
   }, [allTours, tour]);
 
   const hasTravellerRating = Number(tour.rating) > 0 && Number(tour.reviews) > 0;
+  const travellerDecision = tour.metadata?.traveller_decision;
+  const trustSignals = travellerDecision?.trust_signals?.filter(Boolean) || ['Licensed local operator', 'Route guidance', 'Permit support', 'Fast response'];
   const goodToKnowCards: GoodToKnowCard[] = tour.good_to_know ? [
     { key: 'main_attractions', title: 'Main Attractions', text: tour.good_to_know.main_attractions, icon: MapPin },
     { key: 'travel_distances', title: 'Travel Distances', text: tour.good_to_know.travel_distances, icon: Activity },
@@ -224,6 +237,8 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                     discountPercentage={tour.discountPercentage}
                     priceAvailable={tour.priceAvailable}
                     tourTitle={tour.title}
+                    priceNoteAvailable={travellerDecision?.price_note_available}
+                    priceNoteRequest={travellerDecision?.price_note_request}
                   />
 
                   <div className="mt-3 border border-gray-200 bg-white p-4">
@@ -252,6 +267,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                   difficulty={tour.difficulty}
                   fitnessRequirements={tour.fitness_requirements}
                   altitudeProfile={tour.altitude_profile}
+                  travellerDecision={travellerDecision}
                   onEnquire={scrollToEnquiry}
                 />
 
@@ -274,7 +290,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                     </div>
                   ) : (
                     <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                      {['Licensed local operator', 'Route guidance', 'Permit support', 'Fast response'].map((item) => (
+                      {trustSignals.map((item) => (
                         <div key={item} className="flex items-start gap-3 border border-gray-200 bg-gray-50 p-4">
                           <ShieldCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
                           <span className="text-sm font-semibold text-gray-800">{item}</span>
@@ -353,6 +369,8 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                     discountPercentage={tour.discountPercentage}
                     priceAvailable={tour.priceAvailable}
                     tourTitle={tour.title}
+                    priceNoteAvailable={travellerDecision?.price_note_available}
+                    priceNoteRequest={travellerDecision?.price_note_request}
                   />
 
                   <div className="border border-gray-200 bg-white p-4">

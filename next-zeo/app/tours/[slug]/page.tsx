@@ -6,7 +6,13 @@ import TourDetailComponent from '../../../src/components/Tours/TourDetail';
 import { createTourDetailSchema } from '../../../src/server/seo/tourDetailSchema';
 import JsonLd from '../../../src/components/seo/JsonLd';
 
-const SITE_URL = process.env.APP_URL || 'https://www.zeotourism.com';
+const SITE_URL = (process.env.APP_URL || 'https://www.zeotourism.com').replace(/\/$/, '');
+
+const absoluteUrl = (value?: string | null) => {
+  if (!value) return `${SITE_URL}/logo/zeo-logo.png`;
+  if (value.startsWith('http://') || value.startsWith('https://')) return value;
+  return `${SITE_URL}${value.startsWith('/') ? value : `/${value}`}`;
+};
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const { slug } = await params;
@@ -17,7 +23,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const canonical = `${SITE_URL}/tours/${slug}`;
   const title = `${tour.title} - Zeo Tourism`;
   const description = tour.description || `Join our ${tour.title} package.`;
-  const image = tour.image || tour.image_url || '/logo/zeo-logo.png';
+  const image = absoluteUrl(tour.image || tour.image_url || '/logo/zeo-logo.png');
   
   return {
     title,

@@ -14,8 +14,11 @@ const resolveImage = (image?: string) => {
   return image.startsWith('/') ? image : `/${image}`;
 };
 
+const FALLBACK_IMAGE = '/logo/zeo-logo.png';
+
 const TourImageSlider: React.FC<TourImageSliderProps> = ({ images, title }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     if (!images || images.length <= 1) return;
@@ -41,9 +44,10 @@ const TourImageSlider: React.FC<TourImageSliderProps> = ({ images, title }) => {
     <div className="border border-gray-200 bg-white">
       <div className="relative h-[260px] overflow-hidden bg-slate-100 sm:h-[360px] md:h-[520px]">
         <img
-          src={resolveImage(images[currentImageIndex])}
+          src={failedImages.has(currentImageIndex) ? FALLBACK_IMAGE : resolveImage(images[currentImageIndex])}
           alt={`${title} - View ${currentImageIndex + 1}`}
-          className="h-full w-full object-cover"
+          onError={() => setFailedImages(prev => new Set(prev).add(currentImageIndex))}
+          className={`h-full w-full ${failedImages.has(currentImageIndex) ? 'object-contain p-10' : 'object-cover'}`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
 
