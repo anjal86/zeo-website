@@ -1,13 +1,12 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Save, AlertCircle, Upload, Camera, X, Eye, Trash2 } from 'lucide-react';
+import { AlertCircle, Upload, Eye, Trash2 } from 'lucide-react';
 import { adminFetch, adminFetchRaw } from '@/lib/adminFetch';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
 const api = '/api';
 
 const LogosManager: React.FC = () => {
     const [loading, setLoading] = useState(true);
-    const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [uploading, setUploading] = useState<string | null>(null);
     const [logos, setLogos] = useState<Record<string, { image_url: string; name?: string; website_url?: string }>>({});
@@ -28,7 +27,7 @@ const LogosManager: React.FC = () => {
             const fd = new FormData(); fd.append('image', file); fd.append('slug', `logo-${type}`);
             const res = await adminFetchRaw(`${api}/admin/logos/upload`, { method: 'POST', body: fd });
             const r = await res.json();
-            await adminFetch(`${api}/admin/logos`, { method: 'PUT', body: JSON.stringify({ type, image_url: r.url, name: type }) });
+            await adminFetch(`${api}/admin/logos`, { method: 'PUT', body: JSON.stringify({ [type]: r.url }) });
             await load();
         } catch (err: any) { alert('Upload failed: ' + err.message); } finally { setUploading(null); }
     };
