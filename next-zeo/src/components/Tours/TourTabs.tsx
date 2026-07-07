@@ -96,7 +96,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
 
   return (
     <div className="space-y-8">
-      <div className="sticky top-[64px] z-40 bg-white border border-gray-200">
+      <div className="sticky top-[64px] z-40 bg-white border-y sm:border sm:border-gray-200">
         <div className="grid grid-cols-3 divide-x divide-gray-200">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -118,7 +118,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
         </div>
       </div>
 
-      <div className="bg-white border border-gray-200 p-6 sm:p-8 space-y-12">
+      <div className="bg-white border-y sm:border sm:border-gray-200 p-5 sm:p-8 space-y-12">
         <section id="overview" className="scroll-mt-28 space-y-8">
           <div className="border-b border-gray-100 pb-4">
             <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">

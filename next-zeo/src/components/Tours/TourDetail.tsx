@@ -173,7 +173,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
 
   return (
     <>
-      <div className="tour-detail-page bg-gray-50 pb-32 lg:pb-0">
+      <div className="tour-detail-page bg-gray-50 pb-32 lg:pb-0 pt-20 lg:pt-[84px]">
         <div className="border-b border-gray-200 bg-white py-3 sm:py-4">
           <div className="container mx-auto px-4">
             <Breadcrumb
@@ -186,11 +186,11 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
           </div>
         </div>
 
-        <section className="py-5 sm:py-8 md:py-10">
-          <div className="container mx-auto px-4">
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-8 lg:items-start">
-              <main className="space-y-6 lg:space-y-8 min-w-0">
-                <section className="border border-gray-200 bg-white p-4 sm:p-8">
+        <section className="py-0 sm:py-8 md:py-10">
+          <div className="container mx-auto px-0 sm:px-4">
+            <div className="grid gap-0 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-8 lg:items-start">
+              <main className="space-y-4 sm:space-y-6 lg:space-y-8 min-w-0">
+                <section className="border-y sm:border-x sm:border-t sm:border-b border-gray-200 bg-white p-5 sm:p-8">
                   <div className="mb-4 flex flex-wrap items-center gap-2 sm:mb-5 sm:gap-3">
                     {tour.category && <span className="border border-primary/20 bg-primary/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-primary sm:text-xs">{tour.category}</span>}
                     {locationLabel && <span className="inline-flex items-center gap-2 border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 sm:text-sm"><MapPin className="h-4 w-4 text-secondary" />{locationLabel}</span>}
@@ -245,7 +245,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                 />
 
                 {goodToKnowCards.length > 0 && (
-                  <section className="border border-gray-200 bg-white p-5 sm:p-8">
+                  <section className="border-y sm:border sm:border-gray-200 bg-white p-5 sm:p-8">
                     <SectionHeading
                       eyebrow="Before you go"
                       title="Good to Know"
@@ -273,7 +273,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                 )}
 
                 {tour.faqs && tour.faqs.length > 0 && (
-                  <section className="border border-gray-200 bg-white p-5 sm:p-8">
+                  <section className="border-y sm:border sm:border-gray-200 bg-white p-5 sm:p-8">
                     <SectionHeading
                       eyebrow="Questions"
                       title="Frequently Asked Questions"
