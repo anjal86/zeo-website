@@ -51,8 +51,44 @@ type TestimonialRow = BaseRow & {
   is_approved: number | boolean;
 };
 
+function decodeHtmlEntities(value: string) {
+  return value
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ");
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function plainTextToHtml(value: string) {
+  return value
+    .split(/\n{2,}/)
+    .map((block) => block.trim())
+    .filter(Boolean)
+    .map((block) => `<p>${escapeHtml(block).replace(/\n/g, "<br />")}</p>`)
+    .join("\n");
+}
+
+function normalizeBlogContent(content: string | null) {
+  if (!content) return content;
+  const decoded = decodeHtmlEntities(content.trim());
+  const hasHtmlTags = /<\/?[a-z][\s\S]*>/i.test(decoded);
+  return hasHtmlTags ? decoded : plainTextToHtml(decoded);
+}
+
 function serializePost(row: PostRow, options: { sanitizeContent?: boolean } = {}) {
-  const content = options.sanitizeContent ? sanitizeHtmlContent(row.content) : row.content;
+  const normalizedContent = normalizeBlogContent(row.content);
+  const content = options.sanitizeContent ? sanitizeHtmlContent(normalizedContent) : normalizedContent;
 
   return {
     id: row.legacy_id ?? row.id,
