@@ -58,8 +58,8 @@ const DestinationsManager: React.FC = () => {
             const list = data.destinations || [];
             setItems(list);
             setTotal(data.pagination?.totalItems ?? list.length);
-        } catch (err: any) {
-            setError(err.message || 'Failed to load');
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Failed to load');
         } finally {
             setLoading(false);
         }
@@ -85,8 +85,8 @@ const DestinationsManager: React.FC = () => {
     const toggleListed = async (dest: Destination) => {
         setUpdating(p => new Set(p).add(dest.id));
         try {
-            const updated = await adminFetch<Destination>(`${getApiBaseUrl()}/admin/destinations/${dest.id}`, {
-                method: 'PUT',
+            const updated = await adminFetch<{ listed: boolean }>(`${getApiBaseUrl()}/admin/destinations/${dest.id}`, {
+                method: 'PATCH',
                 body: JSON.stringify({ listed: !dest.listed }),
             });
             setItems(prev => prev.map(d => d.id === dest.id ? { ...d, listed: updated.listed } : d));
@@ -122,7 +122,6 @@ const DestinationsManager: React.FC = () => {
                 </button>
             </div>
 
-            {/* Filters */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 lg:p-6">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="relative">
@@ -156,7 +155,6 @@ const DestinationsManager: React.FC = () => {
                 </div>
             )}
 
-            {/* Desktop Table */}
             <div className="hidden lg:block bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full divide-y divide-gray-200">
@@ -207,7 +205,6 @@ const DestinationsManager: React.FC = () => {
                 )}
             </div>
 
-            {/* Mobile Cards */}
             <div className="lg:hidden space-y-4">
                 {items.length === 0 ? (
                     <div className="bg-white rounded-xl p-8 text-center text-gray-500 border">No destinations found.</div>
