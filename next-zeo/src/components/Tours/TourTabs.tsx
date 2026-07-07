@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Check, Info, FileText, Bed, Utensils, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, Info, FileText, Bed, Utensils, X } from 'lucide-react';
 
 interface ItineraryDay {
   day: number;
@@ -17,8 +17,6 @@ interface TourTabsProps {
   inclusions?: string[];
   exclusions?: string[];
   itinerary?: ItineraryDay[];
-
-
   title: string;
   goodToKnow?: {
     main_attractions: string;
@@ -40,38 +38,16 @@ const TourTabs: React.FC<TourTabsProps> = ({
   itinerary,
 }) => {
   const [activeTab, setActiveTab] = useState('overview');
-  const [expandedDays, setExpandedDays] = useState<Set<number>>(new Set([1]));
 
-  const toggleDay = (dayNumber: number) => {
-    const newExpanded = new Set(expandedDays);
-    if (newExpanded.has(dayNumber)) {
-      newExpanded.delete(dayNumber);
-    } else {
-      newExpanded.add(dayNumber);
-    }
-    setExpandedDays(newExpanded);
-  };
-
-  const expandAll = () => {
-    const allDays = itinerary ? new Set(itinerary.map(day => day.day)) : new Set([1, 2, 3]);
-    setExpandedDays(allDays);
-  };
-
-  const collapseAll = () => {
-    setExpandedDays(new Set());
-  };
-
-  // Scroll spy to update active tab
   React.useEffect(() => {
     const handleScroll = () => {
       const sections = ['overview', 'itinerary', 'inclusions'];
-      const offset = 130; // Offset for nav (64px) + tab bar
+      const offset = 130;
 
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // If the top of the section is within the viewport (or close to top)
           if (rect.top <= offset && rect.bottom >= offset) {
             setActiveTab(sectionId);
             break;
@@ -84,11 +60,9 @@ const TourTabs: React.FC<TourTabsProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Scroll to section handler
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      // Offset for sticky header/nav if needed (approx 100px)
       const offset = 130;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
@@ -109,10 +83,8 @@ const TourTabs: React.FC<TourTabsProps> = ({
     { id: 'inclusions', label: 'Inclusions & Exclusions', icon: Check }
   ];
 
-
   return (
     <div className="space-y-8">
-      {/* Sticky Navigation Bar */}
       <div className="sticky top-[64px] z-40 bg-white border-b border-gray-200 shadow-sm -mx-6 sm:-mx-8 px-6 sm:px-8">
         <div className="p-1.5">
           <div className="grid grid-cols-3 gap-1 bg-gray-100/50 p-1 rounded-2xl">
@@ -138,7 +110,6 @@ const TourTabs: React.FC<TourTabsProps> = ({
       </div>
 
       <div className="bg-white rounded-3xl shadow-soft p-6 sm:p-8 space-y-12">
-        {/* Overview Section */}
         <section id="overview" className="scroll-mt-28 space-y-8">
           <div className="border-b border-gray-100 pb-4">
             <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
@@ -148,13 +119,11 @@ const TourTabs: React.FC<TourTabsProps> = ({
           </div>
 
           <div className="space-y-6">
-            {/* About the Tour */}
             <div>
               <h4 className="text-lg font-bold text-brand-dark mb-3">About This Tour</h4>
               <p className="text-base text-gray-600 leading-relaxed whitespace-pre-wrap">{description}</p>
             </div>
 
-            {/* Highlights */}
             {highlights && highlights.length > 0 && (
               <div>
                 <h4 className="text-lg font-bold text-brand-dark mb-3">Tour Highlights</h4>
@@ -171,94 +140,56 @@ const TourTabs: React.FC<TourTabsProps> = ({
           </div>
         </section>
 
-        {/* Divider */}
         <hr className="border-gray-100" />
 
-        {/* Itinerary Section */}
         <section id="itinerary" className="scroll-mt-28 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-100 pb-4">
+          <div className="border-b border-gray-100 pb-4">
             <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
               <FileText className="w-6 h-6 text-primary" />
               Itinerary
             </h3>
-
-            <div className="flex gap-2">
-              <button
-                onClick={expandAll}
-                className="text-xs sm:text-sm bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary/20 transition-colors font-medium"
-              >
-                Expand All
-              </button>
-              <button
-                onClick={collapseAll}
-                className="text-xs sm:text-sm bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full hover:bg-gray-200 transition-colors font-medium"
-              >
-                Collapse All
-              </button>
-            </div>
+            <p className="mt-2 text-sm text-gray-500">All day details are shown by default for easier reading.</p>
           </div>
 
-          {/* Timeline Container */}
           <div className="relative">
-            {/* Timeline Line */}
             <div className="absolute left-3.5 sm:left-6 top-8 bottom-8 w-0.5 bg-gray-200 rounded-full"></div>
 
-            <div className="space-y-2">
+            <div className="space-y-4">
               {itinerary && itinerary.length > 0 ? (
                 itinerary.map((day, index) => (
                   <div key={index} className="relative">
-                    {/* Timeline Dot */}
                     <div className="absolute left-3.5 sm:left-6 w-3 h-3 sm:w-4 sm:h-4 bg-white border-2 sm:border-4 border-primary rounded-full z-10 transform -translate-x-1/2 mt-5 sm:mt-5 ring-4 ring-gray-50/50"></div>
 
-                    {/* Accordion Card */}
-                    <div className="ml-8 sm:ml-12 bg-white rounded-2xl shadow-sm border border-slate-100 shadow-sm hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                      {/* Accordion Header */}
-                      <button
-                        onClick={() => toggleDay(day.day)}
-                        className="w-full p-2 sm:p-3 flex items-start sm:items-center justify-between text-left hover:bg-slate-50 transition-colors"
-                      >
-                        <div className="flex items-start gap-3 sm:gap-4">
-
-                          <div>
-                            <h4 className="text-base sm:text-lg font-bold text-brand-dark mb-0.5 sm:mb-1 leading-tight">{day.title}</h4>
-                            <p className="text-xs sm:text-sm text-gray-500">Day {day.day}</p>
-                          </div>
+                    <div className="ml-8 sm:ml-12 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-primary/30 transition-all duration-300 overflow-hidden">
+                      <div className="w-full p-3 sm:p-4 flex items-start gap-3 sm:gap-4 text-left bg-white">
+                        <div>
+                          <h4 className="text-base sm:text-lg font-bold text-brand-dark mb-0.5 sm:mb-1 leading-tight">{day.title}</h4>
+                          <p className="text-xs sm:text-sm text-gray-500">Day {day.day}</p>
                         </div>
-                        <div className="flex-shrink-0 ml-2 sm:ml-4 mt-1 sm:mt-0">
-                          {expandedDays.has(day.day) ? (
-                            <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
-                          ) : (
-                            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+                      </div>
+
+                      <div className="px-3 pb-3 sm:px-4 sm:pb-4 border-t border-gray-100 bg-slate-50/50">
+                        <div className="pt-2 sm:pt-3">
+                          <p className="text-gray-700 leading-relaxed mb-6 whitespace-pre-wrap">{day.description}</p>
+
+                          {(day.accommodation || day.meals) && (
+                            <div className="flex flex-wrap gap-3">
+                              {day.accommodation && (
+                                <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 text-sm text-gray-700 shadow-sm">
+                                  <Bed className="w-4 h-4 text-blue-500" />
+                                  <span>{day.accommodation}</span>
+                                </div>
+                              )}
+                              {day.meals && (
+                                <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 text-sm text-gray-700 shadow-sm">
+                                  <Utensils className="w-4 h-4 text-orange-500" />
+                                  <span>{day.meals}</span>
+                                </div>
+                              )}
+                            </div>
                           )}
                         </div>
-                      </button>
-
-                      {/* Accordion Content */}
-                      {expandedDays.has(day.day) && (
-                        <div className="px-3 pb-3 sm:px-4 sm:pb-4 border-t border-gray-100 bg-slate-50/50">
-                          <div className="pt-2 sm:pt-3">
-                            <p className="text-gray-700 leading-relaxed mb-6 whitespace-pre-wrap">{day.description}</p>
-
-                            {/* Day Details Grid */}
-                            {(day.accommodation || day.meals) && (
-                              <div className="flex flex-wrap gap-3">
-                                {day.accommodation && (
-                                  <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 text-sm text-gray-700 shadow-sm">
-                                    <Bed className="w-4 h-4 text-blue-500" />
-                                    <span>{day.accommodation}</span>
-                                  </div>
-                                )}
-                                {day.meals && (
-                                  <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 text-sm text-gray-700 shadow-sm">
-                                    <Utensils className="w-4 h-4 text-orange-500" />
-                                    <span>{day.meals}</span>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 ))
@@ -269,10 +200,8 @@ const TourTabs: React.FC<TourTabsProps> = ({
           </div>
         </section>
 
-        {/* Divider */}
         <hr className="border-gray-100" />
 
-        {/* Inclusions Section */}
         <section id="inclusions" className="scroll-mt-28 space-y-8">
           <div className="border-b border-gray-100 pb-4">
             <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
@@ -282,7 +211,6 @@ const TourTabs: React.FC<TourTabsProps> = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Inclusions */}
             {inclusions && inclusions.length > 0 && (
               <div className="bg-green-50/50 rounded-2xl p-6 border border-green-100">
                 <h4 className="text-lg font-bold text-brand-dark mb-4 flex items-center text-green-700">
@@ -302,7 +230,6 @@ const TourTabs: React.FC<TourTabsProps> = ({
               </div>
             )}
 
-            {/* Exclusions */}
             {exclusions && exclusions.length > 0 && (
               <div className="bg-red-50/50 rounded-2xl p-6 border border-red-100">
                 <h4 className="text-lg font-bold text-brand-dark mb-4 flex items-center text-red-700">
