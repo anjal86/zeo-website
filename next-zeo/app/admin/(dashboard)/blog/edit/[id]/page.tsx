@@ -110,7 +110,8 @@ const PostEditor: React.FC = () => {
 
     const updateField = (name: keyof PostForm, value: string) => {
         setForm(previous => {
-            const next = { ...previous, [name]: value };
+            const normalizedValue = name === 'status' ? (value === 'published' ? 'published' : 'draft') : value;
+            const next = { ...previous, [name]: normalizedValue } as PostForm;
             if (name === 'title' && !isEditing) {
                 next.slug = genSlug(value);
                 if (!previous.seo_title) next.seo_title = value;
