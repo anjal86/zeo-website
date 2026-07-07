@@ -4,7 +4,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Activity, Bed, Calendar, CheckCircle, ChevronDown, ChevronUp, Clock, Download, HelpCircle, Info, MapPin, Send, Users } from 'lucide-react';
+import { Activity, Bed, Calendar, CheckCircle, ChevronDown, ChevronUp, Clock, Download, HelpCircle, Info, MapPin, Send, ShieldCheck, Star, Users } from 'lucide-react';
 import Breadcrumb from '@/components/UI/Breadcrumb';
 import DownloadItineraryModal from '@/components/UI/DownloadItineraryModal';
 import PriceAlertModal from '@/components/UI/PriceAlertModal';
@@ -20,7 +20,7 @@ interface TourDetails extends Tour {
   gallery?: string[];
   exclusions?: string[];
   itinerary?: ItineraryDay[];
-  fitness_requirements?: string;
+  fitness_requirements?: string | string[];
   altitude_profile?: {
     max_altitude: string;
     acclimatization_days: number;
@@ -101,6 +101,9 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
   const secondaryDestinations = destinations?.filter(dest => tour.secondary_destination_ids?.includes(dest.id)) || [];
   const allTourDestinations = [primaryDestination, ...secondaryDestinations].filter(Boolean);
   const formattedDuration = formatDuration(tour.duration);
+  const introText = tour.description && tour.description.length > 220
+    ? `${tour.description.slice(0, 220).trim()}...`
+    : tour.description || 'Review the route, itinerary, inclusions, preparation notes and date options before speaking with a Nepal travel expert.';
   const locationLabel = primaryDestination?.name
     ? `${primaryDestination.name}${secondaryDestinations.length > 0 ? ` + ${secondaryDestinations.length} more` : ''}`
     : allTourDestinations.map(destination => destination?.name).filter(Boolean).join(', ');
@@ -139,6 +142,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
       .map(item => item.tour);
   }, [allTours, tour]);
 
+  const hasTravellerRating = Number(tour.rating) > 0 && Number(tour.reviews) > 0;
   const goodToKnowCards: GoodToKnowCard[] = tour.good_to_know ? [
     { key: 'main_attractions', title: 'Main Attractions', text: tour.good_to_know.main_attractions, icon: MapPin },
     { key: 'travel_distances', title: 'Travel Distances', text: tour.good_to_know.travel_distances, icon: Activity },
@@ -198,14 +202,14 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
 
                   <h1 className="max-w-5xl text-2xl font-extrabold leading-tight tracking-tight text-gray-950 sm:text-3xl md:text-5xl break-words">{tour.title}</h1>
                   <p className="mt-3 max-w-3xl text-sm leading-7 text-gray-600 sm:mt-4 sm:text-base sm:leading-8">
-                    Review the trip route, full itinerary, inclusions and practical details before speaking with a Nepal travel expert.
+                    {introText}
                   </p>
 
                   <div className="mt-5 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3 lg:grid-cols-4">
                     <QuickFact icon={Clock} label="Duration" value={formattedDuration} />
                     <QuickFact icon={Users} label="Group Size" value={tour.group_size} />
                     <QuickFact icon={Calendar} label="Best Time" value={tour.best_time} />
-                    <QuickFact icon={Activity} label="Trip Type" value={tour.category} />
+                    <QuickFact icon={Activity} label="Difficulty" value={tour.difficulty || tour.category} />
                   </div>
 
                   <div className="mt-5 sm:mt-6">
@@ -242,7 +246,43 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                   title={tour.title}
                   goodToKnow={tour.good_to_know}
                   faqs={tour.faqs}
+                  price={tour.price}
+                  priceAvailable={tour.priceAvailable}
+                  bestTime={tour.best_time}
+                  difficulty={tour.difficulty}
+                  fitnessRequirements={tour.fitness_requirements}
+                  altitudeProfile={tour.altitude_profile}
+                  onEnquire={scrollToEnquiry}
                 />
+
+                <section className="border-y border-gray-200 bg-white p-5 sm:border sm:p-8">
+                  <SectionHeading
+                    eyebrow={hasTravellerRating ? 'Traveller confidence' : 'Why travel with Zeo'}
+                    title={hasTravellerRating ? 'Traveller Feedback' : 'Support You Can Ask About Before Booking'}
+                    description={hasTravellerRating ? 'Live review data is shown only when available from the tour record.' : 'No review text is available for this tour yet, so this section focuses on practical trust signals instead.'}
+                  />
+                  {hasTravellerRating ? (
+                    <div className="mt-6 border border-primary/20 bg-primary/5 p-5">
+                      <div className="flex flex-wrap items-end gap-3">
+                        <div className="flex items-center gap-2 text-primary">
+                          <Star className="h-5 w-5 fill-current" />
+                          <span className="text-3xl font-extrabold text-gray-950">{tour.rating}</span>
+                        </div>
+                        <p className="pb-1 text-sm font-semibold text-gray-600">based on {tour.reviews} traveller reviews</p>
+                      </div>
+                      <p className="mt-3 text-sm leading-6 text-gray-600">Ask our team for recent traveller feedback, references, or route-specific experience before confirming your place.</p>
+                    </div>
+                  ) : (
+                    <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      {['Licensed local operator', 'Route guidance', 'Permit support', 'Fast response'].map((item) => (
+                        <div key={item} className="flex items-start gap-3 border border-gray-200 bg-gray-50 p-4">
+                          <ShieldCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+                          <span className="text-sm font-semibold text-gray-800">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </section>
 
                 {goodToKnowCards.length > 0 && (
                   <section className="border-y sm:border sm:border-gray-200 bg-white p-5 sm:p-8">

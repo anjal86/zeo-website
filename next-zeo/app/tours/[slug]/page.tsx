@@ -81,7 +81,7 @@ export default async function TourDetailPage({ params }: { params: { slug: strin
   return (
     <>
       <JsonLd data={structuredData} />
-      <TourDetailComponent tour={tour as any} />
+      <TourDetailComponent tour={tour as React.ComponentProps<typeof TourDetailComponent>['tour']} />
     </>
   );
 }

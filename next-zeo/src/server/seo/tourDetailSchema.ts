@@ -1,4 +1,4 @@
-const SITE_URL = process.env.APP_URL || 'https://www.zeotourism.com';
+const SITE_URL = (process.env.APP_URL || 'https://www.zeotourism.com').replace(/\/$/, '');
 const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const LOGO_URL = `${SITE_URL}/logo/zeo-logo.png`;
@@ -15,7 +15,7 @@ type TourDetailSchemaInput = {
   name: string;
   description: string;
   url: string;
-  images?: string[];
+  images?: unknown[];
   price?: number;
   priceAvailable?: boolean;
   currency?: string;
@@ -28,11 +28,11 @@ type TourDetailSchemaInput = {
   difficulty?: string | null;
   ratingValue?: number | null;
   reviewCount?: number | null;
-  highlights?: string[];
-  inclusions?: string[];
-  exclusions?: string[];
-  itinerary?: ItineraryDay[];
-  faqs?: Array<{ question: string; answer: string }>;
+  highlights?: unknown[];
+  inclusions?: unknown[];
+  exclusions?: unknown[];
+  itinerary?: unknown[];
+  faqs?: unknown[];
 };
 
 const absoluteUrl = (value?: string | null) => {
@@ -47,6 +47,27 @@ const cleanText = (value?: string | null) => (value || '').replace(/\s+/g, ' ').
 const cleanList = (items?: unknown[]) => (items || [])
   .map(item => cleanText(String(item || '')))
   .filter(Boolean);
+
+const cleanItinerary = (items?: unknown[]): ItineraryDay[] => (items || []).flatMap((item) => {
+  if (!item || typeof item !== 'object') return [];
+  const record = item as Record<string, unknown>;
+  const day = {
+    day: typeof record.day === 'number' ? record.day : undefined,
+    title: typeof record.title === 'string' ? cleanText(record.title) : undefined,
+    description: typeof record.description === 'string' ? cleanText(record.description) : undefined,
+    accommodation: typeof record.accommodation === 'string' ? cleanText(record.accommodation) : undefined,
+    meals: typeof record.meals === 'string' ? cleanText(record.meals) : undefined,
+  };
+  return day.title || day.description ? [day] : [];
+});
+
+const cleanFaqs = (items?: unknown[]) => (items || []).flatMap((item) => {
+  if (!item || typeof item !== 'object') return [];
+  const record = item as Record<string, unknown>;
+  const question = typeof record.question === 'string' ? cleanText(record.question) : '';
+  const answer = typeof record.answer === 'string' ? cleanText(record.answer) : '';
+  return question && answer ? [{ question, answer }] : [];
+});
 
 const createDuration = (days?: number | null, fallback?: string | null) => {
   if (typeof days === 'number' && days > 0) return `P${days}D`;
@@ -76,7 +97,7 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
   const highlights = cleanList(tour.highlights);
   const inclusions = cleanList(tour.inclusions);
   const exclusions = cleanList(tour.exclusions);
-  const itinerary = (tour.itinerary || []).filter(day => cleanText(day.title || day.description));
+  const itinerary = cleanItinerary(tour.itinerary);
   const ratingValue = Number(tour.ratingValue || 0);
   const reviewCount = Number(tour.reviewCount || 0);
   const hasRating = ratingValue > 0 && reviewCount > 0;
@@ -102,8 +123,8 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
     itemListElement: itinerary.map((day, index) => ({
       '@type': 'ListItem',
       position: day.day || index + 1,
-      name: cleanText(day.title) || `Day ${day.day || index + 1}`,
-      description: cleanText(day.description),
+      name: day.title || `Day ${day.day || index + 1}`,
+      description: day.description,
     })),
   } : highlights.length > 0 ? {
     '@type': 'ItemList',
@@ -201,17 +222,17 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
     });
   }
 
-  const validFaqs = (tour.faqs || []).filter(faq => cleanText(faq.question) && cleanText(faq.answer));
+  const validFaqs = cleanFaqs(tour.faqs);
   if (validFaqs.length > 0) {
     graph.push({
       '@type': 'FAQPage',
       '@id': `${url}#faq`,
       mainEntity: validFaqs.map(faq => ({
         '@type': 'Question',
-        name: cleanText(faq.question),
+        name: faq.question,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: cleanText(faq.answer),
+          text: faq.answer,
         },
       })),
     });

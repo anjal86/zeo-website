@@ -145,7 +145,7 @@ const TourEnquiryButton: React.FC<TourEnquiryButtonProps> = ({
           {showSuccess && (
             <div className="flex items-center border border-green-200 bg-green-50 p-3">
               <CheckCircle className="mr-2 h-4 w-4 text-green-600" />
-              <p className="text-sm text-green-700">Thank you! We'll contact you soon.</p>
+              <p className="text-sm text-green-700">Thank you! We will contact you soon.</p>
             </div>
           )}
 
