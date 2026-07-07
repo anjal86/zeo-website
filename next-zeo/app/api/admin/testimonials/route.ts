@@ -1,3 +1,4 @@
-import { adminListTestimonials } from "@/server/http/mutation-handlers";
+import { adminCreateTestimonialValidated, adminListTestimonialsPaginated } from "@/server/http/admin-patch-handlers";
 
-export const GET = adminListTestimonials;
+export const GET = adminListTestimonialsPaginated;
+export const POST = adminCreateTestimonialValidated;
