@@ -4,7 +4,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Activity, Bed, Calendar, CheckCircle, ChevronDown, ChevronUp, Clock, Download, HelpCircle, Info, MapPin, Send, ShieldCheck, Star, Users } from 'lucide-react';
+import { Activity, Bed, Calendar, CheckCircle, ChevronDown, ChevronUp, Clock, Download, HelpCircle, Info, MapPin, Send, Star, Users } from 'lucide-react';
 import Breadcrumb from '@/components/UI/Breadcrumb';
 import DownloadItineraryModal from '@/components/UI/DownloadItineraryModal';
 import PriceAlertModal from '@/components/UI/PriceAlertModal';
@@ -155,7 +155,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
 
   const hasTravellerRating = Number(tour.rating) > 0 && Number(tour.reviews) > 0;
   const travellerDecision = tour.metadata?.traveller_decision;
-  const trustSignals = travellerDecision?.trust_signals?.filter(Boolean) || ['Licensed local operator', 'Route guidance', 'Permit support', 'Fast response'];
+  const trustSignals = (travellerDecision?.trust_signals?.filter(Boolean) || ['Licensed local operator', 'Route guidance', 'Permit support', 'Fast response']).slice(0, 4);
   const goodToKnowCards: GoodToKnowCard[] = tour.good_to_know ? [
     { key: 'main_attractions', title: 'Main Attractions', text: tour.good_to_know.main_attractions, icon: MapPin },
     { key: 'travel_distances', title: 'Travel Distances', text: tour.good_to_know.travel_distances, icon: Activity },
@@ -271,35 +271,6 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                   onEnquire={scrollToEnquiry}
                 />
 
-                <section className="border-y border-gray-200 bg-white p-5 sm:border sm:p-8">
-                  <SectionHeading
-                    eyebrow={hasTravellerRating ? 'Traveller confidence' : 'Why travel with Zeo'}
-                    title={hasTravellerRating ? 'Traveller Feedback' : 'Support You Can Ask About Before Booking'}
-                    description={hasTravellerRating ? 'Live review data is shown only when available from the tour record.' : 'No review text is available for this tour yet, so this section focuses on practical trust signals instead.'}
-                  />
-                  {hasTravellerRating ? (
-                    <div className="mt-6 border border-primary/20 bg-primary/5 p-5">
-                      <div className="flex flex-wrap items-end gap-3">
-                        <div className="flex items-center gap-2 text-primary">
-                          <Star className="h-5 w-5 fill-current" />
-                          <span className="text-3xl font-extrabold text-gray-950">{tour.rating}</span>
-                        </div>
-                        <p className="pb-1 text-sm font-semibold text-gray-600">based on {tour.reviews} traveller reviews</p>
-                      </div>
-                      <p className="mt-3 text-sm leading-6 text-gray-600">Ask our team for recent traveller feedback, references, or route-specific experience before confirming your place.</p>
-                    </div>
-                  ) : (
-                    <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                      {trustSignals.map((item) => (
-                        <div key={item} className="flex items-start gap-3 border border-gray-200 bg-gray-50 p-4">
-                          <ShieldCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
-                          <span className="text-sm font-semibold text-gray-800">{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </section>
-
                 {goodToKnowCards.length > 0 && (
                   <section className="border-y sm:border sm:border-gray-200 bg-white p-5 sm:p-8">
                     <SectionHeading
@@ -386,11 +357,22 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
 
                   <div className="border border-gray-200 bg-white p-5">
                     <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-500">Why enquire with Zeo?</h3>
+                    {hasTravellerRating && (
+                      <div className="mb-4 border border-primary/20 bg-primary/5 p-3">
+                        <div className="flex items-center gap-2 text-primary">
+                          <Star className="h-4 w-4 fill-current" />
+                          <span className="text-lg font-extrabold text-gray-950">{tour.rating}</span>
+                          <span className="text-xs font-semibold text-gray-600">/ 5 from {tour.reviews} reviews</span>
+                        </div>
+                      </div>
+                    )}
                     <div className="space-y-3 text-sm text-gray-700">
-                      <div className="flex items-start gap-3"><CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" /><span>No payment required to ask questions</span></div>
-                      <div className="flex items-start gap-3"><CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" /><span>Customize dates, hotels and transport</span></div>
-                      <div className="flex items-start gap-3"><CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" /><span>Route, permit and preparation guidance included</span></div>
-                      <div className="flex items-start gap-3"><CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" /><span>Fast response from Nepal travel experts</span></div>
+                      {trustSignals.map((item) => (
+                        <div key={item} className="flex items-start gap-3">
+                          <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
