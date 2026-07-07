@@ -6,7 +6,7 @@ import { notFound, ok } from "@/server/http/api-response";
 
 async function resolveSliderId(id: string) {
   const parsed = Number(id);
-  const slider = await getOne<{ id: number }>("SELECT id FROM sliders WHERE id = ? OR legacy_id = ? LIMIT 1", [parsed, parsed]);
+  const slider = await getOne<any>("SELECT id FROM sliders WHERE id = ? OR legacy_id = ? LIMIT 1", [parsed, parsed]);
   return slider?.id ?? null;
 }
 
