@@ -70,10 +70,10 @@ const QuickFact: React.FC<QuickFactProps> = ({ icon: Icon, label, value }) => {
   if (!value) return null;
 
   return (
-    <div className="border border-gray-200 bg-white p-4">
-      <Icon className="mb-3 h-5 w-5 text-primary" />
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400">{label}</p>
-      <p className="mt-1 text-sm font-bold text-gray-950 sm:text-base">{value}</p>
+    <div className="border border-gray-200 bg-white p-3 sm:p-4">
+      <Icon className="mb-2 h-4 w-4 text-primary sm:mb-3 sm:h-5 sm:w-5" />
+      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-gray-400 sm:text-xs">{label}</p>
+      <p className="mt-1 text-sm font-bold leading-snug text-gray-950 sm:text-base">{value}</p>
     </div>
   );
 };
@@ -91,7 +91,8 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
   const { data: allTours, error } = useTours();
   const { data: destinations } = useDestinations();
 
-  const enquirySectionRef = useRef<HTMLDivElement>(null);
+  const mobileEnquiryRef = useRef<HTMLDivElement>(null);
+  const desktopEnquiryRef = useRef<HTMLDivElement>(null);
   const [expandedFAQs, setExpandedFAQs] = useState<Set<number>>(() => new Set((tour.faqs || []).slice(0, 2).map((_, index) => index)));
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [showPriceAlertModal, setShowPriceAlertModal] = useState(false);
@@ -145,7 +146,11 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
     { key: 'additional_activities', title: 'Additional Activities', text: tour.good_to_know.additional_activities, icon: Info },
   ].filter(card => card.text) : [];
 
-  const scrollToEnquiry = () => enquirySectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const scrollToEnquiry = () => {
+    const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+    const target = isDesktop ? desktopEnquiryRef.current : mobileEnquiryRef.current;
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const toggleFAQ = (index: number) => {
     const next = new Set(expandedFAQs);
@@ -168,8 +173,8 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
 
   return (
     <>
-      <div className="tour-detail-page bg-gray-50 pb-24 lg:pb-0">
-        <div className="border-b border-gray-200 bg-white py-4">
+      <div className="tour-detail-page bg-gray-50 pb-32 lg:pb-0">
+        <div className="border-b border-gray-200 bg-white py-3 sm:py-4">
           <div className="container mx-auto px-4">
             <Breadcrumb
               items={[
@@ -181,30 +186,50 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
           </div>
         </div>
 
-        <section className="py-8 md:py-10">
+        <section className="py-5 sm:py-8 md:py-10">
           <div className="container mx-auto px-4">
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
-              <main className="space-y-8">
-                <section className="border border-gray-200 bg-white p-5 sm:p-8">
-                  <div className="mb-5 flex flex-wrap items-center gap-3">
-                    {tour.category && <span className="border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary">{tour.category}</span>}
-                    {locationLabel && <span className="inline-flex items-center gap-2 border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm font-semibold text-gray-700"><MapPin className="h-4 w-4 text-secondary" />{locationLabel}</span>}
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-8 lg:items-start">
+              <main className="space-y-6 lg:space-y-8">
+                <section className="border border-gray-200 bg-white p-4 sm:p-8">
+                  <div className="mb-4 flex flex-wrap items-center gap-2 sm:mb-5 sm:gap-3">
+                    {tour.category && <span className="border border-primary/20 bg-primary/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-primary sm:text-xs">{tour.category}</span>}
+                    {locationLabel && <span className="inline-flex items-center gap-2 border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 sm:text-sm"><MapPin className="h-4 w-4 text-secondary" />{locationLabel}</span>}
                   </div>
 
-                  <h1 className="max-w-5xl text-3xl font-extrabold leading-tight tracking-tight text-gray-950 md:text-5xl">{tour.title}</h1>
-                  <p className="mt-4 max-w-3xl text-base leading-8 text-gray-600">
+                  <h1 className="max-w-5xl text-2xl font-extrabold leading-tight tracking-tight text-gray-950 sm:text-3xl md:text-5xl">{tour.title}</h1>
+                  <p className="mt-3 max-w-3xl text-sm leading-7 text-gray-600 sm:mt-4 sm:text-base sm:leading-8">
                     Review the trip route, full itinerary, inclusions and practical details before speaking with a Nepal travel expert.
                   </p>
 
-                  <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                  <div className="mt-5 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3 lg:grid-cols-4">
                     <QuickFact icon={Clock} label="Duration" value={formattedDuration} />
                     <QuickFact icon={Users} label="Group Size" value={tour.group_size} />
                     <QuickFact icon={Calendar} label="Best Time" value={tour.best_time} />
                     <QuickFact icon={Activity} label="Trip Type" value={tour.category} />
                   </div>
 
-                  <div className="mt-6">
+                  <div className="mt-5 sm:mt-6">
                     <TourImageSlider images={images} title={tour.title} />
+                  </div>
+                </section>
+
+                <section ref={mobileEnquiryRef} className="scroll-mt-24 lg:hidden">
+                  <TourEnquiryButton
+                    price={tour.price}
+                    hasDiscount={tour.hasDiscount}
+                    discountPercentage={tour.discountPercentage}
+                    priceAvailable={tour.priceAvailable}
+                    tourTitle={tour.title}
+                  />
+
+                  <div className="mt-3 border border-gray-200 bg-white p-4">
+                    <button onClick={() => setShowDownloadModal(true)} className="flex w-full items-center justify-center gap-3 border-2 border-primary px-4 py-3 text-sm font-bold uppercase tracking-wide text-primary transition-colors hover:bg-primary hover:text-white">
+                      <Download className="h-5 w-5" />
+                      Download Itinerary
+                    </button>
+                    <button onClick={() => setShowPriceAlertModal(true)} className="mt-3 w-full text-center text-sm font-semibold text-gray-500 transition-colors hover:text-secondary">
+                      Get price updates if this package changes
+                    </button>
                   </div>
                 </section>
 
@@ -220,7 +245,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                 />
 
                 {goodToKnowCards.length > 0 && (
-                  <section className="border border-gray-200 bg-white p-6 sm:p-8">
+                  <section className="border border-gray-200 bg-white p-5 sm:p-8">
                     <SectionHeading
                       eyebrow="Before you go"
                       title="Good to Know"
@@ -248,7 +273,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                 )}
 
                 {tour.faqs && tour.faqs.length > 0 && (
-                  <section className="border border-gray-200 bg-white p-6 sm:p-8">
+                  <section className="border border-gray-200 bg-white p-5 sm:p-8">
                     <SectionHeading
                       eyebrow="Questions"
                       title="Frequently Asked Questions"
@@ -257,20 +282,20 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                     <div className="mt-6 divide-y divide-gray-100 border border-gray-200">
                       {tour.faqs.map((faq, index) => (
                         <div key={`faq-${tour.id}-${index}`} className="border-l-4 border-primary">
-                          <button onClick={() => toggleFAQ(index)} className="w-full p-5 text-left transition-colors hover:bg-gray-50">
+                          <button onClick={() => toggleFAQ(index)} className="w-full p-4 text-left transition-colors hover:bg-gray-50 sm:p-5">
                             <div className="flex items-center justify-between gap-4">
-                              <div className="flex items-start gap-4">
+                              <div className="flex items-start gap-3 sm:gap-4">
                                 <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center bg-primary">
                                   <HelpCircle className="h-4 w-4 text-white" />
                                 </div>
-                                <h3 className="text-base font-bold text-gray-950 sm:text-lg">{faq.question}</h3>
+                                <h3 className="text-sm font-bold text-gray-950 sm:text-lg">{faq.question}</h3>
                               </div>
                               {expandedFAQs.has(index) ? <ChevronUp className="h-5 w-5 flex-shrink-0 text-gray-400" /> : <ChevronDown className="h-5 w-5 flex-shrink-0 text-gray-400" />}
                             </div>
                           </button>
                           {expandedFAQs.has(index) && (
-                            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} className="px-5 pb-5">
-                              <p className="ml-12 text-sm leading-7 text-gray-700">{faq.answer}</p>
+                            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} className="px-4 pb-4 sm:px-5 sm:pb-5">
+                              <p className="ml-11 text-sm leading-7 text-gray-700 sm:ml-12">{faq.answer}</p>
                             </motion.div>
                           )}
                         </div>
@@ -280,7 +305,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                 )}
               </main>
 
-              <aside ref={enquirySectionRef} className="lg:sticky lg:top-24">
+              <aside ref={desktopEnquiryRef} className="hidden lg:sticky lg:top-24 lg:block">
                 <div className="space-y-4">
                   <TourEnquiryButton
                     price={tour.price}
@@ -317,11 +342,11 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
         </section>
 
         {relatedToursList.length > 0 && (
-          <section className="border-t border-gray-200 bg-white py-16">
+          <section className="border-t border-gray-200 bg-white py-12 sm:py-16">
             <div className="container mx-auto px-4">
-              <div className="mb-10 max-w-2xl">
+              <div className="mb-8 max-w-2xl sm:mb-10">
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">More options</p>
-                <h2 className="text-3xl font-extrabold text-gray-950">You Might Also Like</h2>
+                <h2 className="text-2xl font-extrabold text-gray-950 sm:text-3xl">You Might Also Like</h2>
                 <p className="mt-2 text-gray-600">Discover similar tours and experiences based on destination, activity and travel style.</p>
               </div>
 
