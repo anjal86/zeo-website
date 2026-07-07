@@ -33,6 +33,12 @@ type TourDetailSchemaInput = {
   exclusions?: unknown[];
   itinerary?: unknown[];
   faqs?: unknown[];
+  travellerDecision?: {
+    document_safety_items?: unknown[];
+    price_factors?: unknown[];
+    date_options?: unknown[];
+    trust_signals?: unknown[];
+  };
 };
 
 const absoluteUrl = (value?: string | null) => {
@@ -98,6 +104,10 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
   const highlights = cleanList(tour.highlights);
   const inclusions = cleanList(tour.inclusions);
   const exclusions = cleanList(tour.exclusions);
+  const documentSafetyItems = cleanList(tour.travellerDecision?.document_safety_items);
+  const priceFactors = cleanList(tour.travellerDecision?.price_factors);
+  const dateOptions = cleanList(tour.travellerDecision?.date_options);
+  const trustSignals = cleanList(tour.travellerDecision?.trust_signals);
   const itinerary = cleanItinerary(tour.itinerary);
   const ratingValue = Number(tour.ratingValue || 0);
   const reviewCount = Number(tour.reviewCount || 0);
@@ -142,6 +152,10 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
     tour.bestTime && { '@type': 'PropertyValue', name: 'Best Time', value: tour.bestTime },
     tour.difficulty && { '@type': 'PropertyValue', name: 'Difficulty', value: tour.difficulty },
     duration && { '@type': 'PropertyValue', name: 'Duration', value: duration },
+    documentSafetyItems.length > 0 && { '@type': 'PropertyValue', name: 'Document Safety', value: documentSafetyItems.join('; ') },
+    priceFactors.length > 0 && { '@type': 'PropertyValue', name: 'Price Factors', value: priceFactors.join('; ') },
+    dateOptions.length > 0 && { '@type': 'PropertyValue', name: 'Departure Options', value: dateOptions.join('; ') },
+    trustSignals.length > 0 && { '@type': 'PropertyValue', name: 'Trust Signals', value: trustSignals.join('; ') },
   ].filter(Boolean);
 
   const graph: unknown[] = [
@@ -187,6 +201,7 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
       } : {}),
       ...(tripItinerary ? { itinerary: tripItinerary } : {}),
       ...(highlights.length > 0 ? { subjectOf: highlights.map(highlight => ({ '@type': 'Thing', name: highlight })) } : {}),
+      ...(additionalProperties.length > 0 ? { additionalProperty: additionalProperties } : {}),
     },
     {
       '@type': 'Product',
@@ -222,6 +237,25 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
       ],
     });
   }
+
+  [
+    { id: 'document-safety', name: `${tour.name} Document Safety`, items: documentSafetyItems },
+    { id: 'price-factors', name: `${tour.name} Price Factors`, items: priceFactors },
+    { id: 'departure-options', name: `${tour.name} Date and Departure Options`, items: dateOptions },
+    { id: 'trust-signals', name: `${tour.name} Trust Signals`, items: trustSignals },
+  ].forEach((list) => {
+    if (list.items.length === 0) return;
+    graph.push({
+      '@type': 'ItemList',
+      '@id': `${url}#${list.id}`,
+      name: list.name,
+      itemListElement: list.items.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item,
+      })),
+    });
+  });
 
   const validFaqs = cleanFaqs(tour.faqs);
   if (validFaqs.length > 0) {

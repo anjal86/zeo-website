@@ -82,6 +82,7 @@ export default async function TourDetailPage({ params }: { params: { slug: strin
     exclusions: tour.exclusions,
     itinerary: tour.itinerary,
     faqs: (tour as { faqs?: Array<{ question: string; answer: string }> }).faqs,
+    travellerDecision: (tour.metadata as { traveller_decision?: Record<string, unknown[]> } | null | undefined)?.traveller_decision,
   });
 
   return (

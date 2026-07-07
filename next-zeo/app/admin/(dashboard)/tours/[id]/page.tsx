@@ -1103,12 +1103,17 @@ const TourEditor: React.FC = () => {
     ...(formData.metadata?.traveller_decision || {}),
   };
 
-  const renderTravellerDecisionList = (field: TravellerDecisionArrayField, title: string, helper: string) => (
+  const renderTravellerDecisionList = (field: TravellerDecisionArrayField, title: string, helper: string) => {
+    const items = travellerDecision[field] || [];
+    return (
     <div className="bg-white rounded-lg shadow-sm border p-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
           <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
           <p className="text-sm text-gray-600 mt-1">{helper}</p>
+          <p className="text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2 mt-3">
+            Recommended: 3-8 items. Each item under 80 characters. Avoid long paragraphs.
+          </p>
         </div>
         <button
           type="button"
@@ -1120,30 +1125,39 @@ const TourEditor: React.FC = () => {
         </button>
       </div>
       <div className="space-y-3">
-        {(travellerDecision[field] || []).map((item, index) => (
-          <div key={`${field}-${index}`} className="flex items-center gap-3">
-            <input
-              type="text"
-              value={item}
-              onChange={(e) => updateTravellerDecisionArray(field, index, e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-              placeholder={title}
-            />
-            <button
-              type="button"
-              onClick={() => removeTravellerDecisionItem(field, index)}
-              className="text-red-500 hover:text-red-700 p-1"
-            >
-              <X className="w-4 h-4" />
-            </button>
+        {items.map((item, index) => (
+          <div key={`${field}-${index}`} className="space-y-1">
+            <div className="flex items-center gap-3">
+              <input
+                type="text"
+                value={item}
+                onChange={(e) => updateTravellerDecisionArray(field, index, e.target.value)}
+                className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${item.length > 80 ? 'border-amber-400 bg-amber-50' : 'border-gray-300'}`}
+                placeholder={title}
+              />
+              <button
+                type="button"
+                onClick={() => removeTravellerDecisionItem(field, index)}
+                className="text-red-500 hover:text-red-700 p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <p className={`text-xs ${item.length > 80 ? 'text-amber-700' : 'text-gray-400'}`}>
+              {item.length}/80 characters
+            </p>
           </div>
         ))}
-        {(!travellerDecision[field] || travellerDecision[field]?.length === 0) && (
+        {items.length === 0 && (
           <p className="text-gray-500 text-sm">No items yet. Public page will use fallback copy.</p>
+        )}
+        {(items.length < 3 || items.length > 8) && items.length > 0 && (
+          <p className="text-xs text-amber-700">Best public layout uses 3-8 items.</p>
         )}
       </div>
     </div>
   );
+  };
 
   if (!user) {
     return (
@@ -2177,6 +2191,39 @@ const TourEditor: React.FC = () => {
                     <p className="text-sm text-gray-600 mt-1">
                       These fields control trust, permit, price clarity, dates and customization blocks on the public tour detail page. Empty items fall back to safe default copy.
                     </p>
+                  </div>
+
+                  <div className="bg-white rounded-lg shadow-sm border p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">How this appears on public page</h3>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <div className="border border-primary/20 bg-primary/5 p-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-primary mb-2">Visa, Permit & Document Safety</p>
+                        <div className="grid grid-cols-1 gap-2">
+                          {(travellerDecision.document_safety_items || []).slice(0, 4).map((item, index) => (
+                            <div key={`preview-doc-${index}`} className="border border-primary/15 bg-white px-3 py-2 text-sm font-medium text-gray-700 truncate">
+                              {item || 'Empty item'}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="border border-gray-200 bg-gray-50 p-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Trust Signals</p>
+                        <div className="grid grid-cols-1 gap-2">
+                          {(travellerDecision.trust_signals || []).slice(0, 4).map((item, index) => (
+                            <div key={`preview-trust-${index}`} className="border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 truncate">
+                              {item || 'Empty item'}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="border border-secondary/30 bg-secondary/5 p-4 lg:col-span-2">
+                        <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Price note</p>
+                        <p className="text-sm text-gray-700 truncate">
+                          {formData.priceAvailable !== false ? travellerDecision.price_note_available : travellerDecision.price_note_request}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-3">Preview truncates long items like the public card layout. Short, specific copy works best.</p>
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
