@@ -273,7 +273,7 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                         <div className="lg:w-2/3">
                             <div className="bg-white p-8 md:p-16 shadow-2xl shadow-slate-200/50 border border-gray-100">
                                 <div
-                                    className="blog-post-content blog-article-rich break-words scroll-mt-24"
+                                    className="prose prose-base md:prose-lg prose-slate max-w-none prose-headings:font-serif prose-headings:text-slate-950 prose-a:text-primary prose-img:rounded-2xl break-words scroll-mt-24 blog-post-content"
                                     dangerouslySetInnerHTML={{ __html: articleContentHtml }}
                                 />
 
