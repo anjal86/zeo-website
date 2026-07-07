@@ -46,8 +46,8 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
         );
     }
 
-    const origin = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_APP_URL || 'https://www.zeotourism.com');
-    const pageUrl = typeof window !== 'undefined' ? window.location.href : `${origin}/blog/${slug}`;
+    const origin = process.env.NEXT_PUBLIC_APP_URL || 'https://www.zeotourism.com';
+    const pageUrl = `${origin}/blog/${slug}`;
     const relatedPosts = allPosts?.filter(p => p.slug !== slug && p.category === post.category).slice(0, 3) || [];
 
     // SEO Structured Data Generation
