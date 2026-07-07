@@ -224,12 +224,14 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                         transition={{ duration: 1.5 }}
                         className="absolute inset-0"
                     >
-                        <img
-                            src={post.image}
-                            alt={post.title}
-                            fetchPriority="high"
-                            className="w-full h-full object-cover"
-                        />
+                        {post.image && (
+                            <img
+                                src={post.image}
+                                alt={post.title}
+                                fetchPriority="high"
+                                className="w-full h-full object-cover"
+                            />
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                     </motion.div>
 
@@ -379,12 +381,16 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                                     className="group block bg-white overflow-hidden border border-gray-100 hover:shadow-xl transition-all h-full flex flex-col"
                                 >
                                     <div className="h-56 overflow-hidden">
-                                        <img
-                                            src={rPost.image}
-                                            alt={rPost.title}
-                                            loading="lazy"
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                        />
+                                        {rPost.image ? (
+                                            <img
+                                                src={rPost.image}
+                                                alt={rPost.title}
+                                                loading="lazy"
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full bg-slate-200" />
+                                        )}
                                     </div>
                                     <div className="p-6 flex flex-col flex-grow">
                                         <span className="text-xs font-bold text-primary mb-3 uppercase tracking-wider">{rPost.category}</span>
