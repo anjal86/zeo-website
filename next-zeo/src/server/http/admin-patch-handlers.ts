@@ -129,8 +129,10 @@ export async function adminPatchSliderStatus(request: Request, id: string) {
     const parsed = sliderPatchSchema.safeParse(body);
     if (!parsed.success) return badRequest("Invalid slider patch payload", parsed.error.flatten());
     const isActive = bool(parsed.data.is_active);
-    await update("sliders", Number(id), { is_active: isActive });
-    await auditMutation(request, admin, "UPDATE", "SLIDER", Number(id), undefined, { is_active: isActive });
+    const resolvedId = await resolveByIdentifier("sliders", id);
+    if (!resolvedId) return badRequest("Slider not found");
+    await update("sliders", resolvedId, { is_active: isActive });
+    await auditMutation(request, admin, "UPDATE", "SLIDER", resolvedId, undefined, { is_active: isActive });
     return ok({ success: true, is_active: isActive });
   } catch (error) {
     return serverError(error);
