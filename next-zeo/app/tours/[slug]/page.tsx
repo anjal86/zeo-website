@@ -2,22 +2,42 @@ export const revalidate = 3600;
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getTourBySlug } from '../../../src/server/repositories/tours';
-import TourDetailComponent from '../../../src/components/Tours/TourDetail'; // Assuming we rename to TourDetail component
-import { createTouristTripSchema, createBreadcrumbSchema } from '../../../src/server/seo/schema';
+import TourDetailComponent from '../../../src/components/Tours/TourDetail';
+import { createTourDetailSchema } from '../../../src/server/seo/tourDetailSchema';
 import JsonLd from '../../../src/components/seo/JsonLd';
+
+const SITE_URL = process.env.APP_URL || 'https://www.zeotourism.com';
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const { slug } = await params;
   const tour = await getTourBySlug(slug);
   
   if (!tour) return { title: 'Not Found' };
+
+  const canonical = `${SITE_URL}/tours/${slug}`;
+  const title = `${tour.title} - Zeo Tourism`;
+  const description = tour.description || `Join our ${tour.title} package.`;
+  const image = tour.image || tour.image_url || '/logo/zeo-logo.png';
   
   return {
-    title: `${tour.title} - Zeo Tourism`,
-    description: tour.description || `Join our ${tour.title} package.`,
+    title,
+    description,
     alternates: {
-      canonical: `${process.env.APP_URL || 'https://www.zeotourism.com'}/tours/${slug}`
-    }
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      type: 'website',
+      images: [{ url: image }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [image],
+    },
   };
 }
 
@@ -29,24 +49,34 @@ export default async function TourDetailPage({ params }: { params: { slug: strin
     notFound();
   }
 
-  const structuredData = [
-    createTouristTripSchema({
-      name: tour.title,
-      description: tour.description || '',
-      image: tour.image || '',
-      url: `${process.env.APP_URL || 'https://www.zeotourism.com'}/tours/${slug}`,
-      price: tour.price || 0,
-      currency: "USD",
-      category: "Tour Package",
-      duration: tour.duration || '',
-      location: tour.location || ''
-    }),
-    createBreadcrumbSchema([
-      { name: "Home", url: (process.env.APP_URL || 'https://www.zeotourism.com') },
-      { name: "Tours", url: (process.env.APP_URL || 'https://www.zeotourism.com') + '/tours' },
-      { name: tour.title, url: `${process.env.APP_URL || 'https://www.zeotourism.com'}/tours/${slug}` }
-    ])
-  ];
+  const url = `${SITE_URL}/tours/${slug}`;
+  const images = [tour.image, tour.image_url, ...(Array.isArray(tour.gallery) ? tour.gallery : [])]
+    .filter(Boolean)
+    .map(String);
+
+  const structuredData = createTourDetailSchema({
+    name: tour.title,
+    description: tour.description || '',
+    url,
+    images,
+    price: tour.price || 0,
+    priceAvailable: tour.priceAvailable,
+    currency: 'USD',
+    category: tour.category,
+    duration: tour.duration,
+    durationDays: tour.duration_days,
+    groupSize: tour.group_size,
+    bestTime: tour.best_time,
+    location: tour.location,
+    difficulty: tour.difficulty,
+    ratingValue: tour.rating,
+    reviewCount: tour.reviews,
+    highlights: tour.highlights,
+    inclusions: tour.inclusions,
+    exclusions: tour.exclusions,
+    itinerary: tour.itinerary,
+    faqs: (tour as { faqs?: Array<{ question: string; answer: string }> }).faqs,
+  });
 
   return (
     <>
