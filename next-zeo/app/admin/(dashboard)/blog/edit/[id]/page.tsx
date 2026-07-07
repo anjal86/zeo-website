@@ -17,6 +17,7 @@ import {
     X,
 } from 'lucide-react';
 import { adminFetch, adminFetchRaw } from '@/lib/adminFetch';
+import { htmlToPlainText, plainTextToHtml } from '@/lib/blogMarkdown';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
 
 const api = '/api';
@@ -57,106 +58,7 @@ const genSlug = (title: string) => title
     .replace(/-+/g, '-');
 
 const splitTags = (tags: string) => tags.split(',').map(tag => tag.trim()).filter(Boolean);
-
 const countWords = (text: string) => text.trim() ? text.trim().split(/\s+/).length : 0;
-
-const decodeHtmlEntities = (value: string) => value
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&nbsp;/g, ' ');
-
-const escapeHtml = (value: string) => value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-
-const escapeAttribute = (value: string) => escapeHtml(value).replace(/`/g, '&#96;');
-
-const formatInlineMarkdown = (value: string) => escapeHtml(value)
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]+)\)/g, (_match, text, href) => {
-        return `<a href="${escapeAttribute(href)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
-    })
-    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-    .replace(/__([^_]+)__/g, '<strong>$1</strong>')
-    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-    .replace(/_([^_]+)_/g, '<em>$1</em>');
-
-const isMarkdownTable = (lines: string[]) => lines.length >= 2 &&
-    lines[0].includes('|') &&
-    /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(lines[1]);
-
-const markdownTableToHtml = (lines: string[]) => {
-    const parseCells = (line: string) => line
-        .trim()
-        .replace(/^\|/, '')
-        .replace(/\|$/, '')
-        .split('|')
-        .map(cell => cell.trim());
-
-    const headers = parseCells(lines[0]);
-    const rows = lines.slice(2).map(parseCells).filter(cells => cells.some(Boolean));
-
-    return `<table><thead><tr>${headers.map(cell => `<th>${formatInlineMarkdown(cell)}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${headers.map((_header, index) => `<td>${formatInlineMarkdown(row[index] || '')}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
-};
-
-const htmlToPlainText = (value: string) => {
-    if (!value) return '';
-    return decodeHtmlEntities(value)
-        .replace(/<br\s*\/?\s*>/gi, '\n')
-        .replace(/<\/p>/gi, '\n\n')
-        .replace(/<\/div>/gi, '\n\n')
-        .replace(/<\/h2>/gi, '\n\n## ')
-        .replace(/<\/h3>/gi, '\n\n### ')
-        .replace(/<\/h[1-6]>/gi, '\n\n')
-        .replace(/<li[^>]*>/gi, '- ')
-        .replace(/<\/li>/gi, '\n')
-        .replace(/<strong[^>]*>/gi, '**')
-        .replace(/<\/strong>/gi, '**')
-        .replace(/<b[^>]*>/gi, '**')
-        .replace(/<\/b>/gi, '**')
-        .replace(/<em[^>]*>/gi, '*')
-        .replace(/<\/em>/gi, '*')
-        .replace(/<i[^>]*>/gi, '*')
-        .replace(/<\/i>/gi, '*')
-        .replace(/<[^>]+>/g, '')
-        .replace(/\n{3,}/g, '\n\n')
-        .trim();
-};
-
-const plainTextToHtml = (value: string) => {
-    const blocks = value
-        .split(/\n{2,}/)
-        .map(block => block.trim())
-        .filter(Boolean);
-
-    return blocks.map(block => {
-        if (block.startsWith('### ')) return `<h3>${formatInlineMarkdown(block.slice(4).trim())}</h3>`;
-        if (block.startsWith('## ')) return `<h2>${formatInlineMarkdown(block.slice(3).trim())}</h2>`;
-        if (block.startsWith('# ')) return `<h2>${formatInlineMarkdown(block.slice(2).trim())}</h2>`;
-        if (block.startsWith('> ')) return `<blockquote>${formatInlineMarkdown(block.replace(/^>\s*/, ''))}</blockquote>`;
-
-        const lines = block.split('\n').map(line => line.trim()).filter(Boolean);
-        if (isMarkdownTable(lines)) return markdownTableToHtml(lines);
-
-        const isUnorderedList = lines.length >= 1 && lines.every(line => /^[-•]\s+/.test(line));
-        if (isUnorderedList) {
-            return `<ul>${lines.map(line => `<li>${formatInlineMarkdown(line.replace(/^[-•]\s+/, ''))}</li>`).join('')}</ul>`;
-        }
-
-        const isOrderedList = lines.length >= 1 && lines.every(line => /^\d+[.)]\s+/.test(line));
-        if (isOrderedList) {
-            return `<ol>${lines.map(line => `<li>${formatInlineMarkdown(line.replace(/^\d+[.)]\s+/, ''))}</li>`).join('')}</ol>`;
-        }
-
-        return `<p>${formatInlineMarkdown(block).replace(/\n/g, '<br />')}</p>`;
-    }).join('\n');
-};
 
 const PostEditor: React.FC = () => {
     const params = useParams<{ id?: string }>();
@@ -315,7 +217,7 @@ const PostEditor: React.FC = () => {
                     <div>
                         <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">Article editor</p>
                         <h2 className="mt-1 text-2xl font-semibold text-gray-950">{isEditing ? 'Edit article' : 'Write a new article'}</h2>
-                        <p className="mt-1 text-sm text-gray-600">Paste from ChatGPT or Gemini directly. Markdown headings, lists, bold text, links and tables will format automatically.</p>
+                        <p className="mt-1 text-sm text-gray-600">Paste from ChatGPT or Gemini directly. Plain section titles, Markdown headings, lists, bold text, links and tables will format automatically.</p>
                     </div>
                 </div>
 
@@ -334,93 +236,24 @@ const PostEditor: React.FC = () => {
             <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
                 <form onSubmit={(event) => { event.preventDefault(); savePost(); }} className="space-y-6">
                     <section className="border border-gray-200 bg-white p-6 shadow-sm">
-                        <div className="mb-5">
-                            <h3 className="text-lg font-semibold text-gray-950">1. Article basics</h3>
-                            <p className="mt-1 text-sm text-gray-600">Start with what readers will see first.</p>
-                        </div>
-
+                        <div className="mb-5"><h3 className="text-lg font-semibold text-gray-950">1. Article basics</h3><p className="mt-1 text-sm text-gray-600">Start with what readers will see first.</p></div>
                         <div className="space-y-5">
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-800 mb-2">Article title *</label>
-                                <input type="text" name="title" value={form.title} onChange={handleChange} required placeholder="Example: Best Time to Visit Kailash Mansarovar" className="w-full border border-gray-300 px-4 py-3 text-base outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
-                            </div>
-
-                            <div className="border border-blue-100 bg-blue-50 p-4">
-                                <div className="flex items-center gap-2 text-sm font-semibold text-blue-900"><Link2 className="h-4 w-4" /> Article link auto-generated</div>
-                                <div className="mt-2 flex flex-col gap-2 md:flex-row md:items-center"><span className="text-sm text-gray-600">Public URL:</span><code className="break-all bg-white px-3 py-2 text-sm text-blue-800">{articleUrl}</code></div>
-                                <p className="mt-2 text-xs text-blue-800">The link updates from the title for new articles. Existing article links are kept stable while editing.</p>
-                            </div>
-
-                            <div className="grid gap-5 md:grid-cols-2">
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-800 mb-2">Topic or category</label>
-                                    <input type="text" name="category" value={form.category} onChange={handleChange} placeholder="Trekking, Kailash, Nepal Travel" className="w-full border border-gray-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-800 mb-2">Publishing status</label>
-                                    <select name="status" value={form.status} onChange={handleChange} className="w-full border border-gray-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                                        <option value="draft">Save as draft</option>
-                                        <option value="published">Publish on website</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-800 mb-2">Short summary *</label>
-                                <textarea name="excerpt" value={form.excerpt} onChange={handleChange} rows={3} placeholder="Write 1–2 lines that explain why this article is useful. This appears on blog cards and search previews." className="w-full border border-gray-300 px-4 py-3 text-sm leading-6 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
-                                <div className="mt-1 text-xs text-gray-500">{form.excerpt.length}/160 characters recommended</div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-800 mb-2">Helpful keywords</label>
-                                <div className="flex gap-2">
-                                    <input type="text" value={tagInput} onChange={(event) => setTagInput(event.target.value)} onKeyDown={handleTagKeyDown} placeholder="Type a keyword and press Enter" className="min-w-0 flex-1 border border-gray-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
-                                    <button type="button" onClick={addTag} className="border border-gray-300 px-4 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-50">Add</button>
-                                </div>
-                                {tags.length > 0 && <div className="mt-3 flex flex-wrap gap-2">{tags.map(tag => <button key={tag} type="button" onClick={() => removeTag(tag)} className="bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-200">{tag} <X className="ml-1 inline h-3 w-3" /></button>)}</div>}
-                            </div>
+                            <div><label className="block text-sm font-semibold text-gray-800 mb-2">Article title *</label><input type="text" name="title" value={form.title} onChange={handleChange} required placeholder="Example: Best Time to Visit Kailash Mansarovar" className="w-full border border-gray-300 px-4 py-3 text-base outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" /></div>
+                            <div className="border border-blue-100 bg-blue-50 p-4"><div className="flex items-center gap-2 text-sm font-semibold text-blue-900"><Link2 className="h-4 w-4" /> Article link auto-generated</div><div className="mt-2 flex flex-col gap-2 md:flex-row md:items-center"><span className="text-sm text-gray-600">Public URL:</span><code className="break-all bg-white px-3 py-2 text-sm text-blue-800">{articleUrl}</code></div><p className="mt-2 text-xs text-blue-800">The link updates from the title for new articles. Existing article links are kept stable while editing.</p></div>
+                            <div className="grid gap-5 md:grid-cols-2"><div><label className="block text-sm font-semibold text-gray-800 mb-2">Topic or category</label><input type="text" name="category" value={form.category} onChange={handleChange} placeholder="Trekking, Kailash, Nepal Travel" className="w-full border border-gray-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" /></div><div><label className="block text-sm font-semibold text-gray-800 mb-2">Publishing status</label><select name="status" value={form.status} onChange={handleChange} className="w-full border border-gray-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"><option value="draft">Save as draft</option><option value="published">Publish on website</option></select></div></div>
+                            <div><label className="block text-sm font-semibold text-gray-800 mb-2">Short summary *</label><textarea name="excerpt" value={form.excerpt} onChange={handleChange} rows={3} placeholder="Write 1–2 lines that explain why this article is useful. This appears on blog cards and search previews." className="w-full border border-gray-300 px-4 py-3 text-sm leading-6 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" /><div className="mt-1 text-xs text-gray-500">{form.excerpt.length}/160 characters recommended</div></div>
+                            <div><label className="block text-sm font-semibold text-gray-800 mb-2">Helpful keywords</label><div className="flex gap-2"><input type="text" value={tagInput} onChange={(event) => setTagInput(event.target.value)} onKeyDown={handleTagKeyDown} placeholder="Type a keyword and press Enter" className="min-w-0 flex-1 border border-gray-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" /><button type="button" onClick={addTag} className="border border-gray-300 px-4 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-50">Add</button></div>{tags.length > 0 && <div className="mt-3 flex flex-wrap gap-2">{tags.map(tag => <button key={tag} type="button" onClick={() => removeTag(tag)} className="bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-200">{tag} <X className="ml-1 inline h-3 w-3" /></button>)}</div>}</div>
                         </div>
                     </section>
 
-                    <section className="border border-gray-200 bg-white p-6 shadow-sm">
-                        <div className="mb-5"><h3 className="text-lg font-semibold text-gray-950">2. Cover image</h3><p className="mt-1 text-sm text-gray-600">Used on blog cards, article pages and social previews. Recommended: 1200×700px.</p></div>
-                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                            <div className="border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-center hover:border-green-500" onDrop={event => { event.preventDefault(); const file = Array.from(event.dataTransfer.files).find(item => item.type.startsWith('image/')); if (file) handleUpload(file); }} onDragOver={event => event.preventDefault()}>
-                                <Upload className="w-8 h-8 text-gray-400 mx-auto mb-3" />
-                                <p className="text-sm font-semibold text-gray-800">Drop image here</p>
-                                <p className="mt-1 text-xs text-gray-600">or choose from your computer</p>
-                                <input type="file" accept="image/*" className="hidden" id="post-image" onChange={event => { const file = event.target.files?.[0]; if (file) handleUpload(file); }} />
-                                <label htmlFor="post-image" className="mt-4 inline-flex cursor-pointer items-center gap-2 bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"><Camera className="w-4 h-4" /> {uploading ? 'Uploading...' : 'Choose Image'}</label>
-                            </div>
-                            <div>{form.image_url ? <div className="relative border border-gray-200"><img src={form.image_url} alt="Article cover preview" className="w-full h-56 object-cover" /><button type="button" onClick={() => setForm(previous => ({ ...previous, image_url: '' }))} className="absolute top-2 right-2 bg-red-600 text-white p-2 hover:bg-red-700" aria-label="Remove image"><X className="w-4 h-4" /></button></div> : <div className="flex h-56 items-center justify-center border-2 border-dashed border-gray-200 bg-gray-50 text-center"><div><ImageIcon className="mx-auto mb-2 h-8 w-8 text-gray-300" /><p className="text-sm text-gray-500">No cover image yet</p></div></div>}</div>
-                        </div>
-                    </section>
+                    <section className="border border-gray-200 bg-white p-6 shadow-sm"><div className="mb-5"><h3 className="text-lg font-semibold text-gray-950">2. Cover image</h3><p className="mt-1 text-sm text-gray-600">Used on blog cards, article pages and social previews. Recommended: 1200×700px.</p></div><div className="grid grid-cols-1 gap-6 lg:grid-cols-2"><div className="border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-center hover:border-green-500" onDrop={event => { event.preventDefault(); const file = Array.from(event.dataTransfer.files).find(item => item.type.startsWith('image/')); if (file) handleUpload(file); }} onDragOver={event => event.preventDefault()}><Upload className="w-8 h-8 text-gray-400 mx-auto mb-3" /><p className="text-sm font-semibold text-gray-800">Drop image here</p><p className="mt-1 text-xs text-gray-600">or choose from your computer</p><input type="file" accept="image/*" className="hidden" id="post-image" onChange={event => { const file = event.target.files?.[0]; if (file) handleUpload(file); }} /><label htmlFor="post-image" className="mt-4 inline-flex cursor-pointer items-center gap-2 bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"><Camera className="w-4 h-4" /> {uploading ? 'Uploading...' : 'Choose Image'}</label></div><div>{form.image_url ? <div className="relative border border-gray-200"><img src={form.image_url} alt="Article cover preview" className="w-full h-56 object-cover" /><button type="button" onClick={() => setForm(previous => ({ ...previous, image_url: '' }))} className="absolute top-2 right-2 bg-red-600 text-white p-2 hover:bg-red-700" aria-label="Remove image"><X className="w-4 h-4" /></button></div> : <div className="flex h-56 items-center justify-center border-2 border-dashed border-gray-200 bg-gray-50 text-center"><div><ImageIcon className="mx-auto mb-2 h-8 w-8 text-gray-300" /><p className="text-sm text-gray-500">No cover image yet</p></div></div>}</div></div></section>
 
-                    <section className="border border-gray-200 bg-white p-6 shadow-sm">
-                        <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-                            <div><h3 className="text-lg font-semibold text-gray-950">3. Write article</h3><p className="mt-1 text-sm text-gray-600">Paste Markdown from ChatGPT/Gemini. Use ## headings, **bold**, numbered lists, - bullets, quotes, links and tables.</p></div>
-                            <div className="text-sm text-gray-500">{words} words · about {readingTime} min read</div>
-                        </div>
-                        <textarea name="content" value={form.content} onChange={handleChange} rows={18} placeholder={`Paste from ChatGPT/Gemini here...\n\n## Main Section Title\n\nThis paragraph can include **bold text**, *italic text*, and [a useful link](https://example.com).\n\n1. First important point\n2. Second important point\n\n- Practical tip one\n- Practical tip two\n\n> This becomes a quote/callout block.\n\n| Item | Detail |\n| --- | --- |\n| Best season | Spring and autumn |`} className="w-full border border-gray-300 px-4 py-4 text-base leading-8 text-gray-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
-                    </section>
+                    <section className="border border-gray-200 bg-white p-6 shadow-sm"><div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between"><div><h3 className="text-lg font-semibold text-gray-950">3. Write article</h3><p className="mt-1 text-sm text-gray-600">Paste from ChatGPT/Gemini. Plain section titles and Markdown will be converted into designed article sections.</p></div><div className="text-sm text-gray-500">{words} words · about {readingTime} min read</div></div><textarea name="content" value={form.content} onChange={handleChange} rows={18} placeholder={`Paste from ChatGPT/Gemini here...\n\nKailash Mansarovar Yatra 2025–2026: A Sacred Journey\n\nFor centuries, Mount Kailash has called seekers from across the world.\n\nThe Spiritual Significance of Mount Kailash\n\nStanding at 6,638 meters, Mount Kailash is revered as the Axis Mundi.\n\n1. Overland Route via Kerung Border\n\nThe overland route is the classic scenic route.\n\n- Best season: Spring and autumn\n- Recommended preparation: Physical fitness\n\n> This becomes a quote/callout block.`} className="w-full border border-gray-300 px-4 py-4 text-base leading-8 text-gray-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" /></section>
 
-                    <section className="border border-gray-200 bg-white p-6 shadow-sm">
-                        <div className="mb-5"><h3 className="text-lg font-semibold text-gray-950">4. Search preview</h3><p className="mt-1 text-sm text-gray-600">This controls how the article may appear in Google and shared links.</p></div>
-                        <div className="grid gap-6 md:grid-cols-2">
-                            <div><label className="block text-sm font-semibold text-gray-800 mb-2">Search title</label><input type="text" name="seo_title" value={form.seo_title} onChange={handleChange} placeholder="Leave empty to use article title" className="w-full border border-gray-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" /><div className="mt-1 text-xs text-gray-500">{(form.seo_title || form.title).length}/60 characters recommended</div></div>
-                            <div><label className="block text-sm font-semibold text-gray-800 mb-2">Search description</label><input type="text" name="seo_description" value={form.seo_description} onChange={handleChange} placeholder="Leave empty to use short summary" className="w-full border border-gray-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" /><div className="mt-1 text-xs text-gray-500">{(form.seo_description || form.excerpt).length}/160 characters recommended</div></div>
-                        </div>
-                    </section>
+                    <section className="border border-gray-200 bg-white p-6 shadow-sm"><div className="mb-5"><h3 className="text-lg font-semibold text-gray-950">4. Search preview</h3><p className="mt-1 text-sm text-gray-600">This controls how the article may appear in Google and shared links.</p></div><div className="grid gap-6 md:grid-cols-2"><div><label className="block text-sm font-semibold text-gray-800 mb-2">Search title</label><input type="text" name="seo_title" value={form.seo_title} onChange={handleChange} placeholder="Leave empty to use article title" className="w-full border border-gray-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" /><div className="mt-1 text-xs text-gray-500">{(form.seo_title || form.title).length}/60 characters recommended</div></div><div><label className="block text-sm font-semibold text-gray-800 mb-2">Search description</label><input type="text" name="seo_description" value={form.seo_description} onChange={handleChange} placeholder="Leave empty to use short summary" className="w-full border border-gray-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" /><div className="mt-1 text-xs text-gray-500">{(form.seo_description || form.excerpt).length}/160 characters recommended</div></div></div></section>
                 </form>
 
-                <aside className="space-y-6 xl:sticky xl:top-24 xl:self-start">
-                    <section className="border border-gray-200 bg-white p-5 shadow-sm">
-                        <div className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.16em] text-gray-500"><Eye className="h-4 w-4" /> Article card preview</div>
-                        <div className="border border-gray-200 bg-white">{form.image_url ? <img src={form.image_url} alt="Preview" className="h-44 w-full object-cover" /> : <div className="flex h-44 items-center justify-center bg-gray-100 text-sm text-gray-400">Cover image preview</div>}<div className="p-4"><div className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-blue-600">{form.category || 'Category'}</div><h4 className="text-lg font-serif font-bold leading-snug text-gray-950">{form.title || 'Article title will appear here'}</h4><p className="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">{form.excerpt || 'Your short summary will appear here.'}</p><div className="mt-4 text-sm font-bold text-blue-600">Read guide →</div></div></div>
-                    </section>
-                    <section className="border border-gray-200 bg-white p-5 shadow-sm"><div className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.16em] text-gray-500"><Search className="h-4 w-4" /> Search preview</div><div className="border border-gray-200 bg-gray-50 p-4"><div className="text-sm text-green-700">zeotourism.com{articleUrl}</div><div className="mt-1 text-lg leading-snug text-blue-700">{previewTitle}</div><p className="mt-1 text-sm leading-6 text-gray-600">{previewDescription}</p></div></section>
-                    <section className="border border-gray-200 bg-white p-5 shadow-sm"><h3 className="text-sm font-bold uppercase tracking-[0.16em] text-gray-500">AI paste formatting supported</h3><ul className="mt-4 space-y-3 text-sm text-gray-700"><li className="flex gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-green-600" /> ## headings become article titles</li><li className="flex gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-green-600" /> **bold** and links are preserved</li><li className="flex gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-green-600" /> Bullets and numbered lists become styled lists</li><li className="flex gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-green-600" /> Markdown tables become website tables</li></ul></section>
-                </aside>
+                <aside className="space-y-6 xl:sticky xl:top-24 xl:self-start"><section className="border border-gray-200 bg-white p-5 shadow-sm"><div className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.16em] text-gray-500"><Eye className="h-4 w-4" /> Article card preview</div><div className="border border-gray-200 bg-white">{form.image_url ? <img src={form.image_url} alt="Preview" className="h-44 w-full object-cover" /> : <div className="flex h-44 items-center justify-center bg-gray-100 text-sm text-gray-400">Cover image preview</div>}<div className="p-4"><div className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-blue-600">{form.category || 'Category'}</div><h4 className="text-lg font-serif font-bold leading-snug text-gray-950">{form.title || 'Article title will appear here'}</h4><p className="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">{form.excerpt || 'Your short summary will appear here.'}</p><div className="mt-4 text-sm font-bold text-blue-600">Read guide →</div></div></div></section><section className="border border-gray-200 bg-white p-5 shadow-sm"><div className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.16em] text-gray-500"><Search className="h-4 w-4" /> Search preview</div><div className="border border-gray-200 bg-gray-50 p-4"><div className="text-sm text-green-700">zeotourism.com{articleUrl}</div><div className="mt-1 text-lg leading-snug text-blue-700">{previewTitle}</div><p className="mt-1 text-sm leading-6 text-gray-600">{previewDescription}</p></div></section><section className="border border-gray-200 bg-white p-5 shadow-sm"><h3 className="text-sm font-bold uppercase tracking-[0.16em] text-gray-500">Auto-formatting supported</h3><ul className="mt-4 space-y-3 text-sm text-gray-700"><li className="flex gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-green-600" /> Plain section titles become headings</li><li className="flex gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-green-600" /> Numbered route titles become subtitles</li><li className="flex gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-green-600" /> Bullets, quotes, links and tables are styled</li><li className="flex gap-2"><CheckCircle className="mt-0.5 h-4 w-4 text-green-600" /> Old flat articles are repaired while rendering</li></ul></section></aside>
             </div>
         </div>
     );
