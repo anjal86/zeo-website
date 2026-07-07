@@ -60,6 +60,56 @@ const splitTags = (tags: string) => tags.split(',').map(tag => tag.trim()).filte
 
 const countWords = (text: string) => text.trim() ? text.trim().split(/\s+/).length : 0;
 
+const decodeHtmlEntities = (value: string) => value
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ');
+
+const escapeHtml = (value: string) => value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+const htmlToPlainText = (value: string) => {
+    if (!value) return '';
+    return decodeHtmlEntities(value)
+        .replace(/<br\s*\/?\s*>/gi, '\n')
+        .replace(/<\/p>/gi, '\n\n')
+        .replace(/<\/div>/gi, '\n\n')
+        .replace(/<\/h[1-6]>/gi, '\n\n')
+        .replace(/<li[^>]*>/gi, '- ')
+        .replace(/<\/li>/gi, '\n')
+        .replace(/<[^>]+>/g, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+};
+
+const plainTextToHtml = (value: string) => {
+    const blocks = value
+        .split(/\n{2,}/)
+        .map(block => block.trim())
+        .filter(Boolean);
+
+    return blocks.map(block => {
+        if (block.startsWith('### ')) return `<h3>${escapeHtml(block.slice(4).trim())}</h3>`;
+        if (block.startsWith('## ')) return `<h2>${escapeHtml(block.slice(3).trim())}</h2>`;
+        if (block.startsWith('# ')) return `<h2>${escapeHtml(block.slice(2).trim())}</h2>`;
+
+        const lines = block.split('\n').map(line => line.trim()).filter(Boolean);
+        const isList = lines.length > 1 && lines.every(line => line.startsWith('- ') || line.startsWith('• '));
+        if (isList) {
+            return `<ul>${lines.map(line => `<li>${escapeHtml(line.replace(/^[-•]\s*/, ''))}</li>`).join('')}</ul>`;
+        }
+
+        return `<p>${escapeHtml(block).replace(/\n/g, '<br />')}</p>`;
+    }).join('\n');
+};
+
 const PostEditor: React.FC = () => {
     const params = useParams<{ id?: string }>();
     const router = useRouter();
@@ -81,7 +131,7 @@ const PostEditor: React.FC = () => {
                 title: post.title || '',
                 slug: post.slug || genSlug(post.title || ''),
                 excerpt: post.excerpt || '',
-                content: post.content || '',
+                content: htmlToPlainText(post.content || ''),
                 category: post.category || '',
                 tags,
                 status: post.status === 'published' ? 'published' : 'draft',
@@ -168,7 +218,7 @@ const PostEditor: React.FC = () => {
                 title: form.title.trim(),
                 slug: form.slug.trim() || genSlug(form.title),
                 excerpt: form.excerpt.trim(),
-                content: form.content,
+                content: plainTextToHtml(form.content),
                 category: form.category.trim(),
                 tags,
                 status,
@@ -217,7 +267,7 @@ const PostEditor: React.FC = () => {
                     <div>
                         <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">Article editor</p>
                         <h2 className="mt-1 text-2xl font-semibold text-gray-950">{isEditing ? 'Edit article' : 'Write a new article'}</h2>
-                        <p className="mt-1 text-sm text-gray-600">Create travel guides in plain language. The article link is generated automatically from the title.</p>
+                        <p className="mt-1 text-sm text-gray-600">Write normal text only. The editor formats it for the website automatically.</p>
                     </div>
                 </div>
 
@@ -376,7 +426,7 @@ const PostEditor: React.FC = () => {
                         <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-950">3. Write article</h3>
-                                <p className="mt-1 text-sm text-gray-600">Write naturally. Use headings, short paragraphs and helpful lists.</p>
+                                <p className="mt-1 text-sm text-gray-600">Do not write HTML. Use blank lines for paragraphs, ## for headings, and - for bullet lists.</p>
                             </div>
                             <div className="text-sm text-gray-500">{words} words · about {readingTime} min read</div>
                         </div>
@@ -386,7 +436,7 @@ const PostEditor: React.FC = () => {
                             value={form.content}
                             onChange={handleChange}
                             rows={18}
-                            placeholder={`Start writing your article here...\n\nSuggested structure:\n- Quick introduction\n- Key things readers should know\n- Practical tips\n- When to go / what to prepare\n- Final recommendation`}
+                            placeholder={`Start writing your article here...\n\nSuggested structure:\n## Quick introduction\n\nKey things readers should know.\n\n- Practical tip one\n- Practical tip two\n\n## Final recommendation`}
                             className="w-full border border-gray-300 px-4 py-4 text-base leading-8 text-gray-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                         />
                     </section>
