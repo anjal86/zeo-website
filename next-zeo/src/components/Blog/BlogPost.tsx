@@ -1,20 +1,16 @@
 "use client";
 import React from 'react';
-import { useParams, redirect } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Tag, User, Clock, Calendar } from 'lucide-react';
+import { ArrowLeft, Tag, User, Clock, Calendar, Share2 } from 'lucide-react';
 import Breadcrumb from '../UI/Breadcrumb';
 import SEO from '../seo/SEO';
 import SocialShare from '../Blog/SocialShare';
 import TableOfContents from '../Blog/TableOfContents';
 import { useApi } from '../../hooks/useApi';
-import LoadingSpinner from '../UI/LoadingSpinner';
-import 'react-quill-new/dist/quill.snow.css';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { Share2 } from 'lucide-react';
 import TourCard from '../Tours/TourCard';
-
-
+import { normalizeBlogContent } from '@/lib/blogMarkdown';
 
 const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
     const { slug } = useParams<{ slug: string }>();
@@ -26,16 +22,12 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
     const post = initialPost || clientPost;
     const loading = !initialPost && clientLoading;
 
-
-    // Reading progress bar setup
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, {
         stiffness: 100,
         damping: 30,
         restDelta: 0.001
     });
-
-    // Removed blocking loading check to ensure SSR H1 renders immediately
 
     if (error || !post) {
         if (loading) return null;
@@ -49,8 +41,8 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
     const origin = process.env.NEXT_PUBLIC_APP_URL || 'https://www.zeotourism.com';
     const pageUrl = `${origin}/blog/${slug}`;
     const relatedPosts = allPosts?.filter(p => p.slug !== slug && p.category === post.category).slice(0, 3) || [];
+    const articleContentHtml = (normalizeBlogContent(post.content || '') || '').replace(/&nbsp;/g, ' ');
 
-    // SEO Structured Data Generation
     const articleSchema = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -117,23 +109,17 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
         ]
     };
 
-
-
-    // Automatic Tour Recommendation Logic
     const getRecommendedTours = () => {
         if (!allTours) return [];
 
         const toursList = Array.isArray(allTours) ? allTours : (allTours as any).tours || [];
         const blogTitle = (post.title || '').toLowerCase();
-        const blogContent = (post.content || '').toLowerCase().replace(/<[^>]*>?/gm, ' '); // Strip HTML tags for cleaner matching
+        const blogContent = articleContentHtml.toLowerCase().replace(/<[^>]*>?/gm, ' ');
         const blogExcerpt = (post.excerpt || '').toLowerCase();
         const blogCategory = (post.category || '').toLowerCase();
         const fullBlogText = `${blogTitle} ${blogExcerpt} ${blogContent}`;
 
-        // Stopwords to ignore in keyword matching
         const stopWords = new Set(['this', 'that', 'with', 'from', 'your', 'their', 'there', 'about', 'guide', 'tours', 'travel', 'nepal', 'visit', 'best', 'tour', 'place', 'places', 'trip', 'nepali', 'stay', 'day', 'days', 'package', 'packages']);
-
-        // Extract key nouns from title (simplified)
         const titleKeywords = blogTitle.split(/[^a-z]/).filter((w: string) => w.length > 4 && !stopWords.has(w));
 
         const scoredTours = toursList.map((tour: any) => {
@@ -143,24 +129,20 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
             const tourCategory = (tour.category || '').toLowerCase();
             const tourActivities = (tour.activities || []).map((a: any) => (a.name || '').toLowerCase());
 
-            // 1. Primary Location Match (Critical)
             if (tourLocation && tourLocation !== 'nepal' && fullBlogText.includes(tourLocation)) {
                 score += 20;
             }
 
-            // 2. Category Match
             if (tourCategory && (blogCategory.includes(tourCategory) || tourCategory.includes(blogCategory))) {
                 score += 15;
             }
 
-            // 3. Title Keyword Match (High priority)
             titleKeywords.forEach((keyword: string) => {
                 if (tourTitle.includes(keyword)) {
                     score += 10;
                 }
             });
 
-            // 4. Activity Match
             tourActivities.forEach((activity: string) => {
                 if (fullBlogText.includes(activity)) {
                     score += 8;
@@ -174,7 +156,6 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                 }
             });
 
-            // 5. Explicit Destination Match
             if (destinations) {
                 destinations.forEach((dest: any) => {
                     const destName = (dest.name || '').toLowerCase();
@@ -184,18 +165,15 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                 });
             }
 
-            // 6. Featured Bonus
             if (tour.featured) score += 2;
 
             return { ...tour, score };
         });
 
-        // Filter and Sort
         let results = scoredTours
-            .filter((t: any) => t.score > 2) // Lower threshold to allow more "similar" results
+            .filter((t: any) => t.score > 2)
             .sort((a: any, b: any) => b.score - a.score);
 
-        // Fallback Layer 1: If no specific math, show tours from same category
         if (results.length < 3) {
             const categoryTours = toursList
                 .filter((t: any) =>
@@ -208,7 +186,6 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
             results = [...results, ...categoryTours];
         }
 
-        // Fallback Layer 2: Featured tours
         if (results.length < 3) {
             const featuredTours = toursList
                 .filter((t: any) => t.featured)
@@ -235,14 +212,12 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                 structuredData={[articleSchema, breadcrumbSchema]}
             />
 
-            {/* Reading Progress Bar */}
             <motion.div
                 className="fixed top-0 left-0 right-0 h-1.5 bg-primary origin-left z-[100]"
                 style={{ scaleX }}
             />
 
             <article className="blog-post-detail bg-white min-h-screen pb-20">
-                {/* Immersive Hero Section */}
                 <header className="relative h-[60vh] md:h-[80vh] w-full overflow-hidden">
                     <motion.div
                         initial={{ scale: 1.1 }}
@@ -283,7 +258,6 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                     </div>
                 </header>
 
-                {/* Breadcrumb */}
                 <div className="container mx-auto px-4 pt-6 relative z-30">
                     <Breadcrumb
                         items={[
@@ -294,30 +268,24 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                     />
                 </div>
 
-                {/* Content Layout */}
                 <div className="container mx-auto px-4 -mt-10 relative z-20">
                     <div className="flex flex-col lg:flex-row gap-12">
-                        {/* Main Content */}
                         <div className="lg:w-2/3">
-                            <div className="bg-white rounded-2xl p-8 md:p-16 shadow-2xl shadow-slate-200/50 border border-gray-100">
+                            <div className="bg-white p-8 md:p-16 shadow-2xl shadow-slate-200/50 border border-gray-100">
                                 <div
-                                    className="prose prose-base md:prose-lg prose-slate max-w-none prose-headings:font-serif prose-headings:text-slate-950 prose-a:text-primary prose-img:rounded-2xl break-words scroll-mt-24 blog-post-content"
-                                    dangerouslySetInnerHTML={{
-                                        __html: (post.content || '').replace(/&nbsp;/g, ' ')
-                                    }}
+                                    className="blog-post-content blog-article-rich break-words scroll-mt-24"
+                                    dangerouslySetInnerHTML={{ __html: articleContentHtml }}
                                 />
 
-                                {/* Tags Section */}
                                 <div className="mt-16 pt-10 border-t border-gray-100 flex flex-wrap items-center gap-3">
                                     <Tag className="w-5 h-5 text-primary mr-2" />
-                                    <span className="bg-slate-50 text-slate-600 px-4 py-1.5 rounded-2xl text-sm font-semibold border border-slate-100">
+                                    <span className="bg-slate-50 text-slate-600 px-4 py-1.5 text-sm font-semibold border border-slate-100">
                                         {post.category}
                                     </span>
                                 </div>
 
-                                {/* Author Info Block */}
                                 <div className="mt-10 p-6 bg-slate-50 border border-slate-100 flex items-start gap-5">
-                                    <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-14 h-14 bg-primary/10 flex items-center justify-center flex-shrink-0">
                                         <User className="w-7 h-7 text-primary" />
                                     </div>
                                     <div className="flex-1 min-w-0">
@@ -335,7 +303,6 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                                         </Link>
                                     </div>
 
-                                    {/* Inline share — row layout */}
                                     <div className="hidden md:block flex-shrink-0">
                                         <SocialShare url={pageUrl} title={post.title} layout="row" />
                                     </div>
@@ -343,40 +310,35 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                             </div>
                         </div>
 
-                        {/* Sticky Sidebar */}
                         <aside className="lg:w-1/3">
                             <div className="sticky top-24 space-y-8">
-                                {/* Table of Contents */}
-                                <TableOfContents contentHtml={post.content || ''} />
+                                <TableOfContents contentHtml={articleContentHtml} />
 
-                                {/* Sharing Widget */}
-                                <div className="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+                                <div className="bg-slate-50 p-8 border border-slate-100">
                                     <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                                         <Share2 className="w-5 h-5 text-primary" /> Share this Story
                                     </h3>
                                     <SocialShare url={pageUrl} title={post.title} layout="grid" />
                                 </div>
 
-                                {/* Newsletter / CTA */}
-                                <div className="bg-gradient-to-br from-primary to-primary-dark rounded-2xl p-8 text-white relative overflow-hidden shadow-xl">
+                                <div className="bg-gradient-to-br from-primary to-primary-dark p-8 text-white relative overflow-hidden shadow-xl">
                                     <div className="relative z-10">
                                         <h3 className="text-2xl font-bold mb-4">Plan your Nepal Trip?</h3>
                                         <p className="text-white/80 mb-6">Expert travel consultation for your customized itinerary. Join 10k+ happy travelers.</p>
                                         <Link
                                             href="/contact"
-                                            className="block w-full text-center bg-secondary hover:bg-secondary-dark text-white py-4 rounded-2xl font-bold transition-all transform hover:scale-105"
+                                            className="block w-full text-center bg-secondary hover:bg-secondary-dark text-white py-4 font-bold transition-all transform hover:scale-105"
                                         >
                                             Talk to an Expert
                                         </Link>
                                     </div>
-                                    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-2xl blur-3xl" />
+                                    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 blur-3xl" />
                                 </div>
                             </div>
                         </aside>
                     </div>
                 </div>
 
-                {/* Recommended Tours Horizontal Section */}
                 {recommendedTours.length > 0 && (
                     <section className="container mx-auto px-4 mt-24">
                         <div className="flex items-end justify-between mb-12">
@@ -402,7 +364,6 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                     </section>
                 )}
 
-                {/* Related Posts Section */}
                 {relatedPosts.length > 0 && (
                     <section className="container mx-auto px-4 mt-24">
                         <div className="flex items-end justify-between mb-12">
@@ -419,7 +380,7 @@ const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
                                 <Link
                                     key={rPost.id}
                                     href={`/blog/${rPost.slug}`}
-                                    className="group block bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all h-full flex flex-col"
+                                    className="group block bg-white overflow-hidden border border-gray-100 hover:shadow-xl transition-all h-full flex flex-col"
                                 >
                                     <div className="h-56 overflow-hidden">
                                         <img
