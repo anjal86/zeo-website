@@ -75,7 +75,20 @@ function plainTextToHtml(value: string) {
     .split(/\n{2,}/)
     .map((block) => block.trim())
     .filter(Boolean)
-    .map((block) => `<p>${escapeHtml(block).replace(/\n/g, "<br />")}</p>`)
+    .map((block) => {
+      if (block.startsWith("### ")) return `<h3>${escapeHtml(block.slice(4).trim())}</h3>`;
+      if (block.startsWith("## ")) return `<h2>${escapeHtml(block.slice(3).trim())}</h2>`;
+      if (block.startsWith("# ")) return `<h2>${escapeHtml(block.slice(2).trim())}</h2>`;
+      if (block.startsWith("> ")) return `<blockquote>${escapeHtml(block.replace(/^>\s*/, ""))}</blockquote>`;
+
+      const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+      const isList = lines.length > 1 && lines.every((line) => line.startsWith("- ") || line.startsWith("• "));
+      if (isList) {
+        return `<ul>${lines.map((line) => `<li>${escapeHtml(line.replace(/^[-•]\s*/, ""))}</li>`).join("")}</ul>`;
+      }
+
+      return `<p>${escapeHtml(block).replace(/\n/g, "<br />")}</p>`;
+    })
     .join("\n");
 }
 
