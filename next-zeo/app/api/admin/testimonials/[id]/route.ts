@@ -3,11 +3,12 @@ import { adminUpdateTestimonialValidated } from "@/server/http/admin-extra-handl
 import { getOne } from "@/server/db/mysql";
 import { notFound, ok } from "@/server/http/api-response";
 
-export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
   const denied = await adminOnly();
   if (denied) return denied;
   const { id } = await context.params;
-  const testimonial = await getOne("SELECT * FROM testimonials WHERE id = ?", [Number(id)]);
+  const parsed = Number(id);
+  const testimonial = await getOne("SELECT * FROM testimonials WHERE id = ? OR legacy_id = ?", [parsed, parsed]);
   if (!testimonial) return notFound();
   return ok(testimonial);
 }
