@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Send, MessageCircle, Mail, MapPin, Activity, Bed, Info, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Send, MessageCircle, Mail, MapPin, Activity, Bed, Info, HelpCircle, ChevronDown, ChevronUp, CheckCircle, Download } from 'lucide-react';
 import TourCard from '@/components/Tours/TourCard';
 import TourImageSlider from '@/components/Tours/TourImageSlider';
 import TourEnquiryButton from '@/components/Tours/TourEnquiryButton';
@@ -71,20 +71,12 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
 
   // Refs and state
   const enquirySectionRef = useRef<HTMLDivElement>(null);
-  const [expandedGoodToKnow, setExpandedGoodToKnow] = useState<Set<string>>(new Set());
-  const [expandedFAQs, setExpandedFAQs] = useState<Set<number>>(new Set());
+  const [expandedFAQs, setExpandedFAQs] = useState<Set<number>>(() => new Set((tour.faqs || []).slice(0, 2).map((_, index) => index)));
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [showPriceAlertModal, setShowPriceAlertModal] = useState(false);
 
-  // Toggle functions for accordions
-  const toggleGoodToKnow = (section: string) => {
-    const newExpanded = new Set(expandedGoodToKnow);
-    if (newExpanded.has(section)) {
-      newExpanded.delete(section);
-    } else {
-      newExpanded.add(section);
-    }
-    setExpandedGoodToKnow(newExpanded);
+  const scrollToEnquiry = () => {
+    enquirySectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const toggleFAQ = (index: number) => {
@@ -193,10 +185,49 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
     );
   }
 
+  const goodToKnowCards = tourDetails.good_to_know ? [
+    {
+      key: 'main_attractions',
+      title: 'Main Attractions',
+      text: tourDetails.good_to_know.main_attractions,
+      icon: MapPin,
+      color: 'blue',
+      borderClass: 'border-blue-500',
+      iconClass: 'bg-blue-600',
+    },
+    {
+      key: 'travel_distances',
+      title: 'Travel Distances',
+      text: tourDetails.good_to_know.travel_distances,
+      icon: Activity,
+      color: 'green',
+      borderClass: 'border-green-500',
+      iconClass: 'bg-green-600',
+    },
+    {
+      key: 'accommodation_standards',
+      title: 'Accommodation Standards',
+      text: tourDetails.good_to_know.accommodation_standards,
+      icon: Bed,
+      color: 'purple',
+      borderClass: 'border-purple-500',
+      iconClass: 'bg-purple-600',
+    },
+    {
+      key: 'additional_activities',
+      title: 'Additional Activities',
+      text: tourDetails.good_to_know.additional_activities,
+      icon: Info,
+      color: 'orange',
+      borderClass: 'border-orange-500',
+      iconClass: 'bg-orange-600',
+    },
+  ].filter(card => card.text) : [];
+
   return (
     <>
 
-      <div className="tour-detail-page">
+      <div className="tour-detail-page pb-24 lg:pb-0">
         {/* Breadcrumb Navigation */}
         <div className="bg-gray-50 py-4">
           <div className="container mx-auto px-4">
@@ -245,167 +276,44 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                   />
                 </div>
 
-                {/* Good to Know Section - Accordion Style */}
-                {tourDetails.good_to_know && (
+                {/* Good to Know Section */}
+                {goodToKnowCards.length > 0 && (
                   <div className="mt-8">
                     <div className="bg-white rounded-none shadow-sm overflow-hidden">
                       <div className="text-center p-6 sm:p-8 border-b border-gray-100">
                         <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Good to Know</h3>
-                        <p className="text-gray-600">Essential information for your journey, including cultural insights and <a href="https://whc.unesco.org/en/statesparties/np" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">World Heritage</a> context.</p>
+                        <p className="text-gray-600 max-w-2xl mx-auto">Essential details are shown upfront so you do not need to open multiple accordions while planning.</p>
                       </div>
 
-                      <div className="divide-y divide-gray-100">
-                        {/* Main Attractions */}
-                        <div className="border-l-4 border-blue-500">
-                          <button
-                            onClick={() => toggleGoodToKnow('main_attractions')}
-                            className="w-full p-6 text-left hover:bg-gray-50 transition-colors duration-200"
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center">
-                                <div className="w-10 h-10 bg-blue-600 rounded-none flex items-center justify-center mr-4">
-                                  <MapPin className="w-5 h-5 text-white" />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 sm:p-6">
+                        {goodToKnowCards.map((card) => {
+                          const Icon = card.icon;
+                          return (
+                            <div key={card.key} className={`border-l-4 ${card.borderClass} bg-slate-50 p-5`}> 
+                              <div className="flex items-start gap-4">
+                                <div className={`w-10 h-10 ${card.iconClass} rounded-none flex items-center justify-center flex-shrink-0`}>
+                                  <Icon className="w-5 h-5 text-white" />
                                 </div>
-                                <h4 className="text-lg font-bold text-gray-900">Main Attractions</h4>
-                              </div>
-                              {expandedGoodToKnow.has('main_attractions') ? (
-                                <ChevronUp className="w-5 h-5 text-gray-400" />
-                              ) : (
-                                <ChevronDown className="w-5 h-5 text-gray-400" />
-                              )}
-                            </div>
-                          </button>
-                          {expandedGoodToKnow.has('main_attractions') && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="px-6 pb-6"
-                            >
-                              <div className="ml-14">
-                                <p className="text-gray-700 leading-relaxed">{tourDetails.good_to_know.main_attractions}</p>
-                              </div>
-                            </motion.div>
-                          )}
-                        </div>
-
-                        {/* Travel Distances */}
-                        <div className="border-l-4 border-green-500">
-                          <button
-                            onClick={() => toggleGoodToKnow('travel_distances')}
-                            className="w-full p-6 text-left hover:bg-gray-50 transition-colors duration-200"
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center">
-                                <div className="w-10 h-10 bg-green-600 rounded-none flex items-center justify-center mr-4">
-                                  <Activity className="w-5 h-5 text-white" />
+                                <div>
+                                  <h4 className="text-lg font-bold text-gray-900 mb-2">{card.title}</h4>
+                                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{card.text}</p>
                                 </div>
-                                <h4 className="text-lg font-bold text-gray-900">Travel Distances</h4>
                               </div>
-                              {expandedGoodToKnow.has('travel_distances') ? (
-                                <ChevronUp className="w-5 h-5 text-gray-400" />
-                              ) : (
-                                <ChevronDown className="w-5 h-5 text-gray-400" />
-                              )}
                             </div>
-                          </button>
-                          {expandedGoodToKnow.has('travel_distances') && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="px-6 pb-6"
-                            >
-                              <div className="ml-14">
-                                <p className="text-gray-700 leading-relaxed">{tourDetails.good_to_know.travel_distances}</p>
-                              </div>
-                            </motion.div>
-                          )}
-                        </div>
-
-                        {/* Accommodation Standards */}
-                        <div className="border-l-4 border-purple-500">
-                          <button
-                            onClick={() => toggleGoodToKnow('accommodation_standards')}
-                            className="w-full p-6 text-left hover:bg-gray-50 transition-colors duration-200"
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center">
-                                <div className="w-10 h-10 bg-purple-600 rounded-none flex items-center justify-center mr-4">
-                                  <Bed className="w-5 h-5 text-white" />
-                                </div>
-                                <h4 className="text-lg font-bold text-gray-900">Accommodation Standards</h4>
-                              </div>
-                              {expandedGoodToKnow.has('accommodation_standards') ? (
-                                <ChevronUp className="w-5 h-5 text-gray-400" />
-                              ) : (
-                                <ChevronDown className="w-5 h-5 text-gray-400" />
-                              )}
-                            </div>
-                          </button>
-                          {expandedGoodToKnow.has('accommodation_standards') && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="px-6 pb-6"
-                            >
-                              <div className="ml-14">
-                                <p className="text-gray-700 leading-relaxed">{tourDetails.good_to_know.accommodation_standards}</p>
-                              </div>
-                            </motion.div>
-                          )}
-                        </div>
-
-                        {/* Additional Activities */}
-                        <div className="border-l-4 border-orange-500">
-                          <button
-                            onClick={() => toggleGoodToKnow('additional_activities')}
-                            className="w-full p-6 text-left hover:bg-gray-50 transition-colors duration-200"
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center">
-                                <div className="w-10 h-10 bg-orange-600 rounded-none flex items-center justify-center mr-4">
-                                  <Info className="w-5 h-5 text-white" />
-                                </div>
-                                <h4 className="text-lg font-bold text-gray-900">Additional Activities</h4>
-                              </div>
-                              {expandedGoodToKnow.has('additional_activities') ? (
-                                <ChevronUp className="w-5 h-5 text-gray-400" />
-                              ) : (
-                                <ChevronDown className="w-5 h-5 text-gray-400" />
-                              )}
-                            </div>
-                          </button>
-                          {expandedGoodToKnow.has('additional_activities') && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="px-6 pb-6"
-                            >
-                              <div className="ml-14">
-                                <p className="text-gray-700 leading-relaxed">{tourDetails.good_to_know.additional_activities}</p>
-                              </div>
-                            </motion.div>
-                          )}
-                        </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* FAQs Section - Accordion Style */}
+                {/* FAQs Section */}
                 {tourDetails.faqs && tourDetails.faqs.length > 0 && (
                   <div className="mt-8">
                     <div className="bg-white rounded-none shadow-sm overflow-hidden">
                       <div className="text-center p-6 sm:p-8 border-b border-gray-100">
                         <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Frequently Asked Questions</h3>
-                        <p className="text-gray-600">Your questions, answered</p>
+                        <p className="text-gray-600">The most useful answers are opened first. Tap any question to expand or collapse.</p>
                       </div>
 
                       <div className="divide-y divide-gray-100">
@@ -420,7 +328,10 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                                   <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary-dark rounded-none flex items-center justify-center flex-shrink-0 mt-1">
                                     <HelpCircle className="w-4 h-4 text-white" />
                                   </div>
-                                  <h4 className="text-lg font-semibold text-gray-900 text-left pr-4">{faq.question}</h4>
+                                  <div>
+                                    <h4 className="text-lg font-semibold text-gray-900 text-left pr-4">{faq.question}</h4>
+                                    {index < 2 && <p className="text-xs text-primary font-semibold mt-1 uppercase tracking-wide">Opened by default</p>}
+                                  </div>
                                 </div>
                                 {expandedFAQs.has(index) ? (
                                   <ChevronUp className="w-5 h-5 text-gray-400 flex-shrink-0" />
@@ -477,6 +388,24 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
                     🔔 Alert Me of Price Drops
                   </button>
                 </div>
+
+                <div className="mt-4 bg-white border border-gray-100 shadow-sm p-5">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Why book with Zeo?</h3>
+                  <div className="space-y-3 text-sm text-gray-700">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>Free consultation before booking</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>Customized itinerary support</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>Fast response from travel experts</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -513,6 +442,25 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
           </section>
         )}
 
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-gray-200 bg-white/95 backdrop-blur lg:hidden px-3 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(15,23,42,0.12)]">
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={scrollToEnquiry}
+            className="flex items-center justify-center gap-2 bg-primary text-white py-3 px-3 text-sm font-bold uppercase tracking-wide"
+          >
+            <Send className="w-4 h-4" /> Enquire Now
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowDownloadModal(true)}
+            className="flex items-center justify-center gap-2 border border-primary text-primary bg-white py-3 px-3 text-sm font-bold uppercase tracking-wide"
+          >
+            <Download className="w-4 h-4" /> Itinerary
+          </button>
+        </div>
       </div>
 
       {/* Download Itinerary Modal */}
