@@ -38,6 +38,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
   itinerary,
 }) => {
   const [activeTab, setActiveTab] = useState('overview');
+  const itineraryDays = itinerary?.length || 0;
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -144,11 +145,20 @@ const TourTabs: React.FC<TourTabsProps> = ({
 
         <section id="itinerary" className="scroll-mt-28 space-y-8">
           <div className="border-b border-gray-100 pb-4">
-            <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
-              <FileText className="w-6 h-6 text-primary" />
-              Itinerary
-            </h3>
-            <p className="mt-2 text-sm text-gray-500">All day details are shown by default for easier reading.</p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
+                  <FileText className="w-6 h-6 text-primary" />
+                  Itinerary
+                </h3>
+                <p className="mt-2 text-sm text-gray-500">All day details are shown by default for easier reading.</p>
+              </div>
+              {itineraryDays > 0 && (
+                <div className="border border-primary/15 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary">
+                  {itineraryDays} {itineraryDays === 1 ? 'day' : 'days'} at a glance
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="relative">
@@ -161,11 +171,14 @@ const TourTabs: React.FC<TourTabsProps> = ({
                     <div className="absolute left-3.5 sm:left-6 w-3 h-3 sm:w-4 sm:h-4 bg-white border-2 sm:border-4 border-primary rounded-full z-10 transform -translate-x-1/2 mt-5 sm:mt-5 ring-4 ring-gray-50/50"></div>
 
                     <div className="ml-8 sm:ml-12 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-primary/30 transition-all duration-300 overflow-hidden">
-                      <div className="w-full p-3 sm:p-4 flex items-start gap-3 sm:gap-4 text-left bg-white">
-                        <div>
+                      <div className="w-full p-3 sm:p-4 flex items-start justify-between gap-3 sm:gap-4 text-left bg-white">
+                        <div className="min-w-0">
                           <h4 className="text-base sm:text-lg font-bold text-brand-dark mb-0.5 sm:mb-1 leading-tight">{day.title}</h4>
-                          <p className="text-xs sm:text-sm text-gray-500">Day {day.day}</p>
+                          <p className="text-xs sm:text-sm text-gray-500">Day {day.day} of {itineraryDays}</p>
                         </div>
+                        <span className="flex-shrink-0 bg-primary text-white px-3 py-1 text-xs font-bold uppercase tracking-wide">
+                          Day {day.day}
+                        </span>
                       </div>
 
                       <div className="px-3 pb-3 sm:px-4 sm:pb-4 border-t border-gray-100 bg-slate-50/50">
