@@ -2,6 +2,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeSanitize from 'rehype-sanitize';
+import rehypeRaw from 'rehype-raw';
 
 interface MarkdownArticleProps {
     content: string;
@@ -12,7 +13,7 @@ const MarkdownArticle: React.FC<MarkdownArticleProps> = ({ content }) => {
         <div className="blog-post-content prose prose-base md:prose-lg prose-slate max-w-none prose-headings:font-serif prose-headings:text-slate-950 prose-a:text-primary prose-img:rounded-2xl break-words scroll-mt-24">
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeSanitize]}
+                rehypePlugins={[rehypeRaw, rehypeSanitize]}
                 components={{
                     h2: ({ node, ...props }) => <h2 className="text-3xl font-bold mt-10 mb-4 text-slate-900" {...props} />,
                     h3: ({ node, ...props }) => <h3 className="text-2xl font-bold mt-8 mb-3 text-slate-800" {...props} />,
