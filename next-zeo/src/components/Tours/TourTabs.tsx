@@ -54,6 +54,8 @@ const cleanRouteTitle = (title: string) => title
   .split(/[–—|]/)[0]
   .trim();
 
+const compactItems = (items: string[], limit = 3) => items.filter(Boolean).slice(0, limit);
+
 const TourTabs: React.FC<TourTabsProps> = ({
   description,
   highlights,
@@ -80,7 +82,7 @@ const TourTabs: React.FC<TourTabsProps> = ({
 
   React.useEffect(() => {
     const handleScroll = () => {
-      const sections = ['overview', 'itinerary', 'inclusions', 'preparation', 'dates'];
+      const sections = ['overview', 'itinerary', 'inclusions'];
       const offset = 130;
 
       for (const sectionId of sections) {
@@ -119,17 +121,17 @@ const TourTabs: React.FC<TourTabsProps> = ({
   const tabs = [
     { id: 'overview', label: 'Overview', icon: Info },
     { id: 'itinerary', label: 'Itinerary', icon: FileText },
-    { id: 'inclusions', label: 'Value', icon: Check }
+    { id: 'inclusions', label: 'Plan', icon: Check }
   ];
   const packageHasLists = Boolean((inclusions && inclusions.length > 0) || (exclusions && exclusions.length > 0));
   const fitnessCopy = Array.isArray(fitnessRequirements)
     ? fitnessRequirements.filter(Boolean).join(', ')
     : fitnessRequirements;
   const preparationCards = [
-    { label: 'Difficulty', value: altitudeProfile?.difficulty_level || difficulty || 'Ask our team for route-specific difficulty guidance' },
-    { label: 'Highest altitude', value: altitudeProfile?.max_altitude || 'Ask our team for route-specific altitude guidance' },
-    { label: 'Walking expectation', value: fitnessCopy || 'Ask our team for route-specific preparation guidance' },
-    { label: 'Acclimatization', value: altitudeProfile?.acclimatization_days ? `${altitudeProfile.acclimatization_days} day${altitudeProfile.acclimatization_days === 1 ? '' : 's'} planned` : 'Extra acclimatization can be discussed before booking' },
+    { label: 'Difficulty', value: altitudeProfile?.difficulty_level || difficulty || 'Ask for route-specific difficulty guidance' },
+    { label: 'Highest altitude', value: altitudeProfile?.max_altitude || 'Ask for route-specific altitude guidance' },
+    { label: 'Walking expectation', value: fitnessCopy || 'Ask for route-specific preparation guidance' },
+    { label: 'Acclimatization', value: altitudeProfile?.acclimatization_days ? `${altitudeProfile.acclimatization_days} day${altitudeProfile.acclimatization_days === 1 ? '' : 's'} planned` : 'Extra acclimatization can be discussed' },
   ];
   const permitSensitive = /kailash|mansarovar|tibet|china|lhasa|yatra/i.test(`${title} ${description}`);
   const documentItems = travellerDecision?.document_safety_items?.filter(Boolean) || (permitSensitive
@@ -138,6 +140,35 @@ const TourTabs: React.FC<TourTabsProps> = ({
   const priceFactors = travellerDecision?.price_factors?.filter(Boolean) || ['Hotel level and room type', 'Permit, visa and document costs', 'Private date or transport upgrade', 'Single supplement', 'Group size changes', 'Flight or route changes'];
   const dateOptions = travellerDecision?.date_options?.filter(Boolean) || ['Private departures available', 'Group departures on request', `Best season: ${bestTime || 'Ask for the best travel window'}`, 'Ask for next available date'];
   const customizationOptions = travellerDecision?.customization_options?.filter(Boolean) || ['Change travel date', 'Upgrade hotel', 'Add extra acclimatization day', 'Add Kathmandu sightseeing', 'Choose private group'];
+
+  const planCards = [
+    {
+      title: 'Documents & Permits',
+      description: 'Confirm required documents before paying for flights or starting travel.',
+      icon: ShieldCheck,
+      items: compactItems(documentItems),
+    },
+    {
+      title: 'Price Clarity',
+      description: priceAvailable && price && price > 0
+        ? `Guide price starts from $${price}. Confirm final route-specific costs before booking.`
+        : 'Ask for a written quote before confirming your date.',
+      icon: WalletCards,
+      items: compactItems(priceFactors),
+    },
+    {
+      title: 'Dates & Departures',
+      description: 'Check the next practical travel window before planning flights.',
+      icon: CalendarDays,
+      items: compactItems(dateOptions),
+    },
+    {
+      title: 'Customize This Trip',
+      description: 'Change the parts that matter without reading another long list.',
+      icon: SlidersHorizontal,
+      items: compactItems(customizationOptions),
+    },
+  ];
 
   return (
     <div className="space-y-8">
@@ -191,32 +222,18 @@ const TourTabs: React.FC<TourTabsProps> = ({
                 </div>
               </div>
             )}
-          </div>
-        </section>
 
-        <hr className="border-gray-100" />
-
-        <section className="space-y-5">
-          <div className="border border-primary/20 bg-primary/5 p-5">
-            <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center bg-primary">
-                <ShieldCheck className="h-5 w-5 text-white" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-lg font-bold text-brand-dark">Visa, Permit & Document Safety</h3>
-                <p className="mt-2 text-sm leading-6 text-gray-700">
-                  Requirements can change by route, nationality and season. Confirm documents with our team before booking flights or starting travel.
-                </p>
-              </div>
-            </div>
-            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {documentItems.map((item) => (
-                <div key={item} className="flex items-start gap-3 border border-primary/15 bg-white p-3">
-                  <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
-                  <span className="text-sm font-semibold leading-6 text-gray-800">{item}</span>
+            {permitSensitive && (
+              <div className="border border-primary/20 bg-primary/5 p-4">
+                <div className="flex items-start gap-3">
+                  <ShieldCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+                  <div>
+                    <p className="text-sm font-bold text-gray-950">Document safety note</p>
+                    <p className="mt-1 text-sm leading-6 text-gray-700">Permit and visa requirements can change by route, nationality and season. Confirm documents before booking flights or starting travel.</p>
+                  </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
         </section>
 
@@ -312,128 +329,114 @@ const TourTabs: React.FC<TourTabsProps> = ({
           <div className="border-b border-gray-100 pb-4">
             <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
               <WalletCards className="w-6 h-6 text-primary" />
-              What This Package Covers
+              Value & Planning Details
             </h3>
             <p className="mt-2 text-sm leading-6 text-gray-500">
-              {priceAvailable && price && price > 0 ? `Guide price starts from $${price} per person. Confirm current pricing and any route-specific costs before booking.` : 'Current price is available on request. Ask for a written quote before confirming your date.'}
+              {priceAvailable && price && price > 0 ? `Guide price starts from $${price} per person. Confirm current pricing and route-specific costs before booking.` : 'Current price is available on request. Ask for a written quote before confirming your date.'}
             </p>
           </div>
 
           {packageHasLists ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {inclusions && inclusions.length > 0 && (
-              <div className="bg-primary/5 p-6 border border-primary/15">
-                <h4 className="text-lg font-bold text-brand-dark mb-4 flex items-center text-primary">
-                  <span className="bg-primary p-1.5 mr-2">
-                    <Check className="w-4 h-4 text-white" />
-                  </span>
-                  What is Included
-                </h4>
-                <ul className="space-y-3">
-                  {inclusions.map((item, index) => (
-                    <li key={index} className="flex items-start">
-                      <Check className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700 leading-snug">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {inclusions && inclusions.length > 0 && (
+                <div className="bg-primary/5 p-5 border border-primary/15">
+                  <h4 className="text-lg font-bold text-brand-dark mb-4 flex items-center text-primary">
+                    <span className="bg-primary p-1.5 mr-2">
+                      <Check className="w-4 h-4 text-white" />
+                    </span>
+                    What is Included
+                  </h4>
+                  <ul className="space-y-3">
+                    {inclusions.map((item, index) => (
+                      <li key={index} className="flex items-start">
+                        <Check className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-700 leading-snug">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-            {exclusions && exclusions.length > 0 && (
-              <div className="bg-gray-50 p-6 border border-gray-200">
-                <h4 className="text-lg font-bold text-brand-dark mb-4 flex items-center text-gray-800">
-                  <span className="bg-gray-200 p-1.5 mr-2">
-                    <X className="w-4 h-4 text-gray-600" />
-                  </span>
-                  What is Not Included
-                </h4>
-                <ul className="space-y-3">
-                  {exclusions.map((item, index) => (
-                    <li key={index} className="flex items-start">
-                      <X className="w-5 h-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-600 leading-snug">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+              {exclusions && exclusions.length > 0 && (
+                <div className="bg-gray-50 p-5 border border-gray-200">
+                  <h4 className="text-lg font-bold text-brand-dark mb-4 flex items-center text-gray-800">
+                    <span className="bg-gray-200 p-1.5 mr-2">
+                      <X className="w-4 h-4 text-gray-600" />
+                    </span>
+                    What is Not Included
+                  </h4>
+                  <ul className="space-y-3">
+                    {exclusions.map((item, index) => (
+                      <li key={index} className="flex items-start">
+                        <X className="w-5 h-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600 leading-snug">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="border border-gray-200 bg-gray-50 p-5">
               <p className="text-sm leading-7 text-gray-700">A detailed inclusion and exclusion list is available from our team. Ask for a written package summary so flights, permits, hotels, meals and personal expenses are clear before you commit.</p>
             </div>
           )}
+
           <div className="border border-secondary/30 bg-secondary/5 p-4 text-sm leading-6 text-gray-700">
             Concerned about hidden costs? Ask for the current written quote and route-specific notes before paying a deposit.
           </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {priceFactors.map((item) => (
-              <div key={item} className="border border-gray-200 bg-white p-3 text-sm font-semibold text-gray-700">
-                {item}
+
+          <div className="space-y-5">
+            <div>
+              <h4 className="text-xl font-bold text-brand-dark">Plan With Confidence</h4>
+              <p className="mt-2 text-sm leading-6 text-gray-500">The important decision details are grouped here so the page stays clear instead of becoming a long checklist.</p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {planCards.map((card) => {
+                const Icon = card.icon;
+                return (
+                  <div key={card.title} className="border border-gray-200 bg-white p-5">
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center bg-primary/10">
+                        <Icon className="h-5 w-5 text-primary" />
+                      </div>
+                      <div className="min-w-0">
+                        <h5 className="text-base font-bold text-gray-950">{card.title}</h5>
+                        <p className="mt-1 text-sm leading-6 text-gray-600">{card.description}</p>
+                        <ul className="mt-4 space-y-2">
+                          {card.items.map((item) => (
+                            <li key={item} className="flex items-start gap-2 text-sm leading-6 text-gray-700">
+                              <Check className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="border border-gray-200 bg-gray-50 p-5">
+              <div className="mb-4 flex items-center gap-2">
+                <Mountain className="h-5 w-5 text-primary" />
+                <h5 className="font-bold text-gray-950">Trip Readiness</h5>
               </div>
-            ))}
-          </div>
-        </section>
-
-        <hr className="border-gray-100" />
-
-        <section id="preparation" className="scroll-mt-28 space-y-8">
-          <div className="border-b border-gray-100 pb-4">
-            <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
-              <Mountain className="w-6 h-6 text-primary" />
-              Trip Difficulty & Preparation
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-gray-500">Use these notes to decide whether the route matches your fitness, altitude comfort and travel style.</p>
-          </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {preparationCards.map((card) => (
-              <div key={card.label} className="border border-gray-200 bg-gray-50 p-4">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{card.label}</p>
-                <p className="mt-2 text-sm font-semibold leading-6 text-gray-800">{card.value}</p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {preparationCards.map((card) => (
+                  <div key={card.label} className="border border-gray-200 bg-white p-3">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary">{card.label}</p>
+                    <p className="mt-1 text-sm font-semibold leading-6 text-gray-800">{card.value}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
+            </div>
 
-        <hr className="border-gray-100" />
-
-        <section id="dates" className="scroll-mt-28 space-y-8">
-          <div className="border-b border-gray-100 pb-4">
-            <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
-              <CalendarDays className="w-6 h-6 text-primary" />
-              Available Dates & Private Departures
-            </h3>
-          </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {dateOptions.map((item) => (
-              <div key={item} className="border border-gray-200 bg-white p-4 text-sm font-semibold text-gray-800">
-                {item}
-              </div>
-            ))}
-          </div>
-          <button type="button" onClick={onEnquire} className="inline-flex items-center justify-center bg-primary px-5 py-3 text-sm font-bold uppercase tracking-wide text-white hover:bg-primary-dark">
-            Ask for dates
-          </button>
-        </section>
-
-        <hr className="border-gray-100" />
-
-        <section className="space-y-6">
-          <div className="border-b border-gray-100 pb-4">
-            <h3 className="text-2xl font-bold text-brand-dark flex items-center gap-2">
-              <SlidersHorizontal className="w-6 h-6 text-primary" />
-              Customize This Trip
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-gray-500">Tell us what you want changed and our team will confirm what is practical for this route.</p>
-          </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {customizationOptions.map((item) => (
-              <div key={item} className="flex items-start gap-3 border border-gray-200 bg-gray-50 p-4">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
-                <span className="text-sm font-semibold text-gray-800">{item}</span>
-              </div>
-            ))}
+            <button type="button" onClick={onEnquire} className="inline-flex items-center justify-center bg-primary px-5 py-3 text-sm font-bold uppercase tracking-wide text-white hover:bg-primary-dark">
+              Ask for full details
+            </button>
           </div>
         </section>
       </div>
