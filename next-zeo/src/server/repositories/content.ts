@@ -1,8 +1,6 @@
 import { getAll, getOne } from "@/server/db/mysql";
 import { parseJson, parseJsonArray, parseJsonObject } from "@/server/db/json";
 import { getPagination } from "@/server/http/pagination";
-import { sanitizeHtmlContent } from "@/server/security/sanitize-html";
-import { normalizeBlogContent } from "@/lib/blogMarkdown";
 import type { BaseRow, ListOptions, ListResult } from "./types";
 import { bool, iso } from "./types";
 
@@ -52,17 +50,14 @@ type TestimonialRow = BaseRow & {
   is_approved: number | boolean;
 };
 
-function serializePost(row: PostRow, options: { sanitizeContent?: boolean } = {}) {
-  const normalizedContent = normalizeBlogContent(row.content);
-  const content = options.sanitizeContent ? sanitizeHtmlContent(normalizedContent) : normalizedContent;
-
+function serializePost(row: PostRow) {
   return {
     id: row.legacy_id ?? row.id,
     db_id: row.id,
     slug: row.slug,
     title: row.title,
     excerpt: row.excerpt,
-    content,
+    content: row.content || "",
     image: row.image_url,
     image_url: row.image_url,
     author: row.author,
@@ -146,7 +141,7 @@ export async function listPosts(options: ListOptions = {}, admin = false): Promi
     `SELECT * FROM posts ${where} ORDER BY COALESCE(published_at, created_at) DESC, id DESC LIMIT ? OFFSET ?`,
     [...params, pagination.limit, pagination.offset],
   );
-  return { items: rows.map((row) => serializePost(row, { sanitizeContent: !admin })), total: count?.total ?? 0 };
+  return { items: rows.map(serializePost), total: count?.total ?? 0 };
 }
 
 export async function getPostBySlug(slug: string, admin = false) {
@@ -154,7 +149,7 @@ export async function getPostBySlug(slug: string, admin = false) {
     `SELECT * FROM posts WHERE slug = ?${admin ? "" : " AND status = 'published'"} LIMIT 1`,
     [slug],
   );
-  return row ? serializePost(row, { sanitizeContent: !admin }) : null;
+  return row ? serializePost(row) : null;
 }
 
 export async function listSliders(admin = false) {
