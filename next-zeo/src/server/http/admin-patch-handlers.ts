@@ -19,6 +19,10 @@ const destinationPatchSchema = z.object({
   listed: optionalBoolean,
 });
 
+const teamPatchSchema = z.object({
+  is_active: optionalBoolean,
+});
+
 const testimonialCreateSchema = z.object({
   name: z.string().trim().min(1).max(255),
   email: z.string().trim().email().max(255).optional().or(z.literal("")),
@@ -174,6 +178,26 @@ export async function adminPatchDestinationListed(request: Request, identifier: 
     await update("destinations", resolvedId, { listed });
     await auditMutation(request, admin, "UPDATE", "DESTINATION_LISTING", resolvedId, undefined, { listed });
     return ok({ success: true, listed });
+  } catch (error) {
+    return serverError(error);
+  }
+}
+
+export async function adminPatchTeamStatus(request: Request, id: string) {
+  const admin = await requireAdminSession();
+  if (admin instanceof Response) return admin;
+
+  try {
+    const body = await readJson(request);
+    if (!body) return badRequest("Invalid JSON body");
+    const parsed = teamPatchSchema.safeParse(body);
+    if (!parsed.success) return badRequest("Invalid team patch payload", parsed.error.flatten());
+    const isActive = bool(parsed.data.is_active);
+    const resolvedId = await resolveByIdentifier("team_members", id);
+    if (!resolvedId) return badRequest("Team member not found");
+    await update("team_members", resolvedId, { is_active: isActive });
+    await auditMutation(request, admin, "UPDATE", "TEAM_MEMBER_STATUS", resolvedId, undefined, { is_active: isActive });
+    return ok({ success: true, is_active: isActive });
   } catch (error) {
     return serverError(error);
   }
