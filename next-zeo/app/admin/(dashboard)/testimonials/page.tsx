@@ -10,6 +10,7 @@ import { adminFetch } from '@/lib/adminFetch';
 
 const api = '/api';
 interface Testimonial { id: number; name: string; country?: string; tour?: string; rating: number; title?: string; message?: string; is_approved?: boolean; is_featured?: boolean; created_at?: string; }
+type TestimonialListResponse = Testimonial[] | { testimonials?: Testimonial[]; items?: Testimonial[]; pagination?: { totalItems: number } };
 
 const TestimonialsManager: React.FC = () => {
     const router = useRouter();
@@ -26,15 +27,16 @@ const TestimonialsManager: React.FC = () => {
         setLoading(true); setError(null);
         try {
             const p = new URLSearchParams({ page: String(page), limit: String(limit), ...(search ? { search } : {}), ...(approvedFilter ? { is_approved: approvedFilter } : {}) });
-            const data = await adminFetch<{ testimonials: Testimonial[]; pagination?: { totalItems: number } }>(`${api}/admin/testimonials?${p}`);
-            const list = data.testimonials || []; setItems(list); setTotal(data.pagination?.totalItems ?? list.length);
-        } catch (err: any) { setError(err.message); } finally { setLoading(false); }
+            const data = await adminFetch<TestimonialListResponse>(`${api}/admin/testimonials?${p}`);
+            const list = Array.isArray(data) ? data : (data.testimonials || data.items || []);
+            setItems(list); setTotal(Array.isArray(data) ? list.length : (data.pagination?.totalItems ?? list.length));
+        } catch (err: unknown) { setError(err instanceof Error ? err.message : 'Failed to load testimonials'); } finally { setLoading(false); }
     }, [page, search, approvedFilter]);
     useEffect(() => { fetch(); }, [fetch]);
 
     const handleDelete = async (t: Testimonial) => { await adminFetch(`${api}/admin/testimonials/${t.id}`, { method: 'DELETE' }); await fetch(); };
-    const toggleApprove = async (t: Testimonial) => { await adminFetch(`${api}/admin/testimonials/${t.id}`, { method: 'PUT', body: JSON.stringify({ is_approved: !t.is_approved }) }); await fetch(); };
-    const toggleFeatured = async (t: Testimonial) => { await adminFetch(`${api}/admin/testimonials/${t.id}`, { method: 'PUT', body: JSON.stringify({ is_featured: !t.is_featured }) }); await fetch(); };
+    const toggleApprove = async (t: Testimonial) => { await adminFetch(`${api}/admin/testimonials/${t.id}/approve`, { method: 'PATCH', body: JSON.stringify({ approved: !t.is_approved }) }); await fetch(); };
+    const toggleFeatured = async (t: Testimonial) => { await adminFetch(`${api}/admin/testimonials/${t.id}/featured`, { method: 'PATCH', body: JSON.stringify({ featured: !t.is_featured }) }); await fetch(); };
     const delModal = useDeleteModal<Testimonial>({ onDelete: handleDelete, getItemName: t => t.name, getItemId: t => t.id });
 
     const tp = Math.ceil(total / limit);
@@ -42,7 +44,10 @@ const TestimonialsManager: React.FC = () => {
 
     return (
         <div className="space-y-6">
-            <div><h3 className="text-xl font-semibold">Testimonials</h3><p className="text-slate-600 text-sm">Manage customer reviews</p></div>
+            <div className="flex justify-between items-center">
+                <div><h3 className="text-xl font-semibold">Testimonials</h3><p className="text-slate-600 text-sm">Manage customer reviews</p></div>
+                <button onClick={() => router.push('/admin/testimonials/new')} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">Add Testimonial</button>
+            </div>
             <div className="bg-white rounded-xl shadow-sm border p-4 lg:p-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="relative">
