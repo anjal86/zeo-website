@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
-import { Plus, Edit, Trash2, AlertCircle, Save, Upload, Camera, X } from 'lucide-react';
+import { Plus, Edit, Trash2, AlertCircle, Save, Camera } from 'lucide-react';
 import DeleteModal from '@/components/UI/DeleteModal';
 import { useDeleteModal } from '@/hooks/useDeleteModal';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
@@ -42,6 +42,14 @@ const TeamManager: React.FC = () => {
         } catch (err: any) { alert(err.message); }
     };
 
+    const toggleActive = async (member: Member) => {
+        const updated = await adminFetch<{ is_active: boolean }>(`${api}/admin/team/${member.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ is_active: !member.is_active }),
+        });
+        setItems(prev => prev.map(item => item.id === member.id ? { ...item, is_active: updated.is_active } : item));
+    };
+
     if (loading) return <div className="py-12 flex justify-center"><LoadingSpinner size="lg" /></div>;
 
     return (
@@ -81,7 +89,7 @@ const TeamManager: React.FC = () => {
                             <td className="px-4 py-4">{m.order_index}</td>
                             <td className="px-4 py-4 font-medium">{m.name}</td>
                             <td className="px-3 py-4 text-sm text-gray-500">{m.role}</td>
-                            <td className="px-3 py-4"><Toggle checked={m.is_active !== false} onChange={async () => { await adminFetch(`${api}/admin/team/${m.id}`, { method: 'PUT', body: JSON.stringify({ is_active: !m.is_active }) }); await fetch(); }} size="sm" /></td>
+                            <td className="px-3 py-4"><Toggle checked={m.is_active !== false} onChange={() => toggleActive(m)} size="sm" /></td>
                             <td className="px-3 py-4 text-right"><div className="flex justify-end gap-2"><button onClick={() => setEditing(m)} className="text-blue-600"><Edit className="w-4 h-4" /></button><button onClick={() => delModal.openModal(m)} className="text-red-600"><Trash2 className="w-4 h-4" /></button></div></td>
                         </tr>
                     ))}</tbody>
