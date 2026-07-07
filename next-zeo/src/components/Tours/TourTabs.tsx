@@ -96,8 +96,8 @@ const TourTabs: React.FC<TourTabsProps> = ({
 
   return (
     <div className="space-y-8">
-      <div className="sticky top-[64px] z-40 bg-white border-b border-gray-200 -mx-6 sm:-mx-8 px-6 sm:px-8">
-        <div className="grid grid-cols-3">
+      <div className="sticky top-[64px] z-40 bg-white border border-gray-200">
+        <div className="grid grid-cols-3 divide-x divide-gray-200">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
