@@ -190,7 +190,7 @@ const TourDetail: React.FC<{ tour: TourDetails }> = ({ tour }) => {
 
   return (
     <>
-      <div className="tour-detail-page bg-gray-50 pb-32 lg:pb-0 pt-20 lg:pt-[84px]">
+      <div className="tour-detail-page bg-gray-50 pb-32 lg:pb-0 pt-16 lg:pt-[72px]">
         <div className="border-b border-gray-200 bg-white py-3 sm:py-4">
           <div className="container mx-auto px-4">
             <Breadcrumb
