@@ -16,7 +16,8 @@
     "admin:create": "tsx src/server/scripts/create-admin.ts",
     "api:verify": "tsx src/server/scripts/verify-api.ts",
     "api:verify:writes": "tsx src/server/scripts/verify-api-writes.ts",
-    "verify:public-seo": "tsx scripts/verify-public-seo.ts"
+    "verify:public-seo": "tsx scripts/verify-public-seo.ts",
+    "build:cpanel": "npm run build && bash scripts/pack-standalone.sh"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1079.0",
