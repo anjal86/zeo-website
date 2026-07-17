@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "install-deps": "npm install --production"
+    "install-deps": "npm install --production",
+    "backup:changed": "node scripts/incremental-backup.js",
+    "backup:changed:cron": "bash scripts/run-incremental-backup.sh"
   },
   "dependencies": {
     "@vercel/blob": "^2.5.0",
