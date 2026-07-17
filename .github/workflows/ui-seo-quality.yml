@@ -1,0 +1,85 @@
+name: UI and SEO Quality
+
+on:
+  pull_request:
+    paths:
+      - "next-zeo/**"
+      - ".github/workflows/ui-seo-quality.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ui-seo-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: next-zeo
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: next-zeo/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        id: typecheck
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > typecheck-report.txt 2>&1
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Lint changed UI and SEO files
+        id: lint
+        shell: bash
+        run: |
+          set +e
+          npx eslint \
+            app/layout.tsx \
+            app/page.tsx \
+            app/robots.ts \
+            app/sitemap.ts \
+            app/about/page.tsx \
+            app/activities/page.tsx \
+            app/blog/page.tsx \
+            app/contact/layout.tsx \
+            app/destinations/page.tsx \
+            app/tours/page.tsx \
+            src/components/Layout/PublicLayout.tsx \
+            --format json \
+            --output-file lint-report.json
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload quality reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-seo-quality-reports
+          path: |
+            next-zeo/typecheck-report.txt
+            next-zeo/lint-report.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Enforce quality results
+        if: steps.typecheck.outputs.status != '0' || steps.lint.outputs.status != '0'
+        run: exit 1
