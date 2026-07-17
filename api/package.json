@@ -4,7 +4,7 @@
   "description": "Zeo Tourism Website - Production Deployment (JSON-based)",
   "main": "server.js",
   "scripts": {
-    "start": "node -r ./security-bootstrap.js server.js",
+    "start": "node -r ./runtime/logging-bootstrap.js -r ./security-bootstrap.js server.js",
     "start:unsafe-dev": "node server.js",
     "install-deps": "npm ci --omit=dev",
     "security:audit": "npm audit --omit=dev --audit-level=high",
