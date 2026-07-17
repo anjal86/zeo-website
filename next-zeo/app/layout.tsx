@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Outfit, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import "./styles/accessibility.css";
@@ -8,6 +8,12 @@ import PublicLayout from "../src/components/Layout/PublicLayout";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -68,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${outfit.variable}`}
+      className={`${inter.variable} ${playfair.variable} ${outfit.variable}`}
       data-scroll-behavior="smooth"
     >
       <body className="bg-white font-sans text-slate-800 antialiased">
