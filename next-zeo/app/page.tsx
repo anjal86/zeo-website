@@ -132,7 +132,7 @@ async function getHomeData(): Promise<HomeData> {
     featuredDestinations: destinations
       .slice(0, 6)
       .map((destination: DestinationSummary) => ({
-        id: destination.id,
+        id: Number(destination.id),
         name: destination.name || destination.title || "Destination",
         country: destination.country || "Nepal",
         image:
