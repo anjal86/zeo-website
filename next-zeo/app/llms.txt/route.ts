@@ -1,4 +1,4 @@
-const siteUrl = (process.env.APP_URL || 'https://www.zeotourism.com').replace(/\/$/, '');
+const siteUrl = (process.env.APP_URL || 'https://zeotourism.com').replace(/\/$/, '');
 
 const content = `# Zeo Tourism
 

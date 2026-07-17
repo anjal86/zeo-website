@@ -1,19 +1,10 @@
-import { ok } from "@/server/http/api-response";
 import { testConnection } from "@/server/db/mysql";
 
 export async function GET() {
-  let database = "ok";
   try {
     await testConnection();
+    return Response.json({ status: "ok" });
   } catch {
-    database = "unavailable";
+    return Response.json({ status: "unavailable" }, { status: 503 });
   }
-
-  return ok({
-    status: "success",
-    message: "Zeo Tourism API is running successfully!",
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || "development",
-    database,
-  });
 }

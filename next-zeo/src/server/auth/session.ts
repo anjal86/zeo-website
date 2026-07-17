@@ -5,7 +5,7 @@ import { loadEnv } from "@/env";
 import type { RowDataPacket } from "mysql2/promise";
 
 export const adminSessionCookie = "zeo_admin_session";
-const maxAgeSeconds = 60 * 60 * 24;
+const maxAgeSeconds = 60 * 60;
 
 type SessionPayload = {
   id: number;

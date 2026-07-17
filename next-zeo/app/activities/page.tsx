@@ -40,11 +40,11 @@ export const metadata: Metadata = {
 };
 
 export default async function ActivitiesPage() {
-  await listActivities({ limit: "100" });
+  const activities = await listActivities({ limit: "100" });
 
   return (
     <div className="pt-20">
-      <Activities />
+      <Activities initialActivities={activities.items} />
     </div>
   );
 }

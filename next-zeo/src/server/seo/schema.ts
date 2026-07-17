@@ -76,17 +76,17 @@ const validateAndLogSchema = <T extends SchemaNode>(schema: T | null | undefined
 export const createOrganizationSchema = () => validateAndLogSchema({
   "@context": "https://schema.org",
   "@type": ["TravelAgency", "Organization"],
-  "@id": `https://www.zeotourism.com/#organization`,
+  "@id": `https://zeotourism.com/#organization`,
   name: "Zeo Tourism",
-  url: `https://www.zeotourism.com`,
+  url: `https://zeotourism.com`,
   logo: {
     "@type": "ImageObject",
-    url: `https://www.zeotourism.com/logo/zeo-logo.png`,
+    url: `https://zeotourism.com/logo/zeo-logo.png`,
     width: 280,
     height: 80
   },
-  description: "Nepal's most trusted Kailash Mansarovar Yatra operator. Expert-guided sacred pilgrimages, inbound Nepal tours for Indian & NRI travelers, and outbound packages since 2000. Licensed by Nepal Tourism Board.",
-  foundingDate: "2000",
+  description: "Kathmandu-based travel agency offering Kailash Mansarovar journeys, Nepal tours, trekking and regional travel planning.",
+  foundingDate: "2018",
   areaServed: ["Nepal", "India", "Tibet", "Bhutan", "NRI worldwide"],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
@@ -101,7 +101,7 @@ export const createOrganizationSchema = () => validateAndLogSchema({
   },
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Thamel, Kathmandu",
+    streetAddress: "Baluwatar-4",
     addressLocality: "Kathmandu",
     addressRegion: "Bagmati Province",
     postalCode: "44600",
@@ -109,8 +109,8 @@ export const createOrganizationSchema = () => validateAndLogSchema({
   },
   contactPoint: {
     "@type": "ContactPoint",
-    telephone: "+977-985-123-4567",
-    email: "info@zeotourism.com",
+    telephone: "+9779813641003",
+    email: "nepal@zeotourism.com",
     contactType: "customer service",
     availableLanguage: ["English", "Nepali", "Hindi"]
   },
@@ -126,32 +126,22 @@ export const createOrganizationSchema = () => validateAndLogSchema({
     "https://www.viator.com/tours/Kathmandu/Kailash-Mansarovar-Yatra-12-Nights-13-Days/d5109-5624134P2",
     "https://www.getyourguide.com/zeo-tourism-pvt-ltd-s698713/",
     "https://www.overtheplanet.com/en-US/unique-experiences-with-kailash-mansarovar-yatra-12-nights-13-days.a966933",
-    // Government / authority
-    "https://trade.ntb.gov.np/nepal-the-best-heritage-destination/",
     // Google Maps (feeds Knowledge Graph directly)
-    "https://maps.app.goo.gl/tkRv1ZRZ2Z5TnpRU9"
+    "https://maps.app.goo.gl/MruYSVtMpLDAsdzH7"
   ]
 }, "TravelAgency");
 
 export const createWebSiteSchema = () => validateAndLogSchema({
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": `https://www.zeotourism.com/#website`,
+  "@id": `https://zeotourism.com/#website`,
   name: "Zeo Tourism",
-  url: `https://www.zeotourism.com`,
-  description: "Discover Nepal with expert-guided adventures, cultural tours, and spiritual journeys. 25+ years of experience in travel planning.",
+  url: `https://zeotourism.com`,
+  description: "Discover Nepal tours, Himalayan adventures, cultural journeys and Kailash Mansarovar travel planning with a Kathmandu-based team.",
   publisher: {
     "@type": "Organization",
-    "@id": `https://www.zeotourism.com/#organization`
+    "@id": `https://zeotourism.com/#organization`
   },
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: `https://www.zeotourism.com/search?q={search_term_string}`
-    },
-    "query-input": "required name=search_term_string"
-  }
 }, "WebSite");
 
 export const createBreadcrumbSchema = (breadcrumbs: Array<{ name: string; url: string }>) => validateAndLogSchema({
@@ -186,17 +176,17 @@ export const createArticleSchema = (article: {
     url: article.image
   },
   author: {
-    "@type": "Organization",
-    "@id": `https://www.zeotourism.com/#organization`,
-    name: "Zeo Tourism"
+    "@type": article.author === "Zeo Tourism" ? "Organization" : "Person",
+    ...(article.author === "Zeo Tourism" ? { "@id": `https://zeotourism.com/#organization` } : {}),
+    name: article.author
   },
   publisher: {
     "@type": "Organization",
-    "@id": `https://www.zeotourism.com/#organization`,
+    "@id": `https://zeotourism.com/#organization`,
     name: "Zeo Tourism",
     logo: {
       "@type": "ImageObject",
-      url: `https://www.zeotourism.com/logo/zeo-logo.png`
+      url: `https://zeotourism.com/logo/zeo-logo.png`
     }
   },
   datePublished: article.publishDate,
@@ -234,7 +224,7 @@ export const createTouristTripSchema = (tour: {
   "@id": `${tour.url}#trip`,
   name: tour.name,
   description: tour.description,
-  image: tour.image || `https://www.zeotourism.com/logo/zeo-logo.png`,
+  image: tour.image || `https://zeotourism.com/logo/zeo-logo.png`,
   url: tour.url,
   touristType: ["Adventure Traveler", "Cultural Traveler"],
   ...(tour.location && {
@@ -262,14 +252,14 @@ export const createTouristTripSchema = (tour: {
       url: tour.url,
       seller: {
         "@type": "TravelAgency",
-        "@id": `https://www.zeotourism.com/#organization`,
+        "@id": `https://zeotourism.com/#organization`,
         name: "Zeo Tourism"
       }
     }
   }),
   provider: {
     "@type": "TravelAgency",
-    "@id": `https://www.zeotourism.com/#organization`,
+    "@id": `https://zeotourism.com/#organization`,
     name: "Zeo Tourism"
   },
   ...(tour.highlights && tour.highlights.length > 0 && {
@@ -345,18 +335,18 @@ export const createAggregateRatingSchema = (ratings: number[]) => validateAndLog
 export const createTravelAgencySchema = (liveRating?: { ratingValue: number; reviewCount: number }) => validateAndLogSchema({
   "@context": "https://schema.org",
   "@type": "TravelAgency",
-  "@id": `https://www.zeotourism.com/#organization`,
+  "@id": `https://zeotourism.com/#organization`,
   name: "Zeo Tourism",
   image: [
-    `https://www.zeotourism.com/images/office-exterior.jpg`,
-    `https://www.zeotourism.com/logo/zeo-logo.png`
+    `https://zeotourism.com/images/office-exterior.jpg`,
+    `https://zeotourism.com/logo/zeo-logo.png`
   ],
-  url: `https://www.zeotourism.com`,
-  telephone: "+977-985-123-4567",
-  email: "info@zeotourism.com",
+  url: `https://zeotourism.com`,
+  telephone: "+9779813641003",
+  email: "nepal@zeotourism.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Thamel, Kathmandu",
+    streetAddress: "Baluwatar-4",
     addressLocality: "Kathmandu",
     addressRegion: "Bagmati Province",
     postalCode: "44600",
@@ -364,8 +354,8 @@ export const createTravelAgencySchema = (liveRating?: { ratingValue: number; rev
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 27.7172,
-    longitude: 85.3240
+    latitude: 27.725415,
+    longitude: 85.3314607
   },
   openingHoursSpecification: [
     {
@@ -387,10 +377,8 @@ export const createTravelAgencySchema = (liveRating?: { ratingValue: number; rev
     "https://www.viator.com/tours/Kathmandu/Kailash-Mansarovar-Yatra-12-Nights-13-Days/d5109-5624134P2",
     "https://www.getyourguide.com/zeo-tourism-pvt-ltd-s698713/",
     "https://www.overtheplanet.com/en-US/unique-experiences-with-kailash-mansarovar-yatra-12-nights-13-days.a966933",
-    // Government / authority
-    "https://trade.ntb.gov.np/nepal-the-best-heritage-destination/",
     // Google Maps (feeds Knowledge Graph directly)
-    "https://maps.app.goo.gl/tkRv1ZRZ2Z5TnpRU9"
+    "https://maps.app.goo.gl/MruYSVtMpLDAsdzH7"
   ],
   priceRange: "$$",
   ...(liveRating && {

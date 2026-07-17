@@ -92,7 +92,7 @@ const WHY = [
 ];
 
 const KailashGuide: React.FC = () => {
-  const pageUrl = 'https://www.zeotourism.com/kailash-mansarovar-yatra-guide';
+  const pageUrl = 'https://zeotourism.com/kailash-mansarovar-yatra-guide';
 
   const structuredData = [
     createArticleSchema({
@@ -100,16 +100,15 @@ const KailashGuide: React.FC = () => {
       description: 'Everything Indian pilgrims and NRIs need to know about planning Kailash Mansarovar Yatra: routes, permits, costs, best time, fitness requirements, and how to book with Nepal\'s top-rated operator Zeo Tourism.',
       author: 'Zeo Tourism Experts',
       publishDate: '2026-01-01',
-      modifiedDate: new Date().toISOString().split('T')[0],
-      image: 'https://www.zeotourism.com/images/kailash-mansarovar-yatra.jpg',
+      image: 'https://zeotourism.com/images/kailash-mansarovar-yatra.jpg',
       url: pageUrl,
       category: 'Pilgrimage Guides',
       tags: ['Kailash Mansarovar Yatra', 'Kailash Yatra from India', 'NRI Kailash tour', 'Mount Kailash pilgrimage', 'Tibet pilgrimage Nepal'],
     }),
     createFAQSchema(FAQS),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Kailash Mansarovar', url: 'https://www.zeotourism.com/kailash-mansarovar' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Kailash Mansarovar', url: 'https://zeotourism.com/kailash-mansarovar' },
       { name: 'Complete Yatra Guide', url: pageUrl },
     ]),
   ];

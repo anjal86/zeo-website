@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DestinationsPage() {
-  await listDestinations({ limit: "100" });
+  const destinations = await listDestinations({ limit: "100" });
 
   return (
     <div className="pt-20">
@@ -51,7 +51,7 @@ export default async function DestinationsPage() {
         breadcrumb="Destinations"
         backgroundImage={image}
       />
-      <Destinations />
+      <Destinations initialDestinations={destinations.items} />
     </div>
   );
 }

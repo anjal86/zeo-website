@@ -7,7 +7,7 @@ import JsonLd from '../../../src/components/seo/JsonLd';
 import { getPostBySlug } from '../../../src/server/repositories/content';
 import { createArticleSchema, createBreadcrumbSchema } from '../../../src/server/seo/schema';
 
-const siteUrl = (process.env.APP_URL || 'https://www.zeotourism.com').replace(/\/$/, '');
+const siteUrl = (process.env.APP_URL || 'https://zeotourism.com').replace(/\/$/, '');
 
 function absoluteUrl(value?: string | null) {
   if (!value) return `${siteUrl}/logo/zeo-logo.png`;
@@ -62,8 +62,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     createArticleSchema({
       title: post.title,
       description: post.excerpt || '',
-      author: 'Zeo Tourism',
+      author: post.author || 'Zeo Tourism',
       publishDate: publishDate ? new Date(publishDate).toISOString() : '',
+      modifiedDate: post.updated_at ? new Date(post.updated_at).toISOString() : undefined,
       image: absoluteUrl(post.image),
       url: canonical,
       category: post.category || 'Travel',

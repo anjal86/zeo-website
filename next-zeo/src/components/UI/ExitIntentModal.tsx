@@ -9,6 +9,7 @@ const ExitIntentModal: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const handleMouseLeave = (e: MouseEvent) => {
@@ -41,15 +42,20 @@ const ExitIntentModal: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError('');
     try {
-      await fetch('/api/leads', {
+      const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'exit_popup', email })
       });
-    } catch (_) { /* fail silently — don't block UX */ }
-    setIsSubmitting(false);
-    setIsSuccess(true);
+      if (!response.ok) throw new Error('Unable to save your request');
+      setIsSuccess(true);
+    } catch {
+      setError('We could not save your request. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
@@ -72,6 +78,7 @@ const ExitIntentModal: React.FC = () => {
         {/* Custom close button */}
         <button
           onClick={handleClose}
+          aria-label="Close travel guide request"
           className="absolute top-4 right-4 p-1 z-10 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 rounded-full transition-colors"
         >
           <X className="w-5 h-5" />
@@ -91,7 +98,7 @@ const ExitIntentModal: React.FC = () => {
                 Wait! Before you go...
               </h2>
               <p className="text-gray-600 mb-6">
-                Planning a trip to Nepal? Get our <strong className="text-gray-900">Ultimate 2024 Travel Guide PDF</strong> sent straight to your inbox. Packed with insider tips, packing lists, and hidden gems.
+                Planning a trip to Nepal? Request our <strong className="text-gray-900">Nepal Travel Guide</strong> with practical tips, packing advice, and trip-planning ideas.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -103,6 +110,7 @@ const ExitIntentModal: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="text-center"
                 />
+                {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
                 <Button
                   type="submit"
                   variant="primary"
@@ -126,10 +134,10 @@ const ExitIntentModal: React.FC = () => {
                 <CheckCircle className="w-10 h-10 text-green-500" />
               </div>
               <h2 className="text-2xl font-serif font-bold text-gray-900 mb-2">
-                Guide Sent Successfully!
+                Request Received
               </h2>
               <p className="text-gray-600 mb-6">
-                Check your inbox for <strong>{email}</strong>. We've sent the Ultimate Nepal Travel Guide.
+                Thanks. Our travel team will follow up at <strong>{email}</strong> with the guide and relevant planning information.
               </p>
               <Button onClick={handleClose} variant="ghost" className="w-full">
                 Back to Browsing

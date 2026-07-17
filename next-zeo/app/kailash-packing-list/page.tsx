@@ -66,7 +66,7 @@ const MEDICAL_KIT = [
 ];
 
 const KailashPackingList: React.FC = () => {
-  const pageUrl = 'https://www.zeotourism.com/kailash-packing-list';
+  const pageUrl = 'https://zeotourism.com/kailash-packing-list';
 
   const structuredData = [
     createArticleSchema({
@@ -74,7 +74,6 @@ const KailashPackingList: React.FC = () => {
       description: 'Comprehensive packing guide for Kailash Mansarovar Yatra. Includes layering tips, medical kit essentials, spiritual items, and gear recommendations for the high-altitude trek.',
       author: 'Zeo Tourism Gear Experts',
       publishDate: '2026-01-25',
-      modifiedDate: new Date().toISOString().split('T')[0],
       image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070',
       url: pageUrl,
       category: 'Pilgrimage Guides',
@@ -82,8 +81,8 @@ const KailashPackingList: React.FC = () => {
     }),
     createFAQSchema(PACKING_FAQS),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Kailash Mansarovar', url: 'https://www.zeotourism.com/kailash-mansarovar' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Kailash Mansarovar', url: 'https://zeotourism.com/kailash-mansarovar' },
       { name: 'Packing List', url: pageUrl },
     ]),
   ];

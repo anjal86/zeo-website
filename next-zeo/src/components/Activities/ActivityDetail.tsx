@@ -292,14 +292,14 @@ const ActivityDetail: React.FC = () => {
     name: activity.name,
     description: activityDescription,
     image: activity.image,
-    url: `https://www.zeotourism.com/activities/${activityName}`,
+    url: `https://zeotourism.com/activities/${activityName}`,
     toursCount: tours.length
   });
 
   const breadcrumbSchema = createBreadcrumbSchema([
-    { name: 'Home', url: 'https://www.zeotourism.com' },
-    { name: 'Activities', url: 'https://www.zeotourism.com/activities' },
-    { name: activity.name, url: `https://www.zeotourism.com/activities/${activityName}` }
+    { name: 'Home', url: 'https://zeotourism.com' },
+    { name: 'Activities', url: 'https://zeotourism.com/activities' },
+    { name: activity.name, url: `https://zeotourism.com/activities/${activityName}` }
   ]);
 
   const structuredData = pageSeo?.faqs?.length
@@ -312,7 +312,7 @@ const ActivityDetail: React.FC = () => {
         title={pageSeo?.title || `${activity.name} Activities & Tours in Nepal`}
         description={activityDescription}
         keywords={pageSeo?.keywords || `Nepal ${activity.name.toLowerCase()}, ${activity.name.toLowerCase()} tours, ${activity.name.toLowerCase()} packages, Zeo Tourism`}
-        url={`https://www.zeotourism.com/activities/${activityName}`}
+        url={`https://zeotourism.com/activities/${activityName}`}
         image={activity.image}
         structuredData={structuredData}
       />

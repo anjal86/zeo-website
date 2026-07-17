@@ -80,7 +80,7 @@ const WHY = [
 ];
 
 const NRIGuide: React.FC = () => {
-  const pageUrl = 'https://www.zeotourism.com/kailash-yatra-nri-guide';
+  const pageUrl = 'https://zeotourism.com/kailash-yatra-nri-guide';
 
   const structuredData = [
     createArticleSchema({
@@ -88,7 +88,6 @@ const NRIGuide: React.FC = () => {
       description: 'Comprehensive guide for NRIs and foreign citizens planning Kailash Mansarovar Yatra from abroad. Includes permit rules, booking steps, costs, and medical prep.',
       author: 'Zeo Tourism NRI Desk',
       publishDate: '2026-01-20',
-      modifiedDate: new Date().toISOString().split('T')[0],
       image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070',
       url: pageUrl,
       category: 'Pilgrimage Guides',
@@ -96,8 +95,8 @@ const NRIGuide: React.FC = () => {
     }),
     createFAQSchema(NRI_FAQS),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Kailash Mansarovar', url: 'https://www.zeotourism.com/kailash-mansarovar' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Kailash Mansarovar', url: 'https://zeotourism.com/kailash-mansarovar' },
       { name: 'NRI Guide', url: pageUrl },
     ]),
   ];

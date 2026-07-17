@@ -65,7 +65,7 @@ const INNER_KORA_HIGHLIGHTS = [
 ];
 
 const KailashInnerKora: React.FC = () => {
-  const pageUrl = 'https://www.zeotourism.com/kailash-inner-kora-guide';
+  const pageUrl = 'https://zeotourism.com/kailash-inner-kora-guide';
 
   const structuredData = [
     createArticleSchema({
@@ -73,7 +73,6 @@ const KailashInnerKora: React.FC = () => {
       description: 'The ultimate guide to the sacred Inner Kora of Mount Kailash. Learn about the requirements, spiritual significance, and route details for Nandi Parvat and Astapad.',
       author: 'Zeo Tourism Spiritual Guides',
       publishDate: '2026-01-30',
-      modifiedDate: new Date().toISOString().split('T')[0],
       image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070',
       url: pageUrl,
       category: 'Pilgrimage Guides',
@@ -81,8 +80,8 @@ const KailashInnerKora: React.FC = () => {
     }),
     createFAQSchema(KORA_FAQS),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Kailash Mansarovar', url: 'https://www.zeotourism.com/kailash-mansarovar' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Kailash Mansarovar', url: 'https://zeotourism.com/kailash-mansarovar' },
       { name: 'Inner Kora Guide', url: pageUrl },
     ]),
   ];

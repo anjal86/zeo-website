@@ -263,6 +263,7 @@ const SiteContent = {
 
 module.exports = {
     pool,
+    query: executeQuery,
     testConnection,
     executeQuery,
     getOne,

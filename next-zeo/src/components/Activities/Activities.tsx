@@ -9,11 +9,11 @@ import { useActivities } from '../../hooks/useApi';
 import SEO from '../seo/SEO';
 import { createBreadcrumbSchema } from '../../utils/schema';
 
-const ActivitiesPage: React.FC = () => {
+const ActivitiesPage = ({ initialActivities }: { initialActivities?: any[] }) => {
   const [activeTab, setActiveTab] = useState<'adventure' | 'cultural'>('adventure');
 
   // Use API hook to fetch activities
-  const { data: activities, loading, error } = useActivities();
+  const { data: activities, loading, error } = useActivities(initialActivities);
 
   // Filter activities based on name since SQLite data doesn't have 'type' field
   const filteredActivities = activities?.filter(activity => {
@@ -53,11 +53,11 @@ const ActivitiesPage: React.FC = () => {
         title="Nepal Travel Activities - Adventure & Culture | Zeo Tourism"
         description="Experience the best of Nepal with our curated activities. From heart-pounding adventure sports and trekking to serene cultural and spiritual tours."
         keywords="nepal activities, trekking nepal, adventure sports, cultural tours nepal, spiritual tourism"
-        url="https://www.zeotourism.com/activities"
+        url="https://zeotourism.com/activities"
         structuredData={[
           createBreadcrumbSchema([
-            { name: "Home", url: "https://www.zeotourism.com" },
-            { name: "Activities", url: "https://www.zeotourism.com/activities" }
+            { name: "Home", url: "https://zeotourism.com" },
+            { name: "Activities", url: "https://zeotourism.com/activities" }
           ])
         ]}
       />

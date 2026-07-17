@@ -65,7 +65,7 @@ const EBC_STATS = [
 ];
 
 const EverestGuide: React.FC = () => {
-  const pageUrl = 'https://www.zeotourism.com/everest-base-camp-guide';
+  const pageUrl = 'https://zeotourism.com/everest-base-camp-guide';
 
   const structuredData = [
     createArticleSchema({
@@ -73,7 +73,6 @@ const EverestGuide: React.FC = () => {
       description: 'The definitive guide to trekking to Everest Base Camp. Includes training tips, detailed itinerary, cost breakdown, and best time to visit.',
       author: 'Zeo Tourism Trekking Experts',
       publishDate: '2026-02-01',
-      modifiedDate: new Date().toISOString().split('T')[0],
       image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070',
       url: pageUrl,
       category: 'Trekking Guides',
@@ -81,8 +80,8 @@ const EverestGuide: React.FC = () => {
     }),
     createFAQSchema(EBC_FAQS),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Nepal', url: 'https://www.zeotourism.com/destinations/nepal' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Nepal', url: 'https://zeotourism.com/destinations/nepal' },
       { name: 'Everest Guide', url: pageUrl },
     ]),
   ];

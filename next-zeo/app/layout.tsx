@@ -25,7 +25,7 @@ const outfit = Outfit({
   display: "swap",
 });
 
-const siteUrl = process.env.APP_URL || "https://www.zeotourism.com";
+const siteUrl = process.env.APP_URL || "https://zeotourism.com";
 const isProduction = process.env.NODE_ENV === "production";
 const analyticsId = process.env.NEXT_PUBLIC_GA_ID || "G-9VP6MKBM6R";
 
