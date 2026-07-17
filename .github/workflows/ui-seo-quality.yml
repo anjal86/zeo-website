@@ -40,16 +40,37 @@ jobs:
         run: npm run typecheck
 
       - name: Lint changed UI and SEO files
-        run: >-
-          npx eslint
-          app/layout.tsx
-          app/page.tsx
-          app/robots.ts
-          app/sitemap.ts
-          app/about/page.tsx
-          app/activities/page.tsx
-          app/blog/page.tsx
-          app/contact/layout.tsx
-          app/destinations/page.tsx
-          app/tours/page.tsx
-          src/components/Layout/PublicLayout.tsx
+        id: lint
+        shell: bash
+        run: |
+          set +e
+          npx eslint \
+            app/layout.tsx \
+            app/page.tsx \
+            app/robots.ts \
+            app/sitemap.ts \
+            app/about/page.tsx \
+            app/activities/page.tsx \
+            app/blog/page.tsx \
+            app/contact/layout.tsx \
+            app/destinations/page.tsx \
+            app/tours/page.tsx \
+            src/components/Layout/PublicLayout.tsx \
+            --format json \
+            --output-file lint-report.json
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-seo-lint-report
+          path: next-zeo/lint-report.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Enforce lint result
+        if: steps.lint.outputs.status != '0'
+        run: exit 1
