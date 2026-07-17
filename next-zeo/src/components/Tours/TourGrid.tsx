@@ -13,7 +13,7 @@ interface TourGridProps {
     destination: string;
     activity: string;
   };
-  onClearFilters: () => void;
+  onClearFilters?: () => void;
   onTourBook?: (tour: Tour) => void;
   onTourView?: (tour: Tour) => void;
   loadingMore?: boolean;
@@ -55,8 +55,8 @@ export default function TourGrid({
         type="tours"
         title="No matching journeys"
         message="Try a broader destination, remove a travel-style filter, or clear everything to see all available routes."
-        actionText="Clear filters"
-        onAction={onClearFilters}
+        actionText="View all journeys"
+        onAction={onClearFilters || (() => window.location.assign('/tours'))}
         className="ui-surface py-16"
       />
     );
