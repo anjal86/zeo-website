@@ -3,6 +3,7 @@ import { Inter, Outfit, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import "./styles/accessibility.css";
+import "./styles/design-system.css";
 import PublicLayout from "../src/components/Layout/PublicLayout";
 
 const inter = Inter({
