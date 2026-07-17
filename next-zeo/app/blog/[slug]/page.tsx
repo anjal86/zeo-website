@@ -63,7 +63,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       title: post.title,
       description: post.excerpt || '',
       author: 'Zeo Tourism',
-      publishDate: publishDate ? new Date(publishDate).toISOString() : undefined,
+      publishDate: publishDate ? new Date(publishDate).toISOString() : '',
       image: absoluteUrl(post.image),
       url: canonical,
       category: post.category || 'Travel',
