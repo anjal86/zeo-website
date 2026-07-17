@@ -1,0 +1,128 @@
+:root {
+  --surface-page: #f8fafc;
+  --surface-card: #ffffff;
+  --surface-muted: #f1f5f9;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text-strong: #0f172a;
+  --text-body: #475569;
+  --text-muted: #64748b;
+  --focus-ring: #f47721;
+  --container-gutter: clamp(1rem, 3vw, 2rem);
+  --section-space: clamp(4rem, 8vw, 7rem);
+  --card-radius: 1.25rem;
+  --control-radius: 0.875rem;
+  --shadow-card: 0 12px 40px rgb(15 23 42 / 8%);
+  --shadow-card-hover: 0 22px 60px rgb(15 23 42 / 13%);
+}
+
+.ui-section {
+  padding-block: var(--section-space);
+}
+
+.ui-surface {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+}
+
+.ui-control {
+  min-height: 48px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--control-radius);
+  background: #fff;
+  color: var(--text-strong);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.ui-control:hover {
+  border-color: var(--border-strong);
+}
+
+.ui-control:focus,
+.ui-control:focus-visible {
+  border-color: #055fac;
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(5 95 172 / 15%);
+}
+
+.ui-button-primary,
+.ui-button-secondary,
+.ui-button-quiet {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.125rem;
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.ui-button-primary {
+  border: 1px solid #055fac;
+  background: #055fac;
+  color: #fff;
+}
+
+.ui-button-primary:hover {
+  background: #044a8a;
+  transform: translateY(-1px);
+}
+
+.ui-button-secondary {
+  border: 1px solid var(--border-strong);
+  background: #fff;
+  color: var(--text-strong);
+}
+
+.ui-button-secondary:hover {
+  border-color: var(--text-strong);
+  background: var(--text-strong);
+  color: #fff;
+}
+
+.ui-button-quiet {
+  border: 1px solid transparent;
+  background: transparent;
+  color: #055fac;
+}
+
+.ui-button-quiet:hover {
+  background: rgb(5 95 172 / 7%);
+}
+
+.ui-eyebrow {
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.ui-heading {
+  font-family: var(--font-playfair), Georgia, serif;
+  color: var(--text-strong);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.ui-body {
+  color: var(--text-body);
+  line-height: 1.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-button-primary,
+  .ui-button-secondary,
+  .ui-button-quiet,
+  .ui-control {
+    transition: none;
+  }
+}
