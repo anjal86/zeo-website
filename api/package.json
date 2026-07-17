@@ -8,9 +8,11 @@
     "start:unsafe-dev": "node server.js",
     "install-deps": "npm ci --omit=dev",
     "security:audit": "npm audit --omit=dev --audit-level=high",
-    "security:test": "node --test test/security-bootstrap.test.js",
+    "security:test": "node --test test/*.test.js",
+    "test": "node --test test/*.test.js",
     "backup:changed": "node scripts/incremental-backup.js",
-    "backup:changed:cron": "bash scripts/run-incremental-backup.sh"
+    "backup:changed:cron": "bash scripts/run-incremental-backup.sh",
+    "backup:verify": "node scripts/verify-backup-health.js"
   },
   "dependencies": {
     "@vercel/blob": "^2.5.0",
