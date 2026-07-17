@@ -50,11 +50,21 @@ if (isProduction) {
   if ((process.env.JWT_SECRET || '').length < 64) {
     errors.push('JWT_SECRET must contain at least 64 characters');
   }
-  if (!/^\$2[aby]\$\d{2}\$/.test(process.env.ADMIN_PASSWORD || '')) {
+  if (!/^\$2[aby]\$(?:0[4-9]|[12]\d|3[01])\$[./A-Za-z0-9]{53}$/.test(process.env.ADMIN_PASSWORD || '')) {
     errors.push('ADMIN_PASSWORD must be a bcrypt hash, not a plaintext password');
   }
   if (!/^https?:\/\//.test(process.env.PUBLIC_SITE_URL || '')) {
     errors.push('PUBLIC_SITE_URL must be an absolute http(s) URL');
+  }
+
+  const jwtExpiry = String(process.env.JWT_EXPIRES_IN || '60m').trim();
+  const expiryMatch = jwtExpiry.match(/^(\d+)(s|m|h)$/);
+  const expiryMultipliers = { s: 1, m: 60, h: 3600 };
+  const expirySeconds = expiryMatch
+    ? Number(expiryMatch[1]) * expiryMultipliers[expiryMatch[2]]
+    : Number.NaN;
+  if (!Number.isFinite(expirySeconds) || expirySeconds <= 0 || expirySeconds > 3600) {
+    errors.push('JWT_EXPIRES_IN must be a positive duration no longer than 60 minutes (for example, 60m)');
   }
 
   if (errors.length) {
@@ -72,6 +82,10 @@ const jwtAudience = process.env.JWT_AUDIENCE || 'zeotourism-admin';
 const jwtExpiresIn = process.env.JWT_EXPIRES_IN || '60m';
 
 jwt.sign = (payload, secretOrPrivateKey, options = {}, callback) => {
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
   const secureOptions = {
     algorithm: 'HS256',
     issuer: jwtIssuer,
@@ -88,6 +102,10 @@ jwt.sign = (payload, secretOrPrivateKey, options = {}, callback) => {
 };
 
 jwt.verify = (token, secretOrPublicKey, options = {}, callback) => {
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
   const secureOptions = {
     ...options,
     algorithms: ['HS256'],
@@ -192,8 +210,8 @@ function secureExpress(...args) {
 }
 
 Object.assign(secureExpress, originalExpress);
-secureExpress.json = (options = {}) => originalJson({ limit: process.env.JSON_BODY_LIMIT || '250kb', strict: true, ...options });
-secureExpress.urlencoded = (options = {}) => originalUrlencoded({ limit: process.env.FORM_BODY_LIMIT || '250kb', extended: false, ...options });
+secureExpress.json = (options = {}) => originalJson({ ...options, limit: process.env.JSON_BODY_LIMIT || '250kb', strict: true });
+secureExpress.urlencoded = (options = {}) => originalUrlencoded({ ...options, limit: process.env.FORM_BODY_LIMIT || '250kb', extended: false });
 require.cache[expressPath].exports = secureExpress;
 
 if (isProduction) {

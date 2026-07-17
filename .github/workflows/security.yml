@@ -25,6 +25,7 @@ jobs:
           cache: npm
           cache-dependency-path: api/package-lock.json
       - run: npm ci
+      - run: npm run security:test
       - run: npm audit --omit=dev --audit-level=high
 
   codeql:
