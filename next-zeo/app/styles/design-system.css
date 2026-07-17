@@ -10,10 +10,44 @@
   --focus-ring: #f47721;
   --container-gutter: clamp(1rem, 3vw, 2rem);
   --section-space: clamp(4rem, 8vw, 7rem);
-  --card-radius: 1.25rem;
-  --control-radius: 0.875rem;
+  --card-radius: 0;
+  --control-radius: 0;
   --shadow-card: 0 12px 40px rgb(15 23 42 / 8%);
   --shadow-card-hover: 0 22px 60px rgb(15 23 42 / 13%);
+}
+
+/*
+ * Zeo uses a square-corner visual language.
+ * This enforcement layer prevents local Tailwind rounded utilities and
+ * arbitrary radius values from drifting away from the design system.
+ * True circles such as avatars, status dots and spinners may keep
+ * `rounded-full`; interactive pills do not.
+ */
+:where(
+  div,
+  section,
+  article,
+  aside,
+  nav,
+  header,
+  footer,
+  form,
+  fieldset,
+  img,
+  video,
+  iframe,
+  table,
+  thead,
+  tbody,
+  tr,
+  th,
+  td
+)[class*="rounded-"]:not(.rounded-full) {
+  border-radius: 0 !important;
+}
+
+:where(button, a, input, select, textarea, summary)[class*="rounded-"] {
+  border-radius: 0 !important;
 }
 
 .ui-section {
@@ -22,7 +56,7 @@
 
 .ui-surface {
   border: 1px solid var(--border-subtle);
-  border-radius: var(--card-radius);
+  border-radius: 0;
   background: var(--surface-card);
   box-shadow: var(--shadow-card);
 }
@@ -30,7 +64,7 @@
 .ui-control {
   min-height: 48px;
   border: 1px solid var(--border-subtle);
-  border-radius: var(--control-radius);
+  border-radius: 0;
   background: #fff;
   color: var(--text-strong);
   transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
@@ -55,7 +89,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
-  border-radius: 0.75rem;
+  border-radius: 0;
   padding: 0.75rem 1.125rem;
   font-family: var(--font-outfit), system-ui, sans-serif;
   font-size: 0.8125rem;
