@@ -20,6 +20,25 @@ const HOME_DESCRIPTION =
 const HOME_IMAGE =
   "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1600&h=900&fit=crop";
 
+type DestinationSummary = {
+  id: number | string;
+  name?: string | null;
+  title?: string | null;
+  country?: string | null;
+  image?: string | null;
+  image_url?: string | null;
+  href?: string | null;
+  slug: string;
+  tourCount?: number | string | null;
+  tour_count?: number | string | null;
+};
+
+type TestimonialSummary = {
+  is_featured?: boolean | number | null;
+  is_approved?: boolean | number | null;
+  rating?: number | string | null;
+};
+
 export const metadata: Metadata = {
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
@@ -102,7 +121,7 @@ async function getHomeData(): Promise<HomeData> {
   ]);
 
   const featuredTestimonials = testimonials.filter(
-    (testimonial: any) => testimonial.is_featured,
+    (testimonial: TestimonialSummary) => Boolean(testimonial.is_featured),
   );
   const visibleTestimonials = (
     featuredTestimonials.length > 0 ? featuredTestimonials : testimonials
@@ -110,26 +129,30 @@ async function getHomeData(): Promise<HomeData> {
 
   return {
     sliders: sliders.length > 0 ? sliders : [heroFallbackSlide],
-    featuredDestinations: destinations.slice(0, 6).map((destination: any) => ({
-      id: destination.id,
-      name: destination.name || destination.title,
-      country: destination.country || "Nepal",
-      image:
-        destination.image ||
-        destination.image_url ||
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&h=900&fit=crop",
-      href: destination.href || `/destinations/${destination.slug}`,
-      tourCount: Number(destination.tourCount ?? destination.tour_count ?? 0),
-    })),
+    featuredDestinations: destinations
+      .slice(0, 6)
+      .map((destination: DestinationSummary) => ({
+        id: destination.id,
+        name: destination.name || destination.title || "Destination",
+        country: destination.country || "Nepal",
+        image:
+          destination.image ||
+          destination.image_url ||
+          "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&h=900&fit=crop",
+        href: destination.href || `/destinations/${destination.slug}`,
+        tourCount: Number(
+          destination.tourCount ?? destination.tour_count ?? 0,
+        ),
+      })),
     testimonials: visibleTestimonials,
     contactInfo,
   };
 }
 
-function getLiveRating(testimonials: any[]) {
+function getLiveRating(testimonials: TestimonialSummary[]) {
   const approved = testimonials.filter(
     (testimonial) =>
-      testimonial.is_approved && Number(testimonial.rating) > 0,
+      Boolean(testimonial.is_approved) && Number(testimonial.rating) > 0,
   );
   if (!approved.length) return undefined;
 
@@ -147,7 +170,9 @@ function getLiveRating(testimonials: any[]) {
 
 export default async function Home() {
   const homeData = await getHomeData();
-  const liveRating = getLiveRating(homeData.testimonials);
+  const liveRating = getLiveRating(
+    homeData.testimonials as TestimonialSummary[],
+  );
   const structuredData = [
     createOrganizationSchema(),
     createWebSiteSchema(),
