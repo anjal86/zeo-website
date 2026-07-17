@@ -1,12 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Phone,
-  Mail,
-  MessageCircle,
-  MapPin,
-  ArrowRight
-} from 'lucide-react';
+import { ArrowRight, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { useContact } from '../../hooks/useApi';
 import Modal from './Modal';
 
@@ -15,136 +8,98 @@ interface ContactModalProps {
   onClose: () => void;
 }
 
-const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
+type ContactLocation = {
+  maps_url?: string;
+  coordinates?: {
+    latitude?: number;
+    longitude?: number;
+  };
+};
+
+export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const { data: contactInfo } = useContact();
+  const contact = contactInfo?.contact;
+  const phone = contact?.phone?.primary || '+977 981 364 1003';
+  const whatsapp = contact?.phone?.whatsapp || phone;
+  const email = contact?.email?.primary || 'nepal@zeotourism.com';
+  const address = contact?.address?.full || 'Kathmandu, Nepal';
+  const location = contact?.location as ContactLocation | undefined;
 
-  const handleContactAction = (type: 'phone' | 'email' | 'whatsapp' | 'visit' | 'maps') => {
-    const contact = contactInfo;
+  const openWhatsApp = () => {
+    const number = whatsapp.replace(/[^0-9]/g, '');
+    const message = 'Hi, I would like help planning a trip. My preferred dates and group size are:';
+    window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+    onClose();
+  };
 
-    switch (type) {
-      case 'phone':
-        window.location.href = `tel:${contact?.contact?.phone?.primary || '+9779851234567'}`;
-        break;
-      case 'email':
-        const subject = 'Trip Planning Inquiry';
-        const body = 'Hi,\n\nI would like to discuss my trip planning requirements.\n\nThank you!';
-        window.location.href = `mailto:${contact?.contact?.email?.primary || 'info@zeotourism.com'}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        break;
-      case 'whatsapp':
-        const message = 'Hi! I would like to discuss my trip planning requirements. Could you please help me?';
-        const whatsappNumber = contact?.contact?.phone?.whatsapp?.replace('+', '') || '9779851234567';
-        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
-        break;
-      case 'visit':
-        const address = contact?.contact?.address?.full || 'Baluwatar-4, Kathmandu, Nepal';
-        window.open(`https://maps.google.com/?q=${encodeURIComponent(address)}`, '_blank');
-        break;
-      case 'maps':
-        if (contact?.contact?.location && (contact?.contact?.location as any)?.maps_url) {
-          window.open((contact?.contact?.location as any).maps_url, '_blank');
-        } else {
-          const lat = contact?.contact?.location?.coordinates?.latitude || 27.725415;
-          const lng = contact?.contact?.location?.coordinates?.longitude || 85.3314607;
-          window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
-        }
-        break;
-    }
+  const openMap = () => {
+    const target = location?.maps_url ||
+      `https://www.google.com/maps?q=${location?.coordinates?.latitude || 27.7172},${location?.coordinates?.longitude || 85.324}`;
+    window.open(target, '_blank', 'noopener,noreferrer');
     onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Contact Us">
-      <div className="p-6">
-        <p className="text-gray-600 mb-6">
-          Ready to plan your perfect trip? Get in touch with our travel experts!
+    <Modal isOpen={isOpen} onClose={onClose} title="Plan your journey">
+      <div className="p-6 md:p-7">
+        <p className="ui-body">
+          Choose the quickest way to reach the Kathmandu team. Share your dates, group size and travel purpose so we can give useful guidance from the first reply.
         </p>
 
-        <div className="space-y-3">
-          {/* Phone */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => handleContactAction('phone')}
-            className="w-full flex items-center p-4 bg-blue-50 hover:bg-blue-100 transition-colors group"
-          >
-            <div className="w-12 h-12 bg-blue-500 flex items-center justify-center mr-4">
-              <Phone className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-left">
-              <h4 className="font-semibold text-gray-900">Call Us</h4>
-              <p className="text-sm text-gray-600">
-                {contactInfo?.contact?.contact?.phone?.primary || '+977 985 123 4567'}
-              </p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-gray-400 ml-auto group-hover:text-blue-500 transition-colors" />
-          </motion.button>
+        <div className="mt-6 grid gap-3">
+          <a href={`tel:${phone.replace(/\s/g, '')}`} onClick={onClose} className="group ui-control flex items-center gap-4 px-4 py-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <Phone className="h-4 w-4" />
+            </span>
+            <span className="min-w-0 flex-1 text-left">
+              <strong className="font-secondary block text-sm text-slate-950">Call the travel team</strong>
+              <span className="block truncate text-xs text-slate-500">{phone}</span>
+            </span>
+            <ArrowRight className="h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-1" />
+          </a>
 
-          {/* WhatsApp */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => handleContactAction('whatsapp')}
-            className="w-full flex items-center p-4 bg-green-50 hover:bg-green-100 transition-colors group"
-          >
-            <div className="w-12 h-12 bg-green-500 flex items-center justify-center mr-4">
-              <MessageCircle className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-left">
-              <h4 className="font-semibold text-gray-900">WhatsApp</h4>
-              <p className="text-sm text-gray-600">
-                {contactInfo?.contact?.contact?.phone?.whatsapp || '+977 970 524 6799'}
-              </p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-gray-400 ml-auto group-hover:text-green-500 transition-colors" />
-          </motion.button>
+          <button type="button" onClick={openWhatsApp} className="group ui-control flex w-full items-center gap-4 px-4 py-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+              <MessageCircle className="h-4 w-4" />
+            </span>
+            <span className="min-w-0 flex-1 text-left">
+              <strong className="font-secondary block text-sm text-slate-950">Continue on WhatsApp</strong>
+              <span className="block truncate text-xs text-slate-500">Best for a quick planning question</span>
+            </span>
+            <ArrowRight className="h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-1" />
+          </button>
 
-          {/* Email */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => handleContactAction('email')}
-            className="w-full flex items-center p-4 bg-orange-50 hover:bg-orange-100 transition-colors group"
+          <a
+            href={`mailto:${email}?subject=${encodeURIComponent('Trip planning inquiry')}&body=${encodeURIComponent('Hi,\n\nPreferred dates:\nGroup size:\nDestination or travel purpose:\n\nThank you.')}`}
+            onClick={onClose}
+            className="group ui-control flex items-center gap-4 px-4 py-3"
           >
-            <div className="w-12 h-12 bg-orange-500 flex items-center justify-center mr-4">
-              <Mail className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-left">
-              <h4 className="font-semibold text-gray-900">Email Us</h4>
-              <p className="text-sm text-gray-600">
-                {contactInfo?.contact?.contact?.email?.primary || 'info@zeotourism.com'}
-              </p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-gray-400 ml-auto group-hover:text-orange-500 transition-colors" />
-          </motion.button>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/10 text-secondary-dark">
+              <Mail className="h-4 w-4" />
+            </span>
+            <span className="min-w-0 flex-1 text-left">
+              <strong className="font-secondary block text-sm text-slate-950">Send trip details by email</strong>
+              <span className="block truncate text-xs text-slate-500">{email}</span>
+            </span>
+            <ArrowRight className="h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-1" />
+          </a>
 
-          {/* Visit Us */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => handleContactAction('maps')}
-            className="w-full flex items-center p-4 bg-purple-50 hover:bg-purple-100 transition-colors group"
-          >
-            <div className="w-12 h-12 bg-purple-500 flex items-center justify-center mr-4">
-              <MapPin className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-left">
-              <h4 className="font-semibold text-gray-900">Find Us on Maps</h4>
-              <p className="text-sm text-gray-600">
-                {contactInfo?.contact?.contact?.address?.full || 'Baluwatar-4, Kathmandu, Nepal'}
-              </p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-gray-400 ml-auto group-hover:text-purple-500 transition-colors" />
-          </motion.button>
+          <button type="button" onClick={openMap} className="group ui-control flex w-full items-center gap-4 px-4 py-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+              <MapPin className="h-4 w-4" />
+            </span>
+            <span className="min-w-0 flex-1 text-left">
+              <strong className="font-secondary block text-sm text-slate-950">Visit the Kathmandu office</strong>
+              <span className="block truncate text-xs text-slate-500">{address}</span>
+            </span>
+            <ArrowRight className="h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-1" />
+          </button>
         </div>
 
-        <div className="mt-6 pt-4 border-t border-gray-200">
-          <p className="text-xs text-gray-500 text-center">
-            Our travel experts are available 24/7 to help you plan your perfect trip
-          </p>
-        </div>
+        <p className="mt-5 border-t border-slate-200 pt-4 text-center text-xs leading-5 text-slate-500">
+          No booking pressure. Get route, timing and support clarity first.
+        </p>
       </div>
     </Modal>
   );
-};
-
-export default ContactModal;
+}
