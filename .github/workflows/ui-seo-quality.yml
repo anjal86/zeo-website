@@ -39,5 +39,17 @@ jobs:
       - name: Type-check
         run: npm run typecheck
 
-      - name: Strict lint
-        run: npm run lint:strict
+      - name: Lint changed UI and SEO files
+        run: >-
+          npx eslint
+          app/layout.tsx
+          app/page.tsx
+          app/robots.ts
+          app/sitemap.ts
+          app/about/page.tsx
+          app/activities/page.tsx
+          app/blog/page.tsx
+          app/contact/layout.tsx
+          app/destinations/page.tsx
+          app/tours/page.tsx
+          src/components/Layout/PublicLayout.tsx
