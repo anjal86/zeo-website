@@ -1,16 +1,62 @@
+import type { Metadata } from "next";
 import HomeClient, { type HomeData } from "@/components/Home/HomeClient";
-import { listSliders, listTestimonials, getContactSettings } from "@/server/repositories/content";
+import {
+  listSliders,
+  listTestimonials,
+  getContactSettings,
+} from "@/server/repositories/content";
 import { listDestinations } from "@/server/repositories/catalog";
-import { createOrganizationSchema, createTravelAgencySchema, createWebSiteSchema } from "@/utils/schema";
+import {
+  createOrganizationSchema,
+  createTravelAgencySchema,
+  createWebSiteSchema,
+} from "@/utils/schema";
 
 export const revalidate = 3600;
+
+const HOME_TITLE = "Nepal Tours, Trekking & Kailash Yatra | Zeo Tourism";
+const HOME_DESCRIPTION =
+  "Plan Nepal tours, Himalayan adventures and Kailash Mansarovar Yatra packages with a Kathmandu-based travel team offering clear routes and practical local support.";
+const HOME_IMAGE =
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1600&h=900&fit=crop";
+
+export const metadata: Metadata = {
+  title: HOME_TITLE,
+  description: HOME_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    url: "/",
+    siteName: "Zeo Tourism",
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: HOME_IMAGE,
+        width: 1600,
+        height: 900,
+        alt: "Himalayan mountain landscape representing Zeo Tourism journeys",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    images: [HOME_IMAGE],
+  },
+};
 
 const heroFallbackSlide = {
   id: 0,
   title: "Kailash Mansarovar Yatra & Nepal Tours",
-  subtitle: "Plan sacred journeys, Himalayan adventures, and cultural tours with a Kathmandu-based travel team.",
+  subtitle:
+    "Plan sacred journeys, Himalayan adventures, and cultural tours with a Kathmandu-based travel team.",
   location: "Nepal",
-  image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1920&h=1080&fit=crop",
+  image: HOME_IMAGE,
   video: null,
   video_start_time: null,
   order_index: 0,
@@ -25,16 +71,25 @@ async function safe<T>(promise: Promise<T>, fallback: T): Promise<T> {
   try {
     return await promise;
   } catch (error) {
-    console.warn("Home data source failed:", error instanceof Error ? error.message : error);
+    console.warn(
+      "Home data source failed:",
+      error instanceof Error ? error.message : error,
+    );
     return fallback;
   }
 }
 
 async function getFeaturedDestinations() {
-  const featured = await safe(listDestinations({ featured: "true", limit: "6" }), { items: [], total: 0 });
+  const featured = await safe(
+    listDestinations({ featured: "true", limit: "6" }),
+    { items: [], total: 0 },
+  );
   if (featured.items.length > 0) return featured.items;
 
-  const fallback = await safe(listDestinations({ limit: "6" }), { items: [], total: 0 });
+  const fallback = await safe(listDestinations({ limit: "6" }), {
+    items: [],
+    total: 0,
+  });
   return fallback.items;
 }
 
@@ -46,8 +101,12 @@ async function getHomeData(): Promise<HomeData> {
     safe(getContactSettings(), {}),
   ]);
 
-  const featuredTestimonials = testimonials.filter((testimonial: any) => testimonial.is_featured);
-  const visibleTestimonials = (featuredTestimonials.length > 0 ? featuredTestimonials : testimonials).slice(0, 6);
+  const featuredTestimonials = testimonials.filter(
+    (testimonial: any) => testimonial.is_featured,
+  );
+  const visibleTestimonials = (
+    featuredTestimonials.length > 0 ? featuredTestimonials : testimonials
+  ).slice(0, 6);
 
   return {
     sliders: sliders.length > 0 ? sliders : [heroFallbackSlide],
@@ -55,7 +114,10 @@ async function getHomeData(): Promise<HomeData> {
       id: destination.id,
       name: destination.name || destination.title,
       country: destination.country || "Nepal",
-      image: destination.image || destination.image_url || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&h=900&fit=crop",
+      image:
+        destination.image ||
+        destination.image_url ||
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&h=900&fit=crop",
       href: destination.href || `/destinations/${destination.slug}`,
       tourCount: Number(destination.tourCount ?? destination.tour_count ?? 0),
     })),
@@ -65,11 +127,22 @@ async function getHomeData(): Promise<HomeData> {
 }
 
 function getLiveRating(testimonials: any[]) {
-  const approved = testimonials.filter((testimonial) => testimonial.is_approved && Number(testimonial.rating) > 0);
+  const approved = testimonials.filter(
+    (testimonial) =>
+      testimonial.is_approved && Number(testimonial.rating) > 0,
+  );
   if (!approved.length) return undefined;
 
-  const avg = approved.reduce((sum, testimonial) => sum + Number(testimonial.rating), 0) / approved.length;
-  return { ratingValue: Math.round(avg * 10) / 10, reviewCount: approved.length };
+  const average =
+    approved.reduce(
+      (sum, testimonial) => sum + Number(testimonial.rating),
+      0,
+    ) / approved.length;
+
+  return {
+    ratingValue: Math.round(average * 10) / 10,
+    reviewCount: approved.length,
+  };
 }
 
 export default async function Home() {
