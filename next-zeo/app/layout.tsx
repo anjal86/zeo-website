@@ -71,7 +71,7 @@ export default function RootLayout({
       className={`${inter.variable} ${outfit.variable}`}
       data-scroll-behavior="smooth"
     >
-      <head>
+      <body className="bg-white font-sans text-slate-800 antialiased">
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-9VP6MKBM6R"
@@ -88,8 +88,6 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <body className="bg-white font-sans text-slate-800 antialiased">
         <PublicLayout>{children}</PublicLayout>
       </body>
     </html>
