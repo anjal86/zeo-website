@@ -12,6 +12,8 @@ const description =
 const image =
   "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1600&h=900&fit=crop";
 
+type InitialTours = React.ComponentProps<typeof ToursListClient>["initialTours"];
+
 export const metadata: Metadata = {
   title,
   description,
@@ -51,7 +53,7 @@ export default async function ToursPage() {
         breadcrumb="Tours"
         backgroundImage={image}
       />
-      <ToursListClient initialTours={result.items as any} />
+      <ToursListClient initialTours={result.items as InitialTours} />
     </div>
   );
 }
