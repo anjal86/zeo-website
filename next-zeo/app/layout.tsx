@@ -3,7 +3,9 @@ import { Inter, Outfit, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import "./styles/accessibility.css";
+import "./styles/design-system.css";
 import PublicLayout from "../src/components/Layout/PublicLayout";
+import WebVitalsReporter from "../src/components/analytics/WebVitalsReporter";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,6 +27,7 @@ const outfit = Outfit({
 
 const siteUrl = process.env.APP_URL || "https://www.zeotourism.com";
 const isProduction = process.env.NODE_ENV === "production";
+const analyticsId = process.env.NEXT_PUBLIC_GA_ID || "G-9VP6MKBM6R";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -78,22 +81,28 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="bg-white font-sans text-slate-800 antialiased">
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-9VP6MKBM6R"
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-9VP6MKBM6R');
-            `,
-          }}
-        />
+        {isProduction && (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  window.gtag = gtag;
+                  gtag('js', new Date());
+                  gtag('config', '${analyticsId}', { send_page_view: true });
+                `,
+              }}
+            />
+            <WebVitalsReporter />
+          </>
+        )}
         <PublicLayout>{children}</PublicLayout>
       </body>
     </html>
