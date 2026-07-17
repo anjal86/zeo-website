@@ -7,7 +7,7 @@ import JsonLd from "../../src/components/seo/JsonLd";
 import PageHeader from "../../src/components/PageHeader/PageHeader";
 import About from "../../src/components/About/About";
 
-const siteUrl = (process.env.APP_URL || "https://www.zeotourism.com").replace(/\/$/, "");
+const siteUrl = (process.env.APP_URL || "https://zeotourism.com").replace(/\/$/, "");
 const title = "About Zeo Tourism | Kathmandu Travel Planning Team";
 const description =
   "Learn about Zeo Tourism, a Kathmandu-based team planning Kailash Yatra, Nepal tours, international trips, activities and private journeys.";

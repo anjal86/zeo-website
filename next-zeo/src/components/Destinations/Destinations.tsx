@@ -95,8 +95,8 @@ const DestinationCard = ({ destination, featured = false }: { destination: any; 
   );
 };
 
-const Destinations: React.FC = () => {
-  const { data: destinations, loading, error } = useDestinations();
+const Destinations = ({ initialDestinations }: { initialDestinations?: any[] }) => {
+  const { data: destinations, loading, error } = useDestinations(initialDestinations);
 
   const listedDestinations = destinations?.filter((destination: any) => destination.listed !== false) || [];
   const nepalDestinations = listedDestinations.filter((destination: any) => destination.country === 'Nepal' || destination.type === 'nepal');

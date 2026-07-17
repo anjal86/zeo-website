@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HomeClient, { type HomeData } from "@/components/Home/HomeClient";
+import JsonLd from "@/components/seo/JsonLd";
 import {
   listSliders,
   listTestimonials,
@@ -181,10 +182,7 @@ export default async function Home() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      <JsonLd data={structuredData} />
       <HomeClient {...homeData} />
     </>
   );

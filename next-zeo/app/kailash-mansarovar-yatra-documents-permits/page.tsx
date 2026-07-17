@@ -3,7 +3,7 @@ export const metadata = {
   title: "Kailash Mansarovar Yatra Documents & Permit Guide 2026",
   description: "Prepare for Kailash Mansarovar Yatra via Nepal with a clear documents and permit checklist: passport, China visa, Tibet permit, restricted-area permit and safety readiness.",
   alternates: {
-    canonical: "https://www.zeotourism.com/kailash-mansarovar-yatra-documents-permits"
+    canonical: "https://zeotourism.com/kailash-mansarovar-yatra-documents-permits"
   }
 };
 
@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { AlertTriangle, ClipboardCheck, FileCheck2, Phone, ShieldCheck } from 'lucide-react';
 
 
-const pageUrl = 'https://www.zeotourism.com/kailash-mansarovar-yatra-documents-permits';
+const pageUrl = 'https://zeotourism.com/kailash-mansarovar-yatra-documents-permits';
 
 const faqs = [
   {
@@ -52,16 +52,15 @@ const KailashDocumentsGuide: React.FC = () => {
       description: 'Document and permit checklist for Kailash Mansarovar Yatra via Nepal: passport, China visa, Tibet Travel Permit, Alien Travel Permit, medical readiness and safety checks.',
       author: 'Zeo Tourism Experts',
       publishDate: '2026-07-03',
-      modifiedDate: new Date().toISOString().split('T')[0],
-      image: 'https://www.zeotourism.com/images/kailash-mansarovar-yatra.jpg',
+      image: 'https://zeotourism.com/images/kailash-mansarovar-yatra.jpg',
       url: pageUrl,
       category: 'Kailash Mansarovar Yatra',
       tags: ['Kailash Mansarovar documents', 'Kailash Yatra permits', 'Tibet Travel Permit', 'China visa Kailash Yatra']
     }),
     createFAQSchema(faqs),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Kailash Mansarovar', url: 'https://www.zeotourism.com/kailash-mansarovar' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Kailash Mansarovar', url: 'https://zeotourism.com/kailash-mansarovar' },
       { name: 'Documents and Permits', url: pageUrl }
     ])
   ];

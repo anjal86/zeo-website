@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     title: `${activity.name} - Zeo Tourism`,
     description: activity.description || `Enjoy ${activity.name} with us.`,
     alternates: {
-      canonical: `${process.env.APP_URL || 'https://www.zeotourism.com'}/activities/${slug}`
+      canonical: `${process.env.APP_URL || 'https://zeotourism.com'}/activities/${slug}`
     }
   };
 }
@@ -34,13 +34,13 @@ export default async function ActivityDetailPage({ params }: { params: { slug: s
       name: activity.name,
       description: activity.description || '',
       image: activity.image || '',
-      url: `${process.env.APP_URL || 'https://www.zeotourism.com'}/activities/${slug}`,
+      url: `${process.env.APP_URL || 'https://zeotourism.com'}/activities/${slug}`,
       toursCount: 1 
     }),
     createBreadcrumbSchema([
-      { name: "Home", url: (process.env.APP_URL || 'https://www.zeotourism.com') },
-      { name: "Activities", url: (process.env.APP_URL || 'https://www.zeotourism.com') + '/activities' },
-      { name: activity.name, url: `${process.env.APP_URL || 'https://www.zeotourism.com'}/activities/${slug}` }
+      { name: "Home", url: (process.env.APP_URL || 'https://zeotourism.com') },
+      { name: "Activities", url: (process.env.APP_URL || 'https://zeotourism.com') + '/activities' },
+      { name: activity.name, url: `${process.env.APP_URL || 'https://zeotourism.com'}/activities/${slug}` }
     ])
   ];
 

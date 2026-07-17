@@ -65,7 +65,7 @@ const ENTRY_STATS = [
 ];
 
 const NepalVisaGuide: React.FC = () => {
-  const pageUrl = 'https://www.zeotourism.com/nepal-visa-guide';
+  const pageUrl = 'https://zeotourism.com/nepal-visa-guide';
 
   const structuredData = [
     createArticleSchema({
@@ -73,7 +73,6 @@ const NepalVisaGuide: React.FC = () => {
       description: 'Comprehensive guide to Nepal tourist visas. Learn about visa on arrival, costs for different durations, document requirements, and specific rules for Indian citizens.',
       author: 'Zeo Tourism Logistics Team',
       publishDate: '2026-02-05',
-      modifiedDate: new Date().toISOString().split('T')[0],
       image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070',
       url: pageUrl,
       category: 'Travel Guides',
@@ -81,8 +80,8 @@ const NepalVisaGuide: React.FC = () => {
     }),
     createFAQSchema(VISA_FAQS),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Nepal', url: 'https://www.zeotourism.com/destinations/nepal' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Nepal', url: 'https://zeotourism.com/destinations/nepal' },
       { name: 'Visa Guide', url: pageUrl },
     ]),
   ];

@@ -14,7 +14,7 @@ function parseLastModified(value: Date | string | null | undefined) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = (process.env.APP_URL || "https://www.zeotourism.com").replace(/\/$/, "");
+  const baseUrl = (process.env.APP_URL || "https://zeotourism.com").replace(/\/$/, "");
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: baseUrl, changeFrequency: "daily", priority: 1 },
@@ -22,9 +22,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/destinations`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/activities`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/kailash-mansarovar`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/kailash-mansarovar-yatra-guide`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/kailash-mansarovar-yatra-cost`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/kailash-mansarovar-yatra-documents-permits`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/kailash-inner-kora-guide`, changeFrequency: "monthly", priority: 0.75 },
     { url: `${baseUrl}/kailash-yatra-nri-guide`, changeFrequency: "monthly", priority: 0.75 },
     { url: `${baseUrl}/kailash-packing-list`, changeFrequency: "monthly", priority: 0.75 },
     { url: `${baseUrl}/kailash-fitness-medical-guide`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${baseUrl}/everest-base-camp-guide`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${baseUrl}/best-time-to-visit-nepal`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${baseUrl}/nepal-visa-guide`, changeFrequency: "monthly", priority: 0.75 },
     { url: `${baseUrl}/blog`, changeFrequency: "daily", priority: 0.8 },
     { url: `${baseUrl}/about`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/contact`, changeFrequency: "monthly", priority: 0.7 },

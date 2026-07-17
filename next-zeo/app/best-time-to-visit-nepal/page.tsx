@@ -65,7 +65,7 @@ const SEASONS = [
 ];
 
 const BestTimeToVisitNepal: React.FC = () => {
-  const pageUrl = 'https://www.zeotourism.com/best-time-to-visit-nepal';
+  const pageUrl = 'https://zeotourism.com/best-time-to-visit-nepal';
 
   const structuredData = [
     createArticleSchema({
@@ -73,7 +73,6 @@ const BestTimeToVisitNepal: React.FC = () => {
       description: 'Find the perfect time for your Nepal adventure. Detailed breakdown of trekking seasons, monthly weather patterns, and major festivals.',
       author: 'Zeo Tourism Travel Experts',
       publishDate: '2026-02-10',
-      modifiedDate: new Date().toISOString().split('T')[0],
       image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070',
       url: pageUrl,
       category: 'Travel Guides',
@@ -81,8 +80,8 @@ const BestTimeToVisitNepal: React.FC = () => {
     }),
     createFAQSchema(SEASON_FAQS),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Nepal', url: 'https://www.zeotourism.com/destinations/nepal' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Nepal', url: 'https://zeotourism.com/destinations/nepal' },
       { name: 'Best Time to Visit', url: pageUrl },
     ]),
   ];

@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = (process.env.APP_URL || "https://www.zeotourism.com").replace(/\/$/, "");
+  const baseUrl = (process.env.APP_URL || "https://zeotourism.com").replace(/\/$/, "");
   const isProduction = process.env.NODE_ENV === "production";
 
   if (!isProduction) {

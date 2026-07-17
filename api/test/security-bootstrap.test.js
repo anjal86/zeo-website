@@ -64,3 +64,43 @@ test('preserves the JWT callback verification API used by the server', () => {
   const result = runBootstrap({}, expression);
   assert.equal(result.status, 0, result.stderr);
 });
+
+test('direct production server execution cannot bypass the security bootstrap', () => {
+  const result = spawnSync(process.execPath, ['server.js'], {
+    cwd: apiDirectory,
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      ...validEnvironment,
+      VERCEL: '1',
+      JWT_SECRET: '',
+    },
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /JWT_SECRET is required/);
+});
+
+test('blob proxy rejects a URL outside the configured storage origin', () => {
+  const expression = [
+    "const app = require('./server')",
+    "const server = app.listen(0, '127.0.0.1', async () => {",
+    "const port = server.address().port",
+    "const response = await fetch('http://127.0.0.1:' + port + '/api/blob?pathname=https%3A%2F%2Fattacker.example%2Fsteal')",
+    "server.close()",
+    "process.exit(response.status === 403 ? 0 : 2)",
+    "})",
+  ].join(';');
+  const result = spawnSync(process.execPath, ['-e', expression], {
+    cwd: apiDirectory,
+    encoding: 'utf8',
+    timeout: 10_000,
+    env: {
+      ...process.env,
+      NODE_ENV: 'test',
+      VERCEL: '1',
+      BLOB_READ_WRITE_TOKEN: 'test-secret-token',
+      BLOB_PUBLIC_BASE_URL: 'https://trusted.public.blob.vercel-storage.com',
+    },
+  });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});

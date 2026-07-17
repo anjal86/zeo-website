@@ -65,7 +65,7 @@ const HEALTH_TIPS = [
 ];
 
 const KailashMedicalGuide: React.FC = () => {
-  const pageUrl = 'https://www.zeotourism.com/kailash-fitness-medical-guide';
+  const pageUrl = 'https://zeotourism.com/kailash-fitness-medical-guide';
 
   const structuredData = [
     createArticleSchema({
@@ -73,7 +73,6 @@ const KailashMedicalGuide: React.FC = () => {
       description: 'Comprehensive medical and fitness guide for Kailash Mansarovar Yatra. Learn about altitude sickness (AMS) prevention, breathing exercises, and fitness regimes.',
       author: 'Zeo Tourism Medical Safety Team',
       publishDate: '2026-01-28',
-      modifiedDate: new Date().toISOString().split('T')[0],
       image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070',
       url: pageUrl,
       category: 'Pilgrimage Guides',
@@ -81,8 +80,8 @@ const KailashMedicalGuide: React.FC = () => {
     }),
     createFAQSchema(MEDICAL_FAQS),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Kailash Mansarovar', url: 'https://www.zeotourism.com/kailash-mansarovar' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Kailash Mansarovar', url: 'https://zeotourism.com/kailash-mansarovar' },
       { name: 'Fitness & Medical', url: pageUrl },
     ]),
   ];

@@ -1,4 +1,4 @@
-const SITE_URL = (process.env.APP_URL || 'https://www.zeotourism.com').replace(/\/$/, '');
+const SITE_URL = (process.env.APP_URL || 'https://zeotourism.com').replace(/\/$/, '');
 const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const LOGO_URL = `${SITE_URL}/logo/zeo-logo.png`;
@@ -99,7 +99,6 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
   const images = imageList.length ? imageList : [LOGO_URL];
   const price = Number(tour.price || 0);
   const hasPrice = Boolean(tour.priceAvailable !== false && price > 0);
-  const availability = hasPrice ? 'https://schema.org/InStock' : 'https://schema.org/LimitedAvailability';
   const duration = createDuration(tour.durationDays, tour.duration);
   const highlights = cleanList(tour.highlights);
   const inclusions = cleanList(tour.inclusions);
@@ -119,7 +118,7 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
     url,
     priceCurrency: tour.currency || 'USD',
     ...(hasPrice ? { price } : {}),
-    availability,
+    availability: 'https://schema.org/InStock',
     itemCondition: 'https://schema.org/NewCondition',
     seller: {
       '@type': 'TravelAgency',
@@ -187,7 +186,7 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
       url,
       touristType: ['Adventure Traveler', 'Cultural Traveler', 'Pilgrim', 'Family Traveler'],
       provider: { '@id': ORGANIZATION_ID },
-      offers: { '@id': `${url}#offer` },
+      ...(hasPrice ? { offers: { '@id': `${url}#offer` } } : {}),
       ...(duration ? { duration } : {}),
       ...(tour.location ? {
         location: {
@@ -203,6 +202,9 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
       ...(highlights.length > 0 ? { subjectOf: highlights.map(highlight => ({ '@type': 'Thing', name: highlight })) } : {}),
       ...(additionalProperties.length > 0 ? { additionalProperty: additionalProperties } : {}),
     },
+  ];
+
+  if (hasPrice) graph.push(
     {
       '@type': 'Product',
       '@id': `${url}#product`,
@@ -224,7 +226,7 @@ export const createTourDetailSchema = (tour: TourDetailSchemaInput) => {
       ...(additionalProperties.length > 0 ? { additionalProperty: additionalProperties } : {}),
     },
     offer,
-  ];
+  );
 
   if (inclusions.length || exclusions.length) {
     graph.push({

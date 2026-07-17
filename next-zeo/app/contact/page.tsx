@@ -10,8 +10,8 @@ const ContactPage: React.FC = () => {
     createOrganizationSchema(),
     createTravelAgencySchema(),
     createBreadcrumbSchema([
-      { name: "Home", url: "https://www.zeotourism.com" },
-      { name: "Contact", url: "https://www.zeotourism.com/contact" }
+      { name: "Home", url: "https://zeotourism.com" },
+      { name: "Contact", url: "https://zeotourism.com/contact" }
     ])
   ];
 

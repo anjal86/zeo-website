@@ -89,10 +89,11 @@ export function useAdminApi<T = any>(url: string) {
 // Generic hook for API calls with loading and error states
 export function useApiCall<T>(
   apiCall: () => Promise<T>,
-  dependencies: any[] = []
+  dependencies: any[] = [],
+  initialData?: T,
 ) {
-  const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<T | null>(initialData ?? null);
+  const [loading, setLoading] = useState(initialData === undefined);
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
@@ -109,6 +110,7 @@ export function useApiCall<T>(
   }, [apiCall]);
 
   useEffect(() => {
+    if (initialData !== undefined) return;
     let isMounted = true;
 
     const runFetch = async () => {
@@ -243,8 +245,8 @@ export function useSearchTours(query: string) {
 }
 
 // Destinations hooks
-export function useDestinations() {
-  return useApiCall(() => api.destinations.getAll());
+export function useDestinations(initialData?: Awaited<ReturnType<typeof api.destinations.getAll>>) {
+  return useApiCall(() => api.destinations.getAll(), [], initialData);
 }
 
 
@@ -286,8 +288,8 @@ export function useContentDestinationsByCountry(country: string) {
 }
 
 // Activities hooks
-export function useActivities() {
-  return useApiCall(() => api.activities.getAll());
+export function useActivities(initialData?: Awaited<ReturnType<typeof api.activities.getAll>>) {
+  return useApiCall(() => api.activities.getAll(), [], initialData);
 }
 
 export function useActivity(id: number) {

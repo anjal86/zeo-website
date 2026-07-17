@@ -3,7 +3,7 @@ export const metadata = {
   title: "Kailash Mansarovar Yatra Cost 2026 from Nepal",
   description: "Compare Kailash Mansarovar Yatra cost factors for 2026 Nepal routes. Learn what affects overland, helicopter and aerial darshan prices before requesting a quote.",
   alternates: {
-    canonical: "https://www.zeotourism.com/kailash-mansarovar-yatra-cost"
+    canonical: "https://zeotourism.com/kailash-mansarovar-yatra-cost"
   }
 };
 
@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { Calculator, FileText, MapPinned, Phone, ShieldCheck } from 'lucide-react';
 
 
-const pageUrl = 'https://www.zeotourism.com/kailash-mansarovar-yatra-cost';
+const pageUrl = 'https://zeotourism.com/kailash-mansarovar-yatra-cost';
 
 const faqs = [
   {
@@ -51,16 +51,15 @@ const KailashCostGuide: React.FC = () => {
       description: 'Understand Kailash Mansarovar Yatra cost from Nepal in 2026: route options, cost factors, inclusions, exclusions, permits, helicopter vs overland planning, and quote checklist.',
       author: 'Zeo Tourism Experts',
       publishDate: '2026-07-03',
-      modifiedDate: new Date().toISOString().split('T')[0],
-      image: 'https://www.zeotourism.com/images/kailash-mansarovar-yatra.jpg',
+      image: 'https://zeotourism.com/images/kailash-mansarovar-yatra.jpg',
       url: pageUrl,
       category: 'Kailash Mansarovar Yatra',
       tags: ['Kailash Mansarovar Yatra cost', 'Kailash Yatra cost from Nepal', 'Kailash Mansarovar Yatra 2026', 'Mount Kailash tour package']
     }),
     createFAQSchema(faqs),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Kailash Mansarovar', url: 'https://www.zeotourism.com/kailash-mansarovar' },
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Kailash Mansarovar', url: 'https://zeotourism.com/kailash-mansarovar' },
       { name: 'Yatra Cost Guide', url: pageUrl }
     ])
   ];

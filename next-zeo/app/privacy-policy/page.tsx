@@ -21,8 +21,8 @@ const PrivacyPolicy: React.FC = () => {
   const structuredData = [
     createOrganizationSchema(),
     createBreadcrumbSchema([
-      { name: 'Home', url: 'https://www.zeotourism.com' },
-      { name: 'Privacy Policy', url: 'https://www.zeotourism.com/privacy-policy' }
+      { name: 'Home', url: 'https://zeotourism.com' },
+      { name: 'Privacy Policy', url: 'https://zeotourism.com/privacy-policy' }
     ])
   ];
 

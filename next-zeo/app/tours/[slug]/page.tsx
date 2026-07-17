@@ -6,7 +6,7 @@ import TourDetailComponent from '../../../src/components/Tours/TourDetail';
 import { createTourDetailSchema } from '../../../src/server/seo/tourDetailSchema';
 import JsonLd from '../../../src/components/seo/JsonLd';
 
-const SITE_URL = (process.env.APP_URL || 'https://www.zeotourism.com').replace(/\/$/, '');
+const SITE_URL = (process.env.APP_URL || 'https://zeotourism.com').replace(/\/$/, '');
 
 const absoluteUrl = (value?: string | null) => {
   if (!value) return `${SITE_URL}/logo/zeo-logo.png`;

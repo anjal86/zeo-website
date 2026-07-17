@@ -7,7 +7,7 @@ import DestinationDetailComponent from '../../../src/components/Destinations/Des
 import { createTouristDestinationSchema, createBreadcrumbSchema, createFAQSchema } from '../../../src/server/seo/schema';
 import JsonLd from '../../../src/components/seo/JsonLd';
 
-const siteUrl = process.env.APP_URL || 'https://www.zeotourism.com';
+const siteUrl = process.env.APP_URL || 'https://zeotourism.com';
 
 const destinationSeo: Record<string, {
   title: string;
