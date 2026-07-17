@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22 <23"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -17,6 +20,7 @@
     "api:verify": "tsx src/server/scripts/verify-api.ts",
     "api:verify:writes": "tsx src/server/scripts/verify-api-writes.ts",
     "verify:public-seo": "tsx scripts/verify-public-seo.ts",
+    "verify": "npm run lint && npm run typecheck && npm run build && npm run verify:public-seo",
     "build:cpanel": "npm run build && bash scripts/pack-standalone.sh"
   },
   "dependencies": {
