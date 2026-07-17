@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import TourCard from './TourCard';
 import EmptyState from '../UI/EmptyState';
 import type { Tour } from '../../services/api';
@@ -13,6 +13,7 @@ interface TourGridProps {
     destination: string;
     activity: string;
   };
+  onClearFilters: () => void;
   onTourBook?: (tour: Tour) => void;
   onTourView?: (tour: Tour) => void;
   loadingMore?: boolean;
@@ -21,112 +22,78 @@ interface TourGridProps {
   destinations?: Array<{ id: number; name: string; country?: string }>;
 }
 
-const TourGrid: React.FC<TourGridProps> = ({
+export default function TourGrid({
   tours,
+  onClearFilters,
   onTourBook,
   onTourView,
   loadingMore = false,
   hasMore = false,
   onLoadMore,
-  destinations
-}) => {
+  destinations,
+}: TourGridProps) {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
-  // Intersection Observer for automatic infinite scrolling
   useEffect(() => {
     if (!hasMore || loadingMore || !onLoadMore) return;
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting) {
-          onLoadMore();
-        }
+      ([entry]) => {
+        if (entry.isIntersecting) onLoadMore();
       },
-      {
-        threshold: 0.1,
-        rootMargin: '100px' // Start loading 100px before the element comes into view
-      }
+      { threshold: 0.1, rootMargin: '160px' },
     );
 
-    const currentRef = loadMoreRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
+    const element = loadMoreRef.current;
+    if (element) observer.observe(element);
+    return () => observer.disconnect();
   }, [hasMore, loadingMore, onLoadMore]);
 
   if (tours.length === 0) {
     return (
       <EmptyState
         type="tours"
-        title="No Experiences Found"
-        message="We couldn't find any tours matching your criteria. Try adjusting your filters or search terms, or contact us for custom tour options."
-        actionText="Clear All Filters"
-        onAction={() => window.location.reload()}
-        className="py-12"
+        title="No matching journeys"
+        message="Try a broader destination, remove a travel-style filter, or clear everything to see all available routes."
+        actionText="Clear filters"
+        onAction={onClearFilters}
+        className="ui-surface py-16"
       />
     );
   }
 
   return (
     <div className="space-y-12">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key="tours-layout"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Tours Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {tours.map((tour, index) => (
-              <motion.div
-                key={tour.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.5) }}
-              >
-                <TourCard
-                  tour={tour}
-                  variant="grid"
-                  onBookNow={onTourBook}
-                  onViewDetails={onTourView}
-                  destinations={destinations}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
+      >
+        {tours.map((tour) => (
+          <TourCard
+            key={tour.id}
+            tour={tour}
+            variant="grid"
+            onBookNow={onTourBook}
+            onViewDetails={onTourView}
+            destinations={destinations}
+          />
+        ))}
+      </motion.div>
 
-      {/* Infinite Scroll Trigger */}
       {hasMore && (
-        <div
-          ref={loadMoreRef}
-          className="flex items-center justify-center py-8"
-        >
+        <div ref={loadMoreRef} className="flex min-h-24 items-center justify-center" aria-live="polite">
           {loadingMore ? (
-            <div className="flex flex-col items-center space-y-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              <span className="text-gray-500 font-medium text-sm">Discovering more...</span>
+            <div className="flex items-center gap-3 text-sm font-semibold text-slate-600">
+              <span className="h-5 w-5 animate-spin rounded-full border-2 border-primary/20 border-t-primary" />
+              Loading more journeys
             </div>
           ) : (
-            <div className="text-gray-400 text-sm">
-              Scroll down to view more
-            </div>
+            <span className="text-sm text-slate-500">More journeys load as you continue.</span>
           )}
         </div>
       )}
     </div>
   );
-};
-
-export default TourGrid;
+}
