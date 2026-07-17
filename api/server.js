@@ -4169,45 +4169,40 @@ app.get('/api/blob', async (req, res) => {
     }
 
     const token = process.env.BLOB_READ_WRITE_TOKEN;
-    const configuredBaseUrl = process.env.BLOB_PUBLIC_BASE_URL;
-    if (!token || !configuredBaseUrl) {
+    if (!token) {
       return res.status(503).json({ error: 'Blob proxy is not configured' });
     }
 
-    let blobUrl;
-    let allowedOrigin;
-    try {
-      blobUrl = new URL(String(pathname));
-      allowedOrigin = new URL(configuredBaseUrl).origin;
-    } catch {
-      return res.status(400).json({ error: 'Invalid blob URL' });
-    }
-    if (blobUrl.protocol !== 'https:' || blobUrl.origin !== allowedOrigin) {
-      return res.status(403).json({ error: 'Blob URL is not allowed' });
+    const blobPath = String(pathname).replace(/^\/+/, '');
+    if (
+      blobPath.includes('://') ||
+      blobPath.length > 1024 ||
+      !/^[A-Za-z0-9][A-Za-z0-9._~!$&'()*+,;=:@%/-]*$/.test(blobPath) ||
+      blobPath.split('/').some((part) => part === '.' || part === '..')
+    ) {
+      return res.status(400).json({ error: 'Invalid blob pathname' });
     }
 
-    const blobResponse = await fetch(blobUrl, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        ...(req.headers.range ? { Range: req.headers.range } : {}),
-      },
-      redirect: 'error',
-      signal: AbortSignal.timeout(10000),
+    const { get } = require('@vercel/blob');
+    const blobResult = await get(blobPath, {
+      access: 'private',
+      token,
+      abortSignal: AbortSignal.timeout(10000),
+      headers: req.headers.range ? { Range: req.headers.range } : undefined,
     });
 
-    if (!blobResponse.ok) {
-      return res.status(blobResponse.status).json({ error: 'Blob fetch failed' });
+    if (!blobResult) {
+      return res.status(404).json({ error: 'Blob not found' });
     }
 
-    // Stream the blob content back to the client
-    const contentType = blobResponse.headers.get('content-type') || 'application/octet-stream';
-    const contentLength = blobResponse.headers.get('content-length');
+    const contentType = blobResult.blob.contentType || 'application/octet-stream';
+    const contentLength = blobResult.blob.size;
     const maxBlobBytes = Number(process.env.BLOB_PROXY_MAX_BYTES || 25 * 1024 * 1024);
-    if (contentLength && Number(contentLength) > maxBlobBytes) {
+    if (contentLength && contentLength > maxBlobBytes) {
       return res.status(413).json({ error: 'Blob is too large' });
     }
 
-    res.status(blobResponse.status);
+    res.status(blobResult.headers.get('content-range') ? 206 : blobResult.statusCode);
     res.set({
       'Content-Type': contentType,
       'Cache-Control': 'public, max-age=86400',
@@ -4218,10 +4213,10 @@ app.get('/api/blob', async (req, res) => {
     }
 
     for (const header of ['content-range', 'accept-ranges']) {
-      const value = blobResponse.headers.get(header);
+      const value = blobResult.headers.get(header);
       if (value) res.set(header, value);
     }
-    if (!blobResponse.body) return res.end();
+    if (!blobResult.stream) return res.end();
 
     let streamedBytes = 0;
     const limiter = new Transform({
@@ -4235,7 +4230,7 @@ app.get('/api/blob', async (req, res) => {
       },
     });
     limiter.on('error', () => res.destroy());
-    require('stream').Readable.fromWeb(blobResponse.body).pipe(limiter).pipe(res);
+    require('stream').Readable.fromWeb(blobResult.stream).pipe(limiter).pipe(res);
   } catch (error) {
     console.error('Blob proxy error:', error);
     res.status(500).json({ error: 'Failed to fetch blob' });

@@ -87,7 +87,7 @@ test('blob proxy rejects a URL outside the configured storage origin', () => {
     "const port = server.address().port",
     "const response = await fetch('http://127.0.0.1:' + port + '/api/blob?pathname=https%3A%2F%2Fattacker.example%2Fsteal')",
     "server.close()",
-    "process.exit(response.status === 403 ? 0 : 2)",
+    "process.exit(response.status === 400 ? 0 : 2)",
     "})",
   ].join(';');
   const result = spawnSync(process.execPath, ['-e', expression], {
