@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { useContact } from '../../hooks/useApi';
+import { trackEvent } from '../../lib/analytics';
 import Modal from './Modal';
 
 interface ContactModalProps {
@@ -25,7 +26,16 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const address = contact?.address?.full || 'Kathmandu, Nepal';
   const location = contact?.location as ContactLocation | undefined;
 
+  const recordContact = (method: 'phone' | 'whatsapp' | 'email' | 'office') => {
+    trackEvent({
+      action: 'trip_planning_contact',
+      category: 'conversion',
+      label: method,
+    });
+  };
+
   const openWhatsApp = () => {
+    recordContact('whatsapp');
     const number = whatsapp.replace(/[^0-9]/g, '');
     const message = 'Hi, I would like help planning a trip. My preferred dates and group size are:';
     window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
@@ -33,6 +43,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   };
 
   const openMap = () => {
+    recordContact('office');
     const target = location?.maps_url ||
       `https://www.google.com/maps?q=${location?.coordinates?.latitude || 27.7172},${location?.coordinates?.longitude || 85.324}`;
     window.open(target, '_blank', 'noopener,noreferrer');
@@ -47,7 +58,14 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         </p>
 
         <div className="mt-6 grid gap-3">
-          <a href={`tel:${phone.replace(/\s/g, '')}`} onClick={onClose} className="group ui-control flex items-center gap-4 px-4 py-3">
+          <a
+            href={`tel:${phone.replace(/\s/g, '')}`}
+            onClick={() => {
+              recordContact('phone');
+              onClose();
+            }}
+            className="group ui-control flex items-center gap-4 px-4 py-3"
+          >
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <Phone className="h-4 w-4" />
             </span>
@@ -71,7 +89,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
           <a
             href={`mailto:${email}?subject=${encodeURIComponent('Trip planning inquiry')}&body=${encodeURIComponent('Hi,\n\nPreferred dates:\nGroup size:\nDestination or travel purpose:\n\nThank you.')}`}
-            onClick={onClose}
+            onClick={() => {
+              recordContact('email');
+              onClose();
+            }}
             className="group ui-control flex items-center gap-4 px-4 py-3"
           >
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/10 text-secondary-dark">
