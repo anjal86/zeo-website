@@ -290,24 +290,53 @@ export async function deleteActivity(identifier: string) {
 
 export async function upsertPost(identifier: string | null, payload: Record<string, unknown>) {
   const title = String(payload.title ?? "Untitled post");
+  const id = identifier ? await resolveByIdentifier("posts", identifier) : null;
+  const existing = id
+    ? await getOne<RowDataPacket & { slug: string; published_at: Date | string | null }>(
+        "SELECT slug, published_at FROM posts WHERE id = ? LIMIT 1",
+        [id],
+      )
+    : null;
+  const status = payload.status ?? "published";
+  const explicitDate = payload.date
+    ? new Date(String(payload.date)).toISOString().slice(0, 19).replace("T", " ")
+    : undefined;
+  const publishedAt = explicitDate
+    ?? (status === "published" && !existing?.published_at
+      ? new Date().toISOString().slice(0, 19).replace("T", " ")
+      : undefined);
   const data = {
     slug: String(payload.slug ?? slugify(title)),
     title,
     excerpt: payload.excerpt ?? null,
     content: payload.content ?? null,
     image_url: payload.image ?? payload.image_url ?? null,
-    author: payload.author ?? "Admin",
+    author: payload.author ?? "Zeo Tourism",
     category: payload.category ?? null,
     tags: json(payload.tags),
     reading_time: payload.readTime ?? payload.reading_time ?? "5 min read",
     featured: bool(payload.featured),
-    status: payload.status ?? "published",
+    status,
     seo: json(payload.seo),
-    published_at: payload.date ? new Date(String(payload.date)).toISOString().slice(0, 19).replace("T", " ") : null,
+    published_at: publishedAt,
   };
-  const id = identifier ? await resolveByIdentifier("posts", identifier) : null;
-  if (id) await update("posts", id, data);
-  else await insert("posts", data);
+  if (id) {
+    await update("posts", id, data);
+    if (existing?.slug && existing.slug !== data.slug) {
+      await execute(
+        `INSERT INTO post_redirects (post_id, old_slug, new_slug)
+         VALUES (?, ?, ?)
+         ON DUPLICATE KEY UPDATE post_id = VALUES(post_id), new_slug = VALUES(new_slug)`,
+        [id, existing.slug, data.slug],
+      );
+      await execute(
+        "UPDATE post_redirects SET new_slug = ? WHERE new_slug = ? AND old_slug <> ?",
+        [data.slug, existing.slug, existing.slug],
+      );
+    }
+  } else {
+    await insert("posts", data);
+  }
   return getPostBySlug(data.slug, true);
 }
 
