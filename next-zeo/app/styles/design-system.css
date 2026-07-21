@@ -51,9 +51,9 @@
 }
 
 /*
- * Homepage presentation intentionally uses a softer surface language.
- * Keep this scoped so admin and content-editor layouts retain their
- * compact square-corner system.
+ * Homepage presentation intentionally uses a softer, approachable surface
+ * language. Keep this scoped so admin and content-editor layouts retain
+ * their compact square-corner system.
  */
 .home-page > section.relative.z-20 {
   margin-top: -1.5rem !important;
