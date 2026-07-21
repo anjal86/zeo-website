@@ -81,4 +81,5 @@ test('homepage controls clear the overlapping panel and use scoped soft corners'
   assert.match(designSystem, /bottom: 5rem !important/);
   assert.match(designSystem, /border-radius: 1\.25rem !important/);
   assert.match(designSystem, /border-radius: 0\.75rem !important/);
+  assert.match(designSystem, /Keep this scoped so admin and content-editor layouts retain/);
 });
