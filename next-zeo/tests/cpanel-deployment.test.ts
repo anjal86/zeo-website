@@ -17,6 +17,7 @@ test('CI deploys only verified main releases and stays opt-in', () => {
   assert.match(workflow, /needs: verify/);
   assert.match(workflow, /vars\.CPANEL_DEPLOY_ENABLED == 'true'/);
   assert.match(workflow, /actions\/upload-artifact@v4/);
+  assert.match(workflow, /actions\/checkout@v4[\s\S]*?lfs: true/);
   assert.match(deployJob, /actions\/download-artifact@v4/);
   assert.match(deployJob, /Run migrations and publish release/);
   assert.match(deployJob, /Verify production and roll back on failure/);
