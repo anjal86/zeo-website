@@ -23,6 +23,8 @@ const PAGE_DESCRIPTION =
 const PAGE_URL = "https://zeotourism.com/kailash-mansarovar";
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1600&h=900&fit=crop";
+const DATA_TIMEOUT_MS = 4_000;
+const MAX_HERO_IMAGES = 8;
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -59,35 +61,57 @@ type ToursResult = Awaited<ReturnType<typeof listTours>>;
 type DestinationsResult = Awaited<ReturnType<typeof listDestinations>>;
 type ContactSettings = Awaited<ReturnType<typeof getContactSettings>>;
 
-async function safe<T>(promise: Promise<T>, fallback: T): Promise<T> {
+async function safe<T>(
+  label: string,
+  request: () => Promise<T>,
+  fallback: T,
+): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  const timeout = new Promise<T>((resolve) => {
+    timeoutId = setTimeout(() => {
+      console.warn(
+        `Kailash page ${label} data timed out after ${DATA_TIMEOUT_MS}ms; rendering fallback content.`,
+      );
+      resolve(fallback);
+    }, DATA_TIMEOUT_MS);
+  });
+
   try {
-    return await promise;
+    return await Promise.race([request(), timeout]);
   } catch (error) {
     console.warn(
-      "Kailash page data source failed:",
+      `Kailash page ${label} data source failed:`,
       error instanceof Error ? error.message : error,
     );
     return fallback;
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
   }
 }
 
 export default async function KailashMansarovarPage() {
   const [galleryResult, toursResult, destinationsResult, contactInfo] =
     await Promise.all([
-      safe<GalleryResult>(listKailashGallery(), { gallery: [] }),
-      safe<ToursResult>(listTours({ search: "kailash", limit: "12" }), {
+      safe("gallery", () => listKailashGallery(), { gallery: [] }),
+      safe(
+        "tours",
+        () => listTours({ search: "kailash", limit: "12" }),
+        {
+          items: [],
+          total: 0,
+        },
+      ),
+      safe("destinations", () => listDestinations({ limit: "100" }), {
         items: [],
         total: 0,
       }),
-      safe<DestinationsResult>(listDestinations({ limit: "100" }), {
-        items: [],
-        total: 0,
-      }),
-      safe<ContactSettings>(getContactSettings(), {}),
+      safe("contact", () => getContactSettings(), {}),
     ]);
 
   const galleryPhotos: KailashGalleryPhoto[] = galleryResult.gallery
     .filter((photo) => Boolean(photo.image))
+    .slice(0, MAX_HERO_IMAGES)
     .map((photo) => ({
       id: photo.id,
       title: photo.title,
