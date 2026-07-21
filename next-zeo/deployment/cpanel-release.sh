@@ -142,7 +142,6 @@ if [[ -z "$previous_release" || ! -d "$RELEASES_DIR/$previous_release" ]]; then
   previous_release="initial-$(date -u +%Y%m%d%H%M%S)"
   echo "Creating one-time rollback snapshot: $previous_release"
   mkdir -p "$RELEASES_DIR/$previous_release"
-  sync_release "$APP_ROOT"
   rsync -a \
     --exclude '.deploy/' \
     --exclude '.env' \
@@ -173,7 +172,7 @@ restart_passenger
 switch_started=0
 rm -f "$INCOMING_ZIP"
 
-echo "Pruning old releases (keeping at least $KEEP_RELEASES)"
+echo "Pruning old releases (keeping rollback history)"
 kept=0
 while IFS= read -r directory; do
   [[ -n "$directory" ]] || continue
