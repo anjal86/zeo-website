@@ -8,7 +8,7 @@ on:
 
 jobs:
   verify:
-    name: Lint, typecheck and build
+    name: Lint, typecheck, test and build
     runs-on: ubuntu-latest
     env:
       APP_URL: http://localhost:3000
@@ -53,12 +53,16 @@ jobs:
           mysql -h 127.0.0.1 -uroot -proot zeo_ci < src/server/db/migrations/001_initial_schema.sql
           mysql -h 127.0.0.1 -uroot -proot zeo_ci < src/server/db/migrations/002_uploaded_files_registry_fields.sql
           mysql -h 127.0.0.1 -uroot -proot zeo_ci < src/server/db/migrations/003_admin_audit_logs.sql
+          mysql -h 127.0.0.1 -uroot -proot zeo_ci < src/server/db/migrations/004_blog_seo_system.sql
 
       - name: Lint
         run: npm run lint
 
       - name: Typecheck
         run: npm run typecheck
+
+      - name: Regression tests
+        run: npm run test:regression
 
       - name: Build
         run: npm run build
