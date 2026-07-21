@@ -49,3 +49,13 @@ test("Kailash UX keeps route comparison, guides and package actions easy to scan
   assert.match(client, /Ask about cost and permits/);
   assert.match(client, /Confirm the right route before committing/);
 });
+
+test("Kailash page does not compete with the tour exit-intent modal", async () => {
+  const layout = await readSource("../src/components/Layout/PublicLayout.tsx");
+
+  assert.match(layout, /pathname\?\.startsWith\("\/tours\/"\)/);
+  assert.equal(
+    layout.includes('pathname === "/kailash-mansarovar"'),
+    false,
+  );
+});
