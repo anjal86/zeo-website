@@ -32,6 +32,17 @@ cp deployment/cpanel-release.sh "$STAGING_DIR/deployment/cpanel-release.sh"
 cp src/server/db/migrations/*.sql "$STAGING_DIR/deployment/migrations/"
 chmod +x "$STAGING_DIR/deployment/cpanel-release.sh"
 
+migration_packages=(
+  mysql2 aws-ssl-profiles denque generate-function iconv-lite long lru.min
+  named-placeholders sql-escaper is-property safer-buffer
+)
+mkdir -p "$STAGING_DIR/node_modules"
+for package_name in "${migration_packages[@]}"; do
+  if [ -d "node_modules/$package_name" ]; then
+    cp -r "node_modules/$package_name" "$STAGING_DIR/node_modules/"
+  fi
+done
+
 cat > "$STAGING_DIR/release.json" <<EOF
 {
   "commit": "${GITHUB_SHA:-local}",
