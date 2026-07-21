@@ -16,10 +16,11 @@ import {
   Compass,
   User,
   Briefcase,
-  Zap
+  Zap,
+  Search,
 } from 'lucide-react';
 
-export type MenuKey = 'overview' | 'destinations' | 'tours' | 'activities' | 'sliders' | 'kailash-gallery' | 'enquiries' | 'leads' | 'testimonials' | 'settings' | 'blog' | 'director' | 'team';
+export type MenuKey = 'overview' | 'destinations' | 'tours' | 'activities' | 'sliders' | 'kailash-gallery' | 'enquiries' | 'leads' | 'testimonials' | 'settings' | 'blog' | 'director' | 'team' | 'seo';
 
 interface AdminSidebarProps {
   sidebarOpen?: boolean;
@@ -38,6 +39,7 @@ const MENU_ITEMS = [
   { id: 'leads', label: 'Leads', icon: Zap, path: '/admin/leads' },
   { id: 'testimonials', label: 'Reviews', icon: MessageSquare, path: '/admin/testimonials' },
   { id: 'blog', label: 'Blog', icon: ImageIcon, path: '/admin/blog' },
+  { id: 'seo', label: 'SEO Manager', icon: Search, path: '/admin/seo' },
   { id: 'director', label: 'Director Msg', icon: User, path: '/admin/director' },
   { id: 'team', label: 'Team', icon: Briefcase, path: '/admin/team' },
   { id: 'settings', label: 'Settings', icon: Settings, path: '/admin/settings' },
@@ -51,7 +53,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   const pathname = usePathname();
 
   return (
-    <div className={`h-full flex flex-col text-white bg-slate-800`}>
+    <div className="h-full flex flex-col text-white bg-slate-800">
       {/* Header */}
       <div className="p-4 border-b border-slate-700">
         <div className="flex items-center space-x-3">
@@ -77,8 +79,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
             <Link
               key={item.id}
               href={item.path}
-              className={`w-full flex items-center space-x-3 px-3 py-2.5 mb-1 text-left hover:bg-slate-700 rounded-lg transition-colors text-sm ${isActive ? 'bg-slate-700 text-white' : 'text-slate-300'
-                }`}
+              className={`w-full flex items-center space-x-3 px-3 py-2.5 mb-1 text-left hover:bg-slate-700 rounded-lg transition-colors text-sm ${isActive ? 'bg-slate-700 text-white' : 'text-slate-300'}`}
             >
               <IconComponent className="w-4 h-4 flex-shrink-0" />
               {sidebarOpen && <span className="font-medium truncate">{item.label}</span>}
