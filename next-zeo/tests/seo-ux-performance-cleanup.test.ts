@@ -72,14 +72,20 @@ test('homepage uses a clear hierarchy without section motion residue', async () 
   assert.match(testimonials, /aria-live="polite"/);
 });
 
-test('homepage controls clear the overlapping panel and use scoped soft corners', async () => {
+test('app uses one restrained global radius system and keeps hero controls clear', async () => {
   const designSystem = await readSource('../app/styles/design-system.css');
+
+  assert.match(designSystem, /--radius-sm: 0\.375rem/);
+  assert.match(designSystem, /--radius-md: 0\.625rem/);
+  assert.match(designSystem, /--card-radius: var\(--radius-xl\)/);
+  assert.match(designSystem, /--panel-radius: var\(--radius-2xl\)/);
+  assert.match(designSystem, /border-radius: var\(--control-radius\)/);
+  assert.match(designSystem, /border-radius: var\(--card-radius\)/);
+  assert.equal(designSystem.includes('border-radius: 0 !important'), false);
+  assert.equal(designSystem.includes('square-corner visual language'), false);
 
   assert.match(designSystem, /\.home-page > section\.relative\.z-20/);
   assert.match(designSystem, /margin-top: -2rem !important/);
   assert.match(designSystem, /\.home-page #home > div\.absolute\.left-4\.right-4/);
   assert.match(designSystem, /bottom: 5rem !important/);
-  assert.match(designSystem, /border-radius: 1\.25rem !important/);
-  assert.match(designSystem, /border-radius: 0\.75rem !important/);
-  assert.match(designSystem, /Keep this scoped so admin and content-editor layouts retain/);
 });
