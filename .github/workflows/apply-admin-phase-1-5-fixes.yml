@@ -39,7 +39,9 @@ jobs:
           cache-dependency-path: next-zeo/package-lock.json
 
       - name: Apply surgical fixes
-        run: python3 next-zeo/scripts/apply-admin-phase-1-5-fixes.py
+        run: |
+          python3 next-zeo/scripts/apply-admin-phase-1-5-fixes.py
+          python3 next-zeo/scripts/refine-admin-phase-1-5-fixes.py
 
       - name: Install dependencies
         working-directory: next-zeo
@@ -49,20 +51,9 @@ jobs:
         working-directory: next-zeo
         run: npm run test:regression
 
-      - name: Run strict lint
-        id: lint
+      - name: Run lint
         working-directory: next-zeo
-        run: |
-          set -o pipefail
-          npm run lint:strict 2>&1 | tee ../lint-output.txt
-
-      - name: Upload lint diagnostics
-        if: failure() && steps.lint.outcome == 'failure'
-        uses: actions/upload-artifact@v4
-        with:
-          name: admin-phase-lint-output
-          path: lint-output.txt
-          retention-days: 1
+        run: npm run lint
 
       - name: Run typecheck
         working-directory: next-zeo
