@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "lint:strict": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
+    "test:regression": "tsx --test tests/*.test.ts",
     "db:test": "tsx src/server/scripts/test-connection.ts",
     "db:migrate": "tsx src/server/db/migrate.ts",
     "deploy:migrate": "node deployment/run-migrations.mjs",

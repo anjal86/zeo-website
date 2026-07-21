@@ -4,18 +4,21 @@ import { getAdminSession } from "./session";
 export type AdminSession = NonNullable<Awaited<ReturnType<typeof getAdminSession>>>;
 export type AdminRole = AdminSession["role"];
 export type AuthResult = { ok: true; user: AdminSession } | { ok: false; response: Response };
+type SessionLoader = () => Promise<AdminSession | null>;
 
-export async function requireAuth(): Promise<AuthResult> {
-  const user = await getAdminSession();
+export async function authorizeRoles(roles: AdminRole[], loadSession: SessionLoader = getAdminSession): Promise<AuthResult> {
+  const user = await loadSession();
   if (!user) return { ok: false, response: unauthorized() };
+  if (!roles.includes(user.role)) return { ok: false, response: forbidden("Insufficient permissions") };
   return { ok: true, user };
 }
 
+export async function requireAuth(): Promise<AuthResult> {
+  return authorizeRoles(["admin", "editor"]);
+}
+
 export async function requireRole(roles: AdminRole[]): Promise<AuthResult> {
-  const auth = await requireAuth();
-  if (!auth.ok) return auth;
-  if (!roles.includes(auth.user.role)) return { ok: false, response: forbidden("Insufficient permissions") };
-  return auth;
+  return authorizeRoles(roles);
 }
 
 export async function requireAdmin(): Promise<AuthResult> {

@@ -13,14 +13,13 @@ import {
   MessageSquare,
   Mail,
   Camera,
-  Users,
   Compass,
   User,
   Briefcase,
   Zap
 } from 'lucide-react';
 
-export type MenuKey = 'overview' | 'destinations' | 'tours' | 'activities' | 'sliders' | 'kailash-gallery' | 'enquiries' | 'leads' | 'testimonials' | 'settings' | 'users' | 'blog' | 'director' | 'team';
+export type MenuKey = 'overview' | 'destinations' | 'tours' | 'activities' | 'sliders' | 'kailash-gallery' | 'enquiries' | 'leads' | 'testimonials' | 'settings' | 'blog' | 'director' | 'team';
 
 interface AdminSidebarProps {
   sidebarOpen?: boolean;
@@ -42,7 +41,6 @@ const MENU_ITEMS = [
   { id: 'director', label: 'Director Msg', icon: User, path: '/admin/director' },
   { id: 'team', label: 'Team', icon: Briefcase, path: '/admin/team' },
   { id: 'settings', label: 'Settings', icon: Settings, path: '/admin/settings' },
-  { id: 'users', label: 'Users', icon: Users, path: '/admin/users' },
 ];
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({
