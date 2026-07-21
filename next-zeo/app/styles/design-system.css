@@ -85,7 +85,7 @@
   border-radius: 0.75rem !important;
 }
 
-.home-page div[class*="grid-cols-[auto_1fr_auto]"][class*="border-b"] {
+.home-page div[class*="grid-cols-"][class*="auto_1fr_auto"][class*="border-b"] {
   margin-bottom: 0.75rem;
   border: 1px solid rgb(255 255 255 / 14%) !important;
   border-radius: 1rem !important;
