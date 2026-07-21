@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - agent/blog-seo-complete-system
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -24,41 +27,60 @@ jobs:
           set -euo pipefail
           {
             echo '# Repository tree'
-            find next-zeo -maxdepth 5 -type f \
+            find next-zeo -maxdepth 6 -type f \
               \( -name '*.ts' -o -name '*.tsx' -o -name '*.sql' -o -name '*.json' \) \
               | sort
             echo
             echo '# Post and SEO references'
             grep -RIn --exclude-dir=node_modules --exclude-dir=.next \
               -E 'admin/posts|CREATE TABLE.*posts|ALTER TABLE.*posts|post_redirect|Search Console|relatedPosts|BlogPost|MarkdownArticle|TableOfContents' \
-              next-zeo | head -n 1200 || true
+              next-zeo | head -n 1600 || true
           } > .blog-seo-repo-map.txt
 
           {
             for file in \
               next-zeo/app/api/admin/posts/route.ts \
               next-zeo/app/api/admin/posts/[id]/route.ts \
+              next-zeo/src/server/http/admin-content-handlers.ts \
               next-zeo/src/server/repositories/content.ts \
+              next-zeo/src/server/repositories/mutations.ts \
               next-zeo/src/components/Blog/BlogPost.tsx \
               next-zeo/src/components/Blog/MarkdownArticle.tsx \
               next-zeo/src/components/Blog/TableOfContents.tsx \
               next-zeo/app/blog/[slug]/page.tsx \
+              next-zeo/app/admin/(dashboard)/blog/edit/[id]/page.tsx \
               next-zeo/src/lib/blogSeo.ts \
+              next-zeo/src/server/db/migrations/001_initial_schema.sql \
               next-zeo/package.json; do
               if [ -f "$file" ]; then
                 echo "===== $file ====="
-                sed -n '1,1200p' "$file"
+                sed -n '1,1600p' "$file"
                 echo
               fi
             done
           } > .blog-seo-key-files.txt
 
-      - name: Commit inventory
+      - name: Upload source snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog-seo-source
+          path: |
+            next-zeo
+            .blog-seo-repo-map.txt
+            .blog-seo-key-files.txt
+          include-hidden-files: true
+          retention-days: 3
+
+      - name: Commit inventory on direct push
+        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add .blog-seo-repo-map.txt .blog-seo-key-files.txt
-          git commit -m 'chore: capture blog SEO implementation map'
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'chore: refresh blog SEO implementation map'
           git push origin HEAD:agent/blog-seo-complete-system
