@@ -45,6 +45,9 @@ test('remote deployment is locked, preserves shared files and restarts Passenger
   assert.match(script, /--exclude '\.env'/);
   assert.match(script, /--exclude 'uploads\/'/);
   assert.match(script, /touch "\$APP_ROOT\/tmp\/restart\.txt"/);
+  assert.doesNotMatch(script, /pkill/);
+  assert.match(script, /cloudlinux-selector start/);
+  assert.match(script, /--app-root "\$selector_root"/);
   assert.match(script, /Deployment failed after file switch; restoring/);
   assert.ok(migrateIndex >= 0 && publishIndex > migrateIndex, 'migrations must finish before the file switch');
 });
