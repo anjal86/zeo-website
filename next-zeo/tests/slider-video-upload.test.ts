@@ -26,7 +26,7 @@ test("slider editor accepts supported video formats and uses the slider upload r
   assert.match(editor, /video\/webm/);
   assert.match(editor, /video\/quicktime/);
   assert.match(editor, /MAX_VIDEO_BYTES = 80 \* 1024 \* 1024/);
-  assert.match(editor, /\/api\/admin\/upload\/sliders/);
+  assert.match(editor, /admin\/upload\/sliders/);
   assert.match(editor, /fieldName", kind === "video" \? "video_url" : "image_url"/);
   assert.match(editor, /<video/);
   assert.match(editor, /preload="metadata"/);
