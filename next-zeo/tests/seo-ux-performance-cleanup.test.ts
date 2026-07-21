@@ -65,11 +65,33 @@ test('homepage uses a clear hierarchy without section motion residue', async () 
   assert.match(home, /Get a clear route plan before you book/);
   assert.match(home, /bg-primary py-16/);
 
-  assert.match(destinations, /Places worth planning around/);
-  assert.match(destinations, /md:grid-cols-12/);
+  assert.match(destinations, /Find a journey worth planning around/);
+  assert.match(destinations, /lg:grid-cols-3/);
+  assert.match(destinations, /motion-reduce:transition-none/);
   assert.match(testimonials, /What good planning feels like after the journey/);
   assert.match(testimonials, /prefers-reduced-motion/);
   assert.match(testimonials, /aria-live="polite"/);
+});
+
+test('UI UX Pro Max homepage keeps one focused hero and accessible travel discovery', async () => {
+  const [hero, destinations, master, homepage] = await Promise.all([
+    readSource('../src/components/Hero/Hero.tsx'),
+    readSource('../src/components/FeaturedDestinations/FeaturedDestinations.tsx'),
+    readSource('../design-system/zeo-tourism/MASTER.md'),
+    readSource('../design-system/zeo-tourism/pages/homepage.md'),
+  ]);
+
+  assert.match(hero, /Kathmandu-based planning/);
+  assert.match(hero, /Clear routes and support/);
+  assert.match(hero, /min-h-\[88svh\]/);
+  assert.match(hero, /rounded-2xl border border-white\/15/);
+  assert.match(hero, /min-h-12/);
+  assert.match(destinations, /Explore all destinations/);
+  assert.match(destinations, /min-h-\[310px\]/);
+  assert.match(master, /Hero-centric storytelling/);
+  assert.match(master, /Minimum target: 44×44px/);
+  assert.match(homepage, /Motion dial: 3\/10/);
+  assert.match(homepage, /balanced image grid/);
 });
 
 test('app uses one restrained global radius system and keeps hero controls clear', async () => {
