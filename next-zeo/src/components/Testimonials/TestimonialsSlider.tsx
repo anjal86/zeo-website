@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Quote, Star, MapPin } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, MapPin, Quote, Star } from "lucide-react";
 
 interface Testimonial {
   id: number;
@@ -17,190 +17,181 @@ interface Props {
   testimonials: Testimonial[];
 }
 
-const TestimonialsSlider: React.FC<Props> = ({ testimonials }) => {
+function Stars({ rating }: { rating: number }) {
+  return (
+    <span className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
+      {Array.from({ length: 5 }, (_, index) => (
+        <Star
+          key={index}
+          aria-hidden="true"
+          className={`h-4 w-4 ${index < rating ? "fill-current text-amber-400" : "text-slate-300"}`}
+        />
+      ))}
+    </span>
+  );
+}
+
+export default function TestimonialsSlider({ testimonials }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   useEffect(() => {
     if (!testimonials || testimonials.length <= 1 || !isAutoPlaying) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 6000);
+    const interval = window.setInterval(() => {
+      setCurrentIndex((current) => (current + 1) % testimonials.length);
+    }, 7000);
 
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [testimonials, isAutoPlaying]);
+
+  if (!testimonials || testimonials.length === 0) return null;
+
+  const averageRating = testimonials.reduce(
+    (sum, testimonial) => sum + Number(testimonial.rating || 0),
+    0,
+  ) / testimonials.length;
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
     setIsAutoPlaying(false);
-    setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const goToPrevious = () => {
-    if (!testimonials) return;
-    const newIndex = currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1;
-    goToSlide(newIndex);
+    goToSlide(currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1);
   };
 
   const goToNext = () => {
-    if (!testimonials) return;
-    const newIndex = currentIndex === testimonials.length - 1 ? 0 : currentIndex + 1;
-    goToSlide(newIndex);
+    goToSlide((currentIndex + 1) % testimonials.length);
   };
-
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`w-4 h-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
-      />
-    ));
-  };
-
-  if (!testimonials || testimonials.length === 0) {
-    return null;
-  }
-
-  const averageRating = testimonials.length
-    ? testimonials.reduce((sum, item) => sum + Number(item.rating || 0), 0) / testimonials.length
-    : 5;
 
   return (
-    <section className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden border-t border-gray-100">
-      <div className="container-xl relative z-10">
-        <div className="mb-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+    <section className="border-t border-slate-100 bg-white py-16 md:py-24">
+      <div className="container-xl">
+        <div className="grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
-            <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em] mb-3 block">
-              Traveler stories
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-950 leading-[1.05] tracking-tight max-w-2xl">
-              What travelers say after the journey.
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-secondary">Traveler stories</p>
+            <h2 className="mt-4 max-w-2xl font-serif text-4xl font-bold leading-[1.02] tracking-tight text-slate-950 md:text-5xl lg:text-6xl">
+              What good planning feels like after the journey.
             </h2>
           </div>
-          <div className="grid gap-3 sm:grid-cols-3 lg:max-w-xl lg:justify-self-end">
-            <div className="border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="text-xl font-bold text-gray-950">{averageRating.toFixed(1)}</div>
-              <div className="mt-1 flex gap-0.5">{renderStars(Math.round(averageRating))}</div>
-            </div>
-            <div className="border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="text-xl font-bold text-gray-950">{testimonials.length}+</div>
-              <div className="mt-1 text-xs uppercase tracking-wider text-gray-500">Reviewed trips</div>
-            </div>
-            <div className="border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="text-xl font-bold text-gray-950">Local</div>
-              <div className="mt-1 text-xs uppercase tracking-wider text-gray-500">Ground support</div>
-            </div>
-          </div>
+          <p className="max-w-xl text-base leading-7 text-slate-600 lg:justify-self-end">
+            Real feedback about guides, route timing, accommodation, permits and support on the ground.
+          </p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
-          <div className="hidden lg:flex flex-col justify-between border border-gray-200 bg-white p-8 shadow-sm">
-            <Quote className="w-12 h-12 text-primary/20" />
+        <div className="mt-12 grid overflow-hidden border border-slate-200 lg:grid-cols-[0.32fr_0.68fr]">
+          <aside className="flex flex-col justify-between bg-slate-950 p-7 text-white md:p-9" aria-label="Traveler review summary">
             <div>
-              <p className="text-sm uppercase tracking-[0.22em] text-secondary font-bold mb-4">Real experience</p>
-              <p className="text-2xl font-serif font-bold leading-tight text-gray-950">
-                Good planning shows up in the small details travelers remember.
-              </p>
-              <p className="mt-4 text-sm leading-6 text-gray-600">
-                Read how travelers experienced permits, guides, accommodation, timing and support during their trip.
+              <Quote className="h-10 w-10 text-primary" aria-hidden="true" />
+              <p className="mt-8 text-xs font-bold uppercase tracking-[0.2em] text-white/45">Verified travel stories</p>
+              <p className="mt-3 font-serif text-3xl font-bold leading-tight">
+                The details matter when the journey is important.
               </p>
             </div>
-          </div>
 
-          <div className="relative overflow-hidden border border-gray-200 bg-white shadow-sm">
-            <div className="absolute inset-x-0 top-0 h-1 bg-primary" />
-            <div className="overflow-hidden">
+            <div className="mt-10 border-t border-white/15 pt-6">
+              <div className="flex items-end gap-3">
+                <span className="text-5xl font-bold leading-none">{averageRating.toFixed(1)}</span>
+                <span className="pb-1 text-sm text-white/50">out of 5</span>
+              </div>
+              <div className="mt-3"><Stars rating={Math.round(averageRating)} /></div>
+              <p className="mt-4 text-sm text-white/50">Based on {testimonials.length} published traveler {testimonials.length === 1 ? "story" : "stories"}.</p>
+            </div>
+          </aside>
+
+          <div className="min-w-0 bg-slate-50">
+            <div className="overflow-hidden" aria-live="polite">
               <div
-                className="flex transition-transform duration-500 ease-in-out"
+                className="flex transition-transform duration-500 ease-out motion-reduce:transition-none"
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}
               >
                 {testimonials.map((testimonial) => (
-                  <article key={testimonial.id} className="w-full flex-shrink-0 p-6 md:p-10 lg:p-12">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex gap-1">{renderStars(testimonial.rating)}</div>
-                      <Quote className="w-10 h-10 text-gray-200" />
+                  <article key={testimonial.id} className="w-full flex-shrink-0 p-7 md:p-10 lg:p-12">
+                    <div className="flex items-start justify-between gap-5">
+                      <Stars rating={testimonial.rating} />
+                      <span className="text-xs font-bold uppercase tracking-[0.18em] text-slate-300">
+                        {String(testimonials.indexOf(testimonial) + 1).padStart(2, "0")}
+                      </span>
                     </div>
 
-                    <p className="mt-8 text-xl md:text-2xl lg:text-3xl font-serif leading-relaxed text-gray-900 max-w-4xl">
+                    <blockquote className="mt-8 max-w-4xl font-serif text-2xl leading-relaxed text-slate-900 md:text-3xl lg:text-[2.15rem]">
                       “{testimonial.message}”
-                    </p>
+                    </blockquote>
 
-                    <div className="mt-10 flex flex-col gap-5 border-t border-gray-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="mt-10 flex flex-col gap-5 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
                       <div className="flex items-center gap-4">
                         {testimonial.image ? (
                           <img
                             src={testimonial.image}
-                            alt={testimonial.name}
+                            alt=""
                             loading="lazy"
-                            className="w-14 h-14 rounded-full object-cover border border-gray-200 bg-gray-100"
+                            className="h-12 w-12 rounded-full border border-slate-200 bg-slate-100 object-cover"
                           />
                         ) : (
-                          <div className="w-14 h-14 rounded-full border border-gray-200 bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
-                            {testimonial.name?.slice(0, 1) || 'T'}
-                          </div>
+                          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-sm font-bold text-slate-500" aria-hidden="true">
+                            {testimonial.name?.slice(0, 1) || "T"}
+                          </span>
                         )}
                         <div>
-                          <h4 className="font-bold text-gray-950 text-base">{testimonial.name}</h4>
-                          <p className="mt-1 flex items-center gap-1.5 text-sm text-gray-500">
-                            <MapPin className="w-3.5 h-3.5" />
+                          <cite className="not-italic font-bold text-slate-950">{testimonial.name}</cite>
+                          <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-500">
+                            <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                             {testimonial.country}
                           </p>
                         </div>
                       </div>
 
-                      {testimonial.tour && (
-                        <div className="inline-flex max-w-full items-center border border-gray-200 bg-gray-50 px-4 py-3 text-xs font-bold uppercase tracking-wider text-secondary">
+                      {testimonial.tour ? (
+                        <p className="border-l-2 border-secondary pl-4 text-xs font-bold uppercase tracking-[0.14em] text-secondary">
                           {testimonial.tour}
-                        </div>
-                      )}
+                        </p>
+                      ) : null}
                     </div>
                   </article>
                 ))}
               </div>
             </div>
 
-            {testimonials.length > 1 && (
-              <div className="flex items-center justify-between border-t border-gray-100 px-6 py-4 md:px-10">
-                <div className="flex items-center gap-2">
-                  {testimonials.map((_, index) => (
+            {testimonials.length > 1 ? (
+              <div className="flex items-center justify-between border-t border-slate-200 bg-white px-6 py-4 md:px-10">
+                <div className="flex items-center gap-2" aria-label="Choose a testimonial">
+                  {testimonials.map((testimonial, index) => (
                     <button
-                      key={index}
+                      key={testimonial.id}
+                      type="button"
                       onClick={() => goToSlide(index)}
-                      className={`h-2 transition-all duration-300 ${index === currentIndex
-                        ? 'w-8 bg-primary'
-                        : 'w-2 bg-gray-300 hover:bg-gray-400'
-                        }`}
-                      aria-label={`Go to testimonial ${index + 1}`}
+                      className={`h-1.5 transition-all ${index === currentIndex ? "w-9 bg-primary" : "w-3 bg-slate-300 hover:bg-slate-400"}`}
+                      aria-label={`Show testimonial ${index + 1}`}
+                      aria-current={index === currentIndex ? "true" : undefined}
                     />
                   ))}
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
+                    type="button"
                     onClick={goToPrevious}
-                    className="h-10 w-10 border border-gray-200 bg-white flex items-center justify-center text-gray-600 hover:border-primary hover:text-primary transition-colors"
+                    className="flex h-10 w-10 items-center justify-center border border-slate-200 bg-white text-slate-600 transition-colors hover:border-primary hover:text-primary"
                     aria-label="Previous testimonial"
                   >
-                    <ChevronLeft className="w-5 h-5" />
+                    <ChevronLeft className="h-5 w-5" />
                   </button>
                   <button
+                    type="button"
                     onClick={goToNext}
-                    className="h-10 w-10 border border-gray-200 bg-white flex items-center justify-center text-gray-600 hover:border-primary hover:text-primary transition-colors"
+                    className="flex h-10 w-10 items-center justify-center border border-slate-200 bg-white text-slate-600 transition-colors hover:border-primary hover:text-primary"
                     aria-label="Next testimonial"
                   >
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight className="h-5 w-5" />
                   </button>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default TestimonialsSlider;
+}
