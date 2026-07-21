@@ -7,9 +7,33 @@ function base64url(value: string | Buffer) {
   return Buffer.from(value).toString('base64url');
 }
 
+export function normalizeSearchConsolePrivateKey(value?: string) {
+  if (!value) return undefined;
+
+  let privateKey = value.replace(/\\n/g, '\n').trim();
+  const quote = privateKey[0];
+  if ((quote === '"' || quote === "'") && privateKey.at(-1) === quote) {
+    privateKey = privateKey.slice(1, -1).trim();
+  }
+
+  // Some cPanel environment editors drop the opening PEM line while keeping
+  // the base64 payload and closing line. Restore the standard PKCS#8 wrapper.
+  if (!privateKey.includes('-----BEGIN PRIVATE KEY-----') && privateKey.includes('-----END PRIVATE KEY-----')) {
+    const payload = privateKey
+      .replace(/-----END PRIVATE KEY-----[\s\S]*$/, '')
+      .replace(/\s+/g, '');
+    if (/^[A-Za-z0-9+/=]+$/.test(payload)) {
+      const lines = payload.match(/.{1,64}/g) || [];
+      privateKey = `-----BEGIN PRIVATE KEY-----\n${lines.join('\n')}\n-----END PRIVATE KEY-----`;
+    }
+  }
+
+  return privateKey;
+}
+
 function configuredValues() {
   const clientEmail = process.env.GOOGLE_SEARCH_CONSOLE_CLIENT_EMAIL?.trim();
-  const privateKey = process.env.GOOGLE_SEARCH_CONSOLE_PRIVATE_KEY?.replace(/\\n/g, '\n').trim();
+  const privateKey = normalizeSearchConsolePrivateKey(process.env.GOOGLE_SEARCH_CONSOLE_PRIVATE_KEY);
   const siteUrl = process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL?.trim();
   if (!clientEmail || !privateKey || !siteUrl) return null;
   return { clientEmail, privateKey, siteUrl };
