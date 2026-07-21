@@ -87,6 +87,10 @@ rsync -a --delete \
   --exclude public/uploads.release-copy \
   "$stage/" "$app/"
 ln -sfn "$shared_uploads" "$app/public/uploads"
+cloudlinux-selector run-script \
+  --interpreter nodejs \
+  --app-root "$app_root" \
+  --script-name deploy:migrate
 start_app
 
 for attempt in {1..12}; do
