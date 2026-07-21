@@ -18,6 +18,14 @@ function checksum(content) {
   return crypto.createHash('sha256').update(content).digest('hex');
 }
 
+function legacyChecksum(content) {
+  let hash = 0;
+  for (let index = 0; index < content.length; index += 1) {
+    hash = (hash * 31 + content.charCodeAt(index)) >>> 0;
+  }
+  return hash.toString(16).padStart(8, '0');
+}
+
 function splitSql(sql) {
   return sql
     .split(/;\s*(?:\r?\n|$)/)
@@ -59,10 +67,11 @@ async function main() {
   for (const file of files) {
     const content = await fs.readFile(path.join(migrationsDir, file), 'utf8');
     const digest = checksum(content);
+    const legacyDigest = legacyChecksum(content);
     const existingChecksum = applied.get(file);
 
     if (existingChecksum) {
-      if (existingChecksum !== digest) {
+      if (existingChecksum !== digest && existingChecksum !== legacyDigest) {
         throw new Error(`Applied migration checksum changed: ${file}`);
       }
       console.log(`skip ${file}`);
