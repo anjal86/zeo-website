@@ -88,6 +88,7 @@ rsync -a --delete \
   "$stage/" "$app/"
 ln -sfn "$shared_uploads" "$app/public/uploads"
 cloudlinux-selector run-script \
+  --json \
   --interpreter nodejs \
   --app-root "$app_root" \
   --script-name deploy:migrate
