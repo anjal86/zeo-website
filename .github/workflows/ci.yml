@@ -149,11 +149,16 @@ jobs:
       - name: Upload release archive
         run: |
           set -euo pipefail
-          SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes)
-          SCP=(scp -i ~/.ssh/cpanel_deploy_key -P "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes)
+          SSH_OPTIONS=(-o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o ConnectionAttempts=2 -o ServerAliveInterval=10 -o ServerAliveCountMax=3)
+          SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" "${SSH_OPTIONS[@]}")
+          SCP=(scp -i ~/.ssh/cpanel_deploy_key -P "$CPANEL_PORT" "${SSH_OPTIONS[@]}")
           TARGET="$CPANEL_USER@$CPANEL_HOST"
-          "${SSH[@]}" "$TARGET" "mkdir -p '$CPANEL_APP_PATH/.deploy/incoming'"
-          "${SCP[@]}" cpanel-deploy.zip "$TARGET:$CPANEL_APP_PATH/.deploy/incoming/${GITHUB_SHA}.zip"
+          echo "Checking cPanel SSH session and deployment storage"
+          timeout 60s "${SSH[@]}" "$TARGET" \
+            "set -eu; printf 'SSH preflight connected\\n'; df -Pk '$CPANEL_APP_PATH'; df -Pi '$CPANEL_APP_PATH'; mkdir -p '$CPANEL_APP_PATH/.deploy/incoming'; test -w '$CPANEL_APP_PATH/.deploy/incoming'"
+          echo "Uploading release archive"
+          timeout 180s "${SCP[@]}" \
+            cpanel-deploy.zip "$TARGET:$CPANEL_APP_PATH/.deploy/incoming/${GITHUB_SHA}.zip"
 
       - name: Run migrations and publish release
         run: |

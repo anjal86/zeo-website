@@ -22,6 +22,10 @@ test('CI deploys only verified main releases and stays opt-in', () => {
   assert.match(deployJob, /Verify production and roll back on failure/);
   assert.match(deployJob, /"\$release" == "\$GITHUB_SHA"/);
   assert.match(deployJob, /\/api\/health/);
+  assert.match(deployJob, /ConnectTimeout=15/);
+  assert.match(deployJob, /ServerAliveInterval=10/);
+  assert.match(deployJob, /timeout 60s/);
+  assert.match(deployJob, /df -Pk/);
   assert.doesNotMatch(deployJob, /npm (ci|install|run build)/);
 });
 
