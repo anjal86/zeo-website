@@ -1,0 +1,31 @@
+name: Blog SEO lint diagnostics
+
+on:
+  pull_request:
+    branches: [main]
+    types: [synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-diagnostics:
+    if: github.head_ref == 'agent/blog-seo-editor-foundation'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: next-zeo/package-lock.json
+      - working-directory: next-zeo
+        run: npm ci
+      - name: Capture lint output
+        working-directory: next-zeo
+        run: npm run lint > lint-output.txt 2>&1 || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: blog-seo-lint-output
+          path: next-zeo/lint-output.txt
+          retention-days: 1
