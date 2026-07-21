@@ -1,385 +1,500 @@
-# ZEO WEBSITE - MySQL MIGRATION & DEPLOYMENT GUIDE
+# Zeo Tourism Production Deployment Guide
 
-This guide provides step-by-step instructions for migrating your Zeo Tourism website from flat-file JSON databases to MySQL and deploying to cPanel.
+This document describes the production deployment system for the Zeo Tourism Next.js application. It covers the current cPanel architecture, automatic deployments from GitHub, database migrations, persistent uploads, backups, rollback, security, verification, and troubleshooting.
 
----
+No passwords, private keys, or secret values belong in this file or in Git.
 
-## PHASE 1: LOCAL DEVELOPMENT SETUP (DOCKER)
+## 1. Production overview
 
-### Prerequisites
-- Docker Desktop installed
-- Node.js 18+ installed
+| Item | Production value |
+| --- | --- |
+| Website | `https://zeotourism.com` |
+| Source repository | `https://github.com/anjal86/zeo-website` |
+| Deployment branch | `main` |
+| Application | `next-zeo` |
+| Runtime | Node.js 22 on CloudLinux/cPanel |
+| Framework | Next.js standalone server |
+| cPanel account | `brandspi` |
+| cPanel web IP | `192.250.235.36` |
+| Database | `brandspi_zeotourism` |
+| Runtime DB user | `brandspi_zeoprod` |
+| DNS provider | Cloudflare |
 
-### Step 1: Start Local MySQL with Docker
+The old VPS should not receive new deployments. It may remain available temporarily as an emergency migration fallback, but production DNS points to cPanel.
 
-```bash
-cd /Users/shrestha/Brandspire\ Work/zeo\ new\ project/zeopwebsite-new
-docker-compose up -d
+## 2. Repository and branch rules
+
+The Next.js production repository is:
+
+```text
+anjal86/zeo-website
 ```
 
-This will start:
-- **MySQL 8.0** on port `3306`
-- **phpMyAdmin** on port `8080`
+The older `anjal86/zeopwebsite-new` repository is not the production deployment source.
 
-### Step 2: Verify Containers Running
+The local remotes are intentionally named:
 
-```bash
-docker ps
+```text
+origin         -> anjal86/zeo-website
+legacy-origin  -> anjal86/zeopwebsite-new
 ```
 
-You should see:
-- `zeo-mysql` running on port 3306
-- `zeo-phpmyadmin` running on port 8080
+Every push to `origin/main` triggers the production deployment workflow. Pull requests should pass CI before they are merged into `main`.
 
-### Step 3: Access phpMyAdmin
+## 3. Production directory layout
 
-Open browser: http://localhost:8080
-
-**Login Credentials:**
-- Server: `mysql`
-- Username: `root`
-- Password: `rootpassword`
-
-### Step 4: Database is Auto-Created
-
-The `schema.sql` file is automatically mounted and will create all tables when the container first starts.
-
----
-
-## PHASE 2: RUN DATA MIGRATION
-
-### Step 1: Install Dependencies
-
-```bash
-cd /Users/shrestha/Brandspire\ Work/zeo\ new\ project/zeopwebsite-new/api
-npm install mysql2 dotenv
+```text
+/home/brandspi/apps/zeo/
+├── backups/
+│   ├── database/                 # Pre-migration SQL dumps; latest five retained
+│   └── releases/                 # Website rollback snapshots; latest three retained
+├── incoming/                     # Uploaded GitHub release archives and deploy script
+├── releases/
+│   └── 2026-07-21-vps-live/      # Stable cPanel Node.js application root
+│       ├── .next/
+│       ├── deployment/
+│       │   ├── migrations/
+│       │   └── run-migrations.mjs
+│       ├── node_modules/
+│       ├── public/
+│       │   └── uploads -> /home/brandspi/apps/zeo/shared/uploads
+│       ├── REVISION
+│       ├── package.json
+│       └── server.js
+└── shared/
+    └── uploads/                   # Persistent user/admin uploads
 ```
 
-### Step 2: Run Migration Script
+The application root remains stable because cPanel associates its Node.js environment with that path. Releases are promoted into this directory with `rsync` after a rollback snapshot is created.
 
-```bash
-# Option 1: Using default values (localhost, root/rootpassword)
-node migrate.js
+Uploads are never copied from GitHub or deleted during deployment. `public/uploads` is always restored as a symbolic link to the shared upload directory.
 
-# Option 2: Using environment variables
-MYSQL_HOST=localhost \
-MYSQL_PORT=3306 \
-MYSQL_USER=root \
-MYSQL_PASSWORD=rootpassword \
-MYSQL_DATABASE=zeo_website \
-node migrate.js
+## 4. cPanel Node.js application
+
+The application is registered in **Setup Node.js App** with:
+
+| Setting | Value |
+| --- | --- |
+| Node.js version | `22.23.0` |
+| Application mode | `Production` |
+| Application root | `apps/zeo/releases/2026-07-21-vps-live` |
+| Application URL | `zeotourism.com` |
+| Startup file | `server.js` |
+
+The application environment includes the following names:
+
+```text
+ADMIN_EMAIL
+ADMIN_PASSWORD
+APP_URL
+JWT_SECRET
+MYSQL_CONNECTION_LIMIT
+MYSQL_DATABASE
+MYSQL_HOST
+MYSQL_PASSWORD
+MYSQL_PORT
+MYSQL_USER
+STORAGE_DRIVER
+UPLOAD_DIR
 ```
 
-### Step 3: Verify Migration
+Expected non-secret production values include:
 
-1. Open phpMyAdmin at http://localhost:8080
-2. Select `zeo_website` database
-3. Check tables have data:
-   - `destinations` - should have destination records
-   - `tours` - should have tour records with itineraries
-   - `enquiries` - should have enquiry records
-   - `site_content` - should have slider records
-   - `testimonials` - should have testimonial records
-
----
-
-## PHASE 3: CPANEL DEPLOYMENT
-
-### Step 1: Export Database from Local MySQL
-
-**Using phpMyAdmin (GUI):**
-1. Open http://localhost:8080
-2. Select `zeo_website` database
-3. Click **Export** tab
-4. Choose **Quick** export method
-5. Format: **SQL**
-6. Click **Go** to download
-
-**Using Command Line:**
-```bash
-mysqldump -u root -prootpassword zeo_website > zeo_website_backup.sql
+```text
+APP_URL=https://zeotourism.com
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_DATABASE=brandspi_zeotourism
+MYSQL_USER=brandspi_zeoprod
+MYSQL_CONNECTION_LIMIT=5
+STORAGE_DRIVER=local
+UPLOAD_DIR=/home/brandspi/apps/zeo/shared/uploads
 ```
 
-**Compress for upload:**
-```bash
-gzip zeo_website_backup.sql
+Requirements:
+
+- `JWT_SECRET` must be a cryptographically random value of at least 64 characters.
+- `ADMIN_PASSWORD` must meet the validation rules in `next-zeo/src/env.ts`.
+- Secrets must only be stored in cPanel or an approved secret manager.
+- Never paste production secrets into issues, pull requests, documentation, logs, or chat.
+
+## 5. GitHub Actions configuration
+
+Automatic deployment is defined in:
+
+```text
+.github/workflows/deploy-cpanel.yml
 ```
 
-### Step 2: Create Database in cPanel
+Required repository secrets:
 
-1. **Login to cPanel** (https://yourdomain.com/cpanel)
-2. Navigate to **Databases** section
-3. Click **MySQL Database Wizard**
+| Secret | Purpose |
+| --- | --- |
+| `CPANEL_SSH_HOST` | cPanel SSH host/IP |
+| `CPANEL_SSH_PORT` | cPanel SSH port |
+| `CPANEL_SSH_USER` | Restricted cPanel account name |
+| `CPANEL_SSH_KEY` | Dedicated private deployment key |
 
-**Create Database:**
-- Step 1: Enter database name → Click "Next Step"
-  ```
-  Database Name: yourusername_zeo_website
-  ```
+The matching public key must exist in:
 
-**Create Database User:**
-- Step 2: Create database user
-  ```
-  Username: yourusername_zeo_user
-  Password: Use password generator (save this!)
-  ```
-- Step 3: Assign privileges → Check **ALL PRIVILEGES** → Click "Next Step"
-
-**Save these credentials:**
-```
-DB_HOST: localhost
-DB_NAME: yourusername_zeo_website
-DB_USER: yourusername_zeo_user
-DB_PASSWORD: [generated password]
+```text
+/home/brandspi/.ssh/authorized_keys
 ```
 
-### Step 3: Import Data via phpMyAdmin
+The key comment is `github-actions-zeo-website`. This key is dedicated to deployment and should not be reused for personal access.
 
-1. In cPanel, go to **Databases** → **phpMyAdmin**
-2. Select your new database from left sidebar
-3. Click **Import** tab
-4. Click **Choose File** and select your `zeo_website_backup.sql`
-5. Scroll down and click **Go**
+To rotate the key:
 
-### Step 4: Upload API to cPanel
+1. Generate a new Ed25519 key pair in a secure temporary location.
+2. Add the new public key to cPanel `authorized_keys`.
+3. Confirm SSH authentication with the new private key.
+4. Replace `CPANEL_SSH_KEY` in GitHub Actions secrets.
+5. Run a manual deployment and verify it succeeds.
+6. Remove the old public key from `authorized_keys`.
+7. Securely delete the temporary local private key.
 
-**Option A: Using File Manager**
+## 6. Automatic deployment sequence
 
-1. In cPanel, go to **Files** → **File Manager**
-2. Navigate to your API directory (e.g., `/public_html/api`)
-3. Upload the following files:
-   - `database.js` (new MySQL configuration)
-   - `server.js` (modified to use database.js)
-   - `.env` file with production credentials
+A push to `main` performs the following sequence:
 
-**Option B: Using FTP/SFTP**
+1. GitHub checks out the exact commit.
+2. A temporary MySQL 8.4 service starts for build-time queries.
+3. Dependencies install with `npm ci`.
+4. All SQL migrations initialize the temporary build database.
+5. TypeScript validation runs with `npm run typecheck`.
+6. Next.js builds in standalone mode.
+7. `package-cpanel-release.sh` creates a release archive containing:
+   - standalone server files;
+   - `.next/static` assets;
+   - public assets, excluding uploads;
+   - the Git revision;
+   - the production migration runner and SQL migrations;
+   - the migration runner's runtime dependencies.
+8. GitHub uploads the archive and deployment script over SSH.
+9. The server validates the archive.
+10. The current website release is copied to a timestamped rollback directory.
+11. Existing Zeo workers are stopped and terminated by application working directory. Other Node applications on the account are not touched.
+12. The new website files are synchronized into the stable application root.
+13. The persistent uploads link is restored.
+14. Production database migrations run through CloudLinux with the cPanel application environment.
+15. The Node.js application starts.
+16. The workflow checks `https://zeotourism.com/api/sliders` against the cPanel web IP.
+17. On success, the incoming archive is removed and old backups are pruned.
+18. On failure, the previous website snapshot is restored and restarted.
 
-Upload the `api/` folder to your server.
+Deployments are serialized using the `zeotourism-production` concurrency group. A second deployment waits instead of interrupting an active production deployment.
 
-### Step 5: Configure Environment Variables
+## 7. Database migrations
 
-Create `.env` file in your API directory:
+Migration files live in:
 
-```env
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=yourusername_zeo_website
-DB_USER=yourusername_zeo_user
-DB_PASSWORD=your_secure_password
-DB_POOL_SIZE=10
-
-# App Configuration
-NODE_ENV=production
-PORT=3000
+```text
+next-zeo/src/server/db/migrations/
 ```
 
-### Step 6: Update server.js
+Naming convention:
 
-Replace the JSON file reading with database calls. Here's an example:
-
-**BEFORE (JSON):**
-```javascript
-const tours = JSON.parse(fs.readFileSync('./data/tours.json', 'utf8'));
-app.get('/api/tours', (req, res) => {
-    res.json(tours.tours);
-});
+```text
+001_initial_schema.sql
+002_uploaded_files_registry_fields.sql
+003_admin_audit_logs.sql
+004_descriptive_change.sql
 ```
 
-**AFTER (MySQL):**
-```javascript
-const db = require('./database');
+Rules:
 
-app.get('/api/tours', async (req, res) => {
-    try {
-        const tours = await db.Tours.getAll();
-        res.json(tours);
-    } catch (error) {
-        console.error('Error fetching tours:', error);
-        res.status(500).json({ error: 'Failed to fetch tours' });
-    }
-});
+1. Never edit a migration that has been applied to production.
+2. Add a new, incrementally numbered `.sql` file for every schema or controlled data transformation.
+3. Migrations must be forward-only.
+4. `DROP` and `TRUNCATE` statements are rejected automatically.
+5. Test migrations against a copy or temporary database before merging.
+6. Design migrations to remain compatible with both the previous and new application during deployment.
+7. Large table rewrites require a maintenance plan; do not place them in a normal push deployment without testing lock time.
+
+The production migration runner:
+
+- obtains a MySQL advisory lock so two migration processes cannot overlap;
+- creates/uses the `schema_migrations` ledger;
+- verifies SHA-256 checksums for newly recorded migrations;
+- skips migrations already listed in the ledger;
+- creates a database dump before applying pending migrations;
+- applies statements in filename order;
+- records each successfully applied migration.
+
+The first imported migrations may contain legacy short checksums. New migration records use SHA-256 checksums.
+
+### Database permissions
+
+The production user has application data permissions plus limited migration permissions:
+
+```text
+SELECT
+INSERT
+UPDATE
+DELETE
+CREATE
+ALTER
+INDEX
+REFERENCES
 ```
 
-### Step 7: Test API Endpoint
+Do not grant global privileges. Permissions must apply only to `brandspi_zeotourism`.
 
-```bash
-curl https://yourdomain.com/api/tours
-```
+### Adding a migration
 
-Should return JSON data from MySQL.
+Example:
 
----
-
-## EXAMPLE: Updating a Route Handler
-
-Here's how to convert any route from JSON to MySQL:
-
-### Example: Get All Tours
-
-```javascript
-// OLD - JSON based
-app.get('/api/tours', (req, res) => {
-    const data = JSON.parse(fs.readFileSync('./data/data/tours.json', 'utf8'));
-    res.json(data.tours);
-});
-
-// NEW - MySQL based
-const db = require('./database');
-
-app.get('/api/tours', async (req, res) => {
-    try {
-        const tours = await db.Tours.getAll();
-        res.json(tours);
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Database error' });
-    }
-});
-```
-
-### Example: Get Single Tour by Slug
-
-```javascript
-// OLD - JSON based
-app.get('/api/tours/:slug', (req, res) => {
-    const data = JSON.parse(fs.readFileSync('./data/data/tours.json', 'utf8'));
-    const tour = data.tours.find(t => t.slug === req.params.slug);
-    if (!tour) return res.status(404).json({ error: 'Not found' });
-    res.json(tour);
-});
-
-// NEW - MySQL based
-app.get('/api/tours/:slug', async (req, res) => {
-    try {
-        const tour = await db.Tours.getBySlug(req.params.slug);
-        if (!tour) return res.status(404).json({ error: 'Not found' });
-        res.json(tour);
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Database error' });
-    }
-});
-```
-
-### Example: Submit Enquiry
-
-```javascript
-// OLD - JSON based
-app.post('/api/enquiries', (req, res) => {
-    const data = JSON.parse(fs.readFileSync('./data/enquiries.json', 'utf8'));
-    const newEnquiry = { id: Date.now(), ...req.body };
-    data.enquiries.push(newEnquiry);
-    fs.writeFileSync('./data/enquiries.json', JSON.stringify(data, null, 2));
-    res.json({ success: true, id: newEnquiry.id });
-});
-
-// NEW - MySQL based
-app.post('/api/enquiries', async (req, res) => {
-    try {
-        const id = await db.Enquiries.create(req.body);
-        res.json({ success: true, id });
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Failed to submit enquiry' });
-    }
-});
-```
-
----
-
-## TROUBLESHOOTING
-
-### Connection Issues
-
-**Error: `ECONNREFUSED`**
-- Check MySQL is running: `docker ps`
-- Verify port 3306 is not blocked
-- Check firewall settings
-
-**Error: `Access denied`**
-- Verify username/password in `.env`
-- Ensure user has privileges to database
-
-### Data Issues
-
-**Missing data after migration**
-- Check phpMyAdmin for table data
-- Re-run migration: `node migrate.js`
-
-**Itinerary not showing**
-- Check individual tour detail files exist in `api/data/data/tour-details/`
-- The migration script looks for matching slug files
-
-### cPanel Issues
-
-**500 Internal Server Error**
-- Check error logs in cPanel: `Logs` → `Error Log`
-- Verify `.env` file exists and has correct permissions
-- Ensure Node.js version is correct (18+)
-
-**Database connection failed**
-- Verify credentials in `.env`
-- Check database user has privileges
-- Ensure `DB_HOST` is `localhost` (not 127.0.0.1)
-
----
-
-## QUICK REFERENCE
-
-### Docker Commands
-```bash
-# Start services
-docker-compose up -d
-
-# Stop services
-docker-compose down
-
-# View logs
-docker-compose logs -f mysql
-
-# Access MySQL CLI
-docker exec -it zeo-mysql mysql -u root -prootpassword
-```
-
-### Migration Script Options
-```bash
-# Run with custom database
-node migrate.js
-
-# View help
-node migrate.js --help
-```
-
-### Useful SQL Queries
 ```sql
--- Check record counts
-SELECT COUNT(*) FROM tours;
-SELECT COUNT(*) FROM destinations;
-SELECT COUNT(*) FROM enquiries;
-
--- View tours with destinations
-SELECT t.title, d.name as destination 
-FROM tours t 
-LEFT JOIN destinations d ON t.destination_id = d.id
-LIMIT 10;
-
--- Check migration status
-SELECT * FROM migration_log;
+-- next-zeo/src/server/db/migrations/004_add_tour_status_index.sql
+ALTER TABLE tours
+  ADD INDEX idx_tours_status_created (status, created_at);
 ```
 
----
+Then:
 
-## FILES CREATED
+```bash
+cd next-zeo
+npm ci
+npm run typecheck
+npm run build
+```
 
-| File | Description |
-|------|-------------|
-| `docker-compose.yml` | Local MySQL + phpMyAdmin setup |
-| `schema.sql` | Database schema with all tables |
-| `api/migrate.js` | Data migration script |
-| `api/database.js` | Production database module |
-| `.env.example` | Environment variables template |
+Commit the migration with the application code that uses it. After merging to `main`, monitor the production deployment until it completes.
 
----
+### Runtime data versus migrations
 
-**End of Migration Guide**
+Customer enquiries, leads, admin edits, uploaded media, and other live content remain in the production database and shared upload directory. Deployments do not overwrite this data.
+
+Repository-controlled seed changes or data transformations must be expressed as a new migration. Do not export the local database and overwrite production during a routine deployment.
+
+## 8. Backups and retention
+
+### Website backups
+
+Before replacing application files, the deployment creates:
+
+```text
+/home/brandspi/apps/zeo/backups/releases/<timestamp>-<previous-revision>/
+```
+
+The latest three website snapshots are retained automatically.
+
+### Database backups
+
+When at least one migration is pending, the runner creates:
+
+```text
+/home/brandspi/apps/zeo/backups/database/pre-deploy-<timestamp>.sql
+```
+
+The latest five pre-migration SQL dumps are retained automatically. Files and directories are created with restrictive permissions.
+
+Database dumps are safety snapshots, not a substitute for the hosting provider's scheduled off-server backup. cPanel backups should also remain enabled.
+
+## 9. Rollback behavior
+
+Website rollback is automatic when:
+
+- the release archive is invalid;
+- file promotion fails;
+- the migration command exits unsuccessfully;
+- the application cannot start;
+- the HTTPS health check fails after all retries.
+
+The script restores the previous website directory, restores the shared upload link, and starts the previous application.
+
+Important: MySQL DDL can auto-commit. Website rollback does not automatically reverse an already-applied database migration. Migrations must therefore be backward-compatible and forward-only. If a migration partially applies, inspect the migration ledger and database state before retrying. Use the pre-migration SQL dump for controlled recovery when necessary.
+
+### Manual website rollback
+
+Use manual rollback only after identifying the correct snapshot:
+
+```bash
+ls -1dt ~/apps/zeo/backups/releases/*
+```
+
+Stop the Zeo application through cPanel before restoring files. Preserve `public/uploads`, restore the selected snapshot with `rsync`, recreate the upload link, then start the application and run the health checks below.
+
+Do not copy commands blindly when the selected backup path is uncertain.
+
+## 10. Deployment and production verification
+
+### GitHub Actions
+
+Open:
+
+```text
+https://github.com/anjal86/zeo-website/actions
+```
+
+The `Deploy to cPanel` workflow must finish successfully. Review the `Promote release` output for the deployed commit and migration result.
+
+### Public checks
+
+```bash
+curl -fsS -o /dev/null -w '%{http_code}\n' https://zeotourism.com/
+curl -fsS -o /dev/null -w '%{http_code}\n' https://zeotourism.com/api/sliders
+curl -fsS -o /dev/null -w '%{http_code}\n' https://zeotourism.com/api/activities
+curl -fsS -o /dev/null -w '%{http_code}\n' https://zeotourism.com/admin/login
+```
+
+Each should return `200`.
+
+Verify a known uploaded image after every deployment because uploads use a persistent symbolic link.
+
+### Deployed revision
+
+```bash
+cat ~/apps/zeo/releases/2026-07-21-vps-live/REVISION
+```
+
+The value must match the Git commit deployed by GitHub Actions.
+
+### Worker count
+
+```bash
+ps -u "$USER" -o pid,nlwp,etime,cmd --sort=-nlwp | grep -E '[n]ext-server'
+```
+
+There should be one Zeo `next-server` worker. The cPanel account may host unrelated Node applications; identify workers by working directory before terminating anything:
+
+```bash
+for pid in $(pgrep -u "$USER" -f '^next-server \(v' || true); do
+  printf '%s ' "$pid"
+  readlink "/proc/$pid/cwd"
+done
+```
+
+Never kill every Node process owned by the account.
+
+## 11. Manual deployment trigger
+
+The workflow supports `workflow_dispatch`.
+
+From GitHub:
+
+1. Open **Actions**.
+2. Select **Deploy to cPanel**.
+3. Click **Run workflow**.
+4. Select `main`.
+5. Monitor the run through promotion and health check.
+
+From GitHub CLI:
+
+```bash
+gh workflow run deploy-cpanel.yml --repo anjal86/zeo-website --ref main
+gh run list --repo anjal86/zeo-website --workflow deploy-cpanel.yml --limit 5
+```
+
+## 12. Troubleshooting
+
+### Workflow fails during build
+
+Check:
+
+- `npm ci` lockfile consistency;
+- TypeScript errors;
+- migration compatibility with an empty temporary MySQL database;
+- build-time database queries;
+- required build environment validation.
+
+Reproduce locally with Node.js 22 and a temporary MySQL 8 database.
+
+### SSH upload fails
+
+Check:
+
+- all four `CPANEL_SSH_*` secrets exist;
+- the public deployment key remains in `~/.ssh/authorized_keys`;
+- `~/.ssh` is mode `700`;
+- `authorized_keys` is mode `600`;
+- port 22 is open;
+- the GitHub secret contains the complete private key.
+
+Never print the private key in a workflow log.
+
+### Migration fails
+
+Review the `Promote release` JSON output. CloudLinux returns the script output as base64-encoded data inside JSON.
+
+Common causes:
+
+- missing `CREATE`, `ALTER`, `INDEX`, or `REFERENCES` privilege;
+- destructive SQL rejected by policy;
+- an applied migration was modified;
+- invalid SQL for the production MySQL/MariaDB version;
+- a partial DDL change from a previous failed attempt;
+- unavailable `mysqldump` command;
+- insufficient disk space for a backup.
+
+Do not delete a migration ledger row merely to force a retry. First inspect the database and determine whether the SQL already changed the schema.
+
+### Website returns 503
+
+Check the cPanel Node.js application status and:
+
+```bash
+tail -n 100 ~/apps/zeo/releases/2026-07-21-vps-live/stderr.log
+```
+
+Also inspect process and thread usage:
+
+```bash
+ps -u "$USER" -o pid,nlwp,etime,cmd --sort=-nlwp
+```
+
+If duplicate Zeo workers exist, identify them by `/proc/<pid>/cwd`. Do not terminate an unrelated application. The deployment script already performs this targeted cleanup automatically.
+
+### Uploads return 404
+
+Verify the link:
+
+```bash
+ls -ld ~/apps/zeo/releases/2026-07-21-vps-live/public/uploads
+readlink ~/apps/zeo/releases/2026-07-21-vps-live/public/uploads
+```
+
+Expected target:
+
+```text
+/home/brandspi/apps/zeo/shared/uploads
+```
+
+Restart the cPanel Node.js application after correcting the link.
+
+### SSL error after DNS change
+
+Verify DNS resolves to `192.250.235.36`, then run AutoSSL from cPanel. From cPanel Terminal:
+
+```bash
+uapi SSL start_autossl_check
+```
+
+Do not disable certificate verification as a permanent workaround.
+
+## 13. Security checklist
+
+- Protect `main` and require CI before merge.
+- Keep GitHub Actions permissions at `contents: read` unless more is required.
+- Use only the dedicated cPanel deployment key.
+- Rotate deployment keys periodically and immediately after suspected exposure.
+- Keep `JWT_SECRET`, database credentials, and the admin password strong and private.
+- Grant database permissions only on `brandspi_zeotourism`.
+- Never commit `.env` files or production exports.
+- Review dependency audit findings regularly.
+- Keep cPanel, Node.js, and GitHub Actions versions supported.
+- Retain off-server backups in addition to local deployment snapshots.
+- Verify the site, API, uploads, admin login, deployed revision, and worker count after significant releases.
+
+## 14. Files that implement this system
+
+| File | Responsibility |
+| --- | --- |
+| `.github/workflows/deploy-cpanel.yml` | CI build, packaging, SSH upload, and promotion |
+| `next-zeo/scripts/package-cpanel-release.sh` | Creates the standalone cPanel release archive |
+| `scripts/deploy-cpanel-release.sh` | Server promotion, worker control, migration call, health check, and rollback |
+| `next-zeo/scripts/run-cpanel-migrations.mjs` | Backup, migration locking, ledger, validation, and execution |
+| `next-zeo/src/server/db/migrations/*.sql` | Ordered database schema/data migrations |
+| `next-zeo/src/env.ts` | Runtime environment validation |
+
+Update this guide whenever the production path, domain, runtime, database, workflow, retention policy, or rollback behavior changes.

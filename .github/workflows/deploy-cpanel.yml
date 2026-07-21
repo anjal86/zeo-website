@@ -3,6 +3,10 @@ name: Deploy to cPanel
 on:
   push:
     branches: [main]
+    paths:
+      - "next-zeo/**"
+      - "scripts/deploy-cpanel-release.sh"
+      - ".github/workflows/deploy-cpanel.yml"
   workflow_dispatch:
 
 permissions:
