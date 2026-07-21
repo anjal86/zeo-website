@@ -14,6 +14,15 @@ timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 previous_revision="$(cat "$app/REVISION" 2>/dev/null || printf legacy-vps-live)"
 backup="$backups/${timestamp}-${previous_revision}"
 
+# cPanel UI restarts and CI deploys must never overlap. Overlapping Passenger
+# lifecycle commands can leave detached Next.js workers consuming the account's
+# process quota.
+exec 9>"$base/deploy.lock"
+if ! flock -n 9; then
+  echo "Another Zeo deployment is already running" >&2
+  exit 75
+fi
+
 cleanup() {
   rm -rf "$stage"
 }
@@ -51,7 +60,22 @@ stop_app() {
 start_app() {
   cloudlinux-selector start \
     --interpreter nodejs \
-    --app-root "$app_root" >/dev/null 2>&1 || true
+    --app-root "$app_root" >/dev/null
+}
+
+assert_worker_budget() {
+  local pid
+  local count=0
+  for pid in $(pgrep -u "$USER" -f '^next-server \(v' || true); do
+    if [[ "$(readlink "/proc/$pid/cwd" 2>/dev/null || true)" == "$app" ]]; then
+      ((count += 1))
+    fi
+  done
+
+  if ((count > 1)); then
+    echo "Worker budget exceeded: expected at most 1 Zeo worker, found $count" >&2
+    return 1
+  fi
 }
 
 [[ -f "$incoming" ]] || { echo "Release archive not found: $incoming" >&2; exit 1; }
@@ -98,6 +122,7 @@ for attempt in {1..12}; do
   if curl --fail --silent --show-error --insecure \
     --resolve "zeotourism.com:443:$web_ip" \
     https://zeotourism.com/api/sliders >/dev/null; then
+    assert_worker_budget
     trap - ERR
     rm -f "$incoming"
     find "$backups" -mindepth 1 -maxdepth 1 -type d -print0 \
