@@ -47,3 +47,27 @@ test('hero avoids duplicate slide requests and eager video preloading', async ()
   assert.equal(hero.includes('preload="auto"'), false);
   assert.equal(hero.includes('framer-motion'), false);
 });
+
+test('homepage uses a simplified editorial hierarchy without section motion residue', async () => {
+  const [home, destinations, testimonials] = await Promise.all([
+    readSource('../src/components/Home/HomeClient.tsx'),
+    readSource('../src/components/FeaturedDestinations/FeaturedDestinations.tsx'),
+    readSource('../src/components/Testimonials/TestimonialsSlider.tsx'),
+  ]);
+
+  assert.equal(home.includes('framer-motion'), false);
+  assert.equal(destinations.includes('framer-motion'), false);
+  assert.equal(testimonials.includes('framer-motion'), false);
+
+  assert.match(home, /Plan with less confusion/);
+  assert.match(home, /Start with the journey that feels closest/);
+  assert.match(home, /Local clarity for journeys that cannot afford guesswork/);
+  assert.match(home, /Get a clear route plan before you book/);
+  assert.match(home, /bg-primary py-16/);
+
+  assert.match(destinations, /Places worth planning around/);
+  assert.match(destinations, /md:grid-cols-12/);
+  assert.match(testimonials, /What good planning feels like after the journey/);
+  assert.match(testimonials, /prefers-reduced-motion/);
+  assert.match(testimonials, /aria-live="polite"/);
+});
