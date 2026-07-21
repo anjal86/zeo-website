@@ -28,11 +28,11 @@ stop_app() {
   # Match by cwd so other Node applications owned by the account are untouched.
   local pid
   local -a app_pids=()
-  while read -r pid; do
+  for pid in $(pgrep -u "$USER" -f '^next-server \(v' || true); do
     if [[ "$(readlink "/proc/$pid/cwd" 2>/dev/null || true)" == "$app" ]]; then
       app_pids+=("$pid")
     fi
-  done < <(pgrep -u "$USER" -f '^next-server \(v' || true)
+  done
 
   if ((${#app_pids[@]})); then
     kill "${app_pids[@]}" 2>/dev/null || true
@@ -51,7 +51,7 @@ stop_app() {
 start_app() {
   cloudlinux-selector start \
     --interpreter nodejs \
-    --app-root "$app_root" >/dev/null
+    --app-root "$app_root" >/dev/null 2>&1 || true
 }
 
 [[ -f "$incoming" ]] || { echo "Release archive not found: $incoming" >&2; exit 1; }
