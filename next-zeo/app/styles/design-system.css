@@ -10,51 +10,52 @@
   --focus-ring: #f47721;
   --container-gutter: clamp(1rem, 3vw, 2rem);
   --section-space: clamp(4rem, 8vw, 7rem);
-  --card-radius: 0;
-  --control-radius: 0;
+
+  /* Shared, restrained radius scale used by Tailwind and UI primitives. */
+  --radius-sm: 0.375rem;
+  --radius: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.5rem;
+  --card-radius: var(--radius-xl);
+  --control-radius: var(--radius-md);
+  --panel-radius: var(--radius-2xl);
+  --media-radius: var(--radius-lg);
+
   --shadow-card: 0 12px 40px rgb(15 23 42 / 8%);
   --shadow-card-hover: 0 22px 60px rgb(15 23 42 / 13%);
 }
 
 /*
- * Zeo uses a square-corner visual language by default.
- * This enforcement layer prevents local Tailwind rounded utilities and
- * arbitrary radius values from drifting away from the design system.
- * True circles such as avatars, status dots and spinners may keep
- * `rounded-full`; interactive pills do not.
+ * Keep the radius hierarchy consistent across legacy and newer screens.
+ * Exact `border` utility boxes become soft surfaces; one-sided dividers,
+ * table cells and full-width sections keep their natural square geometry.
  */
-:where(
-  div,
-  section,
-  article,
-  aside,
-  nav,
-  header,
-  footer,
-  form,
-  fieldset,
-  img,
-  video,
-  iframe,
-  table,
-  thead,
-  tbody,
-  tr,
-  th,
-  td
-)[class*="rounded-"]:not(.rounded-full) {
-  border-radius: 0 !important;
+main :where(div, article, aside, form, fieldset, a)[class~="border"][class*="bg-"]:not(.rounded-full),
+:where(dialog, [role="dialog"], [role="alertdialog"]) {
+  border-radius: var(--card-radius);
 }
 
-:where(button, a, input, select, textarea, summary)[class*="rounded-"] {
-  border-radius: 0 !important;
+main :where(div, article, aside, a)[class~="border"][class*="overflow-hidden"]:not(.rounded-full) {
+  border-radius: var(--card-radius);
 }
 
-/*
- * Homepage presentation intentionally uses a softer, approachable surface
- * language. Keep this scoped so admin and content-editor layouts retain
- * their compact square-corner system.
- */
+main :where(button, input, select, textarea, summary)[class~="border"]:not(.rounded-full),
+main a[class*="inline-flex"][class~="border"]:not(.rounded-full) {
+  border-radius: var(--control-radius);
+}
+
+main :where(div, span)[class~="border"][class*="items-center"][class*="justify-center"]:not(.rounded-full) {
+  border-radius: var(--control-radius);
+}
+
+main :where(img, video, iframe)[class~="border"]:not(.rounded-full) {
+  border-radius: var(--media-radius);
+}
+
+/* Homepage overlap and carousel controls stay clear of each other. */
 .home-page > section.relative.z-20 {
   margin-top: -1.5rem !important;
   z-index: 10;
@@ -62,7 +63,7 @@
 
 .home-page > section.relative.z-20 > .container-xl > div {
   overflow: hidden;
-  border-radius: 1.25rem !important;
+  border-radius: var(--panel-radius);
 }
 
 .home-page #home > div.absolute.left-4.right-4 {
@@ -70,32 +71,32 @@
 }
 
 .home-page :where(a, div, aside)[class*="overflow-hidden"][class*="border"] {
-  border-radius: 1.125rem !important;
+  border-radius: var(--card-radius);
 }
 
 .home-page aside[class*="border"] {
-  border-radius: 1.125rem !important;
+  border-radius: var(--card-radius);
 }
 
 .home-page :where(a, button, span)[class*="items-center"][class*="justify-center"] {
-  border-radius: 0.75rem !important;
+  border-radius: var(--control-radius);
 }
 
 .home-page span[class*="backdrop-blur"] {
-  border-radius: 0.75rem !important;
+  border-radius: var(--control-radius);
 }
 
 .home-page div[class*="grid-cols-"][class*="auto_1fr_auto"][class*="border-b"] {
   margin-bottom: 0.75rem;
   border: 1px solid rgb(255 255 255 / 14%) !important;
-  border-radius: 1rem !important;
+  border-radius: var(--card-radius);
   background: rgb(255 255 255 / 4%);
   padding: 1.25rem;
 }
 
 .home-page ol.grid > li[class*="border-t"] {
   border: 1px solid rgb(255 255 255 / 20%) !important;
-  border-radius: 0.875rem !important;
+  border-radius: var(--radius-lg);
   background: rgb(255 255 255 / 7%);
   padding: 1rem;
 }
@@ -124,7 +125,7 @@
 
 .ui-surface {
   border: 1px solid var(--border-subtle);
-  border-radius: 0;
+  border-radius: var(--card-radius);
   background: var(--surface-card);
   box-shadow: var(--shadow-card);
 }
@@ -132,7 +133,7 @@
 .ui-control {
   min-height: 48px;
   border: 1px solid var(--border-subtle);
-  border-radius: 0;
+  border-radius: var(--control-radius);
   background: #fff;
   color: var(--text-strong);
   transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
@@ -157,7 +158,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
-  border-radius: 0;
+  border-radius: var(--control-radius);
   padding: 0.75rem 1.125rem;
   font-family: var(--font-outfit), system-ui, sans-serif;
   font-size: 0.8125rem;
