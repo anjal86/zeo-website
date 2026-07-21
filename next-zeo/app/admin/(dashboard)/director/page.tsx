@@ -9,14 +9,26 @@ const DirectorEditor: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [loadedSuccessfully, setLoadedSuccessfully] = useState(false);
+    const [loadAttempt, setLoadAttempt] = useState(0);
     const [form, setForm] = useState({ name: '', title: '', message: '', image_url: '' });
 
     useEffect(() => {
+        let active = true;
         (async () => {
-            try { const d = await adminFetch<any>(`${api}/director-message`); if (d) setForm({ name: d.name || '', title: d.title || '', message: d.message || '', image_url: d.image_url || '' }); }
-            catch { /* ignore */ } finally { setLoading(false); }
+            try {
+                const d = await adminFetch<any>(`${api}/director-message`);
+                if (!active) return;
+                setForm({ name: d?.name || '', title: d?.title || '', message: d?.message || '', image_url: d?.image_url || '' });
+                setLoadedSuccessfully(true);
+            } catch (err: unknown) {
+                if (active) setError(err instanceof Error ? err.message : 'Failed to load director message');
+            } finally {
+                if (active) setLoading(false);
+            }
         })();
-    }, []);
+        return () => { active = false; };
+    }, [loadAttempt]);
 
     const handleUpload = async (file: File) => {
         try {
@@ -27,7 +39,9 @@ const DirectorEditor: React.FC = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault(); setSaving(true); setError(null);
+        e.preventDefault();
+        if (!loadedSuccessfully) { setError('Director message was not loaded. Retry before saving.'); return; }
+        setSaving(true); setError(null);
         try { await adminFetch(`${api}/admin/director-message`, { method: 'PUT', body: JSON.stringify(form) }); alert('Saved!'); }
         catch (err: any) { setError(err.message); } finally { setSaving(false); }
     };
@@ -38,9 +52,9 @@ const DirectorEditor: React.FC = () => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div><h3 className="text-xl font-semibold">Director Message</h3></div>
-                <button onClick={handleSubmit} disabled={saving} className="bg-green-600 text-white px-6 py-2 rounded-lg disabled:opacity-50 flex items-center gap-2">{saving ? 'Saving...' : <><Save className="w-4 h-4" /> Save</>}</button>
+                <button onClick={handleSubmit} disabled={saving || !loadedSuccessfully} className="bg-green-600 text-white px-6 py-2 rounded-lg disabled:opacity-50 flex items-center gap-2">{saving ? 'Saving...' : <><Save className="w-4 h-4" /> Save</>}</button>
             </div>
-            {error && <div className="bg-red-50 border p-4 flex items-center gap-2 text-red-800"><AlertCircle className="w-5 h-5" /><span>{error}</span></div>}
+            {error && <div className="bg-red-50 border p-4 flex items-center gap-2 text-red-800"><AlertCircle className="w-5 h-5" /><span>{error}</span>{!loadedSuccessfully && <button type="button" onClick={() => { setError(null); setLoadedSuccessfully(false); setLoading(true); setLoadAttempt(value => value + 1); }} className="ml-auto text-sm font-medium underline">Retry</button>}</div>}
             <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm border p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div><label className="block text-sm font-medium mb-2">Name</label><input type="text" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} className="w-full px-3 py-2 border rounded-lg" /></div>

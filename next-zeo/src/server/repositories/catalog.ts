@@ -47,6 +47,9 @@ type ActivityRow = BaseRow & {
 };
 
 function serializeDestination(row: DestinationRow) {
+  const seo = parseJsonObject(row.seo);
+  const metadata = parseJsonObject(row.metadata);
+
   return {
     id: row.legacy_id ?? row.id,
     db_id: row.id,
@@ -69,8 +72,13 @@ function serializeDestination(row: DestinationRow) {
     relatedTours: parseJsonArray(row.related_tours),
     relatedActivities: parseJsonArray(row.related_activities),
     gallery: parseJsonArray(row.gallery),
-    seo: parseJsonObject(row.seo),
-    metadata: parseJsonObject(row.metadata),
+    seo,
+    seo_intro: typeof seo.intro === "string" ? seo.intro : "",
+    seo_best_time: typeof seo.best_time === "string" ? seo.best_time : "",
+    seo_planning_note: typeof seo.planning_note === "string" ? seo.planning_note : "",
+    seo_guide_blocks: Array.isArray(seo.guide_blocks) ? seo.guide_blocks : [],
+    seo_faqs: Array.isArray(seo.faqs) ? seo.faqs : [],
+    metadata,
     featured: bool(row.featured),
     listed: bool(row.listed),
     created_at: iso(row.created_at),

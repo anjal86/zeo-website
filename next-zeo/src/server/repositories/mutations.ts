@@ -205,6 +205,23 @@ export async function setTourListing(id: number, listed: boolean) {
 
 export async function upsertDestination(identifier: string | null, payload: Record<string, unknown>) {
   const title = String(payload.title ?? payload.name ?? "Untitled destination");
+  const inputSeo = payload.seo && typeof payload.seo === "object" && !Array.isArray(payload.seo)
+    ? payload.seo as Record<string, unknown>
+    : {};
+  const hasSeoPayload = payload.seo !== undefined
+    || payload.seo_intro !== undefined
+    || payload.seo_best_time !== undefined
+    || payload.seo_planning_note !== undefined
+    || payload.seo_guide_blocks !== undefined
+    || payload.seo_faqs !== undefined;
+  const seo = {
+    ...inputSeo,
+    intro: payload.seo_intro ?? inputSeo.intro ?? null,
+    best_time: payload.seo_best_time ?? inputSeo.best_time ?? null,
+    planning_note: payload.seo_planning_note ?? inputSeo.planning_note ?? null,
+    guide_blocks: payload.seo_guide_blocks ?? inputSeo.guide_blocks ?? [],
+    faqs: payload.seo_faqs ?? inputSeo.faqs ?? [],
+  };
   const data = {
     slug: String(payload.slug ?? slugify(title)),
     name: title,
@@ -221,6 +238,9 @@ export async function upsertDestination(identifier: string | null, payload: Reco
     href: payload.href ?? `/destinations/${payload.slug ?? slugify(title)}`,
     related_tours: json(payload.relatedTours ?? payload.related_tours),
     related_activities: json(payload.relatedActivities ?? payload.related_activities),
+    gallery: payload.gallery === undefined ? undefined : json(payload.gallery),
+    seo: hasSeoPayload ? json(seo) : undefined,
+    metadata: payload.metadata === undefined ? undefined : json(payload.metadata),
     featured: bool(payload.featured),
     listed: payload.listed === undefined ? true : bool(payload.listed),
   };

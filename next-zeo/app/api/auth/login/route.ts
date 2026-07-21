@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { getOne } from "@/server/db/mysql";
-import { badRequest, ok, serverError, unauthorized } from "@/server/http/api-response";
+import { badRequest, forbidden, ok, serverError, unauthorized } from "@/server/http/api-response";
 import { checkRateLimit, getClientIp } from "@/server/auth/rate-limit";
 import { setAdminSession, touchAdminLogin } from "@/server/auth/session";
 import type { RowDataPacket } from "mysql2/promise";
@@ -42,6 +42,7 @@ export async function POST(request: Request) {
     if (!user || !user.is_active) return unauthorized("Invalid credentials");
     const valid = await bcrypt.compare(parsed.data.password, user.password_hash);
     if (!valid) return unauthorized("Invalid credentials");
+    if (user.role !== "admin") return forbidden("Editor access is not enabled yet");
 
     await setAdminSession({ id: user.id, email: user.email, name: user.name, role: user.role });
     await touchAdminLogin(user.id);

@@ -33,6 +33,7 @@ import {
 import ProgressModal from '@/components/UI/ProgressModal';
 
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
+import { getExplicitTourRelationships, normalizeTourDurationForEditor, normalizeTourDurationForSave } from '@/lib/adminTourForm';
 
 // API base URL helper function
 const getApiBaseUrl = (): string => {
@@ -279,103 +280,6 @@ const TourEditor: React.FC = () => {
     checkAuth();
   }, [tourId, isEditing, router]);
 
-  // Disabled auto-detection to prevent automatic selection of all destinations and activities
-  // Auto-detection was too aggressive and selecting everything
-  // Users should manually select destinations and activities
-
-  // Auto-detect destinations based on tour location
-  const autoDetectDestinations = (tourDetails: any) => {
-    if (!destinations || destinations.length === 0) return { primary: undefined, secondary: [], names: [] };
-
-    const location = tourDetails.location?.toLowerCase() || '';
-    const title = tourDetails.title?.toLowerCase() || '';
-
-    let primaryDestination: number | undefined = undefined;
-    const secondaryDestinations: number[] = [];
-    const destinationNames: string[] = [];
-
-    // Find matching destinations based on location or title
-    destinations.forEach((dest: any) => {
-      const destName = dest.name.toLowerCase();
-      const destCountry = (dest as any).country?.toLowerCase() || '';
-
-      // More flexible matching with specific keyword detection
-      const locationParts = location.split(',').map((part: string) => part.trim().toLowerCase());
-      const titleWords = title.split(' ').map((word: string) => word.toLowerCase());
-
-      const isMatch =
-        location.includes(destName) || title.includes(destName) ||
-        location.includes(destCountry) || title.includes(destCountry) ||
-        locationParts.some((part: string) => part.includes(destName) || destName.includes(part)) ||
-        titleWords.some((word: string) => word.includes(destName) || destName.includes(word)) ||
-        // Special cases for common destination mappings
-        (location.includes('kailash') && destName === 'tibet') ||
-        (location.includes('tibet') && destName === 'tibet') ||
-        (location.includes('everest') && destName === 'everest') ||
-        (location.includes('annapurna') && destName === 'annapurna') ||
-        (location.includes('langtang') && destName === 'langtang') ||
-        (location.includes('pokhara') && destName === 'pokhara') ||
-        (location.includes('kathmandu') && destName === 'kathmandu') ||
-        (location.includes('chitwan') && destName === 'chitwan');
-
-      if (isMatch) {
-        if (primaryDestination === undefined) {
-          primaryDestination = dest.id;
-          destinationNames.push(dest.name);
-        } else {
-          secondaryDestinations.push(dest.id);
-          destinationNames.push(dest.name);
-        }
-      }
-    });
-
-    return {
-      primary: primaryDestination,
-      secondary: secondaryDestinations,
-      names: destinationNames
-    };
-  };
-
-  // Auto-detect activities based on tour category and description
-  const autoDetectActivities = (tourDetails: any) => {
-    if (!activities || activities.length === 0) return { ids: [], names: [] };
-
-    const category = tourDetails.category?.toLowerCase() || '';
-    const description = tourDetails.description?.toLowerCase() || '';
-    const title = tourDetails.title?.toLowerCase() || '';
-
-    const activityIds: number[] = [];
-    const activityNames: string[] = [];
-
-    // Find matching activities based on category, title, or description
-    activities.forEach((activity: any) => {
-      const activityName = activity.name.toLowerCase();
-      const activityType = (activity as any).type?.toLowerCase() || '';
-
-      // More flexible matching for activities
-      const isMatch =
-        category.includes(activityName) || category.includes(activityType) ||
-        title.includes(activityName) || description.includes(activityName) ||
-        title.includes(activityType) || description.includes(activityType) ||
-        activityName.includes(category) || activityType.includes(category) ||
-        // Special cases for common activity mappings
-        (category.includes('pilgrimage') && activityName.includes('spiritual')) ||
-        (category.includes('luxury') && activityName.includes('cultural')) ||
-        (category.includes('trek') && activityName.includes('trekking')) ||
-        (category.includes('cultural') && activityName.includes('cultural'));
-
-      if (isMatch) {
-        activityIds.push(activity.id);
-        activityNames.push(activity.name);
-      }
-    });
-
-    return {
-      ids: activityIds,
-      names: activityNames
-    };
-  };
-
   const fetchTourDetails = async () => {
     if (!tourId || tourId === 'new') return;
 
@@ -397,22 +301,17 @@ const TourEditor: React.FC = () => {
       if (response.ok) {
         const details = await response.json();
 
-        // Auto-detect destinations and activities if not already set
-        const autoDetectedDestinations = autoDetectDestinations(details);
-        const autoDetectedActivities = autoDetectActivities(details);
+        const relationships = getExplicitTourRelationships(details);
 
-        // Ensure relationship fields are properly initialized
+        // Preserve only relationships that were explicitly stored.
         const formattedDetails = {
           ...details,
-          // Parse duration to extract numeric value (e.g., "13 days" -> "13")
-          duration: typeof details.duration === 'string'
-            ? details.duration.replace(/[^\d]/g, '') || details.duration
-            : details.duration,
-          primary_destination_id: details.primary_destination_id || details.destination_id || details.destination_ids?.[0] || autoDetectedDestinations.primary,
-          secondary_destination_ids: details.secondary_destination_ids || autoDetectedDestinations.secondary,
-          activity_ids: details.activity_ids || autoDetectedActivities.ids,
-          related_destinations: details.related_destinations || autoDetectedDestinations.names,
-          related_activities: details.related_activities || autoDetectedActivities.names,
+          duration: normalizeTourDurationForEditor(details.duration),
+          primary_destination_id: relationships.primaryDestinationId,
+          secondary_destination_ids: relationships.secondaryDestinationIds,
+          activity_ids: relationships.activityIds,
+          related_destinations: relationships.relatedDestinations,
+          related_activities: relationships.relatedActivities,
           gallery: details.gallery || [],
           highlights: details.highlights || [],
           inclusions: details.inclusions || [],
@@ -904,10 +803,7 @@ const TourEditor: React.FC = () => {
       // Prepare tour data with relationships
       const tourData = {
         ...formData,
-        // Format duration properly - if it's just a number, add "days"
-        duration: formData.duration && !String(formData.duration).includes('day')
-          ? `${formData.duration} days`
-          : String(formData.duration),
+        duration: normalizeTourDurationForSave(formData.duration),
         // Ensure relationships are properly formatted
         primary_destination_id: formData.primary_destination_id || undefined,
         secondary_destination_ids: formData.secondary_destination_ids || [],
