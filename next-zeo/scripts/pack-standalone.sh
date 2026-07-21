@@ -50,6 +50,8 @@ cat > "$STAGING_DIR/release.json" <<EOF
   "node": "$(node --version)"
 }
 EOF
+mkdir -p "$STAGING_DIR/public"
+cp "$STAGING_DIR/release.json" "$STAGING_DIR/public/release.json"
 
 echo "🗜️  Creating deployment archive..."
 (

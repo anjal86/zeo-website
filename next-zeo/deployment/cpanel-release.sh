@@ -57,6 +57,7 @@ sync_release() {
 restart_passenger() {
   mkdir -p "$APP_ROOT/tmp"
   touch "$APP_ROOT/tmp/restart.txt"
+  pkill -u "$(whoami)" -f "node" 2>/dev/null || true
 }
 
 write_marker() {

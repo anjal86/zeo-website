@@ -7,8 +7,11 @@ export const dynamic = "force-dynamic";
 async function deployedRelease() {
   const candidates = [
     path.join(process.cwd(), "release.json"),
+    path.join(process.cwd(), "public/release.json"),
     process.argv[1] ? path.join(path.dirname(process.argv[1]), "release.json") : "",
+    process.argv[1] ? path.join(path.dirname(process.argv[1]), "public/release.json") : "",
     "/home/brandspi/apps/zeo/release.json",
+    "/home/brandspi/apps/zeo/public/release.json",
   ].filter(Boolean);
 
   for (const candidate of candidates) {
