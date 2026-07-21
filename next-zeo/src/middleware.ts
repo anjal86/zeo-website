@@ -3,10 +3,25 @@ import type { NextRequest } from 'next/server';
 
 const mutatingMethods = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
+function getExpectedOrigin(request: NextRequest) {
+  const configuredUrl = process.env.APP_URL;
+  if (configuredUrl) {
+    try {
+      return new URL(configuredUrl).origin;
+    } catch {
+      // Environment validation reports malformed APP_URL values at startup.
+    }
+  }
+
+  return request.nextUrl.origin;
+}
+
 function isSameOriginAdminMutation(request: NextRequest) {
   if (!mutatingMethods.has(request.method.toUpperCase())) return true;
 
-  const expectedOrigin = request.nextUrl.origin;
+  // Passenger terminates TLS before forwarding the request to Next.js, so
+  // request.nextUrl.origin can be an internal HTTP address in production.
+  const expectedOrigin = getExpectedOrigin(request);
   const origin = request.headers.get('origin');
   if (origin) return origin === expectedOrigin;
 
