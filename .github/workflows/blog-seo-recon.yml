@@ -37,28 +37,29 @@ jobs:
               next-zeo | head -n 1600 || true
           } > .blog-seo-repo-map.txt
 
-          {
-            for file in \
-              next-zeo/app/api/admin/posts/route.ts \
-              next-zeo/app/api/admin/posts/[id]/route.ts \
-              next-zeo/src/server/http/admin-content-handlers.ts \
-              next-zeo/src/server/repositories/content.ts \
-              next-zeo/src/server/repositories/mutations.ts \
-              next-zeo/src/components/Blog/BlogPost.tsx \
-              next-zeo/src/components/Blog/MarkdownArticle.tsx \
-              next-zeo/src/components/Blog/TableOfContents.tsx \
-              next-zeo/app/blog/[slug]/page.tsx \
-              next-zeo/app/admin/(dashboard)/blog/edit/[id]/page.tsx \
-              next-zeo/src/lib/blogSeo.ts \
-              next-zeo/src/server/db/migrations/001_initial_schema.sql \
-              next-zeo/package.json; do
-              if [ -f "$file" ]; then
-                echo "===== $file ====="
-                sed -n '1,1600p' "$file"
-                echo
-              fi
-            done
-          } > .blog-seo-key-files.txt
+          files=(
+            'next-zeo/app/api/admin/posts/route.ts'
+            'next-zeo/app/api/admin/posts/[id]/route.ts'
+            'next-zeo/src/server/http/admin-content-handlers.ts'
+            'next-zeo/src/server/repositories/content.ts'
+            'next-zeo/src/server/repositories/mutations.ts'
+            'next-zeo/src/components/Blog/BlogPost.tsx'
+            'next-zeo/src/components/Blog/MarkdownArticle.tsx'
+            'next-zeo/src/components/Blog/TableOfContents.tsx'
+            'next-zeo/app/blog/[slug]/page.tsx'
+            'next-zeo/app/admin/(dashboard)/blog/edit/[id]/page.tsx'
+            'next-zeo/src/lib/blogSeo.ts'
+            'next-zeo/src/server/db/migrations/001_initial_schema.sql'
+            'next-zeo/package.json'
+          )
+          : > .blog-seo-key-files.txt
+          for file in "${files[@]}"; do
+            if [ -f "$file" ]; then
+              echo "===== $file =====" >> .blog-seo-key-files.txt
+              sed -n '1,1600p' "$file" >> .blog-seo-key-files.txt
+              echo >> .blog-seo-key-files.txt
+            fi
+          done
 
       - name: Upload source snapshot
         uses: actions/upload-artifact@v4
