@@ -1,0 +1,1138 @@
+===== next-zeo/app/api/admin/posts/route.ts =====
+import { adminReadList } from "@/server/http/mutation-handlers";
+import { adminUpsertPostValidated } from "@/server/http/admin-content-handlers";
+
+export async function GET(request: Request) {
+  return adminReadList("posts", request);
+}
+
+export function POST(request: Request) {
+  return adminUpsertPostValidated(request);
+}
+
+===== next-zeo/app/api/admin/posts/[id]/route.ts =====
+import { adminDeletePost, adminGetPost } from "@/server/http/mutation-handlers";
+import { adminUpsertPostValidated } from "@/server/http/admin-content-handlers";
+
+export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+  return adminGetPost(id);
+}
+
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+  return adminUpsertPostValidated(request, id);
+}
+
+export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
+  return adminDeletePost(request, id);
+}
+
+===== next-zeo/src/server/repositories/content.ts =====
+import { getAll, getOne } from "@/server/db/mysql";
+import { parseJson, parseJsonArray, parseJsonObject } from "@/server/db/json";
+import { getPagination } from "@/server/http/pagination";
+import type { BaseRow, ListOptions, ListResult } from "./types";
+import { bool, iso } from "./types";
+
+type PostRow = BaseRow & {
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  content: string | null;
+  image_url: string | null;
+  author: string | null;
+  category: string | null;
+  tags: unknown;
+  reading_time: string | null;
+  featured: number | boolean;
+  status: "draft" | "published";
+  seo: unknown;
+  published_at: Date | string | null;
+};
+
+type SliderRow = BaseRow & {
+  title: string;
+  subtitle: string | null;
+  location: string | null;
+  image_url: string | null;
+  video_url: string | null;
+  video_start_time: number | null;
+  button_text: string | null;
+  button_url: string | null;
+  button_style: string | null;
+  show_button: number | boolean;
+  order_index: number;
+  is_active: number | boolean;
+  metadata: unknown;
+};
+
+type TestimonialRow = BaseRow & {
+  name: string;
+  email: string | null;
+  country: string | null;
+  tour: string | null;
+  rating: number;
+  title: string | null;
+  message: string | null;
+  image_url: string | null;
+  testimonial_date: Date | string | null;
+  is_featured: number | boolean;
+  is_approved: number | boolean;
+};
+
+function serializePost(row: PostRow) {
+  return {
+    id: row.legacy_id ?? row.id,
+    db_id: row.id,
+    slug: row.slug,
+    title: row.title,
+    excerpt: row.excerpt,
+    content: row.content || "",
+    image: row.image_url,
+    image_url: row.image_url,
+    author: row.author,
+    category: row.category,
+    tags: parseJsonArray<string>(row.tags),
+    readTime: row.reading_time,
+    reading_time: row.reading_time,
+    featured: bool(row.featured),
+    status: row.status,
+    seo: parseJsonObject(row.seo),
+    date: iso(row.published_at),
+    published_at: iso(row.published_at),
+    created_at: iso(row.created_at),
+    updated_at: iso(row.updated_at),
+  };
+}
+
+function serializeSlider(row: SliderRow) {
+  return {
+    id: row.legacy_id ?? row.id,
+    db_id: row.id,
+    title: row.title,
+    subtitle: row.subtitle,
+    location: row.location,
+    image: row.image_url,
+    video: row.video_url,
+    image_url: row.image_url,
+    video_url: row.video_url,
+    video_start_time: row.video_start_time,
+    button_text: row.button_text,
+    button_url: row.button_url,
+    button_style: row.button_style,
+    show_button: bool(row.show_button),
+    order_index: row.order_index,
+    is_active: bool(row.is_active),
+    metadata: parseJsonObject(row.metadata),
+    created_at: iso(row.created_at),
+    updated_at: iso(row.updated_at),
+  };
+}
+
+function serializeTestimonial(row: TestimonialRow) {
+  return {
+    id: row.legacy_id ?? row.id,
+    db_id: row.id,
+    name: row.name,
+    email: row.email,
+    country: row.country,
+    tour: row.tour,
+    rating: row.rating,
+    title: row.title,
+    message: row.message,
+    image: row.image_url,
+    image_url: row.image_url,
+    date: iso(row.testimonial_date),
+    testimonial_date: iso(row.testimonial_date),
+    is_featured: bool(row.is_featured),
+    is_approved: bool(row.is_approved),
+    created_at: iso(row.created_at),
+    updated_at: iso(row.updated_at),
+  };
+}
+
+export async function listPosts(options: ListOptions = {}, admin = false): Promise<ListResult<ReturnType<typeof serializePost>>> {
+  const pagination = getPagination(options);
+  const clauses = admin ? [] : ["status = 'published'"];
+  const params: unknown[] = [];
+  if (options.category) {
+    clauses.push("category = ?");
+    params.push(options.category);
+  }
+  if (options.featured === "true") clauses.push("featured = 1");
+  if (options.search) {
+    clauses.push("(title LIKE ? OR excerpt LIKE ? OR content LIKE ?)");
+    const term = `%${options.search}%`;
+    params.push(term, term, term);
+  }
+  const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
+  const count = await getOne<{ total: number } & import("mysql2/promise").RowDataPacket>(`SELECT COUNT(*) AS total FROM posts ${where}`, params);
+  const rows = await getAll<PostRow>(
+    `SELECT * FROM posts ${where} ORDER BY COALESCE(published_at, created_at) DESC, id DESC LIMIT ? OFFSET ?`,
+    [...params, pagination.limit, pagination.offset],
+  );
+  return { items: rows.map(serializePost), total: count?.total ?? 0 };
+}
+
+export async function getPostBySlug(slug: string, admin = false) {
+  const row = await getOne<PostRow>(
+    `SELECT * FROM posts WHERE slug = ?${admin ? "" : " AND status = 'published'"} LIMIT 1`,
+    [slug],
+  );
+  return row ? serializePost(row) : null;
+}
+
+export async function listSliders(admin = false) {
+  const rows = await getAll<SliderRow>(
+    `SELECT * FROM sliders ${admin ? "" : "WHERE is_active = 1"} ORDER BY order_index ASC, id ASC`,
+  );
+  return rows.map(serializeSlider);
+}
+
+export async function listTestimonials(admin = false) {
+  const rows = await getAll<TestimonialRow>(
+    `SELECT * FROM testimonials ${admin ? "" : "WHERE is_approved = 1"} ORDER BY is_featured DESC, created_at DESC`,
+  );
+  return rows.map(serializeTestimonial);
+}
+
+export async function getContactSettings() {
+  const row = await getOne<{ payload: unknown } & import("mysql2/promise").RowDataPacket>(
+    "SELECT payload FROM contact_settings WHERE setting_key = 'default' LIMIT 1",
+  );
+  return parseJson(row?.payload, {});
+}
+
+===== next-zeo/src/components/Blog/BlogPost.tsx =====
+"use client";
+import React from 'react';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft, Tag, User, Clock, Calendar, Share2 } from 'lucide-react';
+import Breadcrumb from '../UI/Breadcrumb';
+import SEO from '../seo/SEO';
+import SocialShare from '../Blog/SocialShare';
+import TableOfContents from '../Blog/TableOfContents';
+import { useApi } from '../../hooks/useApi';
+import { motion, useScroll, useSpring } from 'framer-motion';
+import TourCard from '../Tours/TourCard';
+import MarkdownArticle from '@/components/Blog/MarkdownArticle';
+
+const BlogPostPage: React.FC<{ post?: any }> = ({ post: initialPost }) => {
+    const { slug } = useParams<{ slug: string }>();
+    const { data: clientPost, loading: clientLoading, error } = useApi<any>(!initialPost ? `/api/posts/${slug}` : null);
+    const { data: allPosts } = useApi<any[]>('/api/posts');
+    const { data: allTours } = useApi<any[]>('/api/tours');
+    const { data: destinations } = useApi<any[]>('/api/destinations');
+
+    const post = initialPost || clientPost;
+    const loading = !initialPost && clientLoading;
+
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
+
+    if (error || !post) {
+        if (loading) return null;
+        return (
+            <div className="min-h-screen flex items-center justify-center text-red-500">
+                Error loading post.
+            </div>
+        );
+    }
+
+    const origin = process.env.NEXT_PUBLIC_APP_URL || 'https://zeotourism.com';
+    const pageUrl = `${origin}/blog/${slug}`;
+    const relatedPosts = allPosts?.filter(p => p.slug !== slug && p.category === post.category).slice(0, 3) || [];
+
+    const articleSchema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "@id": `${pageUrl}#article`,
+        "headline": post.title,
+        "description": post.excerpt,
+        "image": {
+            "@type": "ImageObject",
+            "url": post.image
+        },
+        "author": {
+            "@type": "Organization",
+            "@id": "https://zeotourism.com/#organization",
+            "name": "Zeo Tourism",
+            "url": origin
+        },
+        "publisher": {
+            "@type": "Organization",
+            "@id": "https://zeotourism.com/#organization",
+            "name": "Zeo Tourism",
+            "logo": {
+                "@type": "ImageObject",
+                "url": `${origin}/logo/zeo-logo.png`,
+                "width": 280,
+                "height": 80
+            }
+        },
+        "datePublished": post.created_at || post.date,
+        "dateModified": post.updated_at || post.created_at || post.date,
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": pageUrl
+        },
+        "articleSection": post.category,
+        "keywords": `${post.category}, Nepal travel, Zeo Tourism, ${post.title}`,
+        "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": ["h1", ".blog-post-content p:first-of-type", "h2"]
+        }
+    };
+
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": origin
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": `${origin}/blog`
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": post.title,
+                "item": pageUrl
+            }
+        ]
+    };
+
+    const getRecommendedTours = () => {
+        if (!allTours) return [];
+
+        const toursList = Array.isArray(allTours) ? allTours : (allTours as any).tours || [];
+        const blogTitle = (post.title || '').toLowerCase();
+        const blogContent = (post.content || '').toLowerCase();
+        const blogExcerpt = (post.excerpt || '').toLowerCase();
+        const blogCategory = (post.category || '').toLowerCase();
+        const fullBlogText = `${blogTitle} ${blogExcerpt} ${blogContent}`;
+
+        const stopWords = new Set(['this', 'that', 'with', 'from', 'your', 'their', 'there', 'about', 'guide', 'tours', 'travel', 'nepal', 'visit', 'best', 'tour', 'place', 'places', 'trip', 'nepali', 'stay', 'day', 'days', 'package', 'packages']);
+        const titleKeywords = blogTitle.split(/[^a-z]/).filter((w: string) => w.length > 4 && !stopWords.has(w));
+
+        const scoredTours = toursList.map((tour: any) => {
+            let score = 0;
+            const tourTitle = (tour.title || '').toLowerCase();
+            const tourLocation = (tour.location || '').toLowerCase();
+            const tourCategory = (tour.category || '').toLowerCase();
+            const tourActivities = (tour.activities || []).map((a: any) => (a.name || '').toLowerCase());
+
+            if (tourLocation && tourLocation !== 'nepal' && fullBlogText.includes(tourLocation)) {
+                score += 20;
+            }
+
+            if (tourCategory && (blogCategory.includes(tourCategory) || tourCategory.includes(blogCategory))) {
+                score += 15;
+            }
+
+            titleKeywords.forEach((keyword: string) => {
+                if (tourTitle.includes(keyword)) {
+                    score += 10;
+                }
+            });
+
+            tourActivities.forEach((activity: string) => {
+                if (fullBlogText.includes(activity)) {
+                    score += 8;
+                } else {
+                    const words = activity.split(' ');
+                    words.forEach((word: string) => {
+                        if (word.length > 4 && !stopWords.has(word) && fullBlogText.includes(word)) {
+                            score += 4;
+                        }
+                    });
+                }
+            });
+
+            if (destinations) {
+                destinations.forEach((dest: any) => {
+                    const destName = (dest.name || '').toLowerCase();
+                    if (destName.length > 3 && (tourTitle.includes(destName) || tourLocation.includes(destName)) && fullBlogText.includes(destName)) {
+                        score += 12;
+                    }
+                });
+            }
+
+            if (tour.featured) score += 2;
+
+            return { ...tour, score };
+        });
+
+        let results = scoredTours
+            .filter((t: any) => t.score > 2)
+            .sort((a: any, b: any) => b.score - a.score);
+
+        if (results.length < 3) {
+            const categoryTours = toursList
+                .filter((t: any) =>
+                    (t.category || '').toLowerCase().includes(blogCategory) ||
+                    blogCategory.includes((t.category || '').toLowerCase())
+                )
+                .filter((t: any) => !results.some((r: any) => r.id === t.id))
+                .slice(0, 3 - results.length);
+
+            results = [...results, ...categoryTours];
+        }
+
+        if (results.length < 3) {
+            const featuredTours = toursList
+                .filter((t: any) => t.featured)
+                .filter((t: any) => !results.some((r: any) => r.id === t.id))
+                .slice(0, 3 - results.length);
+
+            results = [...results, ...featuredTours];
+        }
+
+        return results.slice(0, 3);
+    };
+
+    const recommendedTours = getRecommendedTours();
+
+    return (
+        <>
+            <SEO
+                title={`${post.title} | Nepal Travel Guide — Zeo Tourism`}
+                description={post.excerpt}
+                keywords={`${post.category}, ${post.title}, Nepal travel guide, Nepal trekking tips, Zeo Tourism blog`}
+                image={post.image}
+                url={pageUrl}
+                type="article"
+                structuredData={[articleSchema, breadcrumbSchema]}
+            />
+
+            <motion.div
+                className="fixed top-0 left-0 right-0 h-1.5 bg-primary origin-left z-[100]"
+                style={{ scaleX }}
+            />
+
+            <article className="blog-post-detail bg-white min-h-screen pb-20">
+                <header className="relative h-[60vh] md:h-[80vh] w-full overflow-hidden">
+                    <motion.div
+                        initial={{ scale: 1.1 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 1.5 }}
+                        className="absolute inset-0"
+                    >
+                        {post.image && (
+                            <img
+                                src={post.image}
+                                alt={post.title}
+                                fetchPriority="high"
+                                className="w-full h-full object-cover"
+                            />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                    </motion.div>
+
+                    <div className="absolute inset-0 flex flex-col justify-end">
+                        <div className="container mx-auto px-4 pb-12 md:pb-24">
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3 }}
+                                className="max-w-4xl"
+                            >
+                                <span className="inline-block bg-secondary text-white px-4 py-1.5 rounded-2xl text-sm font-bold tracking-widest uppercase mb-6 shadow-xl">
+                                    {post.category}
+                                </span>
+                                <h1 className="text-4xl md:text-7xl font-serif font-bold text-white mb-8 leading-[1.1]">
+                                    {post.title}
+                                </h1>
+                                <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm md:text-base font-medium">
+                                    <span className="flex items-center gap-2"><Calendar className="w-5 h-5 text-secondary" /> {post.date}</span>
+                                    <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                                    <span className="flex items-center gap-2"><Clock className="w-5 h-5 text-secondary" /> {post.readTime} read</span>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </header>
+
+                <div className="container mx-auto px-4 pt-6 relative z-30">
+                    <Breadcrumb
+                        items={[
+                            { name: 'Blog', href: '/blog' },
+                            { name: post.category, href: `/blog?category=${encodeURIComponent(post.category)}` },
+                            { name: post.title }
+                        ]}
+                    />
+                </div>
+
+                <div className="container mx-auto px-4 -mt-10 relative z-20">
+                    <div className="flex flex-col lg:flex-row gap-12">
+                        <div className="lg:w-2/3">
+                            <div className="bg-white p-8 md:p-16 shadow-2xl shadow-slate-200/50 border border-gray-100">
+                                <MarkdownArticle content={post.content || ""} />
+
+                                <div className="mt-16 pt-10 border-t border-gray-100 flex flex-wrap items-center gap-3">
+                                    <Tag className="w-5 h-5 text-primary mr-2" />
+                                    <span className="bg-slate-50 text-slate-600 px-4 py-1.5 text-sm font-semibold border border-slate-100">
+                                        {post.category}
+                                    </span>
+                                </div>
+
+                                <div className="mt-10 p-6 bg-slate-50 border border-slate-100 flex items-start gap-5">
+                                    <div className="w-14 h-14 bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                        <User className="w-7 h-7 text-primary" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Written by</p>
+                                        <h4 className="text-lg font-bold text-gray-900">{post.author}</h4>
+                                        <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                                            <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {post.date}</span>
+                                            <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {post.readTime} read</span>
+                                        </div>
+                                        <Link
+                                            href={`/blog?author=${encodeURIComponent(post.author)}`}
+                                            className="inline-block mt-3 text-sm font-semibold text-primary hover:underline"
+                                        >
+                                            More articles by {post.author} →
+                                        </Link>
+                                    </div>
+
+                                    <div className="hidden md:block flex-shrink-0">
+                                        <SocialShare url={pageUrl} title={post.title} layout="row" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <aside className="lg:w-1/3">
+                            <div className="sticky top-24 space-y-8">
+                                <TableOfContents markdownContent={post.content || ""} />
+
+                                <div className="bg-slate-50 p-8 border border-slate-100">
+                                    <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                                        <Share2 className="w-5 h-5 text-primary" /> Share this Story
+                                    </h3>
+                                    <SocialShare url={pageUrl} title={post.title} layout="grid" />
+                                </div>
+
+                                <div className="bg-gradient-to-br from-primary to-primary-dark p-8 text-white relative overflow-hidden shadow-xl">
+                                    <div className="relative z-10">
+                                        <h3 className="text-2xl font-bold mb-4">Plan your Nepal Trip?</h3>
+                                        <p className="text-white/80 mb-6">Expert travel consultation for your customized itinerary. Join 10k+ happy travelers.</p>
+                                        <Link
+                                            href="/contact"
+                                            className="block w-full text-center bg-secondary hover:bg-secondary-dark text-white py-4 font-bold transition-all transform hover:scale-105"
+                                        >
+                                            Talk to an Expert
+                                        </Link>
+                                    </div>
+                                    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 blur-3xl" />
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+
+                {recommendedTours.length > 0 && (
+                    <section className="container mx-auto px-4 mt-24">
+                        <div className="flex items-end justify-between mb-12">
+                            <div>
+                                <span className="text-primary font-bold tracking-widest uppercase text-sm">Adventure Awaits</span>
+                                <h2 className="text-4xl font-serif font-bold text-gray-900 mt-2">Recommended Adventures</h2>
+                            </div>
+                            <Link href="/tours" className="text-primary font-bold hover:underline mb-2 flex items-center gap-2">
+                                Discover More Tours <ArrowLeft className="w-4 h-4 rotate-180" />
+                            </Link>
+                        </div>
+                        <div className="max-w-7xl mx-auto">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {recommendedTours.map((tour: any) => (
+                                    <TourCard
+                                        key={tour.id}
+                                        tour={tour}
+                                        destinations={destinations || []}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                )}
+
+                {relatedPosts.length > 0 && (
+                    <section className="container mx-auto px-4 mt-24">
+                        <div className="flex items-end justify-between mb-12">
+                            <div>
+                                <span className="text-primary font-bold tracking-widest uppercase text-sm">More to read</span>
+                                <h2 className="text-4xl font-serif font-bold text-gray-900 mt-2">Related Articles</h2>
+                            </div>
+                            <Link href="/blog" className="text-primary font-bold hover:underline mb-2 flex items-center gap-2">
+                                View Blog <ArrowLeft className="w-4 h-4 rotate-180" />
+                            </Link>
+                        </div>
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {relatedPosts.map((rPost: any) => (
+                                <Link
+                                    key={rPost.id}
+                                    href={`/blog/${rPost.slug}`}
+                                    className="group block bg-white overflow-hidden border border-gray-100 hover:shadow-xl transition-all h-full flex flex-col"
+                                >
+                                    <div className="h-56 overflow-hidden">
+                                        {rPost.image ? (
+                                            <img
+                                                src={rPost.image}
+                                                alt={rPost.title}
+                                                loading="lazy"
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full bg-slate-200" />
+                                        )}
+                                    </div>
+                                    <div className="p-6 flex flex-col flex-grow">
+                                        <span className="text-xs font-bold text-primary mb-3 uppercase tracking-wider">{rPost.category}</span>
+                                        <h4 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                                            {rPost.title}
+                                        </h4>
+                                        <p className="text-gray-500 text-sm line-clamp-2 mb-4">{rPost.excerpt}</p>
+                                        <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between text-xs font-semibold text-gray-400">
+                                            <span>{rPost.date}</span>
+                                            <span>{rPost.readTime}</span>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+                )}
+            </article>
+        </>
+    );
+};
+
+export default BlogPostPage;
+
+===== next-zeo/src/components/Blog/MarkdownArticle.tsx =====
+import React, { useMemo } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeSanitize from 'rehype-sanitize';
+import { htmlToPlainText } from '@/lib/blogMarkdown';
+
+interface MarkdownArticleProps {
+    content: string;
+    className?: string;
+}
+
+const normalizeInput = (content: string) => {
+    const trimmed = (content || '').trim();
+    if (!trimmed) return '';
+    const looksLikeHtml = /<\/?[a-z][\s\S]*>/i.test(trimmed) || /&lt;\/?[a-z][\s\S]*&gt;/i.test(trimmed);
+    return looksLikeHtml ? htmlToPlainText(trimmed) : trimmed;
+};
+
+const MarkdownArticle: React.FC<MarkdownArticleProps> = ({ content, className = '' }) => {
+    const markdown = useMemo(() => normalizeInput(content), [content]);
+
+    return (
+        <div className={`blog-post-content blog-article-rich max-w-none break-words scroll-mt-24 ${className}`}>
+            <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeSanitize]}
+                components={{
+                    h1: ({ node: _node, ...props }) => <h2 className="mt-12 mb-5 border-t border-slate-200 pt-8 font-serif text-4xl font-extrabold leading-tight text-slate-950" {...props} />,
+                    h2: ({ node: _node, ...props }) => <h2 className="mt-12 mb-5 border-t border-slate-200 pt-8 font-serif text-3xl font-extrabold leading-tight text-slate-950" {...props} />,
+                    h3: ({ node: _node, ...props }) => <h3 className="mt-9 mb-4 border-l-4 border-primary pl-4 text-2xl font-bold leading-snug text-slate-900" {...props} />,
+                    h4: ({ node: _node, ...props }) => <h4 className="mt-7 mb-3 text-lg font-extrabold uppercase tracking-wide text-primary" {...props} />,
+                    p: ({ node: _node, ...props }) => <p className="my-5 text-[1.05rem] leading-8 text-slate-700" {...props} />,
+                    ul: ({ node: _node, ...props }) => <ul className="my-6 border border-slate-200 bg-slate-50 py-5 pl-8 pr-5 text-slate-700 space-y-2 list-disc" {...props} />,
+                    ol: ({ node: _node, ...props }) => <ol className="my-6 border border-slate-200 bg-slate-50 py-5 pl-8 pr-5 text-slate-700 space-y-2 list-decimal" {...props} />,
+                    li: ({ node: _node, ...props }) => <li className="pl-1 leading-7 marker:text-secondary marker:font-bold" {...props} />,
+                    blockquote: ({ node: _node, ...props }) => <blockquote className="my-8 border-l-4 border-primary bg-blue-50 px-6 py-5 text-lg italic leading-8 text-slate-800" {...props} />,
+                    table: ({ node: _node, ...props }) => (
+                        <div className="my-8 overflow-x-auto border border-slate-200">
+                            <table className="w-full min-w-[560px] border-collapse text-left text-sm" {...props} />
+                        </div>
+                    ),
+                    th: ({ node: _node, ...props }) => <th className="border border-slate-200 bg-primary px-4 py-3 font-bold text-white" {...props} />,
+                    td: ({ node: _node, ...props }) => <td className="border border-slate-200 px-4 py-3 align-top text-slate-700" {...props} />,
+                    strong: ({ node: _node, ...props }) => <strong className="font-extrabold text-slate-950" {...props} />,
+                    em: ({ node: _node, ...props }) => <em className="italic text-slate-800" {...props} />,
+                    code: ({ node: _node, ...props }) => <code className="bg-slate-100 px-1.5 py-0.5 text-sm font-semibold text-slate-900" {...props} />,
+                    a: ({ node: _node, ...props }) => <a className="font-bold text-primary underline decoration-2 underline-offset-4 hover:text-primary-dark" target="_blank" rel="noopener noreferrer" {...props} />,
+                }}
+            >
+                {markdown}
+            </ReactMarkdown>
+        </div>
+    );
+};
+
+export default MarkdownArticle;
+
+===== next-zeo/src/components/Blog/TableOfContents.tsx =====
+"use client";
+
+import React, { useEffect, useState, useRef } from 'react';
+import { List } from 'lucide-react';
+
+interface Heading {
+  id: string;
+  text: string;
+  level: number;
+}
+
+interface TableOfContentsProps {
+  markdownContent: string;
+}
+
+/**
+ * Parses h2/h3 headings from HTML string, injects stable IDs into the live DOM,
+ * and renders a sticky TOC with active-section highlighting.
+ */
+const TableOfContents: React.FC<TableOfContentsProps> = ({ markdownContent }) => {
+  const [headings, setHeadings] = useState<Heading[]>([]);
+  const [activeId, setActiveId] = useState<string>('');
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // Extract headings from the rendered DOM (runs after content is painted)
+  useEffect(() => {
+    // Give the prose container time to render
+    const timer = setTimeout(() => {
+      const article = document.querySelector('.blog-post-content');
+      if (!article) return;
+
+      const nodes = Array.from(article.querySelectorAll('h2, h3'));
+      const extracted: Heading[] = nodes.map((el, idx) => {
+        const text = el.textContent?.trim() || `section-${idx}`;
+        const slug = text
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .slice(0, 60);
+        const id = `toc-${slug}-${idx}`;
+        el.id = id;
+        return { id, text, level: parseInt(el.tagName[1], 10) };
+      });
+
+      setHeadings(extracted);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [markdownContent]);
+
+  // Highlight active section as user scrolls
+  useEffect(() => {
+    if (!headings.length) return;
+
+    observerRef.current?.disconnect();
+
+    observerRef.current = new IntersectionObserver(
+      entries => {
+        // Pick the topmost visible heading
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length) setActiveId(visible[0].target.id);
+      },
+      { rootMargin: '0px 0px -60% 0px', threshold: 0 }
+    );
+
+    headings.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observerRef.current!.observe(el);
+    });
+
+    return () => observerRef.current?.disconnect();
+  }, [headings]);
+
+  if (headings.length < 2) return null;
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const offset = 96; // height of sticky nav
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
+
+  return (
+    <nav aria-label="Table of contents" className="bg-slate-50 rounded-2xl border border-slate-100 p-6">
+      <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-4 flex items-center gap-2">
+        <List className="w-4 h-4 text-primary" />
+        In this article
+      </h3>
+      <ol className="space-y-1">
+        {headings.map(({ id, text, level }) => (
+          <li key={id} style={{ paddingLeft: level === 3 ? '1rem' : '0' }}>
+            <button
+              onClick={() => scrollTo(id)}
+              className={`text-left w-full text-sm py-1 leading-snug transition-colors duration-150 ${
+                activeId === id
+                  ? 'text-primary font-semibold'
+                  : 'text-slate-500 hover:text-primary'
+              }`}
+            >
+              {activeId === id && (
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mr-2 align-middle" />
+              )}
+              {text}
+            </button>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+};
+
+export default TableOfContents;
+
+===== next-zeo/app/blog/[slug]/page.tsx =====
+export const revalidate = 3600;
+
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import BlogPostComponent from '../../../src/components/Blog/BlogPost';
+import JsonLd from '../../../src/components/seo/JsonLd';
+import { getPostBySlug } from '../../../src/server/repositories/content';
+import { createArticleSchema, createBreadcrumbSchema } from '../../../src/server/seo/schema';
+import { mergeSeoKeywords } from '../../../src/lib/blogSeo';
+
+const siteUrl = (process.env.APP_URL || 'https://zeotourism.com').replace(/\/$/, '');
+
+function absoluteUrl(value?: string | null) {
+  if (!value) return `${siteUrl}/logo/zeo-logo.png`;
+  if (value.startsWith('http://') || value.startsWith('https://')) return value;
+  return `${siteUrl}${value.startsWith('/') ? value : `/${value}`}`;
+}
+
+function seoString(seo: Record<string, unknown>, key: string) {
+  const value = seo[key];
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function seoStringArray(seo: Record<string, unknown>, key: string) {
+  const value = seo[key];
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) return { title: 'Article not found' };
+
+  const canonical = `${siteUrl}/blog/${slug}`;
+  const seo = post.seo || {};
+  const title = seoString(seo, 'title') || `${post.title} | Zeo Tourism`;
+  const description = seoString(seo, 'description') || post.excerpt || `Practical travel guidance for ${post.title} from Zeo Tourism.`;
+  const image = absoluteUrl(post.image);
+  const imageAlt = seoString(seo, 'imageAlt') || post.title;
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url: canonical,
+      siteName: 'Zeo Tourism',
+      publishedTime: post.published_at ? new Date(post.published_at).toISOString() : undefined,
+      modifiedTime: post.updated_at ? new Date(post.updated_at).toISOString() : undefined,
+      images: [{ url: image, alt: imageAlt }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
+
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) notFound();
+
+  const canonical = `${siteUrl}/blog/${slug}`;
+  const publishDate = post.published_at || post.created_at || post.updated_at;
+  const seo = post.seo || {};
+  const description = seoString(seo, 'description') || post.excerpt || '';
+  const schemaTags = mergeSeoKeywords(
+    seoString(seo, 'primaryQuery'),
+    Array.isArray(post.tags) ? post.tags : [],
+    seoStringArray(seo, 'secondaryTopics'),
+  );
+
+  const structuredData = [
+    createArticleSchema({
+      title: seoString(seo, 'title') || post.title,
+      description,
+      author: post.author || 'Zeo Tourism',
+      publishDate: publishDate ? new Date(publishDate).toISOString() : '',
+      modifiedDate: post.updated_at ? new Date(post.updated_at).toISOString() : undefined,
+      image: absoluteUrl(post.image),
+      url: canonical,
+      category: post.category || 'Travel',
+      tags: schemaTags,
+    }),
+    createBreadcrumbSchema([
+      { name: 'Home', url: siteUrl },
+      { name: 'Blog', url: `${siteUrl}/blog` },
+      { name: post.title, url: canonical },
+    ]),
+  ];
+
+  return (
+    <>
+      <JsonLd data={structuredData} />
+      <BlogPostComponent post={post} />
+    </>
+  );
+}
+
+===== next-zeo/src/lib/blogSeo.ts =====
+export type BlogSearchIntent = '' | 'learn' | 'plan' | 'compare' | 'requirements' | 'decide' | 'book';
+
+export type BlogSeoReadinessInput = {
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  imageUrl: string;
+  imageAlt: string;
+  seoTitle: string;
+  seoDescription: string;
+  primaryQuery: string;
+  searchIntent: BlogSearchIntent;
+  targetReader: string;
+  secondaryTopics: string[];
+};
+
+export type BlogSeoCheck = {
+  id: string;
+  label: string;
+  complete: boolean;
+  priority: 'essential' | 'improvement';
+  help: string;
+};
+
+const markdownLinkPattern = /\[[^\]]+\]\(([^)]+)\)/g;
+
+export function countMarkdownHeadings(content: string) {
+  return content
+    .split(/\r?\n/)
+    .filter(line => /^##\s+\S/.test(line.trim())).length;
+}
+
+export function countInternalLinks(content: string) {
+  let count = 0;
+  for (const match of content.matchAll(markdownLinkPattern)) {
+    const href = match[1]?.trim() || '';
+    if (href.startsWith('/') || href.startsWith('#')) count += 1;
+  }
+  return count;
+}
+
+export function normalizeTopicList(value: string | string[]) {
+  const values = Array.isArray(value) ? value : value.split(',');
+  return [...new Set(values.map(item => item.trim()).filter(Boolean))];
+}
+
+export function mergeSeoKeywords(primaryQuery: string, tags: string[], secondaryTopics: string[]) {
+  return [...new Set([primaryQuery, ...tags, ...secondaryTopics].map(item => item.trim()).filter(Boolean))];
+}
+
+export function buildBlogSeoReadiness(input: BlogSeoReadinessInput): BlogSeoCheck[] {
+  const headingCount = countMarkdownHeadings(input.content);
+  const internalLinkCount = countInternalLinks(input.content);
+  const effectiveSeoTitle = input.seoTitle.trim() || input.title.trim();
+  const effectiveDescription = input.seoDescription.trim() || input.excerpt.trim();
+
+  return [
+    {
+      id: 'title',
+      label: 'Clear article title',
+      complete: input.title.trim().length > 0,
+      priority: 'essential',
+      help: 'Add a specific title that states what the guide helps the reader do.',
+    },
+    {
+      id: 'slug',
+      label: 'Readable article URL',
+      complete: input.slug.trim().length > 0,
+      priority: 'essential',
+      help: 'A descriptive URL is required before publishing.',
+    },
+    {
+      id: 'summary',
+      label: 'Useful short summary',
+      complete: input.excerpt.trim().length >= 60,
+      priority: 'essential',
+      help: 'Explain the value of the article in one or two useful sentences.',
+    },
+    {
+      id: 'content',
+      label: 'Complete article content',
+      complete: input.content.trim().length > 0,
+      priority: 'essential',
+      help: 'Write the main guide before publishing.',
+    },
+    {
+      id: 'primary-query',
+      label: 'One primary search query',
+      complete: input.primaryQuery.trim().length > 0,
+      priority: 'improvement',
+      help: 'State the real search phrase this page should answer.',
+    },
+    {
+      id: 'intent',
+      label: 'Search intent selected',
+      complete: input.searchIntent.length > 0,
+      priority: 'improvement',
+      help: 'Choose what the reader is trying to accomplish.',
+    },
+    {
+      id: 'reader',
+      label: 'Target reader defined',
+      complete: input.targetReader.trim().length > 0,
+      priority: 'improvement',
+      help: 'Describe who the advice is for so the article stays practical.',
+    },
+    {
+      id: 'topics',
+      label: 'Supporting topics added',
+      complete: input.secondaryTopics.length >= 2,
+      priority: 'improvement',
+      help: 'Add the important related questions the article should cover.',
+    },
+    {
+      id: 'headings',
+      label: 'Article has useful sections',
+      complete: headingCount >= 2,
+      priority: 'improvement',
+      help: 'Use at least two descriptive H2 sections to make the guide scannable.',
+    },
+    {
+      id: 'internal-links',
+      label: 'Relevant internal link added',
+      complete: internalLinkCount >= 1,
+      priority: 'improvement',
+      help: 'Link to a useful Zeo tour, destination, activity or related guide.',
+    },
+    {
+      id: 'cover',
+      label: 'Cover image added',
+      complete: input.imageUrl.trim().length > 0,
+      priority: 'improvement',
+      help: 'Add a clear image for cards, the article hero and social sharing.',
+    },
+    {
+      id: 'image-alt',
+      label: 'Cover image alt text',
+      complete: !input.imageUrl.trim() || input.imageAlt.trim().length > 0,
+      priority: 'improvement',
+      help: 'Describe what is visibly shown in the cover image.',
+    },
+    {
+      id: 'search-title',
+      label: 'Search title is concise',
+      complete: effectiveSeoTitle.length >= 20 && effectiveSeoTitle.length <= 65,
+      priority: 'improvement',
+      help: 'Keep the search title clear and usually within about 20–65 characters.',
+    },
+    {
+      id: 'search-description',
+      label: 'Search description is useful',
+      complete: effectiveDescription.length >= 70 && effectiveDescription.length <= 170,
+      priority: 'improvement',
+      help: 'Summarize the page accurately in roughly 70–170 characters.',
+    },
+  ];
+}
+
+===== next-zeo/package.json =====
+{
+  "name": "next-zeo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "lint:strict": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test:regression": "tsx --test tests/*.test.ts",
+    "db:test": "tsx src/server/scripts/test-connection.ts",
+    "db:migrate": "tsx src/server/db/migrate.ts",
+    "deploy:migrate": "node deployment/run-migrations.mjs",
+    "db:import": "tsx src/server/scripts/import-json.ts",
+    "admin:create": "tsx src/server/scripts/create-admin.ts",
+    "api:verify": "tsx src/server/scripts/verify-api.ts",
+    "api:verify:writes": "tsx src/server/scripts/verify-api-writes.ts",
+    "verify:public-seo": "tsx scripts/verify-public-seo.ts",
+    "verify": "npm run lint && npm run typecheck && npm run build && npm run verify:public-seo",
+    "build:cpanel": "npm run build && bash scripts/pack-standalone.sh"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1079.0",
+    "@headlessui/react": "^2.2.10",
+    "@heroicons/react": "^2.2.0",
+    "bcryptjs": "latest",
+    "date-fns": "^4.4.0",
+    "dotenv": "latest",
+    "framer-motion": "^12.42.2",
+    "lucide-react": "^1.23.0",
+    "mysql2": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-countup": "^6.5.3",
+    "react-dom": "latest",
+    "react-icons": "^5.7.0",
+    "react-markdown": "^10.1.0",
+    "react-quill-new": "^3.8.3",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "sharp": "^0.35.3",
+    "swiper": "^14.0.1",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "latest",
+    "@tailwindcss/postcss": "^4.3.2",
+    "@tailwindcss/typography": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "autoprefixer": "latest",
+    "cheerio": "^1.2.0",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "postcss": "latest",
+    "tailwindcss": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}
+
