@@ -158,50 +158,75 @@ export const createBreadcrumbSchema = (breadcrumbs: Array<{ name: string; url: s
 export const createArticleSchema = (article: {
   title: string;
   description: string;
-  author: string;
+  author: string | { name: string; url?: string; image?: string; title?: string };
+  reviewer?: { name: string; url?: string; title?: string };
   publishDate: string;
   modifiedDate?: string;
+  reviewedDate?: string;
   image: string;
+  imageAlt?: string;
   url: string;
   category: string;
   tags: string[];
-}) => validateAndLogSchema({
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "@id": `${article.url}#article`,
-  headline: article.title,
-  description: article.description,
-  image: {
-    "@type": "ImageObject",
-    url: article.image
-  },
-  author: {
-    "@type": article.author === "Zeo Tourism" ? "Organization" : "Person",
-    ...(article.author === "Zeo Tourism" ? { "@id": `https://zeotourism.com/#organization` } : {}),
-    name: article.author
-  },
-  publisher: {
-    "@type": "Organization",
-    "@id": `https://zeotourism.com/#organization`,
-    name: "Zeo Tourism",
-    logo: {
+}) => {
+  const author = typeof article.author === "string"
+    ? {
+        "@type": article.author === "Zeo Tourism" ? "Organization" : "Person",
+        ...(article.author === "Zeo Tourism" ? { "@id": `https://zeotourism.com/#organization` } : {}),
+        name: article.author,
+      }
+    : {
+        "@type": "Person",
+        name: article.author.name,
+        ...(article.author.url ? { url: article.author.url } : {}),
+        ...(article.author.image ? { image: article.author.image } : {}),
+        ...(article.author.title ? { jobTitle: article.author.title } : {}),
+      };
+
+  return validateAndLogSchema({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${article.url}#article`,
+    headline: article.title,
+    description: article.description,
+    image: {
       "@type": "ImageObject",
-      url: `https://zeotourism.com/logo/zeo-logo.png`
-    }
-  },
-  datePublished: article.publishDate,
-  dateModified: article.modifiedDate || article.publishDate,
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": article.url
-  },
-  articleSection: article.category,
-  keywords: article.tags.join(", "),
-  speakable: {
-    "@type": "SpeakableSpecification",
-    cssSelector: ["h1", "h2", ".article-summary", ".blog-post-content p:first-of-type"]
-  }
-}, "BlogPosting");
+      url: article.image,
+      ...(article.imageAlt ? { caption: article.imageAlt } : {}),
+    },
+    author,
+    ...(article.reviewer ? {
+      reviewedBy: {
+        "@type": "Person",
+        name: article.reviewer.name,
+        ...(article.reviewer.url ? { url: article.reviewer.url } : {}),
+        ...(article.reviewer.title ? { jobTitle: article.reviewer.title } : {}),
+      },
+    } : {}),
+    publisher: {
+      "@type": "Organization",
+      "@id": `https://zeotourism.com/#organization`,
+      name: "Zeo Tourism",
+      logo: {
+        "@type": "ImageObject",
+        url: `https://zeotourism.com/logo/zeo-logo.png`,
+      },
+    },
+    datePublished: article.publishDate,
+    dateModified: article.modifiedDate || article.publishDate,
+    ...(article.reviewedDate ? { sdDatePublished: article.reviewedDate } : {}),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": article.url,
+    },
+    articleSection: article.category,
+    keywords: article.tags.join(", "),
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "h2", ".article-summary", ".blog-post-content p:first-of-type"],
+    },
+  }, "BlogPosting");
+};
 
 // Full TouristTrip schema — AI search engines recognise this far better than Product/Trip
 export const createTouristTripSchema = (tour: {
