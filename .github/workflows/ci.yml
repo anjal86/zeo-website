@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   verify:
@@ -66,3 +70,135 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Package production release
+        if: github.event_name != 'pull_request'
+        run: bash scripts/pack-standalone.sh
+
+      - name: Upload cPanel release
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpanel-release-${{ github.sha }}
+          path: next-zeo/cpanel-deploy.zip
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: Deploy verified release to cPanel
+    needs: verify
+    if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && vars.CPANEL_DEPLOY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    concurrency:
+      group: zeo-production-cpanel
+      cancel-in-progress: false
+    env:
+      CPANEL_HOST: ${{ vars.CPANEL_HOST }}
+      CPANEL_PORT: ${{ vars.CPANEL_PORT || '22' }}
+      CPANEL_USER: ${{ vars.CPANEL_USER }}
+      CPANEL_APP_PATH: ${{ vars.CPANEL_APP_PATH }}
+      CPANEL_SITE_URL: ${{ vars.CPANEL_SITE_URL }}
+      CPANEL_DEPLOY_ENV_FILE: ${{ vars.CPANEL_DEPLOY_ENV_FILE }}
+      CPANEL_NODE_BIN: ${{ vars.CPANEL_NODE_BIN || 'node' }}
+      CPANEL_KEEP_RELEASES: ${{ vars.CPANEL_KEEP_RELEASES || '3' }}
+
+    steps:
+      - name: Download verified release
+        uses: actions/download-artifact@v4
+        with:
+          name: cpanel-release-${{ github.sha }}
+
+      - name: Extract deployment script
+        run: |
+          unzip -p cpanel-deploy.zip deployment/cpanel-release.sh > cpanel-release.sh
+          chmod +x cpanel-release.sh
+
+      - name: Validate deployment configuration
+        env:
+          DEPLOY_KEY: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.CPANEL_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          : "${CPANEL_HOST:?Set repository variable CPANEL_HOST}"
+          : "${CPANEL_USER:?Set repository variable CPANEL_USER}"
+          : "${CPANEL_APP_PATH:?Set repository variable CPANEL_APP_PATH}"
+          : "${CPANEL_SITE_URL:?Set repository variable CPANEL_SITE_URL}"
+          : "${CPANEL_DEPLOY_ENV_FILE:?Set repository variable CPANEL_DEPLOY_ENV_FILE}"
+          : "${DEPLOY_KEY:?Set secret CPANEL_SSH_PRIVATE_KEY}"
+          : "${KNOWN_HOSTS:?Set secret CPANEL_SSH_KNOWN_HOSTS}"
+          [[ "$CPANEL_PORT" =~ ^[0-9]+$ ]] || { echo "CPANEL_PORT must be numeric"; exit 1; }
+          [[ "$CPANEL_APP_PATH" =~ ^/[A-Za-z0-9._/-]+$ ]] || { echo "CPANEL_APP_PATH must be an absolute path without spaces"; exit 1; }
+          [[ "$CPANEL_DEPLOY_ENV_FILE" =~ ^/[A-Za-z0-9._/-]+$ ]] || { echo "CPANEL_DEPLOY_ENV_FILE must be an absolute path without spaces"; exit 1; }
+          [[ "$CPANEL_SITE_URL" =~ ^https:// ]] || { echo "CPANEL_SITE_URL must use HTTPS"; exit 1; }
+
+      - name: Configure SSH
+        env:
+          DEPLOY_KEY: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.CPANEL_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/cpanel_deploy_key
+          chmod 600 ~/.ssh/cpanel_deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          ssh-keygen -y -f ~/.ssh/cpanel_deploy_key >/dev/null
+
+      - name: Upload release archive
+        run: |
+          set -euo pipefail
+          SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes)
+          SCP=(scp -i ~/.ssh/cpanel_deploy_key -P "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes)
+          TARGET="$CPANEL_USER@$CPANEL_HOST"
+          "${SSH[@]}" "$TARGET" "mkdir -p '$CPANEL_APP_PATH/.deploy/incoming'"
+          "${SCP[@]}" cpanel-deploy.zip "$TARGET:$CPANEL_APP_PATH/.deploy/incoming/${GITHUB_SHA}.zip"
+
+      - name: Run migrations and publish release
+        run: |
+          set -euo pipefail
+          SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes)
+          TARGET="$CPANEL_USER@$CPANEL_HOST"
+          "${SSH[@]}" "$TARGET" \
+            "bash -s -- '$CPANEL_APP_PATH' '$GITHUB_SHA' '$CPANEL_DEPLOY_ENV_FILE' '$CPANEL_NODE_BIN' deploy '$CPANEL_KEEP_RELEASES'" \
+            < cpanel-release.sh
+
+      - name: Verify production and roll back on failure
+        run: |
+          set -euo pipefail
+          healthy=false
+          HEALTH_URL="${CPANEL_SITE_URL%/}/api/health"
+          for attempt in $(seq 1 12); do
+            response=$(curl --fail --silent --show-error --location --max-time 20 "$HEALTH_URL" || true)
+            status=$(printf '%s' "$response" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("status", ""))' 2>/dev/null || true)
+            release=$(printf '%s' "$response" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("release", ""))' 2>/dev/null || true)
+            if [[ "$status" == "ok" && "$release" == "$GITHUB_SHA" ]]; then
+              healthy=true
+              break
+            fi
+            echo "Health check attempt $attempt returned status=${status:-invalid} release=${release:-unknown}; retrying..."
+            sleep 10
+          done
+
+          if [[ "$healthy" != true ]]; then
+            echo "Production did not report the expected healthy release. Rolling back."
+            SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes)
+            TARGET="$CPANEL_USER@$CPANEL_HOST"
+            "${SSH[@]}" "$TARGET" \
+              "bash -s -- '$CPANEL_APP_PATH' '$GITHUB_SHA' '$CPANEL_DEPLOY_ENV_FILE' '$CPANEL_NODE_BIN' rollback '$CPANEL_KEEP_RELEASES'" \
+              < cpanel-release.sh
+            exit 1
+          fi
+
+      - name: Deployment summary
+        run: |
+          {
+            echo "## cPanel deployment complete"
+            echo ""
+            echo "- Commit: \`$GITHUB_SHA\`"
+            echo "- Site: $CPANEL_SITE_URL"
+            echo "- Build ran on GitHub; cPanel only received the standalone release."
+            echo "- Pending database migrations ran before Passenger restart."
+            echo "- Production health confirmed the exact deployed commit."
+          } >> "$GITHUB_STEP_SUMMARY"
