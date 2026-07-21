@@ -163,9 +163,9 @@ jobs:
       - name: Run migrations and publish release
         run: |
           set -euo pipefail
-          SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes)
+          SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o ServerAliveInterval=10 -o ServerAliveCountMax=3)
           TARGET="$CPANEL_USER@$CPANEL_HOST"
-          "${SSH[@]}" "$TARGET" \
+          timeout 300s "${SSH[@]}" "$TARGET" \
             "bash -s -- '$CPANEL_APP_PATH' '$GITHUB_SHA' '$CPANEL_DEPLOY_ENV_FILE' '$CPANEL_NODE_BIN' deploy '$CPANEL_KEEP_RELEASES'" \
             < cpanel-release.sh
 
@@ -188,9 +188,9 @@ jobs:
 
           if [[ "$healthy" != true ]]; then
             echo "Production did not report the expected healthy release. Rolling back."
-            SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes)
+            SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o ServerAliveInterval=10 -o ServerAliveCountMax=3)
             TARGET="$CPANEL_USER@$CPANEL_HOST"
-            "${SSH[@]}" "$TARGET" \
+            timeout 180s "${SSH[@]}" "$TARGET" \
               "bash -s -- '$CPANEL_APP_PATH' '$GITHUB_SHA' '$CPANEL_DEPLOY_ENV_FILE' '$CPANEL_NODE_BIN' rollback '$CPANEL_KEEP_RELEASES'" \
               < cpanel-release.sh
             exit 1

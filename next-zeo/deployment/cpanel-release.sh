@@ -59,15 +59,25 @@ restart_passenger() {
   mkdir -p "$APP_ROOT/tmp"
   touch "$APP_ROOT/tmp/restart.txt"
 
-  # restart.txt reloads a running Passenger worker, but it cannot recover an
-  # application that CloudLinux currently considers stopped. Starting an
-  # already-running app may return non-zero, so the health check remains the
-  # authoritative result.
+  # restart.txt reloads a running Passenger worker. Recover through CloudLinux
+  # only when this specific app has no worker; starting an app CloudLinux still
+  # considers running can block indefinitely.
   if command -v cloudlinux-selector >/dev/null 2>&1; then
-    local selector_root=${APP_ROOT#"$HOME"/}
-    cloudlinux-selector start \
-      --interpreter nodejs \
-      --app-root "$selector_root" >/dev/null 2>&1 || true
+    local pid worker_running=false
+    for pid in $(pgrep -u "$USER" -f '^next-server \(v' || true); do
+      if [[ "$(readlink "/proc/$pid/cwd" 2>/dev/null || true)" == "$APP_ROOT" ]]; then
+        worker_running=true
+        break
+      fi
+    done
+
+    if [[ "$worker_running" == false ]]; then
+      local selector_root=${APP_ROOT#"$HOME"/}
+      timeout 20s cloudlinux-selector stop \
+        --interpreter nodejs --app-root "$selector_root" >/dev/null 2>&1 || true
+      timeout 30s cloudlinux-selector start \
+        --interpreter nodejs --app-root "$selector_root" >/dev/null 2>&1 || true
+    fi
   fi
 }
 
