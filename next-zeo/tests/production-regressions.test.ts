@@ -107,6 +107,20 @@ test("settings and director editors block saving after failed initial loads", as
   }
 });
 
+test("blog SEO database reads stay within shared-hosting connection limits", async () => {
+  const repository = await file("../src/server/repositories/blog-seo.ts");
+  const analyzeRoute = await file("../app/api/admin/seo/analyze/route.ts");
+
+  assert.doesNotMatch(repository, /Promise\.all\s*\(\s*\[\s*listPosts/);
+  assert.match(repository, /const posts = await listPosts/);
+  assert.match(repository, /const tours = await listTours/);
+  assert.match(repository, /const destinations = await listDestinations/);
+  assert.match(repository, /const activities = await listActivities/);
+  assert.doesNotMatch(analyzeRoute, /Promise\.all\s*\(\s*\[\s*listAllBlogLinkTargets/);
+  assert.match(analyzeRoute, /const targets = await listAllBlogLinkTargets/);
+  assert.match(analyzeRoute, /const posts = await listPosts/);
+});
+
 function session(role: AdminSession["role"]): AdminSession {
   return {
     id: 1,

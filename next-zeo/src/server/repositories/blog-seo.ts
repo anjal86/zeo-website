@@ -13,12 +13,13 @@ import {
 export async function searchBlogLinkTargets(query = '', currentSlug = ''): Promise<BlogLinkTarget[]> {
   const search = query.trim();
   const options = { search: search || undefined, limit: search ? '12' : '20' };
-  const [posts, tours, destinations, activities] = await Promise.all([
-    listPosts(options, true),
-    listTours(options, true),
-    listDestinations(options, true),
-    listActivities(options, true),
-  ]);
+  // cPanel accounts commonly enforce a low per-user MySQL connection ceiling.
+  // Keep these independent catalogue reads sequential so opening the blog editor
+  // cannot consume the whole account allowance in a single request.
+  const posts = await listPosts(options, true);
+  const tours = await listTours(options, true);
+  const destinations = await listDestinations(options, true);
+  const activities = await listActivities(options, true);
 
   const dynamic: BlogLinkTarget[] = [
     ...posts.items

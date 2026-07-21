@@ -16,10 +16,11 @@ export async function POST(request: Request) {
   const primaryQuery = typeof body.primaryQuery === 'string' ? body.primaryQuery : '';
   const currentUrl = slug ? `/blog/${slug}` : '';
 
-  const [targets, posts] = await Promise.all([
-    listAllBlogLinkTargets(slug),
-    listPosts({ limit: '500' }, true),
-  ]);
+  // Run after the target catalogue has released its connections. On shared
+  // hosting, starting both database-heavy reads together can exceed the MySQL
+  // user's connection quota and turn otherwise valid diagnostics into a 500.
+  const targets = await listAllBlogLinkTargets(slug);
+  const posts = await listPosts({ limit: '500' }, true);
   const targetMap = new Map([...targets, ...staticBlogLinkTargets].map(target => [normalizeInternalHref(target.url), target]));
 
   const links = analyzeMarkdownLinks(content);
