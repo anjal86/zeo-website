@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import {
     AlertCircle,
@@ -102,7 +102,7 @@ const PostEditor: React.FC = () => {
     const [form, setForm] = useState<PostForm>(emptyForm);
     const [tagInput, setTagInput] = useState('');
     const [activeTab, setActiveTab] = useState<EditorTab>('write');
-    const initialSnapshot = useRef(serializeForm(emptyForm));
+    const [initialSerializedForm, setInitialSerializedForm] = useState(serializeForm(emptyForm));
 
     const load = useCallback(async () => {
         try {
@@ -128,7 +128,7 @@ const PostEditor: React.FC = () => {
                 target_reader: seo.targetReader || '',
                 secondary_topics: Array.isArray(seo.secondaryTopics) ? seo.secondaryTopics.join(', ') : '',
             };
-            initialSnapshot.current = serializeForm(loadedForm);
+            setInitialSerializedForm(serializeForm(loadedForm));
             setForm(loadedForm);
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'Could not load this article.');
@@ -140,7 +140,7 @@ const PostEditor: React.FC = () => {
     useEffect(() => {
         if (isEditing) load();
         else {
-            initialSnapshot.current = serializeForm(emptyForm);
+            setInitialSerializedForm(serializeForm(emptyForm));
             setLoading(false);
         }
     }, [load, isEditing]);
@@ -152,7 +152,7 @@ const PostEditor: React.FC = () => {
     const previewTitle = form.seo_title || form.title || 'Article title will appear here';
     const previewDescription = form.seo_description || form.excerpt || 'Write a short summary so readers understand why this article is useful.';
     const articleUrl = `/blog/${form.slug || genSlug(form.title) || 'article-link'}`;
-    const isDirty = serializeForm(form) !== initialSnapshot.current;
+    const isDirty = serializeForm(form) !== initialSerializedForm;
 
     const readinessChecks = useMemo(() => buildBlogSeoReadiness({
         title: form.title,
@@ -267,7 +267,7 @@ const PostEditor: React.FC = () => {
             };
             const url = isEditing ? `${api}/admin/posts/${id}` : `${api}/admin/posts`;
             await adminFetch(url, { method: isEditing ? 'PUT' : 'POST', body: JSON.stringify(payload) });
-            initialSnapshot.current = serializeForm(form);
+            setInitialSerializedForm(serializeForm(form));
             router.push('/admin/blog');
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'Could not save this article. Please try again.');
