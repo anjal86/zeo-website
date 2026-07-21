@@ -206,6 +206,6 @@ while IFS= read -r directory; do
   if (( kept >= KEEP_RELEASES )); then
     rm -rf "$directory"
   fi
-done < <(ls -1dt "$RELEASES_DIR"/* 2>/dev/null || true)
+done <<< "$(ls -1dt "$RELEASES_DIR"/* 2>/dev/null || true)"
 
 echo "Release $RELEASE_ID deployed successfully"

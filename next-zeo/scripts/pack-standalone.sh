@@ -15,7 +15,15 @@ rm -f "$ARCHIVE"
 mkdir -p "$STAGING_DIR"
 
 echo "📂 Copying standalone runtime..."
-cp -r .next/standalone/* "$STAGING_DIR/"
+# The standalone runtime's application build lives in the hidden `.next`
+# directory. A `*` glob omits it and produces an archive that has server.js
+# but cannot boot because `.next/BUILD_ID` is missing.
+cp -a .next/standalone/. "$STAGING_DIR/"
+
+if [ ! -f "$STAGING_DIR/.next/BUILD_ID" ]; then
+  echo "Error: packaged standalone runtime is missing .next/BUILD_ID"
+  exit 1
+fi
 
 mkdir -p "$STAGING_DIR/public" "$STAGING_DIR/.next/static"
 if [ -d "public" ]; then

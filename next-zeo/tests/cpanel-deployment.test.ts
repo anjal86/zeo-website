@@ -36,6 +36,8 @@ test('standalone package contains migration and release assets', () => {
   assert.match(pack, /deployment\/cpanel-release\.sh/);
   assert.match(pack, /src\/server\/db\/migrations\/\*\.sql/);
   assert.match(pack, /release\.json/);
+  assert.match(pack, /cp -a \.next\/standalone\/\. "\$STAGING_DIR\/"/);
+  assert.match(pack, /STAGING_DIR\/\.next\/BUILD_ID/);
   assert.match(pack, /rm -f "\$ARCHIVE"/);
 });
 
