@@ -1,4 +1,4 @@
-name: Blog SEO lint diagnostics
+name: Apply blog SEO editor lint fix
 
 on:
   pull_request:
@@ -6,26 +6,89 @@ on:
     types: [synchronize]
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: blog-seo-editor-lint-fix
+  cancel-in-progress: true
 
 jobs:
-  lint-diagnostics:
+  apply-and-validate:
     if: github.head_ref == 'agent/blog-seo-editor-foundation'
     runs-on: ubuntu-latest
+    env:
+      APP_URL: http://localhost:3000
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: zeo_ci
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: zeo_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: agent/blog-seo-editor-foundation
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: next-zeo/package-lock.json
+      - name: Replace render-time ref with state
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('next-zeo/app/admin/(dashboard)/blog/edit/[id]/page.tsx')
+          source = path.read_text()
+          replacements = {
+              "import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';": "import React, { useCallback, useEffect, useMemo, useState } from 'react';",
+              "    const initialSnapshot = useRef(serializeForm(emptyForm));": "    const [initialSerializedForm, setInitialSerializedForm] = useState(serializeForm(emptyForm));",
+              "            initialSnapshot.current = serializeForm(loadedForm);": "            setInitialSerializedForm(serializeForm(loadedForm));",
+              "            initialSnapshot.current = serializeForm(emptyForm);": "            setInitialSerializedForm(serializeForm(emptyForm));",
+              "    const isDirty = serializeForm(form) !== initialSnapshot.current;": "    const isDirty = serializeForm(form) !== initialSerializedForm;",
+              "            initialSnapshot.current = serializeForm(form);": "            setInitialSerializedForm(serializeForm(form));",
+          }
+          for old, new in replacements.items():
+              if old not in source:
+                  raise SystemExit(f'Missing expected source: {old}')
+              source = source.replace(old, new, 1)
+          path.write_text(source)
+          PY
       - working-directory: next-zeo
         run: npm ci
-      - name: Capture lint output
+      - name: Initialize test database
         working-directory: next-zeo
-        run: npm run lint > lint-output.txt 2>&1 || true
-      - uses: actions/upload-artifact@v4
-        with:
-          name: blog-seo-lint-output
-          path: next-zeo/lint-output.txt
-          retention-days: 1
+        run: |
+          mysql -h 127.0.0.1 -uroot -proot zeo_ci < src/server/db/migrations/001_initial_schema.sql
+          mysql -h 127.0.0.1 -uroot -proot zeo_ci < src/server/db/migrations/002_uploaded_files_registry_fields.sql
+          mysql -h 127.0.0.1 -uroot -proot zeo_ci < src/server/db/migrations/003_admin_audit_logs.sql
+      - working-directory: next-zeo
+        run: npm run test:regression
+      - working-directory: next-zeo
+        run: npm run lint
+      - working-directory: next-zeo
+        run: npm run typecheck
+      - working-directory: next-zeo
+        run: npm run build
+      - name: Commit validated fix
+        run: |
+          rm .github/workflows/blog-seo-lint-debug.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "fix: track blog editor dirty state without render refs"
+          git push origin HEAD:agent/blog-seo-editor-foundation
