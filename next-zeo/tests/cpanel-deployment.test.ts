@@ -57,13 +57,19 @@ test('remote deployment is locked, preserves shared files and restarts Passenger
   assert.match(script, /worker_running/);
   assert.match(script, /timeout 30s cloudlinux-selector start/);
   assert.match(script, /Deployment failed after file switch; restoring/);
+  assert.match(script, /ulimit -c 0/);
+  assert.match(script, /UV_THREADPOOL_SIZE=1/);
+  assert.match(script, /MALLOC_ARENA_MAX=2/);
+  assert.match(script, /--max-old-space-size=192/);
+  assert.match(script, /migration_status == 134 \|\| migration_status == 137/);
   assert.ok(migrateIndex >= 0 && publishIndex > migrateIndex, 'migrations must finish before the file switch');
 });
 
 test('production migration runner is low-concurrency and checksum compatible', () => {
   const runner = read('next-zeo/deployment/run-migrations.mjs');
 
-  assert.match(runner, /connectionLimit: 1/);
+  assert.match(runner, /mysql\.createConnection/);
+  assert.doesNotMatch(runner, /createPool/);
   assert.match(runner, /function legacyChecksum/);
   assert.match(runner, /Applied migration checksum changed/);
   assert.match(runner, /ORDER BY filename/);

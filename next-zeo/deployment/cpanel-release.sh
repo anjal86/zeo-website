@@ -183,7 +183,31 @@ if [[ -n "$ENV_FILE" ]]; then
 fi
 
 echo "Running pending database migrations"
-"$NODE_BIN" "$RELEASE_DIR/deployment/run-migrations.mjs"
+ulimit -c 0 || true
+migration_attempt=1
+while true; do
+  set +e
+  env \
+    UV_THREADPOOL_SIZE=1 \
+    MALLOC_ARENA_MAX=2 \
+    NODE_OPTIONS='--max-old-space-size=192 --max-semi-space-size=4' \
+    nice -n 10 timeout 120s \
+    "$NODE_BIN" "$RELEASE_DIR/deployment/run-migrations.mjs"
+  migration_status=$?
+  set -e
+
+  if (( migration_status == 0 )); then
+    break
+  fi
+  if (( migration_attempt == 1 )) && (( migration_status == 134 || migration_status == 137 )); then
+    echo "Migration runtime exited with resource status $migration_status; retrying once after a short cooldown" >&2
+    migration_attempt=2
+    sleep 5
+    continue
+  fi
+  echo "Migration runner failed with status $migration_status" >&2
+  exit "$migration_status"
+done
 
 write_marker "$PREVIOUS_MARKER" "$previous_release"
 switch_started=1
