@@ -418,4 +418,32 @@ html {
   }
 }
 
-/* Sacred gradient for Kailash page */
+/* Kailash hero animations live globally because interpolated styled-jsx can
+   deadlock Turbopack while compiling this client component. */
+@keyframes kailash-slide-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes kailash-image-drift {
+  from {
+    transform: scale(1.035);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.kailash-hero-image-active {
+  animation: kailash-image-drift 9.4s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kailash-hero-image-active {
+    animation: none;
+  }
+}

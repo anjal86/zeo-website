@@ -7,7 +7,6 @@ import {
   Activity,
   ArrowRight,
   Calendar,
-  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Clock3,
@@ -148,9 +147,6 @@ export default function KailashMansarovarClient({
 
   const phone = contactInfo?.contact?.phone?.primary || "+9779813641003";
   const email = contactInfo?.contact?.email?.primary || "nepal@zeotourism.com";
-  const support =
-    contactInfo?.business?.support?.availability ||
-    "Support throughout the planning process";
   const phoneHref = useMemo(() => phone.replace(/[^\d+]/g, ""), [phone]);
 
   useEffect(() => {
@@ -196,7 +192,7 @@ export default function KailashMansarovarClient({
     <div className="kailash-mansarovar-page overflow-hidden bg-slate-50 text-slate-900">
       <section
         ref={heroRef}
-        className="group relative isolate min-h-[760px] overflow-hidden bg-slate-950 pt-20 md:min-h-[820px] md:pt-24 lg:min-h-[min(960px,100svh)]"
+        className="group relative isolate min-h-[680px] overflow-hidden bg-slate-950 md:min-h-[760px] lg:min-h-[min(880px,100svh)]"
         aria-labelledby="kailash-title"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
@@ -240,40 +236,29 @@ export default function KailashMansarovarClient({
           })}
         </div>
 
-        <div className="absolute inset-0 z-20 bg-gradient-to-r from-slate-950/78 via-slate-950/22 to-transparent" />
-        <div className="absolute inset-0 z-20 bg-gradient-to-t from-slate-950 via-slate-950/18 to-slate-950/30" />
-        <div className="absolute inset-x-0 top-0 z-20 h-48 bg-gradient-to-b from-slate-950/50 to-transparent" />
+        <div className="absolute inset-0 z-20 bg-gradient-to-r from-slate-950/82 via-slate-950/25 to-transparent" />
+        <div className="absolute inset-0 z-20 bg-gradient-to-t from-slate-950/72 via-transparent to-slate-950/30" />
+        <div className="absolute inset-x-0 top-0 z-20 h-40 bg-gradient-to-b from-slate-950/55 to-transparent" />
         <div className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(circle_at_72%_34%,rgba(255,255,255,0.08),transparent_30%)]" />
 
-        <div className="container-xl relative z-30 flex min-h-[680px] flex-col justify-end pb-28 pt-14 md:min-h-[730px] md:pb-32 lg:min-h-[min(870px,calc(100svh-5rem))]">
-          <nav
-            aria-label="Breadcrumb"
-            className="mb-auto flex flex-wrap items-center gap-2 pt-4 text-xs font-medium text-white/70"
-          >
-            <Link href="/" className="transition-colors hover:text-white">
-              Home
-            </Link>
-            <span aria-hidden="true">/</span>
-            <span className="text-white">Kailash Mansarovar</span>
-          </nav>
-
-          <div className="max-w-4xl text-white">
-            <div className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-white/20 bg-black/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.16em] text-orange-200 backdrop-blur-sm">
+        <div className="container-xl relative z-30 flex min-h-[680px] items-center pb-28 pt-28 md:min-h-[760px] md:pb-32 lg:min-h-[min(880px,100svh)]">
+          <div className="max-w-3xl text-white">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-300">
               <Mountain className="h-4 w-4" aria-hidden="true" />
-              Sacred pilgrimage planning
+              Sacred Himalayan pilgrimage
             </div>
 
             <h1
               id="kailash-title"
-              className="mt-5 max-w-4xl font-serif text-5xl font-bold leading-[0.98] tracking-[-0.035em] sm:text-6xl md:text-7xl lg:text-[5.6rem]"
+              className="mt-5 max-w-3xl font-serif text-5xl font-bold leading-[0.96] tracking-[-0.035em] sm:text-6xl md:text-7xl lg:text-[5rem]"
             >
               Kailash Mansarovar Yatra
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-white/82 md:text-lg md:leading-8">
-              Compare routes, understand permits and altitude demands, and choose a sacred journey that fits your time, fitness and travel style.
+            <p className="mt-5 max-w-xl text-base leading-7 text-white/80 md:text-lg md:leading-8">
+              A high-altitude journey shaped by sacred landscapes, thoughtful acclimatization and expert local coordination.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <button
                 type="button"
                 onClick={scrollToPackages}
@@ -290,51 +275,32 @@ export default function KailashMansarovarClient({
                 Ask about cost and permits
               </Link>
             </div>
-
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/20 pt-5 text-sm text-white/72">
-              {["Kathmandu-based coordination", "Route and permit guidance", support].map(
-                (item) => (
-                  <span key={item} className="inline-flex items-center gap-2">
-                    <CheckCircle2
-                      className="h-4 w-4 shrink-0 text-orange-300"
-                      aria-hidden="true"
-                    />
-                    {item}
-                  </span>
-                ),
-              )}
-            </div>
           </div>
         </div>
 
         {gallery.length > 1 ? (
-          <div className="absolute inset-x-0 bottom-0 z-40 border-t border-white/15 bg-slate-950/40 backdrop-blur-md">
-            <div className="container-xl flex min-h-20 flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex min-w-0 items-center gap-4">
-                <span className="font-serif text-2xl font-bold text-white">
-                  {String(currentSlide + 1).padStart(2, "0")}
-                </span>
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-white">
-                    {activePhoto.title || "Kailash Mansarovar journey"}
-                  </p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/45">
-                    {String(gallery.length).padStart(2, "0")} gallery images
-                  </p>
-                </div>
+          <div className="absolute inset-x-0 bottom-5 z-40 md:bottom-7">
+            <div className="container-xl flex items-end justify-between gap-4">
+              <div className="hidden min-w-0 text-white md:block">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/55">
+                  {String(currentSlide + 1).padStart(2, "0")} / {String(gallery.length).padStart(2, "0")}
+                </p>
+                <p className="mt-1 max-w-sm truncate text-sm font-semibold text-white/90">
+                  {activePhoto.title || "Kailash Mansarovar journey"}
+                </p>
               </div>
 
-              <div className="flex items-center gap-3">
-                <div className="hidden items-center gap-2 md:flex" aria-label="Select gallery image">
+              <div className="ml-auto flex items-center gap-2 rounded-xl border border-white/15 bg-slate-950/45 p-2 shadow-2xl backdrop-blur-md">
+                <div className="hidden items-center gap-1.5 lg:flex" aria-label="Select gallery image">
                   {gallery.map((photo, index) => (
                     <button
                       key={photo.id}
                       type="button"
                       onClick={() => showSlide(index)}
-                      className={`relative h-10 overflow-hidden rounded-md border transition-[width,border-color,opacity] duration-300 ${
+                      className={`relative h-9 overflow-hidden rounded-md border transition-[width,border-color,opacity] duration-300 ${
                         index === currentSlide
-                          ? "w-20 border-white opacity-100"
-                          : "w-10 border-white/20 opacity-60 hover:border-white/60 hover:opacity-100"
+                          ? "w-16 border-white opacity-100"
+                          : "w-9 border-white/20 opacity-60 hover:border-white/60 hover:opacity-100"
                       }`}
                       aria-label={`Show image ${index + 1}: ${photo.title || "Kailash journey"}`}
                       aria-current={index === currentSlide ? "true" : undefined}
@@ -363,7 +329,7 @@ export default function KailashMansarovarClient({
                 <button
                   type="button"
                   onClick={() => setIsPaused((paused) => !paused)}
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/25 bg-white/10 text-white transition-colors hover:border-white hover:bg-white hover:text-slate-950"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white transition-colors hover:border-white hover:bg-white hover:text-slate-950"
                   aria-label={isPaused ? "Play gallery" : "Pause gallery"}
                 >
                   {isPaused ? (
@@ -375,7 +341,7 @@ export default function KailashMansarovarClient({
                 <button
                   type="button"
                   onClick={goToPrevious}
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/25 bg-white/10 text-white transition-colors hover:border-white hover:bg-white hover:text-slate-950"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white transition-colors hover:border-white hover:bg-white hover:text-slate-950"
                   aria-label="Previous gallery image"
                 >
                   <ChevronLeft className="h-5 w-5" />
@@ -383,7 +349,7 @@ export default function KailashMansarovarClient({
                 <button
                   type="button"
                   onClick={goToNext}
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/25 bg-white/10 text-white transition-colors hover:border-white hover:bg-white hover:text-slate-950"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white transition-colors hover:border-white hover:bg-white hover:text-slate-950"
                   aria-label="Next gallery image"
                 >
                   <ChevronRight className="h-5 w-5" />
@@ -394,7 +360,7 @@ export default function KailashMansarovarClient({
         ) : null}
       </section>
 
-      <section className="relative z-20 -mt-6" aria-label="Yatra planning overview">
+      <section className="relative z-20 bg-slate-50 py-8" aria-label="Yatra planning overview">
         <div className="container-xl">
           <div className="grid overflow-hidden rounded-[var(--panel-radius)] border border-slate-200 bg-white shadow-[0_18px_55px_rgba(15,23,42,0.12)] sm:grid-cols-2 lg:grid-cols-4">
             {[
@@ -646,35 +612,6 @@ export default function KailashMansarovarClient({
         </div>
       </section>
 
-      <style jsx>{`
-        @keyframes kailash-slide-progress {
-          from {
-            transform: scaleX(0);
-          }
-          to {
-            transform: scaleX(1);
-          }
-        }
-
-        @keyframes kailash-image-drift {
-          from {
-            transform: scale(1.035);
-          }
-          to {
-            transform: scale(1);
-          }
-        }
-
-        .kailash-hero-image-active {
-          animation: kailash-image-drift ${SLIDE_DURATION + 900}ms ease-out forwards;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .kailash-hero-image-active {
-            animation: none;
-          }
-        }
-      `}</style>
     </div>
   );
 }

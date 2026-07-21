@@ -82,6 +82,7 @@ const structuredData = [
     country: "China",
     image: FALLBACK_GALLERY[0].image,
     url: PAGE_URL,
+    toursCount: 0,
   }),
 ];
 

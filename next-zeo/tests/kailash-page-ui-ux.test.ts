@@ -43,16 +43,19 @@ test("Kailash presentation avoids heavy motion residue and duplicate requests", 
   const client = await readSource(
     "../src/components/Kailash/KailashMansarovarClient.tsx",
   );
+  const globals = await readSource("../app/globals.css");
 
   assert.equal(client.includes("framer-motion"), false);
   assert.equal(client.includes("useScroll"), false);
   assert.equal(client.includes("useTransform"), false);
   assert.equal(client.includes("navigator.userAgent"), false);
   assert.equal(client.includes("fetch("), false);
-  assert.match(client, /prefers-reduced-motion: reduce/);
+  assert.equal(client.includes("<style jsx>"), false);
   assert.match(client, /document\.hidden/);
-  assert.match(client, /kailash-image-drift/);
   assert.match(client, /kailash-slide-progress/);
+  assert.match(globals, /prefers-reduced-motion: reduce/);
+  assert.match(globals, /@keyframes kailash-image-drift/);
+  assert.match(globals, /\.kailash-hero-image-active/);
 });
 
 test("Kailash UX keeps route comparison, guides and package actions easy to scan", async () => {
@@ -68,6 +71,10 @@ test("Kailash UX keeps route comparison, guides and package actions easy to scan
   assert.match(client, /id="yatra-packages"/);
   assert.match(client, /Ask about cost and permits/);
   assert.match(client, /Confirm the right route before committing/);
+  assert.equal(client.includes("Kathmandu-based coordination"), false);
+  assert.equal(client.includes("-mt-6"), false);
+  assert.match(client, /bottom-5/);
+  assert.match(client, /bg-slate-50 py-8/);
 });
 
 test("Kailash page does not compete with the tour exit-intent modal", async () => {

@@ -59,15 +59,19 @@ export default function Hero({ initialSlides = [] }: HeroProps) {
   const slides = initialSlides.length > 0 ? initialSlides : fallbackSlides;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
-  const [allowVideo, setAllowVideo] = useState(false);
-  const [videoFailed, setVideoFailed] = useState(false);
+  const [allowVideo, setAllowVideo] = useState(true);
+  const [failedVideoKey, setFailedVideoKey] = useState<string | null>(null);
+  const [readyVideoKey, setReadyVideoKey] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const touchStart = useRef<number | null>(null);
   const touchEnd = useRef<number | null>(null);
 
   const activeSlide = slides[currentSlide] || slides[0];
+  const activeMediaKey = String(activeSlide.id ?? currentSlide);
   const activeImage = normalizeHeroMediaUrl(activeSlide.image || activeSlide.image_url);
   const activeVideo = activeSlide.video ? normalizeHeroMediaUrl(activeSlide.video) : null;
+  const videoFailed = failedVideoKey === activeMediaKey;
+  const videoReady = readyVideoKey === activeMediaKey;
   const canShowVideo = Boolean(activeVideo && allowVideo && !videoFailed);
 
   useEffect(() => {
@@ -79,22 +83,16 @@ export default function Hero({ initialSlides = [] }: HeroProps) {
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
 
     const updateVideoPreference = () => {
-      setAllowVideo(window.innerWidth >= 768 && !reducedMotion.matches && !connection?.saveData);
+      setAllowVideo(!reducedMotion.matches && !connection?.saveData);
     };
 
     updateVideoPreference();
-    window.addEventListener('resize', updateVideoPreference);
     reducedMotion.addEventListener?.('change', updateVideoPreference);
 
     return () => {
-      window.removeEventListener('resize', updateVideoPreference);
       reducedMotion.removeEventListener?.('change', updateVideoPreference);
     };
   }, []);
-
-  useEffect(() => {
-    setVideoFailed(false);
-  }, [currentSlide]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
@@ -104,6 +102,33 @@ export default function Hero({ initialSlides = [] }: HeroProps) {
     }, duration);
     return () => window.clearTimeout(timer);
   }, [activeSlide.video, currentSlide, slides.length]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!canShowVideo || !video) return;
+
+    let cancelled = false;
+    const revealPlayingVideo = () => {
+      if (!cancelled) setReadyVideoKey(activeMediaKey);
+    };
+    const retryMuted = () => {
+      video.muted = true;
+      setIsMuted(true);
+      void video.play().then(revealPlayingVideo).catch(() => {
+        if (!cancelled) setFailedVideoKey(activeMediaKey);
+      });
+    };
+
+    if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA && !video.paused) {
+      revealPlayingVideo();
+    } else {
+      void video.play().then(revealPlayingVideo).catch(retryMuted);
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activeMediaKey, canShowVideo]);
 
   const goToSlide = (index: number) => setCurrentSlide((index + slides.length) % slides.length);
   const goToPrevious = () => goToSlide(currentSlide - 1);
@@ -136,36 +161,48 @@ export default function Hero({ initialSlides = [] }: HeroProps) {
       onTouchEnd={handleTouchEnd}
     >
       <div className="absolute inset-0">
-        {canShowVideo ? (
+        <img
+          key={`hero-image-${activeSlide.id ?? currentSlide}`}
+          src={activeImage}
+          alt={activeSlide.title || 'Himalayan journey with Zeo Tourism'}
+          fetchPriority={currentSlide === 0 ? 'high' : 'low'}
+          loading={currentSlide === 0 ? 'eager' : 'lazy'}
+          className="h-full w-full object-cover"
+          onError={(event) => {
+            if (event.currentTarget.src !== fallbackHeroImage) event.currentTarget.src = fallbackHeroImage;
+          }}
+        />
+        {canShowVideo && (
           <video
             ref={videoRef}
             key={`hero-video-${activeSlide.id ?? currentSlide}`}
-            className="h-full w-full object-cover"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
             autoPlay
             muted={isMuted}
             loop
             playsInline
             preload="metadata"
+            poster={activeImage}
             onLoadedMetadata={(event) => {
               const start = Number(activeSlide.video_start_time || 0);
               if (Number.isFinite(start) && start > 0) event.currentTarget.currentTime = start;
             }}
-            onError={() => setVideoFailed(true)}
+            onCanPlay={(event) => {
+              const playback = event.currentTarget.play();
+              playback?.catch(() => {
+                event.currentTarget.muted = true;
+                setIsMuted(true);
+                void event.currentTarget.play().catch(() => setFailedVideoKey(activeMediaKey));
+              });
+            }}
+            onPlaying={() => setReadyVideoKey(activeMediaKey)}
+            onError={() => {
+              setReadyVideoKey(null);
+              setFailedVideoKey(activeMediaKey);
+            }}
           >
             <source src={activeVideo || undefined} type="video/mp4" />
           </video>
-        ) : (
-          <img
-            key={`hero-image-${activeSlide.id ?? currentSlide}`}
-            src={activeImage}
-            alt={activeSlide.title || 'Himalayan journey with Zeo Tourism'}
-            fetchPriority={currentSlide === 0 ? 'high' : 'low'}
-            loading={currentSlide === 0 ? 'eager' : 'lazy'}
-            className="h-full w-full object-cover"
-            onError={(event) => {
-              if (event.currentTarget.src !== fallbackHeroImage) event.currentTarget.src = fallbackHeroImage;
-            }}
-          />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/20" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30" />
