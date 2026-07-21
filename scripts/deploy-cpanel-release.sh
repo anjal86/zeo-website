@@ -58,9 +58,12 @@ stop_app() {
 }
 
 start_app() {
+  # CloudLinux may return non-zero while Passenger is still starting. The
+  # health check below is authoritative; treating this status as fatal causes
+  # a false rollback and another lifecycle cycle.
   cloudlinux-selector start \
     --interpreter nodejs \
-    --app-root "$app_root" >/dev/null
+    --app-root "$app_root" >/dev/null 2>&1 || true
 }
 
 assert_worker_budget() {
@@ -121,7 +124,7 @@ start_app
 for attempt in {1..12}; do
   if curl --fail --silent --show-error --insecure \
     --resolve "zeotourism.com:443:$web_ip" \
-    https://zeotourism.com/api/sliders >/dev/null; then
+    https://zeotourism.com/api/health >/dev/null; then
     assert_worker_budget
     trap - ERR
     rm -f "$incoming"
