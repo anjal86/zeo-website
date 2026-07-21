@@ -22,6 +22,9 @@ const envSchema = z
     S3_ACCESS_KEY_ID: z.string().optional(),
     S3_SECRET_ACCESS_KEY: z.string().optional(),
     S3_PUBLIC_BASE_URL: z.string().optional(),
+    GOOGLE_SEARCH_CONSOLE_CLIENT_EMAIL: z.string().optional(),
+    GOOGLE_SEARCH_CONSOLE_PRIVATE_KEY: z.string().optional(),
+    GOOGLE_SEARCH_CONSOLE_SITE_URL: z.string().optional(),
   })
   .superRefine((env, ctx) => {
     if (env.NODE_ENV === "production") {
