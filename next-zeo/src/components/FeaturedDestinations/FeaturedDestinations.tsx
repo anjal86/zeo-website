@@ -1,8 +1,7 @@
 "use client";
-import React from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Mountain, ArrowRight, MapPin } from 'lucide-react';
+
+import Link from "next/link";
+import { ArrowRight, MapPin, Mountain } from "lucide-react";
 
 export interface FeaturedDestination {
   id: number;
@@ -18,158 +17,113 @@ interface Props {
 }
 
 const fallbackDestinationImages = [
-  'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200&h=900&fit=crop',
-  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&h=900&fit=crop',
-  'https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=1200&h=900&fit=crop',
-  'https://images.unsplash.com/photo-1609440034849-c4d6b7a520b7?q=80&w=1200&h=900&fit=crop',
-  'https://images.unsplash.com/photo-1589553416260-f586c8f1514f?q=80&w=1200&h=900&fit=crop',
-  'https://images.unsplash.com/photo-1603273997415-0f4f201c969f?q=80&w=1200&h=900&fit=crop',
+  "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200&h=900&fit=crop",
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&h=900&fit=crop",
+  "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=1200&h=900&fit=crop",
+  "https://images.unsplash.com/photo-1609440034849-c4d6b7a520b7?q=80&w=1200&h=900&fit=crop",
+  "https://images.unsplash.com/photo-1589553416260-f586c8f1514f?q=80&w=1200&h=900&fit=crop",
+  "https://images.unsplash.com/photo-1603273997415-0f4f201c969f?q=80&w=1200&h=900&fit=crop",
 ];
 
 function destinationImage(destination: FeaturedDestination, index: number) {
-  if (destination.image && !destination.image.includes('1506905925346')) return destination.image;
+  if (destination.image && !destination.image.includes("1506905925346")) return destination.image;
   return fallbackDestinationImages[index % fallbackDestinationImages.length];
 }
 
 function destinationType(destination: FeaturedDestination, index: number) {
   const name = destination.name.toLowerCase();
-  if (name.includes('kailash') || name.includes('muktinath') || name.includes('gosaikunda')) return 'Pilgrimage route';
-  if (name.includes('everest') || name.includes('poon') || name.includes('trek')) return 'Trekking route';
-  if (destination.country && destination.country.toLowerCase() !== 'nepal') return 'Cross-border journey';
-  return index === 0 ? 'Featured route' : 'Curated destination';
+  if (name.includes("kailash") || name.includes("muktinath") || name.includes("gosaikunda")) return "Pilgrimage route";
+  if (name.includes("everest") || name.includes("poon") || name.includes("trek")) return "Trekking route";
+  if (destination.country && destination.country.toLowerCase() !== "nepal") return "Cross-border journey";
+  return index === 0 ? "Featured route" : "Curated destination";
 }
 
-const FeaturedDestinations: React.FC<Props> = ({ featuredDestinations }) => {
-  if (!featuredDestinations || featuredDestinations.length === 0) {
-    return null;
-  }
+function cardLayout(index: number) {
+  if (index === 0) return "md:col-span-7 md:row-span-2 min-h-[430px] md:min-h-[590px]";
+  if (index === 1 || index === 2) return "md:col-span-5 min-h-[285px]";
+  return "md:col-span-4 min-h-[265px]";
+}
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.07
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 18 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.45
-      }
-    }
-  };
+export default function FeaturedDestinations({ featuredDestinations }: Props) {
+  const destinations = featuredDestinations?.slice(0, 6) || [];
+  if (destinations.length === 0) return null;
 
   return (
-    <section className="py-14 sm:py-16 md:py-20 bg-gray-50 border-t border-gray-100">
+    <section className="border-t border-slate-100 bg-slate-50 py-16 md:py-24">
       <div className="container-xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-9 sm:mb-12 grid gap-5 md:grid-cols-[1fr_auto] md:items-end"
-        >
+        <div className="grid gap-7 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
           <div>
-            <span className="text-secondary text-xs font-bold uppercase tracking-[0.22em] mb-3 block">
-              Explore
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-gray-950 tracking-tight leading-none">
-              Popular Destinations
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-secondary">01 — Destinations</p>
+            <h2 className="mt-4 max-w-2xl font-serif text-4xl font-bold leading-[1.02] tracking-tight text-slate-950 md:text-5xl lg:text-6xl">
+              Places worth planning around.
             </h2>
-            <p className="mt-4 max-w-2xl text-sm md:text-base leading-relaxed text-gray-600">
-              A curated starting point for Himalayan treks, sacred journeys and cultural routes.
-            </p>
           </div>
-          <Link
-            href="/destinations"
-            className="hidden md:inline-flex items-center border border-gray-300 bg-white text-gray-950 px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-gray-950 hover:text-white hover:border-gray-950 transition-colors duration-300"
-          >
-            View all
-            <ArrowRight className="w-4 h-4 ml-3" />
-          </Link>
-        </motion.div>
+          <div className="lg:justify-self-end">
+            <p className="max-w-xl text-base leading-7 text-slate-600">
+              A focused selection of sacred journeys, Himalayan routes and cultural destinations with practical planning support.
+            </p>
+            <Link
+              href="/destinations"
+              className="mt-5 inline-flex items-center gap-3 border-b border-slate-300 pb-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-950 transition-colors hover:border-primary hover:text-primary"
+            >
+              View all destinations <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
-        >
-          {featuredDestinations.map((destination, index) => {
+        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-12 md:auto-rows-[285px]">
+          {destinations.map((destination, index) => {
             const tourLabel = destination.tourCount > 0
-              ? `${destination.tourCount} ${destination.tourCount === 1 ? 'package' : 'packages'}`
-              : 'Custom planning available';
+              ? `${destination.tourCount} ${destination.tourCount === 1 ? "package" : "packages"}`
+              : "Custom planning available";
             const typeLabel = destinationType(destination, index);
-            const isFeatured = index === 0;
+            const href = destination.href || `/destinations/${destination.name.toLowerCase().replace(/\s+/g, "-")}`;
 
             return (
-              <motion.div key={destination.id} variants={itemVariants} className={`group ${isFeatured ? 'sm:col-span-2 lg:col-span-1' : ''}`}>
-                <Link href={destination.href || `/destinations/${destination.name.toLowerCase().replace(/\s+/g, '-')}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4">
-                  <div className={`relative overflow-hidden border border-gray-200 bg-white transition-all duration-500 hover:-translate-y-1.5 hover:border-primary hover:shadow-2xl hover:shadow-gray-900/10 ${isFeatured ? 'aspect-[16/10] sm:aspect-[2/1] lg:aspect-[4/3]' : 'aspect-[4/3]'}`}>
-                    <img
-                      src={destinationImage(destination, index)}
-                      alt={`${destination.name} - ${destination.country || 'Nepal'} travel destination`}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      onError={(event) => {
-                        const img = event.target as HTMLImageElement;
-                        const fallback = fallbackDestinationImages[index % fallbackDestinationImages.length];
-                        if (img.src !== fallback) img.src = fallback;
-                      }}
-                    />
+              <Link
+                key={destination.id}
+                href={href}
+                className={`group relative overflow-hidden border border-slate-200 bg-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 ${cardLayout(index)}`}
+              >
+                <img
+                  src={destinationImage(destination, index)}
+                  alt={`${destination.name} in ${destination.country || "Nepal"}`}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                  onError={(event) => {
+                    const image = event.currentTarget;
+                    const fallback = fallbackDestinationImages[index % fallbackDestinationImages.length];
+                    if (image.src !== fallback) image.src = fallback;
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-slate-950/10" />
+                <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-4 p-5 md:p-6">
+                  <span className="border border-white/20 bg-black/25 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white backdrop-blur-sm">
+                    {destination.country || "Nepal"}
+                  </span>
+                  <span className="flex h-10 w-10 items-center justify-center border border-white/20 bg-black/20 text-white transition-colors group-hover:border-primary group-hover:bg-primary">
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </div>
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/28 to-transparent" />
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-primary/10 transition-opacity duration-500" />
-                    <div className="absolute inset-x-0 top-0 flex justify-between p-4">
-                      <span className="rounded-full border border-white/20 bg-black/25 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/90 backdrop-blur-md">
-                        {destination.country || 'Nepal'}
-                      </span>
-                      <span className="h-8 w-8 rounded-full border border-white/20 bg-black/25 flex items-center justify-center text-white/80 backdrop-blur-md transition-all group-hover:bg-primary group-hover:text-white group-hover:border-primary">
-                        <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                      </span>
-                    </div>
-
-                    <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-white">
-                      <div className="flex items-center mb-2 text-white/75">
-                        <MapPin className="w-3.5 h-3.5 mr-1.5" />
-                        <span className="text-xs uppercase tracking-wider font-medium">{typeLabel}</span>
-                      </div>
-                      <h3 className="text-xl sm:text-2xl font-serif font-bold leading-tight tracking-tight">
-                        {destination.name}
-                      </h3>
-                      <div className="flex items-center mt-3 text-white/75">
-                        <Mountain className="w-3.5 h-3.5 mr-1.5" />
-                        <span className="text-xs font-medium">
-                          {tourLabel}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
+                <div className="absolute inset-x-0 bottom-0 p-5 text-white md:p-7">
+                  <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/65">
+                    <MapPin className="h-3.5 w-3.5 text-primary" />
+                    {typeLabel}
+                  </p>
+                  <h3 className={`mt-3 max-w-xl font-serif font-bold leading-tight ${index === 0 ? "text-4xl md:text-5xl" : "text-2xl md:text-3xl"}`}>
+                    {destination.name}
+                  </h3>
+                  <p className="mt-4 flex items-center gap-2 text-xs font-semibold text-white/65">
+                    <Mountain className="h-3.5 w-3.5" />
+                    {tourLabel}
+                  </p>
+                </div>
+              </Link>
             );
           })}
-        </motion.div>
-
-        <div className="mt-10 sm:mt-12 md:hidden">
-          <Link
-            href="/destinations"
-            className="inline-flex w-full items-center justify-center border border-gray-300 bg-white text-gray-950 px-8 py-4 text-sm font-bold uppercase tracking-wider hover:bg-gray-950 hover:text-white hover:border-gray-950 transition-colors duration-300"
-          >
-            View All Destinations
-            <ArrowRight className="w-4 h-4 ml-3" />
-          </Link>
         </div>
       </div>
     </section>
   );
-};
-
-export default FeaturedDestinations;
+}
