@@ -20,6 +20,8 @@ test('CI deploys only verified main releases and stays opt-in', () => {
   assert.match(deployJob, /actions\/download-artifact@v4/);
   assert.match(deployJob, /Run migrations and publish release/);
   assert.match(deployJob, /Verify production and roll back on failure/);
+  assert.match(deployJob, /"\$release" == "\$GITHUB_SHA"/);
+  assert.match(deployJob, /\/api\/health/);
   assert.doesNotMatch(deployJob, /npm (ci|install|run build)/);
 });
 
@@ -29,6 +31,7 @@ test('standalone package contains migration and release assets', () => {
   assert.match(pack, /deployment\/run-migrations\.mjs/);
   assert.match(pack, /deployment\/cpanel-release\.sh/);
   assert.match(pack, /src\/server\/db\/migrations\/\*\.sql/);
+  assert.match(pack, /release\.json/);
   assert.match(pack, /rm -f "\$ARCHIVE"/);
 });
 
@@ -53,4 +56,13 @@ test('production migration runner is low-concurrency and checksum compatible', (
   assert.match(runner, /function legacyChecksum/);
   assert.match(runner, /Applied migration checksum changed/);
   assert.match(runner, /ORDER BY filename/);
+});
+
+test('health endpoint reports database status and packaged release identity', () => {
+  const route = read('next-zeo/app/api/health/route.ts');
+
+  assert.match(route, /testConnection\(\)/);
+  assert.match(route, /release\.json/);
+  assert.match(route, /status: "ok", release:/);
+  assert.match(route, /dynamic = "force-dynamic"/);
 });
