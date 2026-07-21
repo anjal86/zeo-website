@@ -42,6 +42,9 @@ test('hero avoids duplicate slide requests and eager video preloading', async ()
   assert.ok(hero.includes('preload="metadata"'));
   assert.ok(hero.includes('prefers-reduced-motion'));
   assert.ok(hero.includes('saveData'));
+  assert.ok(hero.includes('onPlaying={() => setReadyVideoKey(activeMediaKey)}'));
+  assert.ok(hero.includes('poster={activeImage}'));
+  assert.equal(hero.includes('window.innerWidth >= 768'), false);
   assert.equal(hero.includes('useSliders'), false);
   assert.equal(hero.includes('preloadedVideos'), false);
   assert.equal(hero.includes('preload="auto"'), false);

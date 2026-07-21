@@ -12,8 +12,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith("/admin");
   const isHomePage = pathname === "/";
-  const shouldShowExitIntent =
-    pathname?.startsWith("/tours/") || pathname === "/kailash-mansarovar";
+  const shouldShowExitIntent = pathname?.startsWith("/tours/");
 
   return (
     <div className="App flex min-h-screen flex-col">
