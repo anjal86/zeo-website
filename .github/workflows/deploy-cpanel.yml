@@ -1,0 +1,112 @@
+name: Deploy to cPanel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zeotourism-production
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: next-zeo
+    env:
+      APP_URL: https://zeotourism.com
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: zeo_ci
+      JWT_SECRET: ci-only-secret-ci-only-secret-ci-only-secret-ci-only-secret-123456
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: ci-only-password-1234
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: zeo_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: next-zeo/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Initialize build database
+        run: |
+          for migration in src/server/db/migrations/*.sql; do
+            mysql -h 127.0.0.1 -uroot -proot zeo_ci < "$migration"
+          done
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Build standalone release
+        run: npm run build
+
+      - name: Package release
+        run: bash scripts/package-cpanel-release.sh "$GITHUB_SHA"
+
+      - name: Configure SSH
+        working-directory: .
+        env:
+          CPANEL_SSH_KEY: ${{ secrets.CPANEL_SSH_KEY }}
+          CPANEL_SSH_HOST: ${{ secrets.CPANEL_SSH_HOST }}
+          CPANEL_SSH_PORT: ${{ secrets.CPANEL_SSH_PORT }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$CPANEL_SSH_KEY" > ~/.ssh/cpanel_deploy
+          chmod 600 ~/.ssh/cpanel_deploy
+          ssh-keyscan -p "$CPANEL_SSH_PORT" "$CPANEL_SSH_HOST" > ~/.ssh/known_hosts
+
+      - name: Upload release
+        working-directory: .
+        env:
+          CPANEL_SSH_HOST: ${{ secrets.CPANEL_SSH_HOST }}
+          CPANEL_SSH_PORT: ${{ secrets.CPANEL_SSH_PORT }}
+          CPANEL_SSH_USER: ${{ secrets.CPANEL_SSH_USER }}
+        run: |
+          ssh_args=(-i ~/.ssh/cpanel_deploy -p "$CPANEL_SSH_PORT")
+          ssh "${ssh_args[@]}" "$CPANEL_SSH_USER@$CPANEL_SSH_HOST" \
+            'install -d -m 700 ~/apps/zeo/incoming'
+          scp -i ~/.ssh/cpanel_deploy -P "$CPANEL_SSH_PORT" \
+            "next-zeo/cpanel-release-$GITHUB_SHA.tar.gz" \
+            "scripts/deploy-cpanel-release.sh" \
+            "$CPANEL_SSH_USER@$CPANEL_SSH_HOST:apps/zeo/incoming/"
+
+      - name: Promote release
+        working-directory: .
+        env:
+          CPANEL_SSH_HOST: ${{ secrets.CPANEL_SSH_HOST }}
+          CPANEL_SSH_PORT: ${{ secrets.CPANEL_SSH_PORT }}
+          CPANEL_SSH_USER: ${{ secrets.CPANEL_SSH_USER }}
+        run: |
+          ssh -i ~/.ssh/cpanel_deploy -p "$CPANEL_SSH_PORT" \
+            "$CPANEL_SSH_USER@$CPANEL_SSH_HOST" \
+            "bash ~/apps/zeo/incoming/deploy-cpanel-release.sh '$GITHUB_SHA'"
