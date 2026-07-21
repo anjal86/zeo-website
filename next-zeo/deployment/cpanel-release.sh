@@ -187,12 +187,15 @@ ulimit -c 0 || true
 migration_attempt=1
 while true; do
   set +e
-  env \
-    UV_THREADPOOL_SIZE=1 \
-    MALLOC_ARENA_MAX=2 \
-    NODE_OPTIONS='--max-old-space-size=192 --max-semi-space-size=4' \
-    nice -n 10 timeout 120s \
-    "$NODE_BIN" "$RELEASE_DIR/deployment/run-migrations.mjs"
+  (
+    ulimit -t 120
+    exec env \
+      UV_THREADPOOL_SIZE=1 \
+      MALLOC_ARENA_MAX=2 \
+      NODE_OPTIONS='--v8-pool-size=1 --max-old-space-size=192 --max-semi-space-size=4' \
+      nice -n 10 \
+      "$NODE_BIN" "$RELEASE_DIR/deployment/run-migrations.mjs"
+  )
   migration_status=$?
   set -e
 

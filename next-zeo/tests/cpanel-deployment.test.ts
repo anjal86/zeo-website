@@ -60,7 +60,10 @@ test('remote deployment is locked, preserves shared files and restarts Passenger
   assert.match(script, /ulimit -c 0/);
   assert.match(script, /UV_THREADPOOL_SIZE=1/);
   assert.match(script, /MALLOC_ARENA_MAX=2/);
+  assert.match(script, /--v8-pool-size=1/);
   assert.match(script, /--max-old-space-size=192/);
+  assert.match(script, /ulimit -t 120/);
+  assert.match(script, /exec env/);
   assert.match(script, /migration_status == 134 \|\| migration_status == 137/);
   assert.ok(migrateIndex >= 0 && publishIndex > migrateIndex, 'migrations must finish before the file switch');
 });
