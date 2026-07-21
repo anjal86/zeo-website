@@ -48,7 +48,7 @@ test('hero avoids duplicate slide requests and eager video preloading', async ()
   assert.equal(hero.includes('framer-motion'), false);
 });
 
-test('homepage uses a simplified editorial hierarchy without section motion residue', async () => {
+test('homepage uses a clear hierarchy without section motion residue', async () => {
   const [home, destinations, testimonials] = await Promise.all([
     readSource('../src/components/Home/HomeClient.tsx'),
     readSource('../src/components/FeaturedDestinations/FeaturedDestinations.tsx'),
@@ -70,4 +70,15 @@ test('homepage uses a simplified editorial hierarchy without section motion resi
   assert.match(testimonials, /What good planning feels like after the journey/);
   assert.match(testimonials, /prefers-reduced-motion/);
   assert.match(testimonials, /aria-live="polite"/);
+});
+
+test('homepage controls clear the overlapping panel and use scoped soft corners', async () => {
+  const designSystem = await readSource('../app/styles/design-system.css');
+
+  assert.match(designSystem, /\.home-page > section\.relative\.z-20/);
+  assert.match(designSystem, /margin-top: -2rem !important/);
+  assert.match(designSystem, /\.home-page #home > div\.absolute\.left-4\.right-4/);
+  assert.match(designSystem, /bottom: 5rem !important/);
+  assert.match(designSystem, /border-radius: 1\.25rem !important/);
+  assert.match(designSystem, /border-radius: 0\.75rem !important/);
 });
