@@ -25,8 +25,12 @@ test('CI deploys only verified main releases and stays opt-in', () => {
   assert.match(deployJob, /\/api\/health/);
   assert.match(deployJob, /ConnectTimeout=15/);
   assert.match(deployJob, /ServerAliveInterval=10/);
-  assert.match(deployJob, /timeout 60s/);
-  assert.match(deployJob, /df -Pk/);
+  assert.match(deployJob, /for attempt in 1 2 3/);
+  assert.ok(deployJob.includes('cat > \\"\\$temporary\\"'));
+  assert.match(deployJob, /sha256sum -c/);
+  assert.ok(deployJob.includes('Upload attempt $attempt failed'));
+  assert.doesNotMatch(deployJob, /SCP=/);
+  assert.doesNotMatch(deployJob, /SSH preflight/);
   assert.doesNotMatch(deployJob, /npm (ci|install|run build)/);
 });
 

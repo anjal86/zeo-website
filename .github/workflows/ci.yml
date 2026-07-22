@@ -153,14 +153,24 @@ jobs:
           set -euo pipefail
           SSH_OPTIONS=(-o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o ConnectionAttempts=2 -o ServerAliveInterval=10 -o ServerAliveCountMax=3)
           SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" "${SSH_OPTIONS[@]}")
-          SCP=(scp -i ~/.ssh/cpanel_deploy_key -P "$CPANEL_PORT" "${SSH_OPTIONS[@]}")
           TARGET="$CPANEL_USER@$CPANEL_HOST"
-          echo "Checking cPanel SSH session and deployment storage"
-          timeout 60s "${SSH[@]}" "$TARGET" \
-            "set -eu; printf 'SSH preflight connected\\n'; df -Pk '$CPANEL_APP_PATH'; df -Pi '$CPANEL_APP_PATH'; mkdir -p '$CPANEL_APP_PATH/.deploy/incoming'; test -w '$CPANEL_APP_PATH/.deploy/incoming'"
-          echo "Uploading release archive"
-          timeout 180s "${SCP[@]}" \
-            cpanel-deploy.zip "$TARGET:$CPANEL_APP_PATH/.deploy/incoming/${GITHUB_SHA}.zip"
+          ARCHIVE_SHA=$(sha256sum cpanel-deploy.zip | awk '{print $1}')
+          uploaded=false
+
+          for attempt in 1 2 3; do
+            echo "Uploading release archive (attempt $attempt of 3)"
+            if timeout 240s "${SSH[@]}" "$TARGET" \
+              "set -eu; incoming='$CPANEL_APP_PATH/.deploy/incoming'; final=\"\$incoming/${GITHUB_SHA}.zip\"; temporary=\"\$final.part\"; mkdir -p \"\$incoming\"; trap 'rm -f \"\$temporary\"' EXIT HUP INT TERM; cat > \"\$temporary\"; printf '%s  %s\\n' '$ARCHIVE_SHA' \"\$temporary\" | sha256sum -c -; mv -f \"\$temporary\" \"\$final\"; trap - EXIT" \
+              < cpanel-deploy.zip; then
+              uploaded=true
+              break
+            fi
+
+            echo "Upload attempt $attempt failed; cPanel may be at its process limit. Retrying..."
+            sleep $((attempt * 10))
+          done
+
+          [[ "$uploaded" == true ]] || { echo "Release upload failed after 3 attempts"; exit 1; }
 
       - name: Run migrations and publish release
         run: |
