@@ -32,6 +32,21 @@ test("only supported administrator accounts may enter the portal", async () => {
   assert.match(loginRoute, /Editor access is not enabled yet/);
 });
 
+test("admin login supports password managers and dashboard uses one lightweight query", async () => {
+  const [login, dashboard, adminRepository] = await Promise.all([
+    file("../app/admin/login/page.tsx"),
+    file("../app/admin/(dashboard)/dashboard/page.tsx"),
+    file("../src/server/repositories/admin.ts"),
+  ]);
+
+  assert.match(login, /autoComplete="username"/);
+  assert.match(login, /autoComplete="current-password"/);
+  assert.match(dashboard, /getDashboardCounts/);
+  assert.doesNotMatch(dashboard, /Promise\.all/);
+  assert.doesNotMatch(dashboard, /listTestimonials/);
+  assert.match(adminRepository, /SELECT[\s\S]*COUNT\(\*\)[\s\S]*FROM destinations[\s\S]*FROM testimonials/);
+});
+
 test("admin posts authorization allows admins", async () => {
   const result = await authorizeRoles(["admin"], async () => session("admin"));
   assert.equal(result.ok, true);

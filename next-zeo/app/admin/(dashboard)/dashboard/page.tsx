@@ -1,36 +1,31 @@
 import React from 'react';
 import Link from 'next/link';
 import { Mountain, Backpack, Mail, MessageSquare, Zap, Image as ImageIcon } from 'lucide-react';
-import { listDestinations } from '@/server/repositories/catalog';
-import { listTours } from '@/server/repositories/tours';
-import { listEnquiries, listLeads } from '@/server/repositories/admin';
-import { listTestimonials } from '@/server/repositories/content';
+import { getDashboardCounts } from '@/server/repositories/admin';
 
 export const metadata = {
   title: 'Dashboard - Admin Portal',
 };
 
 export default async function DashboardPage() {
-  const limitOne = { limit: '1', includeUnlisted: 'true' };
-  const [
-    { total: destCount },
-    { total: tourCount },
-    { total: enquiryCount },
-    { total: leadCount },
-    reviewList
-  ] = await Promise.all([
-    listDestinations(limitOne, true),
-    listTours(limitOne, true),
-    listEnquiries(limitOne),
-    listLeads(limitOne),
-    listTestimonials(true)
-  ]);
-
-  const reviewCount = reviewList.length;
+  const counts = await getDashboardCounts().catch((error) => {
+    console.error('Dashboard metrics failed:', error instanceof Error ? error.message : error);
+    return null;
+  });
+  const destCount = counts?.destinations ?? 0;
+  const tourCount = counts?.tours ?? 0;
+  const enquiryCount = counts?.enquiries ?? 0;
+  const leadCount = counts?.leads ?? 0;
+  const reviewCount = counts?.testimonials ?? 0;
 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-slate-800">Overview</h2>
+      {!counts && (
+        <p role="alert" className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          Dashboard totals are temporarily unavailable. Management pages remain accessible.
+        </p>
+      )}
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white rounded-lg shadow-sm p-6 border border-slate-200">

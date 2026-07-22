@@ -78,6 +78,7 @@ export default function AdminLogin() {
                 type="email"
                 id="email"
                 name="email"
+                autoComplete="username"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -94,6 +95,7 @@ export default function AdminLogin() {
                 type="password"
                 id="password"
                 name="password"
+                autoComplete="current-password"
                 value={form.password}
                 onChange={handleChange}
                 required

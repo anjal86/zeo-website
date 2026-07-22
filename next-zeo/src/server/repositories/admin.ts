@@ -4,6 +4,33 @@ import { getPagination } from "@/server/http/pagination";
 import type { ListOptions, ListResult } from "./types";
 import { iso } from "./types";
 
+type DashboardCountRow = import("mysql2/promise").RowDataPacket & {
+  destinations: number;
+  tours: number;
+  enquiries: number;
+  leads: number;
+  testimonials: number;
+};
+
+export async function getDashboardCounts() {
+  const row = await getOne<DashboardCountRow>(`
+    SELECT
+      (SELECT COUNT(*) FROM destinations) AS destinations,
+      (SELECT COUNT(*) FROM tours) AS tours,
+      (SELECT COUNT(*) FROM enquiries) AS enquiries,
+      (SELECT COUNT(*) FROM leads) AS leads,
+      (SELECT COUNT(*) FROM testimonials) AS testimonials
+  `);
+
+  return {
+    destinations: Number(row?.destinations ?? 0),
+    tours: Number(row?.tours ?? 0),
+    enquiries: Number(row?.enquiries ?? 0),
+    leads: Number(row?.leads ?? 0),
+    testimonials: Number(row?.testimonials ?? 0),
+  };
+}
+
 type EnquiryRow = import("mysql2/promise").RowDataPacket & {
   id: number;
   legacy_id: number | null;
