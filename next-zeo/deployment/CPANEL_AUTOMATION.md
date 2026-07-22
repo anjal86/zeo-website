@@ -96,11 +96,11 @@ Then set `CPANEL_DEPLOY_ENABLED=true` and run **Actions → Next.js CI → Run w
 4. Verifies the archive checksum again on cPanel.
 5. Runs pending migrations before changing live files.
 6. Preserves environment files, uploads, logs, storage and deployment metadata.
-7. Signals Passenger once through `tmp/restart.txt`.
+7. Stops only the Zeo Passenger app, waits for its workers to exit, then starts it once through cPanel.
 8. Confirms `/api/health` reports the exact Git commit.
 9. Sends a signed rollback request if production verification fails.
 
-The webhook never runs `pkill`, `killall`, PM2, `npm install`, or a Next.js build. If the cPanel account is already at its process limit and PHP itself returns `503`, hosting support must first clear the stuck LVE/NPROC state; no HTTP launcher can execute until PHP is admitted.
+The webhook never runs `pkill`, `killall`, PM2, `npm install`, or a Next.js build. It intentionally uses a short stop/start window instead of Passenger's graceful overlap because CloudLinux counts both workers' Node threads against this account's small NPROC allowance. If the account is already at its process limit and PHP itself returns `503`, hosting support must first clear the stuck LVE/NPROC state; no HTTP launcher can execute until PHP is admitted.
 
 ## Rollback limitation
 

@@ -80,6 +80,9 @@ test('remote deployment is locked, preserves shared files and restarts Passenger
   const script = read('next-zeo/deployment/cpanel-release.sh');
   const migrateIndex = script.indexOf('Running pending database migrations');
   const publishIndex = script.indexOf('Publishing release');
+  const selectorStopIndex = script.indexOf('cloudlinux-selector stop');
+  const restartTouchIndex = script.indexOf('touch "$APP_ROOT/tmp/restart.txt"');
+  const selectorStartIndex = script.indexOf('cloudlinux-selector start');
 
   assert.match(script, /Another deployment is already running/);
   assert.match(script, /rsync -a --delete/);
@@ -89,8 +92,10 @@ test('remote deployment is locked, preserves shared files and restarts Passenger
   assert.doesNotMatch(script, /pkill/);
   assert.match(script, /cloudlinux-selector start/);
   assert.match(script, /--app-root "\$selector_root"/);
-  assert.match(script, /worker_running/);
+  assert.match(script, /app_worker_pids/);
   assert.match(script, /timeout 30s cloudlinux-selector start/);
+  assert.match(script, /wait_for_app_workers_to_exit/);
+  assert.match(script, /Passenger workers did not stop/);
   assert.match(script, /Deployment failed after file switch; restoring/);
   assert.match(script, /ulimit -c 0/);
   assert.match(script, /UV_THREADPOOL_SIZE=1/);
@@ -103,6 +108,10 @@ test('remote deployment is locked, preserves shared files and restarts Passenger
   assert.match(script, /sha256sum/);
   assert.match(script, /migration_status == 134 \|\| migration_status == 137/);
   assert.ok(migrateIndex >= 0 && publishIndex > migrateIndex, 'migrations must finish before the file switch');
+  assert.ok(
+    selectorStopIndex >= 0 && restartTouchIndex > selectorStopIndex && selectorStartIndex > restartTouchIndex,
+    'Passenger must fully stop before restart.txt and start to prevent overlapping workers',
+  );
 });
 
 test('production migration runner is low-concurrency and checksum compatible', () => {

@@ -60,30 +60,46 @@ sync_release() {
     "$source_dir/" "$APP_ROOT/"
 }
 
+app_worker_pids() {
+  local pid
+  while IFS= read -r pid; do
+    [[ -n "$pid" ]] || continue
+    if [[ "$(readlink "/proc/$pid/cwd" 2>/dev/null || true)" == "$APP_ROOT" ]]; then
+      printf '%s\n' "$pid"
+    fi
+  done < <(pgrep -u "$(id -u)" -f '^next-server \(v' || true)
+}
+
+wait_for_app_workers_to_exit() {
+  local attempt
+  for attempt in {1..20}; do
+    [[ -z "$(app_worker_pids)" ]] && return 0
+    sleep 1
+  done
+  return 1
+}
+
 restart_passenger() {
   mkdir -p "$APP_ROOT/tmp"
-  touch "$APP_ROOT/tmp/restart.txt"
 
-  # restart.txt reloads a running Passenger worker. Recover through CloudLinux
-  # only when this specific app has no worker; starting an app CloudLinux still
-  # considers running can block indefinitely.
+  # A graceful restart overlaps old and new Node workers. CloudLinux counts
+  # their threads toward NPROC, so stop this app fully before starting it again.
   if command -v cloudlinux-selector >/dev/null 2>&1; then
-    local pid worker_running=false
-    for pid in $(pgrep -u "$USER" -f '^next-server \(v' || true); do
-      if [[ "$(readlink "/proc/$pid/cwd" 2>/dev/null || true)" == "$APP_ROOT" ]]; then
-        worker_running=true
-        break
-      fi
-    done
-
-    if [[ "$worker_running" == false ]]; then
-      local selector_root=${APP_ROOT#"$HOME"/}
-      timeout 20s cloudlinux-selector stop \
-        --interpreter nodejs --app-root "$selector_root" >/dev/null 2>&1 || true
-      timeout 30s cloudlinux-selector start \
-        --interpreter nodejs --app-root "$selector_root" >/dev/null 2>&1 || true
+    local selector_root=${APP_ROOT#"$HOME"/}
+    timeout 20s cloudlinux-selector stop \
+      --interpreter nodejs --app-root "$selector_root" >/dev/null 2>&1 || true
+    if ! wait_for_app_workers_to_exit; then
+      echo "Passenger workers did not stop; refusing to overlap another worker" >&2
+      return 1
     fi
+
+    touch "$APP_ROOT/tmp/restart.txt"
+    timeout 30s cloudlinux-selector start \
+      --interpreter nodejs --app-root "$selector_root" >/dev/null 2>&1
+    return
   fi
+
+  touch "$APP_ROOT/tmp/restart.txt"
 }
 
 write_marker() {
