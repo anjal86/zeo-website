@@ -67,6 +67,9 @@ test('PHP webhook authenticates short-lived requests before launching the fixed 
   assert.match(webhook, /\^\[a-f0-9\]\{40\}\$/);
   assert.match(webhook, /\^\[a-f0-9\]\{64\}\$/);
   assert.match(webhook, /proc_open/);
+  assert.match(webhook, /function_exists\('proc_open'\)/);
+  assert.match(webhook, /function_exists\('set_time_limit'\)/);
+  assert.doesNotMatch(webhook, /str_starts_with/);
   assert.doesNotMatch(webhook, /pkill|killall|pm2/);
   assert.match(config, /activation_script/);
   assert.match(config, /app_root/);

@@ -59,7 +59,7 @@ if ($body === false || strlen($body) === 0 || strlen($body) > 4096) {
     respond(400, ['ok' => false, 'error' => 'Invalid request body']);
 }
 
-$providedSignature = str_starts_with($signatureHeader, 'sha256=')
+$providedSignature = strpos($signatureHeader, 'sha256=') === 0
     ? substr($signatureHeader, 7)
     : $signatureHeader;
 $expectedSignature = hash_hmac('sha256', $timestampHeader . '.' . $body, $config['secret']);
@@ -82,7 +82,7 @@ if ($action === 'deploy' && !preg_match('/^[a-f0-9]{64}$/', $checksum)) {
     respond(422, ['ok' => false, 'error' => 'Invalid checksum']);
 }
 
-if (!str_starts_with($config['app_root'], '/') || !is_executable($config['activation_script'])) {
+if (strpos($config['app_root'], '/') !== 0 || !is_executable($config['activation_script'])) {
     respond(500, ['ok' => false, 'error' => 'Activation script is unavailable']);
 }
 
@@ -93,7 +93,12 @@ if ($action === 'deploy') {
     }
 }
 
-set_time_limit(420);
+if (!function_exists('proc_open')) {
+    respond(500, ['ok' => false, 'error' => 'PHP proc_open is disabled for this account']);
+}
+if (function_exists('set_time_limit')) {
+    set_time_limit(420);
+}
 $command = [
     $config['activation_script'],
     $config['app_root'],
@@ -109,7 +114,11 @@ $descriptors = [
     1 => ['pipe', 'w'],
     2 => ['pipe', 'w'],
 ];
-$process = proc_open($command, $descriptors, $pipes, null, null, ['bypass_shell' => true]);
+try {
+    $process = proc_open($command, $descriptors, $pipes, null, null, ['bypass_shell' => true]);
+} catch (Throwable $error) {
+    respond(500, ['ok' => false, 'error' => 'Could not start deployment process']);
+}
 if (!is_resource($process)) {
     respond(500, ['ok' => false, 'error' => 'Could not start deployment']);
 }
