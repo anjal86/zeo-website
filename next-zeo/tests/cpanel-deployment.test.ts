@@ -27,6 +27,8 @@ test('CI deploys only verified main releases and stays opt-in', () => {
   assert.match(deployJob, /ftp:ssl-force true/);
   assert.match(deployJob, /ssl:verify-certificate yes/);
   assert.match(deployJob, /for attempt in 1 2 3/);
+  assert.match(deployJob, /put cpanel-deploy\.zip -o/);
+  assert.doesNotMatch(deployJob, /put -o/);
   assert.match(deployJob, /CPANEL_DEPLOY_WEBHOOK_URL/);
   assert.match(deployJob, /CPANEL_DEPLOY_WEBHOOK_SECRET/);
   assert.match(deployJob, /hmac\.new/);
