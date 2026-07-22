@@ -97,14 +97,12 @@ jobs:
       group: zeo-production-cpanel
       cancel-in-progress: false
     env:
-      CPANEL_HOST: ${{ vars.CPANEL_HOST }}
-      CPANEL_PORT: ${{ vars.CPANEL_PORT || '22' }}
-      CPANEL_USER: ${{ vars.CPANEL_USER }}
-      CPANEL_APP_PATH: ${{ vars.CPANEL_APP_PATH }}
+      CPANEL_FTP_HOST: ${{ vars.CPANEL_FTP_HOST || vars.CPANEL_HOST }}
+      CPANEL_FTP_PORT: ${{ vars.CPANEL_FTP_PORT || '21' }}
+      CPANEL_FTP_USER: ${{ vars.CPANEL_FTP_USER }}
+      CPANEL_FTP_ROOT: ${{ vars.CPANEL_FTP_ROOT || '.' }}
       CPANEL_SITE_URL: ${{ vars.CPANEL_SITE_URL }}
-      CPANEL_DEPLOY_ENV_FILE: ${{ vars.CPANEL_DEPLOY_ENV_FILE }}
-      CPANEL_NODE_BIN: ${{ vars.CPANEL_NODE_BIN || 'node' }}
-      CPANEL_KEEP_RELEASES: ${{ vars.CPANEL_KEEP_RELEASES || '3' }}
+      CPANEL_DEPLOY_WEBHOOK_URL: ${{ vars.CPANEL_DEPLOY_WEBHOOK_URL }}
 
     steps:
       - name: Download verified release
@@ -112,76 +110,73 @@ jobs:
         with:
           name: cpanel-release-${{ github.sha }}
 
-      - name: Extract deployment script
-        run: |
-          unzip -p cpanel-deploy.zip deployment/cpanel-release.sh > cpanel-release.sh
-          chmod +x cpanel-release.sh
-
       - name: Validate deployment configuration
         env:
-          DEPLOY_KEY: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
-          KNOWN_HOSTS: ${{ secrets.CPANEL_SSH_KNOWN_HOSTS }}
+          FTP_PASSWORD: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          WEBHOOK_SECRET: ${{ secrets.CPANEL_DEPLOY_WEBHOOK_SECRET }}
         run: |
           set -euo pipefail
-          : "${CPANEL_HOST:?Set repository variable CPANEL_HOST}"
-          : "${CPANEL_USER:?Set repository variable CPANEL_USER}"
-          : "${CPANEL_APP_PATH:?Set repository variable CPANEL_APP_PATH}"
+          : "${CPANEL_FTP_HOST:?Set repository variable CPANEL_FTP_HOST}"
+          : "${CPANEL_FTP_USER:?Set repository variable CPANEL_FTP_USER}"
           : "${CPANEL_SITE_URL:?Set repository variable CPANEL_SITE_URL}"
-          : "${CPANEL_DEPLOY_ENV_FILE:?Set repository variable CPANEL_DEPLOY_ENV_FILE}"
-          : "${DEPLOY_KEY:?Set secret CPANEL_SSH_PRIVATE_KEY}"
-          : "${KNOWN_HOSTS:?Set secret CPANEL_SSH_KNOWN_HOSTS}"
-          [[ "$CPANEL_PORT" =~ ^[0-9]+$ ]] || { echo "CPANEL_PORT must be numeric"; exit 1; }
-          [[ "$CPANEL_APP_PATH" =~ ^/[A-Za-z0-9._/-]+$ ]] || { echo "CPANEL_APP_PATH must be an absolute path without spaces"; exit 1; }
-          [[ "$CPANEL_DEPLOY_ENV_FILE" =~ ^/[A-Za-z0-9._/-]+$ ]] || { echo "CPANEL_DEPLOY_ENV_FILE must be an absolute path without spaces"; exit 1; }
+          : "${CPANEL_DEPLOY_WEBHOOK_URL:?Set repository variable CPANEL_DEPLOY_WEBHOOK_URL}"
+          : "${FTP_PASSWORD:?Set secret CPANEL_FTP_PASSWORD}"
+          : "${WEBHOOK_SECRET:?Set secret CPANEL_DEPLOY_WEBHOOK_SECRET}"
+          [[ "$CPANEL_FTP_PORT" =~ ^[0-9]+$ ]] || { echo "CPANEL_FTP_PORT must be numeric"; exit 1; }
+          [[ "$CPANEL_FTP_ROOT" =~ ^[A-Za-z0-9._/-]+$ ]] || { echo "CPANEL_FTP_ROOT contains unsupported characters"; exit 1; }
           [[ "$CPANEL_SITE_URL" =~ ^https:// ]] || { echo "CPANEL_SITE_URL must use HTTPS"; exit 1; }
+          [[ "$CPANEL_DEPLOY_WEBHOOK_URL" =~ ^https:// ]] || { echo "CPANEL_DEPLOY_WEBHOOK_URL must use HTTPS"; exit 1; }
 
-      - name: Configure SSH
+      - name: Install FTPS client
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Upload release archive through FTPS
         env:
-          DEPLOY_KEY: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
-          KNOWN_HOSTS: ${{ secrets.CPANEL_SSH_KNOWN_HOSTS }}
+          FTP_PASSWORD: ${{ secrets.CPANEL_FTP_PASSWORD }}
         run: |
           set -euo pipefail
-          install -d -m 700 ~/.ssh
-          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/cpanel_deploy_key
-          chmod 600 ~/.ssh/cpanel_deploy_key
-          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
-          ssh-keygen -y -f ~/.ssh/cpanel_deploy_key >/dev/null
-
-      - name: Upload release archive
-        run: |
-          set -euo pipefail
-          SSH_OPTIONS=(-o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o ConnectionAttempts=2 -o ServerAliveInterval=10 -o ServerAliveCountMax=3)
-          SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" "${SSH_OPTIONS[@]}")
-          TARGET="$CPANEL_USER@$CPANEL_HOST"
-          ARCHIVE_SHA=$(sha256sum cpanel-deploy.zip | awk '{print $1}')
+          remote_root=${CPANEL_FTP_ROOT%/}
+          remote_incoming="$remote_root/.deploy/incoming"
+          remote_final="$remote_incoming/${GITHUB_SHA}.zip"
+          remote_part="$remote_final.part"
           uploaded=false
 
           for attempt in 1 2 3; do
             echo "Uploading release archive (attempt $attempt of 3)"
-            if timeout 240s "${SSH[@]}" "$TARGET" \
-              "set -eu; incoming='$CPANEL_APP_PATH/.deploy/incoming'; final=\"\$incoming/${GITHUB_SHA}.zip\"; temporary=\"\$final.part\"; mkdir -p \"\$incoming\"; trap 'rm -f \"\$temporary\"' EXIT HUP INT TERM; cat > \"\$temporary\"; printf '%s  %s\\n' '$ARCHIVE_SHA' \"\$temporary\" | sha256sum -c -; mv -f \"\$temporary\" \"\$final\"; trap - EXIT" \
-              < cpanel-deploy.zip; then
+            if timeout 300s lftp \
+              -u "$CPANEL_FTP_USER,$FTP_PASSWORD" \
+              -p "$CPANEL_FTP_PORT" "$CPANEL_FTP_HOST" \
+              -e "set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate yes; set net:timeout 20; set net:max-retries 2; mkdir -p '$remote_incoming'; rm -f '$remote_part'; put -o '$remote_part' cpanel-deploy.zip; mv '$remote_part' '$remote_final'; bye"; then
               uploaded=true
               break
             fi
 
-            echo "Upload attempt $attempt failed; cPanel may be at its process limit. Retrying..."
+            echo "Upload attempt $attempt failed; retrying..."
             sleep $((attempt * 10))
           done
 
           [[ "$uploaded" == true ]] || { echo "Release upload failed after 3 attempts"; exit 1; }
 
       - name: Run migrations and publish release
+        env:
+          WEBHOOK_SECRET: ${{ secrets.CPANEL_DEPLOY_WEBHOOK_SECRET }}
         run: |
           set -euo pipefail
-          SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o ServerAliveInterval=10 -o ServerAliveCountMax=3)
-          TARGET="$CPANEL_USER@$CPANEL_HOST"
-          timeout 300s "${SSH[@]}" "$TARGET" \
-            "bash -s -- '$CPANEL_APP_PATH' '$GITHUB_SHA' '$CPANEL_DEPLOY_ENV_FILE' '$CPANEL_NODE_BIN' deploy '$CPANEL_KEEP_RELEASES'" \
-            < cpanel-release.sh
+          archive_sha=$(sha256sum cpanel-deploy.zip | awk '{print $1}')
+          body=$(jq -cn --arg action deploy --arg sha "$GITHUB_SHA" --arg checksum "$archive_sha" '{action:$action,sha:$sha,checksum:$checksum}')
+          timestamp=$(date +%s)
+          signature=$(BODY="$body" TIMESTAMP="$timestamp" WEBHOOK_SECRET="$WEBHOOK_SECRET" python3 -c 'import hashlib,hmac,os; print(hmac.new(os.environ["WEBHOOK_SECRET"].encode(), (os.environ["TIMESTAMP"]+"."+os.environ["BODY"]).encode(), hashlib.sha256).hexdigest())')
+          curl --fail-with-body --silent --show-error --max-time 430 \
+            -X POST \
+            -H 'Content-Type: application/json' \
+            -H "X-Zeo-Timestamp: $timestamp" \
+            -H "X-Zeo-Signature: $signature" \
+            --data "$body" \
+            "$CPANEL_DEPLOY_WEBHOOK_URL"
 
       - name: Verify production and roll back on failure
+        env:
+          WEBHOOK_SECRET: ${{ secrets.CPANEL_DEPLOY_WEBHOOK_SECRET }}
         run: |
           set -euo pipefail
           healthy=false
@@ -200,11 +195,16 @@ jobs:
 
           if [[ "$healthy" != true ]]; then
             echo "Production did not report the expected healthy release. Rolling back."
-            SSH=(ssh -i ~/.ssh/cpanel_deploy_key -p "$CPANEL_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o ServerAliveInterval=10 -o ServerAliveCountMax=3)
-            TARGET="$CPANEL_USER@$CPANEL_HOST"
-            timeout 180s "${SSH[@]}" "$TARGET" \
-              "bash -s -- '$CPANEL_APP_PATH' '$GITHUB_SHA' '$CPANEL_DEPLOY_ENV_FILE' '$CPANEL_NODE_BIN' rollback '$CPANEL_KEEP_RELEASES'" \
-              < cpanel-release.sh
+            body=$(jq -cn --arg action rollback --arg sha "$GITHUB_SHA" '{action:$action,sha:$sha,checksum:""}')
+            timestamp=$(date +%s)
+            signature=$(BODY="$body" TIMESTAMP="$timestamp" WEBHOOK_SECRET="$WEBHOOK_SECRET" python3 -c 'import hashlib,hmac,os; print(hmac.new(os.environ["WEBHOOK_SECRET"].encode(), (os.environ["TIMESTAMP"]+"."+os.environ["BODY"]).encode(), hashlib.sha256).hexdigest())')
+            curl --fail-with-body --silent --show-error --max-time 240 \
+              -X POST \
+              -H 'Content-Type: application/json' \
+              -H "X-Zeo-Timestamp: $timestamp" \
+              -H "X-Zeo-Signature: $signature" \
+              --data "$body" \
+              "$CPANEL_DEPLOY_WEBHOOK_URL"
             exit 1
           fi
 
@@ -215,7 +215,8 @@ jobs:
             echo ""
             echo "- Commit: \`$GITHUB_SHA\`"
             echo "- Site: $CPANEL_SITE_URL"
-            echo "- Build ran on GitHub; cPanel only received the standalone release."
+            echo "- Build ran on GitHub; cPanel received the standalone release over FTPS."
+            echo "- A signed HTTPS webhook activated the release without SSH."
             echo "- Pending database migrations ran before Passenger restart."
             echo "- Production health confirmed the exact deployed commit."
           } >> "$GITHUB_STEP_SUMMARY"

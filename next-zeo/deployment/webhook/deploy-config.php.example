@@ -1,0 +1,12 @@
+<?php
+
+// Copy to /home/CPANEL_USER/.config/zeo/deploy-webhook.php, replace the
+// placeholders, and chmod it to 600. Never place this file in public_html.
+return [
+    'secret' => 'REPLACE_WITH_A_LONG_RANDOM_SECRET',
+    'activation_script' => '/home/CPANEL_USER/apps/zeo/releases/2026-07-21-vps-live/deployment/cpanel-release.sh',
+    'app_root' => '/home/CPANEL_USER/apps/zeo/releases/2026-07-21-vps-live',
+    'env_file' => '/home/CPANEL_USER/.config/zeo/deploy.env',
+    'node_bin' => '/opt/alt/alt-nodejs22/root/usr/bin/node',
+    'keep_releases' => '3',
+];

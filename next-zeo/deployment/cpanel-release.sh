@@ -7,6 +7,7 @@ ENV_FILE=${3:-}
 NODE_BIN=${4:-node}
 ACTION=${5:-deploy}
 KEEP_RELEASES=${6:-3}
+EXPECTED_ARCHIVE_SHA256=${7:-}
 
 if [[ "$APP_ROOT" != /* ]]; then
   echo "Application root must be an absolute path" >&2
@@ -18,6 +19,10 @@ if [[ ! "$RELEASE_ID" =~ ^[A-Za-z0-9._-]+$ ]]; then
 fi
 if [[ ! "$KEEP_RELEASES" =~ ^[1-9][0-9]*$ ]]; then
   echo "KEEP_RELEASES must be a positive integer" >&2
+  exit 2
+fi
+if [[ "$ACTION" == 'deploy' && ! "$EXPECTED_ARCHIVE_SHA256" =~ ^[a-f0-9]{64}$ ]]; then
+  echo "A lowercase SHA-256 archive checksum is required" >&2
   exit 2
 fi
 
@@ -137,7 +142,7 @@ if [[ "$ACTION" != 'deploy' ]]; then
   exit 2
 fi
 
-for command in unzip rsync; do
+for command in unzip rsync sha256sum; do
   command -v "$command" >/dev/null 2>&1 || { echo "Required command is missing: $command" >&2; exit 1; }
 done
 if [[ "$NODE_BIN" == */* ]]; then
@@ -146,6 +151,11 @@ else
   command -v "$NODE_BIN" >/dev/null 2>&1 || { echo "Node binary was not found: $NODE_BIN" >&2; exit 1; }
 fi
 [[ -f "$INCOMING_ZIP" ]] || { echo "Uploaded release archive is missing: $INCOMING_ZIP" >&2; exit 1; }
+actual_archive_sha256=$(sha256sum "$INCOMING_ZIP" | awk '{print $1}')
+if [[ "$actual_archive_sha256" != "$EXPECTED_ARCHIVE_SHA256" ]]; then
+  echo "Uploaded release checksum does not match" >&2
+  exit 1
+fi
 
 if [[ ! -d "$RELEASE_DIR" ]]; then
   temporary_release="$RELEASES_DIR/.${RELEASE_ID}.extracting"

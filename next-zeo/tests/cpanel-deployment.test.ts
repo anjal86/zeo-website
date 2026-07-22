@@ -23,12 +23,17 @@ test('CI deploys only verified main releases and stays opt-in', () => {
   assert.match(deployJob, /Verify production and roll back on failure/);
   assert.match(deployJob, /"\$release" == "\$GITHUB_SHA"/);
   assert.match(deployJob, /\/api\/health/);
-  assert.match(deployJob, /ConnectTimeout=15/);
-  assert.match(deployJob, /ServerAliveInterval=10/);
+  assert.match(deployJob, /lftp/);
+  assert.match(deployJob, /ftp:ssl-force true/);
+  assert.match(deployJob, /ssl:verify-certificate yes/);
   assert.match(deployJob, /for attempt in 1 2 3/);
-  assert.ok(deployJob.includes('cat > \\"\\$temporary\\"'));
-  assert.match(deployJob, /sha256sum -c/);
+  assert.match(deployJob, /CPANEL_DEPLOY_WEBHOOK_URL/);
+  assert.match(deployJob, /CPANEL_DEPLOY_WEBHOOK_SECRET/);
+  assert.match(deployJob, /hmac\.new/);
+  assert.match(deployJob, /X-Zeo-Timestamp/);
+  assert.match(deployJob, /X-Zeo-Signature/);
   assert.ok(deployJob.includes('Upload attempt $attempt failed'));
+  assert.doesNotMatch(deployJob, /ssh /);
   assert.doesNotMatch(deployJob, /SCP=/);
   assert.doesNotMatch(deployJob, /SSH preflight/);
   assert.doesNotMatch(deployJob, /npm (ci|install|run build)/);
@@ -39,11 +44,31 @@ test('standalone package contains migration and release assets', () => {
 
   assert.match(pack, /deployment\/run-migrations\.mjs/);
   assert.match(pack, /deployment\/cpanel-release\.sh/);
+  assert.match(pack, /deployment\/webhook\/deploy\.php/);
   assert.match(pack, /src\/server\/db\/migrations\/\*\.sql/);
   assert.match(pack, /release\.json/);
   assert.match(pack, /cp -a \.next\/standalone\/\. "\$STAGING_DIR\/"/);
   assert.match(pack, /STAGING_DIR\/\.next\/BUILD_ID/);
   assert.match(pack, /rm -f "\$ARCHIVE"/);
+});
+
+test('PHP webhook authenticates short-lived requests before launching the fixed activation script', () => {
+  const webhook = read('next-zeo/deployment/webhook/deploy.php');
+  const config = read('next-zeo/deployment/webhook/deploy-config.php.example');
+
+  assert.match(webhook, /REQUEST_METHOD.*POST/);
+  assert.match(webhook, /HTTP_X_ZEO_TIMESTAMP/);
+  assert.match(webhook, /HTTP_X_ZEO_SIGNATURE/);
+  assert.match(webhook, /abs\(time\(\) - \$timestamp\) > 300/);
+  assert.match(webhook, /hash_hmac\('sha256'/);
+  assert.match(webhook, /hash_equals/);
+  assert.match(webhook, /\^\[a-f0-9\]\{40\}\$/);
+  assert.match(webhook, /\^\[a-f0-9\]\{64\}\$/);
+  assert.match(webhook, /proc_open/);
+  assert.doesNotMatch(webhook, /pkill|killall|pm2/);
+  assert.match(config, /activation_script/);
+  assert.match(config, /app_root/);
+  assert.match(config, /secret/);
 });
 
 test('remote deployment is locked, preserves shared files and restarts Passenger', () => {
@@ -69,6 +94,8 @@ test('remote deployment is locked, preserves shared files and restarts Passenger
   assert.match(script, /--max-old-space-size=192/);
   assert.match(script, /ulimit -t 120/);
   assert.match(script, /exec env/);
+  assert.match(script, /EXPECTED_ARCHIVE_SHA256/);
+  assert.match(script, /sha256sum/);
   assert.match(script, /migration_status == 134 \|\| migration_status == 137/);
   assert.ok(migrateIndex >= 0 && publishIndex > migrateIndex, 'migrations must finish before the file switch');
 });

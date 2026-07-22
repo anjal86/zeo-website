@@ -1,68 +1,78 @@
 # Automated cPanel deployment
 
-This project can deploy every verified `main` commit without building on cPanel.
+Verified `main` commits are built on GitHub, uploaded through explicit FTPS, and activated by a signed HTTPS PHP webhook. Next.js continues to run directly under cPanel Passenger; PHP is only the authenticated launcher for the Bash release script.
 
-The GitHub workflow performs lint, typecheck, regression tests and the Next.js standalone build on GitHub. Only the prepared ZIP archive is uploaded to cPanel. The remote release script then runs pending migrations with one database connection, copies the verified runtime into the existing application root, touches Passenger's `tmp/restart.txt`, checks the public website and rolls back the files automatically when the health check fails.
+Deployment is opt-in. Nothing is sent until `CPANEL_DEPLOY_ENABLED` is exactly `true`.
 
-Deployment is opt-in. Nothing is sent to cPanel until the repository variable `CPANEL_DEPLOY_ENABLED` is exactly `true`.
+## Server layout
 
-## 1. Create a restricted SSH deployment key
+The examples below use `/home/CPANEL_USER/apps/zeo/releases/2026-07-21-vps-live` as the existing Passenger application root.
 
-Run locally:
-
-```bash
-ssh-keygen -t ed25519 -f ~/.ssh/zeo_cpanel_deploy -C "zeo-github-deploy"
-ssh-copy-id -i ~/.ssh/zeo_cpanel_deploy.pub -p 22 CPANEL_USER@CPANEL_HOST
-ssh-keyscan -p 22 -H CPANEL_HOST > /tmp/zeo-cpanel-known-hosts
+```text
+/home/CPANEL_USER/
+├── .config/zeo/
+│   ├── deploy.env
+│   └── deploy-webhook.php
+├── apps/zeo/releases/2026-07-21-vps-live/
+│   ├── .deploy/incoming/
+│   ├── deployment/cpanel-release.sh
+│   └── tmp/restart.txt
+└── PUBLIC_DOCUMENT_ROOT/
+    └── zeo-deploy.php
 ```
 
-Use your real SSH port when it is not `22`.
+Use cPanel File Manager for the one-time setup if Terminal and SSH are unavailable:
 
-Add these GitHub **Actions secrets**:
+1. Copy `deployment/webhook/deploy.php` to the HTTPS domain document root as `zeo-deploy.php`.
+2. Copy `deployment/cpanel-release.sh` to the application root at `deployment/cpanel-release.sh` and make it executable (`0755`).
+3. Create `/home/CPANEL_USER/.config/zeo/deploy-webhook.php` from `deployment/webhook/deploy-config.php.example`, replace every placeholder, and set permissions to `0600`.
+4. Keep `deploy-webhook.php` and `deploy.env` outside every public document root.
+5. Confirm PHP `proc_open` is enabled. The webhook returns a configuration error when the activation script is missing or not executable.
 
-- `CPANEL_SSH_PRIVATE_KEY`: complete contents of `~/.ssh/zeo_cpanel_deploy`
-- `CPANEL_SSH_KNOWN_HOSTS`: complete contents of `/tmp/zeo-cpanel-known-hosts`
+Generate the shared webhook secret locally with:
 
-Do not commit either value.
+```bash
+openssl rand -hex 32
+```
 
-## 2. Add repository variables
+Use the same value in the private PHP config and GitHub secret. Never commit it or paste it into the public webhook.
 
-In GitHub, open **Settings → Secrets and variables → Actions → Variables** and add:
+## FTPS account
+
+Create a dedicated cPanel FTP account rooted at the Passenger application root. It needs access only to that directory. The workflow writes the archive to:
+
+```text
+.deploy/incoming/GIT_COMMIT_SHA.zip
+```
+
+The upload uses explicit TLS, verifies the server certificate, uploads to a temporary `.part` name, and renames it only after a complete transfer. The signed webhook independently verifies the archive SHA-256 before Bash extracts it.
+
+## GitHub configuration
+
+Add these Actions secrets:
+
+| Secret | Purpose |
+| --- | --- |
+| `CPANEL_FTP_PASSWORD` | Password for the restricted FTP account |
+| `CPANEL_DEPLOY_WEBHOOK_SECRET` | Same random HMAC secret stored in the private PHP config |
+
+Add these repository variables:
 
 | Variable | Example | Purpose |
 | --- | --- | --- |
 | `CPANEL_DEPLOY_ENABLED` | `false` initially | Master deployment switch |
-| `CPANEL_HOST` | `server.example.com` | SSH hostname |
-| `CPANEL_PORT` | `22` | SSH port |
-| `CPANEL_USER` | `accountuser` | cPanel SSH user |
-| `CPANEL_APP_PATH` | `/home/accountuser/next-zeo` | Existing cPanel Node.js application root |
-| `CPANEL_SITE_URL` | `https://zeotourism.com` | Public health-check URL |
-| `CPANEL_DEPLOY_ENV_FILE` | `/home/accountuser/.config/zeo/deploy.env` | Server-only database environment file |
-| `CPANEL_NODE_BIN` | `/opt/cpanel/ea-nodejs22/bin/node` | Node 22 executable available over SSH |
-| `CPANEL_KEEP_RELEASES` | `3` | Number of older release copies retained |
+| `CPANEL_FTP_HOST` | `ftp.example.com` | Hostname whose TLS certificate is valid |
+| `CPANEL_FTP_PORT` | `21` | Explicit FTPS port |
+| `CPANEL_FTP_USER` | `zeodeploy@example.com` | Restricted FTP login |
+| `CPANEL_FTP_ROOT` | `.` | FTP-visible application root |
+| `CPANEL_SITE_URL` | `https://zeotourism.com` | Public health-check base URL |
+| `CPANEL_DEPLOY_WEBHOOK_URL` | `https://example.com/zeo-deploy.php` | Public HTTPS launcher URL |
 
-`CPANEL_APP_PATH` must remain the same application root currently configured in **Setup Node.js App**, with `server.js` as the startup file.
+The old SSH secrets and variables are not used by this workflow.
 
-Find the usable Node executable over SSH with:
+## Migration environment
 
-```bash
-which node
-node --version
-```
-
-It must be Node 22 and callable from a non-interactive SSH session.
-
-## 3. Create the server-only migration environment file
-
-The cPanel UI's application environment variables are not always available to non-interactive SSH commands. Create a small protected file containing only the database variables required by the migration runner:
-
-```bash
-mkdir -p ~/.config/zeo
-chmod 700 ~/.config/zeo
-nano ~/.config/zeo/deploy.env
-```
-
-Contents:
+Create `/home/CPANEL_USER/.config/zeo/deploy.env` with permissions `0600`:
 
 ```dotenv
 MYSQL_HOST=localhost
@@ -72,61 +82,26 @@ MYSQL_PASSWORD=YOUR_DATABASE_PASSWORD
 MYSQL_DATABASE=YOUR_DATABASE_NAME
 ```
 
-Then protect it:
+The private webhook config points to this file. The packaged migration runner uses one MySQL connection and constrained Node memory/thread settings.
 
-```bash
-chmod 600 ~/.config/zeo/deploy.env
-```
+## Enable and verify
 
-Do not put this file inside the repository or public web root.
+Keep `CPANEL_DEPLOY_ENABLED=false` during setup. Send a plain GET request to the webhook URL; a correct installation returns HTTP `405`, proving the file is served while refusing unsigned browser execution. Do not expect a deployment from a browser visit.
 
-## 4. Confirm server commands
+Then set `CPANEL_DEPLOY_ENABLED=true` and run **Actions → Next.js CI → Run workflow** against `main`. A successful run:
 
-The deployment user must be able to run:
+1. Tests and builds on GitHub.
+2. Uploads one standalone ZIP through FTPS.
+3. Sends a five-minute, HMAC-signed POST request.
+4. Verifies the archive checksum again on cPanel.
+5. Runs pending migrations before changing live files.
+6. Preserves environment files, uploads, logs, storage and deployment metadata.
+7. Signals Passenger once through `tmp/restart.txt`.
+8. Confirms `/api/health` reports the exact Git commit.
+9. Sends a signed rollback request if production verification fails.
 
-```bash
-unzip -v
-rsync --version
-```
+The webhook never runs `pkill`, `killall`, PM2, `npm install`, or a Next.js build. If the cPanel account is already at its process limit and PHP itself returns `503`, hosting support must first clear the stuck LVE/NPROC state; no HTTP launcher can execute until PHP is admitted.
 
-The workflow does not execute `npm install`, `npm ci` or `next build` on cPanel.
+## Rollback limitation
 
-## 5. Initialize migration history before enabling
-
-From the current application checkout, run the existing migration command once and confirm no migration remains pending:
-
-```bash
-cd /path/to/repository/next-zeo
-npm run db:migrate
-npm run db:migrate -- --dry-run
-```
-
-Production should have a populated `schema_migrations` table before the first automated deployment. The packaged runner accepts both the existing legacy checksum format and the newer SHA-256 format.
-
-## 6. Test manually, then enable
-
-Keep `CPANEL_DEPLOY_ENABLED=false` while adding the configuration. Change it to `true`, open **Actions → Next.js CI → Run workflow**, and run it against `main`.
-
-A successful run will:
-
-1. Verify the application against a temporary MySQL database.
-2. Build and package the standalone runtime on GitHub.
-3. Upload one ZIP file over SSH.
-4. Create a one-time rollback snapshot on the first deployment.
-5. Run only pending SQL migrations with one MySQL connection.
-6. Copy the release while preserving `.env`, `.htaccess`, uploads, logs and storage.
-7. Restart Passenger once using `tmp/restart.txt`.
-8. Retry the public health check for up to two minutes.
-9. Restore the previous release automatically if the public check fails.
-
-After the manual run succeeds, every future push or merged pull request to `main` deploys automatically after verification.
-
-## Resource impact
-
-The CPU-heavy dependency installation and Next.js build run on GitHub-hosted infrastructure. cPanel only performs ZIP extraction, a low-concurrency migration check, `rsync`, one Passenger restart and cleanup of old releases.
-
-The first automated deployment uses extra disk temporarily because it creates a rollback snapshot of the currently deployed application. Later runs retain the current release, the previous rollback release and a small configurable history.
-
-## Rollback limitations
-
-Application files can be rolled back automatically. Database migrations are intentionally not reversed. New migrations must therefore be backward-compatible with the previous application release, preferably additive changes before destructive cleanup in a later release.
+Application files roll back automatically. Database migrations are intentionally not reversed, so new migrations must remain compatible with the previous application release.

@@ -121,6 +121,8 @@ Thumbs.db
 deployment.zip
 deployment-code-only.zip
 deployment/
+!next-zeo/deployment/
+!next-zeo/deployment/**
 deployment_package/
 
 # Database backups
