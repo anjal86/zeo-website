@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "latest",
-    "@tailwindcss/postcss": "^4.3.2",
+    "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/typography": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
